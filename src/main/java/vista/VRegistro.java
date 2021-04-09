@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.vista;
+package vista;
 
 /**
  *
@@ -34,7 +34,6 @@ public class VRegistro extends javax.swing.JFrame {
         claveIngresoTextBox = new javax.swing.JTextField();
         claveIngresoLabel = new javax.swing.JLabel();
         aceptarIngresoBoton = new javax.swing.JButton();
-        cancelarIngresoBoton = new javax.swing.JButton();
         tipoRegistroLabel = new javax.swing.JLabel();
         tipoRegistroTExtBox = new javax.swing.JComboBox<>();
         nombreRegistroLabel = new javax.swing.JLabel();
@@ -51,6 +50,7 @@ public class VRegistro extends javax.swing.JFrame {
         idRegistroLabel = new javax.swing.JLabel();
         registroBoton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        boton1 = new vista.componentes.Boton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,13 +84,6 @@ public class VRegistro extends javax.swing.JFrame {
         aceptarIngresoBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aceptarIngresoBotonActionPerformed(evt);
-            }
-        });
-
-        cancelarIngresoBoton.setText("Cancelar");
-        cancelarIngresoBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarIngresoBotonActionPerformed(evt);
             }
         });
 
@@ -147,26 +140,37 @@ public class VRegistro extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("o");
 
+        boton1.setText("Cancelar");
+        boton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarRegistroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ingresoLabel)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(cancelarIngresoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(aceptarIngresoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usuarioIngresoLabel)
-                            .addComponent(claveIngresoLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usuarioIngresoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(claveIngresoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(159, 159, 159)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(usuarioIngresoLabel)
+                                    .addComponent(claveIngresoLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(usuarioIngresoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(claveIngresoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(boton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(aceptarIngresoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(ingresoLabel)))
                 .addGap(88, 88, 88)
                 .addComponent(jLabel1)
                 .addGap(127, 127, 127)
@@ -211,9 +215,9 @@ public class VRegistro extends javax.swing.JFrame {
                             .addComponent(claveIngresoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(claveIngresoLabel))
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(aceptarIngresoBoton)
-                            .addComponent(cancelarIngresoBoton)))
+                            .addComponent(boton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(registroLabel)
@@ -231,8 +235,8 @@ public class VRegistro extends javax.swing.JFrame {
                             .addComponent(dniRegistroTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(telefonoRegistroTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(telefonoRegistroTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(telefonoRegistroLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -266,10 +270,6 @@ public class VRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_aceptarIngresoBotonActionPerformed
 
-    private void cancelarIngresoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarIngresoBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cancelarIngresoBotonActionPerformed
-
     private void nombreRegistroTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreRegistroTextBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nombreRegistroTextBoxActionPerformed
@@ -289,6 +289,10 @@ public class VRegistro extends javax.swing.JFrame {
     private void telefonoRegistroTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoRegistroTextBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_telefonoRegistroTextBoxActionPerformed
+
+    private void cancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarRegistroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelarRegistroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,7 +335,7 @@ public class VRegistro extends javax.swing.JFrame {
     private javax.swing.JTextField ClaveRegistroTextBox;
     private javax.swing.JLabel DniRegistroTextBox;
     private javax.swing.JButton aceptarIngresoBoton;
-    private javax.swing.JButton cancelarIngresoBoton;
+    private vista.componentes.Boton boton1;
     private javax.swing.JLabel claveIngresoLabel;
     private javax.swing.JTextField claveIngresoTextBox;
     private javax.swing.JLabel direccionRegistroLabel;

@@ -1,6 +1,6 @@
-package main.java.vista;
+package vista;
 
-import main.java.aplicacion.FachadaAplicacion;
+import aplicacion.FachadaAplicacion;
 
 public class FachadaGui {
     

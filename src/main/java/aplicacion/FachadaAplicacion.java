@@ -1,6 +1,6 @@
-package main.java.aplicacion;
+package aplicacion;
 
-import main.java.vista.FachadaGui;
+import vista.FachadaGui;
 
 /**
  * Fachada principal de la aplicación
