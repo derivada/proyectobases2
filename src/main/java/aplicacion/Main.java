@@ -1,4 +1,4 @@
-package aplicacion;
+package main.java.aplicacion;
 
 import java.util.Calendar;
 

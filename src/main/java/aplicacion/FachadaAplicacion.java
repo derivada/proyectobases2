@@ -1,4 +1,6 @@
-package aplicacion;
+package main.java.aplicacion;
+
+import main.java.vista.FachadaGui;
 
 /**
  * Fachada principal de la aplicación
@@ -6,8 +8,17 @@ package aplicacion;
  */
 public class FachadaAplicacion {
 
-    void inicializarGUI() {
-        
+    FachadaGui fgui;
+
+    public FachadaAplicacion() {
+        fgui = new FachadaGui(this);
+    }
+    
+    
+    
+    
+    public void inicializarGUI() {
+        fgui.iniciaVista();
     }
     
 
