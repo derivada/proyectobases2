@@ -252,7 +252,7 @@ public class VRegistro extends javax.swing.JFrame {
                             .addComponent(direccionRegistroLabel))
                         .addGap(18, 18, 18)
                         .addComponent(registroBoton)))
-                .addGap(154, 154, 154))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         pack();
