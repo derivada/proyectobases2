@@ -17,5 +17,12 @@ public class FachadaGui {
         vr = new VRegistro();
         vr.setVisible(true);
     }
-
+    
+    public void muestraExcepcion(String txtExcepcion){
+       /*VAviso va;
+       
+       va = new VAviso(vp, true, txtExcepcion);
+       va.setVisible(true);*/
+       System.out.println(txtExcepcion);
+    }
 }

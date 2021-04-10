@@ -14,7 +14,11 @@ public class VRegistro extends javax.swing.JFrame {
     /**
      * Creates new form Registro
      */
+    
+    aplicacion.FachadaAplicacion fa;
+    
     public VRegistro() {
+        this.fa=fa;
         initComponents();
     }
 
@@ -273,6 +277,7 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void aceptarIngresoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarIngresoBotonActionPerformed
         // TODO add your handling code here:
+        this.validarUsuario();
     }//GEN-LAST:event_aceptarIngresoBotonActionPerformed
 
     private void nombreRegistroTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreRegistroTextBoxActionPerformed
@@ -365,4 +370,10 @@ public class VRegistro extends javax.swing.JFrame {
     private javax.swing.JLabel usuarioIngresoLabel;
     private javax.swing.JTextField usuarioIngresoTextBox;
     // End of variables declaration//GEN-END:variables
+
+    public void validarUsuario(){
+        String nombreU, contraseña;
+        
+        
+    }
 }

@@ -14,12 +14,12 @@ import java.util.Properties;
  *
  * @author migue
  */
-public class FachadaBaseDatos {
+public class fachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
 
-public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
+public fachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
         Properties configuracion = new Properties();
         this.fa=fa;
@@ -42,11 +42,9 @@ public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
                     configuracion.getProperty("puerto")+"/"+
                     configuracion.getProperty("baseDatos"),
                     usuario);
-
-            daoLibros = new DAOLibros(conexion, fa);
-            daoCategorias = new DAOCategorias(conexion, fa);
+            
+            
             daoUsuarios = new DAOUsuarios(conexion, fa);
-            daoPrestamos = new DAOPrestamos(conexion, fa);
 
 
         } catch (FileNotFoundException f){
