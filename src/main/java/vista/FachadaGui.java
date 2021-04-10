@@ -9,12 +9,11 @@ public class FachadaGui {
     
     public FachadaGui(FachadaAplicacion fa) {
         this.fa=fa;
-        
-        
+       
     }
     
-    public void iniciaVista(){
-        vr = new VRegistro();
+    public void iniciaVista(aplicacion.FachadaAplicacion fa){
+        vr = new VRegistro(fa);
         vr.setVisible(true);
     }
     
