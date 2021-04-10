@@ -78,6 +78,8 @@ public fachadaBaseDatos (aplicacion.FachadaAplicacion fa){
     public java.util.List<Usuario> obtenerRegulador(){
         return daoUsuarios.obtenerRegulador();
     }
+    
+    
 
 }
 

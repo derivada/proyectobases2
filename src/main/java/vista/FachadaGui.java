@@ -31,7 +31,7 @@ public class FachadaGui {
     }
     
     public void iniciaUsuarios(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
-        va = new VUsuarios(fa, tipo, user);
+        va = new VUsuarios(user,tipo,fa);
         va.setVisible(true);
     }
     

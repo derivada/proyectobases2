@@ -32,16 +32,16 @@ public class FachadaAplicacion {
         return cu.validarUsuario(nombre, clave);
     }
     
-    public void menuUsuarios(String tipo){
-        cu.iniciaUsuarios(this, tipo);
+    public void menuUsuarios(String tipo,String id_usuario,String clave){
+        cu.iniciaUsuario(tipo,this,id_usuario,clave);
+    }
+    /*
+    public void menuEmpresa(String tipo,Usuario user){
+        cu.iniciaEmpresa(this, tipo,user);
     }
     
-    public void menuEmpresa(String tipo){
-        cu.iniciaEmpresa(this, tipo);
+    public void menuRegulador(String tipo,Usuario user){
+        cu.iniciaRegular(this, tipo,user);
     }
-    
-    public void menuRegulador(String tipo){
-        cu.iniciaRegular(this, tipo);
-    }
-
+*/
 }

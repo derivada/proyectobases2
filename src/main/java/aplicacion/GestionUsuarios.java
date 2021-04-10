@@ -46,7 +46,8 @@ public class GestionUsuarios {
         }
     }
     
-    public void iniciaUsuario(String tipo, FachadaAplicacion fa){
-        fgui.iniciaUsuarios(fa, tipo);
+    public void iniciaUsuario(String tipo, FachadaAplicacion fa,String id_usuario,String clave){
+        Usuario u=fbd.validarUsuario(id_usuario, clave); 
+        fgui.iniciaUsuarios(fa, tipo,u);
     }
 }

@@ -40,7 +40,7 @@ public class DAOUsuarios extends AbstractDAO {
             rsUsuario = stmUsuario.executeQuery();
             while (rsUsuario.next()) {
                 resultado = new Usuario(rsUsuario.getString("id_usuario"), rsUsuario.getString("clave"),
-                       rsUsuario.getInt("cuenta"));
+                       rsUsuario.getFloat("cuenta"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -157,4 +157,5 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
+    
 }
