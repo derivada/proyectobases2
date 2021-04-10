@@ -1,8 +1,8 @@
 package vista.componentes;
 
-import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
 
-public class Tabs extends JTabbedPane{
+public class Tabs extends JPanel{
 
     public Tabs(){
         super();
