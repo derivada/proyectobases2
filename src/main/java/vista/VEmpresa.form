@@ -95,6 +95,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Desconectar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="desconectarBotonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="vista.componentes.Boton" name="bajaBoton">
       <Properties>
@@ -566,19 +569,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="participacionesTextBox" min="-2" pref="308" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
+                          <Component id="participacionesTextBox" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="395" max="32767" attributes="0"/>

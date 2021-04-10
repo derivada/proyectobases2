@@ -14,9 +14,9 @@ import java.util.Objects;
 public class Usuario {
     private String idUsuario;
     private String clave;
-    private Integer cuenta;
+    private Float cuenta;
     
-    public Usuario (String idUsuario, String clave, Integer cuenta){
+    public Usuario (String idUsuario, String clave, Float cuenta){
     this.idUsuario=idUsuario;
     this.clave=clave;
     this.cuenta=cuenta;
@@ -42,11 +42,11 @@ public class Usuario {
         this.clave = clave;
     }
 
-    public Integer getCuenta() {
+    public Float getCuenta() {
         return cuenta;
     }
 
-    public void setCuenta(Integer cuenta) {
+    public void setCuenta(Float cuenta) {
         this.cuenta = cuenta;
     }
 

@@ -1,0 +1,124 @@
+Create table usuario
+(
+  id_usuario char(20) not null primary key,
+  clave char(10) not null,
+  cuenta integer
+);
+
+Create table inversor
+(
+  id_usuario char(20) not null primary key,
+  nombre varchar(60) not null,
+  dni varchar(9) not null,
+  direccion varchar(50),
+  telefono varchar(9),
+  autorizado boolean,
+  foreign key (id_usuario) references usuario (id_usuario)
+   on delete cascade on update cascade
+);
+
+
+Create table empresa
+(
+  id_usuario char(20) not null primary key,
+  nombrecomercial varchar(60) not null,
+  cif varchar(9) not null,
+  direccion varchar(50),
+  telefono varchar(9),
+  autorizado boolean,
+  foreign key (id_usuario) references usuario (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table regulador
+(
+  id_usuario char(20) not null primary key,
+  foreign key (id_usuario) references usuario (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table participacionesInversor
+(
+  usuario char(20) not null,
+  empresa char(20) not null,
+  numParticipaciones integer not null,
+
+  primary key (usuario, empresa),
+  
+  foreign key (usuario) references inversor (id_usuario)
+   on delete cascade on update cascade,
+  foreign key (empresa) references empresa (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table participacionesEmpresa
+(
+  usuario char(20) not null,
+  empresa char(20) not null,
+
+  primary key (usuario, empresa),
+  
+  numParticipaciones integer not null,
+  foreign key (usuario) references empresa (id_usuario)
+   on delete cascade on update cascade,
+  foreign key (empresa) references empresa (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table ofertaVenta
+(
+  usuario char(20) not null,
+  empresa char(20) not null,
+  fecha date not null,
+  numParticipaciones integer not null,
+  precio integer not null,
+
+  primary key (usuario, fecha),
+  
+  foreign key (usuario) references usuario (id_usuario)
+   on delete cascade on update cascade,
+  foreign key (empresa) references empresa (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table anuncioBeneficios
+(
+  empresa char(20) not null,
+  fechaPago date not null,
+  fechaAnuncio date,
+  importeParticipacion integer not null,
+
+  primary key (fechaPago, empresa),
+  
+  foreign key (empresa) references empresa (id_usuario)
+   on delete cascade on update cascade
+);
+
+Create table emitirParticipaciones
+(
+  empresa char(20) not null,
+  fechaEmision date not null,
+
+  primary key (fechaEmision, empresa),
+  
+  numeroParticipaciones integer not null,
+  foreign key (empresa) references empresa (id_usuario)
+   on delete cascade on update cascade
+);
+
+Insert into usuario (id_usuario, clave, cuenta) values ('Regulador', '123', '0');
+Insert into usuario (id_usuario, clave, cuenta) values ('Elena', '432', '10000');
+Insert into usuario (id_usuario, clave, cuenta) values ('Lenovo', '478', '34000000');
+Insert into inversor(id_usuario, nombre, dni, direccion, Telefono, Autorizado) values('Elena', 'Elena La mas Guapa', '33453214T', 'Santiago de COompostuela', '8877663', TRUE);
+Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Autorizado) values('Lenovo', 'Lenovo Computers', '1111114T', 'Santiago de COompostuela', '8275663', TRUE);
+Insert into regulador(id_usuario) values ('Regulador');
+
+drop table emitirParticipaciones;
+drop table anuncioBeneficios;
+drop table ofertaVenta;
+drop table participacionesEmpresa;
+drop table participacionesInversor;
+drop table regulador;
+drop table empresa;
+drop table inversor;
+drop table usuario;

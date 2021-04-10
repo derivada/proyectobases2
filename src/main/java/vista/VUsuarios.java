@@ -1,12 +1,29 @@
 package vista;
 
+import aplicacion.Usuario;
+
+/**
+ *
+ * @author 34639
+ */
 public class VUsuarios extends javax.swing.JFrame {
+    aplicacion.FachadaAplicacion fa;
+    private String idUsuario;
 
     /**
      * Creates new form VUsuarios
+     * @param user
+     * @param tipo
      */
-    public VUsuarios() {
+    public VUsuarios(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
+        this.fa = fa;
+        this.idUsuario=user.getIdUsuario();
+        idTextBox.setText(idUsuario);
+        claveTextBox.setText(user.getClave());
+        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        tipoTextBox.setText(tipo);
+
     }
 
     /**
@@ -76,6 +93,11 @@ public class VUsuarios extends javax.swing.JFrame {
         });
 
         desconectarBoton.setText("Desconectar");
+        desconectarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desconectarBotonActionPerformed(evt);
+            }
+        });
 
         claveLabel.setText("Contraseña");
 
@@ -369,6 +391,12 @@ public class VUsuarios extends javax.swing.JFrame {
     private void precioTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioTextBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_precioTextBoxActionPerformed
+
+    private void desconectarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarBotonActionPerformed
+        // TODO add your handling code here:
+        fa.inicializarGUI();
+        this.dispose();
+    }//GEN-LAST:event_desconectarBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

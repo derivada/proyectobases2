@@ -5,17 +5,28 @@
  */
 package vista;
 
+import aplicacion.Usuario;
+
 /**
  *
  * @author 34639
  */
 public class VRegulador extends javax.swing.JFrame {
-
+    aplicacion.FachadaAplicacion fa;
+    private String idUsuario; 
     /**
      * Creates new form VRegulador
+     * @param fa
      */
-    public VRegulador() {
+    public VRegulador(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
+        this.fa = fa;
+        this.idUsuario=user.getIdUsuario(); 
+        idTextBox.setText(idUsuario);
+        claveTextBox.setText(user.getClave());
+        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        tipoTextBox.setText(tipo);
+
     }
 
     /**
@@ -177,6 +188,11 @@ public class VRegulador extends javax.swing.JFrame {
         saldoLabel.setText("Saldo");
 
         desconectarBoton.setText("Desconectar");
+        desconectarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desconectarBotonActionPerformed(evt);
+            }
+        });
 
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,6 +287,12 @@ public class VRegulador extends javax.swing.JFrame {
     private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
+
+    private void desconectarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarBotonActionPerformed
+        // TODO add your handling code here:
+        fa.inicializarGUI();
+        this.dispose();
+    }//GEN-LAST:event_desconectarBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
