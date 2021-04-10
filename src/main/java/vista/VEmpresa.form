@@ -32,33 +32,23 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="claveLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="claveTextBox" max="32767" attributes="0"/>
+                          <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="tipoTextBox" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="saldoTextBox" alignment="1" min="-2" pref="268" max="-2" attributes="0"/>
+                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                      <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
                       <Component id="idTextBox" min="-2" pref="268" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="claveTextBox" max="32767" attributes="0"/>
-                                  <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="tipoTextBox" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="saldoTextBox" alignment="1" min="-2" pref="268" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
                   </Group>
               </Group>
               <EmptySpace pref="65" max="32767" attributes="0"/>
@@ -195,7 +185,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable4">
+                <Component class="javax.swing.JTable" name="movimientosTabla">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -227,19 +217,19 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="desconectarBoton2" min="-2" pref="346" max="-2" attributes="0"/>
+                              <Component id="pagarBoton" min="-2" pref="346" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="claveTextBox1" min="-2" pref="301" max="-2" attributes="0"/>
+                                      <Component id="importeTextBox" min="-2" pref="301" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="desconectarBoton1" max="32767" attributes="0"/>
+                                      <Component id="beneficiosBoton" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="claveLabel1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="importeLabel" min="-2" max="-2" attributes="0"/>
                                           <Component id="jScrollPane3" min="-2" pref="745" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -255,16 +245,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="claveLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="importeLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="claveTextBox1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="desconectarBoton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="importeTextBox" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="beneficiosBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" pref="375" max="-2" attributes="0"/>
                       <EmptySpace pref="31" max="32767" attributes="0"/>
-                      <Component id="desconectarBoton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="pagarBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -278,7 +268,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable3">
+                <Component class="javax.swing.JTable" name="beneficiosTabla">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -292,27 +282,27 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="vista.componentes.TextBox" name="claveTextBox1">
+            <Component class="vista.componentes.TextBox" name="importeTextBox">
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="claveLabel1">
+            <Component class="vista.componentes.Etiqueta" name="importeLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Importe por participaci&#xf3;n"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Boton" name="desconectarBoton1">
+            <Component class="vista.componentes.Boton" name="beneficiosBoton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Anunciar beneficios"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="desconectarBoton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="beneficiosBotonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="vista.componentes.Boton" name="desconectarBoton2">
+            <Component class="vista.componentes.Boton" name="pagarBoton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pagar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="desconectarBoton2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pagarBotonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -333,26 +323,26 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="usuarioLabel3" min="-2" max="-2" attributes="0"/>
+                              <Component id="filtrarLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                                      <Component id="usuarioLabel1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="empresaLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                      <Component id="textBox2" min="-2" pref="178" max="-2" attributes="0"/>
+                                      <Component id="empresaTextBox" min="-2" pref="178" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                      <Component id="textBox3" min="-2" pref="214" max="-2" attributes="0"/>
+                                      <Component id="precioTextBox" min="-2" pref="214" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="usuarioLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="precioLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -362,7 +352,7 @@
                       <EmptySpace min="0" pref="80" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" alignment="1" min="-2" pref="652" max="-2" attributes="0"/>
-                          <Component id="boton1" alignment="1" min="-2" pref="247" max="-2" attributes="0"/>
+                          <Component id="compraBoton" alignment="1" min="-2" pref="247" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
@@ -372,43 +362,43 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="usuarioLabel3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filtrarLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="usuarioLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="usuarioLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="empresaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="precioLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="textBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="empresaTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="precioTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="boton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="compraBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="vista.componentes.TextBox" name="textBox2">
+            <Component class="vista.componentes.TextBox" name="empresaTextBox">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textBox2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empresaTextBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="vista.componentes.TextBox" name="textBox3">
+            <Component class="vista.componentes.TextBox" name="precioTextBox">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textBox3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="precioTextBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="usuarioLabel1">
+            <Component class="vista.componentes.Etiqueta" name="empresaLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Id de Empresa"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="usuarioLabel2">
+            <Component class="vista.componentes.Etiqueta" name="precioLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Precio m&#xe1;ximo"/>
               </Properties>
@@ -420,7 +410,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="compraTabla">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -434,17 +424,17 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="vista.componentes.Etiqueta" name="usuarioLabel3">
+            <Component class="vista.componentes.Etiqueta" name="filtrarLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Filtrar"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Boton" name="boton1">
+            <Component class="vista.componentes.Boton" name="compraBoton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Petici&#xf3;n de compra"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="compraBotonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -464,18 +454,18 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="tipoLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="precioVentaLabel" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tipoLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textBox5" alignment="0" pref="315" max="32767" attributes="0"/>
-                                  <Component id="textBox4" max="32767" attributes="0"/>
+                                  <Component id="empresaVentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="precioVentaTextBox" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="empresaVentaTextBox" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="boton2" alignment="1" min="-2" pref="291" max="-2" attributes="0"/>
-                                  <Component id="textBox6" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
-                                  <Component id="tipoLabel3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="numeroVentaTextBox" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="numeroVentaLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ventaBoton" alignment="1" pref="308" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jScrollPane2" alignment="0" min="-2" pref="718" max="-2" attributes="0"/>
@@ -489,20 +479,20 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tipoLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tipoLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="empresaVentaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="numeroVentaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="textBox4" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                          <Component id="textBox6" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="empresaVentaTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="numeroVentaTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="tipoLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="precioVentaLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="boton2" max="32767" attributes="0"/>
-                          <Component id="textBox5" max="32767" attributes="0"/>
+                          <Component id="ventaBoton" max="32767" attributes="0"/>
+                          <Component id="precioVentaTextBox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="356" max="-2" attributes="0"/>
@@ -512,28 +502,28 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="vista.componentes.TextBox" name="textBox4">
+            <Component class="vista.componentes.TextBox" name="empresaVentaTextBox">
             </Component>
-            <Component class="vista.componentes.TextBox" name="textBox5">
+            <Component class="vista.componentes.TextBox" name="precioVentaTextBox">
             </Component>
-            <Component class="vista.componentes.TextBox" name="textBox6">
+            <Component class="vista.componentes.TextBox" name="numeroVentaTextBox">
             </Component>
-            <Component class="vista.componentes.Boton" name="boton2">
+            <Component class="vista.componentes.Boton" name="ventaBoton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Crear oferta de venta"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="tipoLabel1">
+            <Component class="vista.componentes.Etiqueta" name="empresaVentaLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Empresa"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="tipoLabel2">
+            <Component class="vista.componentes.Etiqueta" name="precioVentaLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Precio total"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="tipoLabel3">
+            <Component class="vista.componentes.Etiqueta" name="numeroVentaLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero de participaciones"/>
               </Properties>
@@ -545,7 +535,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable2">
+                <Component class="javax.swing.JTable" name="ventaTabla">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -578,21 +568,21 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tipoLabel4" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tipoLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textBox8" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
+                                  <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="textBox9" min="-2" pref="308" max="-2" attributes="0"/>
+                              <Component id="participacionesTextBox" min="-2" pref="308" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="395" max="32767" attributes="0"/>
-                      <Component id="boton3" min="-2" pref="308" max="-2" attributes="0"/>
+                      <Component id="participacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -601,36 +591,36 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="tipoLabel4" min="-2" max="-2" attributes="0"/>
+                      <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textBox9" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="participacionesTextBox" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="tipoLabel6" min="-2" max="-2" attributes="0"/>
+                      <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textBox8" min="-2" pref="43" max="-2" attributes="0"/>
+                      <Component id="totalTextBox" min="-2" pref="43" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="boton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="participacionesBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="325" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="vista.componentes.Etiqueta" name="tipoLabel4">
+            <Component class="vista.componentes.Etiqueta" name="participacionesLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero de participaciones"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.TextBox" name="textBox8">
+            <Component class="vista.componentes.TextBox" name="totalTextBox">
             </Component>
-            <Component class="vista.componentes.TextBox" name="textBox9">
+            <Component class="vista.componentes.TextBox" name="participacionesTextBox">
             </Component>
-            <Component class="vista.componentes.Boton" name="boton3">
+            <Component class="vista.componentes.Boton" name="participacionesBoton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Crear oferta de venta"/>
+                <Property name="text" type="java.lang.String" value="Ofertar participaciones"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="tipoLabel6">
+            <Component class="vista.componentes.Etiqueta" name="totalLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero total de participaciones"/>
               </Properties>
