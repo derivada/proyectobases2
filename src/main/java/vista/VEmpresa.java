@@ -5,19 +5,30 @@
  */
 package vista;
 
+import aplicacion.Usuario;
+
 /**
  *
  * @author 34639
  */
 public class VEmpresa extends javax.swing.JFrame {
     aplicacion.FachadaAplicacion fa;
+    private String idUsuario; 
     /**
      * Creates new form Empresa
+     * @param user
+     * @param tipo
      * @param fa
      */
-    public VEmpresa(aplicacion.FachadaAplicacion fa) {
+    public VEmpresa(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
         this.fa = fa;
+        this.idUsuario=user.getIdUsuario(); 
+        idTextBox.setText(idUsuario);
+        claveTextBox.setText(user.getClave());
+        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        tipoTextBox.setText(tipo);
+
     }
 
     /**

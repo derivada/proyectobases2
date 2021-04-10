@@ -304,6 +304,7 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void cancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarRegistroActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_cancelarRegistroActionPerformed
 
     private void tipoRegistroTExtBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRegistroTExtBoxActionPerformed
@@ -355,11 +356,11 @@ public class VRegistro extends javax.swing.JFrame {
             System.out.println("Usuario encontrado, es inversor");
             this.dispose();
         }else if(tipo.equals("Empresa")){
-            //fa.menuEmpresa(tipo);
+            fa.menuEmpresa(tipo,nombreU,contraseña);
             System.out.println("Usuario encontrado, es empresa");
             this.dispose();
         }else if(tipo.equals("Regulador")){
-            //fa.menuRegulador(tipo);
+            fa.menuRegulador(tipo,nombreU,contraseña);
             System.out.println("Usuario encontrado, es regulador");
             this.dispose();
         }

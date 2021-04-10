@@ -5,19 +5,28 @@
  */
 package vista;
 
+import aplicacion.Usuario;
+
 /**
  *
  * @author 34639
  */
 public class VRegulador extends javax.swing.JFrame {
     aplicacion.FachadaAplicacion fa;
+    private String idUsuario; 
     /**
      * Creates new form VRegulador
      * @param fa
      */
-    public VRegulador(aplicacion.FachadaAplicacion fa) {
+    public VRegulador(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
         this.fa = fa;
+        this.idUsuario=user.getIdUsuario(); 
+        idTextBox.setText(idUsuario);
+        claveTextBox.setText(user.getClave());
+        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        tipoTextBox.setText(tipo);
+
     }
 
     /**

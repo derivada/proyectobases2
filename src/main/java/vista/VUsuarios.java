@@ -20,7 +20,7 @@ public class VUsuarios extends javax.swing.JFrame {
      * @param user
      * @param tipo
      */
-    public VUsuarios(Usuario user,String tipo, aplicacion.FachadaAplicacion fa) {
+    public VUsuarios(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
         this.fa = fa;
         this.idUsuario=user.getIdUsuario(); 

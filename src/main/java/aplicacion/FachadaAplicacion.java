@@ -35,13 +35,12 @@ public class FachadaAplicacion {
     public void menuUsuarios(String tipo,String id_usuario,String clave){
         cu.iniciaUsuario(tipo,this,id_usuario,clave);
     }
-    /*
-    public void menuEmpresa(String tipo,Usuario user){
-        cu.iniciaEmpresa(this, tipo,user);
+
+    public void menuEmpresa(String tipo,String id_usuario,String clave){
+        cu.iniciaEmpresa(tipo,this,id_usuario,clave);
     }
     
-    public void menuRegulador(String tipo,Usuario user){
-        cu.iniciaRegular(this, tipo,user);
+    public void menuRegulador(String tipo,String id_usuario,String clave){
+        cu.iniciaRegulador(tipo,this,id_usuario,clave);
     }
-*/
 }

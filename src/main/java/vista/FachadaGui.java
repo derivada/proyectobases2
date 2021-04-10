@@ -35,13 +35,13 @@ public class FachadaGui {
         va.setVisible(true);
     }
     
-    public void iniciaEmpresa(aplicacion.FachadaAplicacion fa){
-        ve = new VEmpresa(fa);
+    public void iniciaEmpresa(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
+        ve = new VEmpresa(user,tipo,fa);
         ve.setVisible(true);
     }
         
-    public void iniciaRegular(aplicacion.FachadaAplicacion fa){
-        vreg = new VRegulador(fa);
+    public void iniciaRegulador(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
+        vreg = new VRegulador(user,tipo,fa);
         vreg.setVisible(true);
     }
 }
