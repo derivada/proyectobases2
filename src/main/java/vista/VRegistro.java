@@ -5,6 +5,8 @@
  */
 package vista;
 
+import aplicacion.Empresa;
+import aplicacion.Inversor;
 import aplicacion.Usuario;
 
 /**
@@ -147,6 +149,11 @@ public class VRegistro extends javax.swing.JFrame {
         idRegistroLabel.setText("Id de usuario:");
 
         registroBoton.setText("Crear solicitud de registro");
+        registroBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registroBotonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("o");
@@ -311,6 +318,10 @@ public class VRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoRegistroTExtBoxActionPerformed
 
+    private void registroBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroBotonActionPerformed
+        this.registroUsuario();
+    }//GEN-LAST:event_registroBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ClaveRegistroLabel;
@@ -365,4 +376,65 @@ public class VRegistro extends javax.swing.JFrame {
             this.dispose();
         }
     }
+    
+    //funcion para registrar un nuevo usuario en la BD. Comprueba que se hayan llenado los campos requeridos
+    //para el registro (los not null) antes de pasar al SQL para que la excepcion la gestione el Java sin tener
+    //que bajar a BD y fiarte de ella.
+    public void registroUsuario(){
+        Usuario u;
+        boolean usuario,inversor,empresa;
+        
+        //compruebo si estan vacios los campos que no pueden estar vacios
+        if(this.idRegistroTextBox.getText().isEmpty() || this.ClaveRegistroTextBox.getText().isEmpty() || this.nombreRegistroTextBox.getText().isEmpty() || this.dniRegistroTextBox.getText().isEmpty()){
+            fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
+            return;
+        }
+        
+        switch (this.tipoRegistroTExtBox.getSelectedIndex()) {//switch segun el elemento seleccionado en el combobox
+            case 2:
+                //si en el comboBox de seleccion de tipo tiene el index 2, es que esta en blanco
+                fa.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.");//muestro excepcion
+                break;
+            case 1:
+                {
+                    //si en el comboBox de selecion de tipo tiene el index 1, es que es inversor
+                    Inversor i;
+                    u=new Usuario(this.idRegistroTextBox.getText(),this.ClaveRegistroTextBox.getText(),(float)0.0);//creo un nuevo usuario
+                    usuario=fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
+                    if(usuario==false){//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
+                        fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
+                    }
+                    else{//retorno true, por lo que se ha insertado el nuevo usuario
+                        //creo el inversor
+                        i=new Inversor(this.idRegistroTextBox.getText(),this.nombreRegistroTextBox.getText(),this.dniRegistroTextBox.getText(),this.direccionRegistroTextBox.getText(),this.telefonoRegistroTextBox.getText(),false);
+                        inversor=fa.registroInversor(i);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
+                        if(inversor==false){//si por alguna razon ignota esta el id en inversor pero no en usuario (literal imposible), lo decimos
+                            fa.muestraExcepcion("El ID estaba en uso en inversor.");//muestro excepcion
+                        }
+                    }       break;
+                }
+            case 0:
+                {
+                    //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
+                    Empresa e;
+                    u=new Usuario(this.idRegistroTextBox.getText(),this.ClaveRegistroTextBox.getText(),(float)0.0);//creo nuevo usuario
+                    usuario=fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
+                    if(usuario==false){//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
+                        fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
+                    }
+                    else{//retorno true, por lo que se ha insertado el nuevo usuario
+                        //creo la empresa
+                        e=new Empresa(this.idRegistroTextBox.getText(),this.nombreRegistroTextBox.getText(),this.dniRegistroTextBox.getText(),this.direccionRegistroTextBox.getText(),this.telefonoRegistroTextBox.getText(),false);
+                        empresa=fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
+                        if(empresa==false){//si por alguna razon ignota esta el id en empresa pero no en usuario (literal imposible), lo decimos
+                            fa.muestraExcepcion("El ID estaba en uso en empresa.");//muestro excepcion
+                        }
+                    }       break;
+                }
+            default:
+                break;
+        }       
+    }
+    
+    
 }
