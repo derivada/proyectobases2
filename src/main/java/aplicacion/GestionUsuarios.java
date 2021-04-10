@@ -60,4 +60,16 @@ public class GestionUsuarios {
         Usuario u=fbd.validarUsuario(id_usuario, clave); 
         fgui.iniciaRegulador(fa, tipo,u);
     }
+    
+    public boolean registroUsuario(Usuario u){
+        return fbd.registroUsuario(u);
+    }
+    
+    public boolean registroInversor(Inversor i){
+        return fbd.registroInversor(i);
+    }
+    
+    public boolean registroEmpresa(Empresa e){
+        return fbd.registroEmpresa(e);
+    }
 }

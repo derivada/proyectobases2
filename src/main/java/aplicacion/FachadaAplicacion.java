@@ -51,4 +51,16 @@ public class FachadaAplicacion {
         System.out.println("Fin del programa...");
         System.exit(0);
     }
+    
+    public boolean registroUsuario(Usuario u){
+        return cu.registroUsuario(u);
+    }
+    
+    public boolean registroInversor(Inversor i){
+        return cu.registroInversor(i);
+    }
+    
+    public boolean registroEmpresa(Empresa e){
+        return cu.registroEmpresa(e);
+    }
 }
