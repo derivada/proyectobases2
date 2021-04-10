@@ -5,6 +5,8 @@
  */
 package baseDatos;
 
+import aplicacion.Empresa;
+import aplicacion.Inversor;
 import aplicacion.Usuario;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -79,7 +81,17 @@ public fachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         return daoUsuarios.obtenerRegulador();
     }
     
+    public boolean registroUsuario(Usuario u){
+        return daoUsuarios.registroUsuario(u);
+    }
     
+    public boolean registroInversor(Inversor i){
+        return daoUsuarios.registroInversor(i);
+    }
+    
+    public boolean registroEmpresa(Empresa e){
+        return daoUsuarios.registroEmpresa(e);
+    }
 
 }
 

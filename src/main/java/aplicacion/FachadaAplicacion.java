@@ -43,4 +43,16 @@ public class FachadaAplicacion {
     public void menuRegulador(String tipo,String id_usuario,String clave){
         cu.iniciaRegulador(tipo,this,id_usuario,clave);
     }
+    
+    public boolean registroUsuario(Usuario u){
+        return cu.registroUsuario(u);
+    }
+    
+    public boolean registroInversor(Inversor i){
+        return cu.registroInversor(i);
+    }
+    
+    public boolean registroEmpresa(Empresa e){
+        return cu.registroEmpresa(e);
+    }
 }
