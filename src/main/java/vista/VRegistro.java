@@ -348,11 +348,11 @@ public class VRegistro extends javax.swing.JFrame {
         
         String tipo = fa.validarUsuario(nombreU, contraseña);
         
-        if( tipo.equals(null)){
+        if( tipo == null){
             System.out.println("Usuario no encontrado");
-            
         }else if(tipo.equals("Inversor")) {
             System.out.println("Usuario encontrado, es inversor");
+            
         }else if(tipo.equals("Empresa")){
             System.out.println("Usuario encontrado, es empresa");
         }else if(tipo.equals("Regulador")){
