@@ -89,7 +89,12 @@ public class VRegistro extends javax.swing.JFrame {
 
         tipoRegistroLabel.setText("Tipo:");
 
-        tipoRegistroTExtBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tipoRegistroTExtBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empresa", "Inversor", " " }));
+        tipoRegistroTExtBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoRegistroTExtBoxActionPerformed(evt);
+            }
+        });
 
         nombreRegistroLabel.setText("Nombre:");
 
@@ -293,6 +298,10 @@ public class VRegistro extends javax.swing.JFrame {
     private void cancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarRegistroActionPerformed
+
+    private void tipoRegistroTExtBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRegistroTExtBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoRegistroTExtBoxActionPerformed
 
     /**
      * @param args the command line arguments

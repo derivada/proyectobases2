@@ -12,9 +12,8 @@ public class FachadaAplicacion {
 
     public FachadaAplicacion() {
         fgui = new FachadaGui(this);
+ 
     }
-    
-    
     
     
     public void inicializarGUI() {
