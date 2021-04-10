@@ -5,6 +5,7 @@
  */
 package baseDatos;
 
+import aplicacion.Usuario;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,6 +60,23 @@ public fachadaBaseDatos (aplicacion.FachadaAplicacion fa){
             fa.muestraExcepcion(e.getMessage());
         }
            
+    }
+
+    public Usuario validarUsuario(String nombre, String clave){
+        return daoUsuarios.validarUsuario(nombre, clave);
+    }
+    
+    
+    public java.util.List<Usuario> obtenerInversores(){
+        return daoUsuarios.obtenerInversores();
+    }
+    
+    public java.util.List<Usuario> obtenerEmpresas(){
+        return daoUsuarios.obtenerEmpresas();
+    }
+    
+    public java.util.List<Usuario> obtenerRegulador(){
+        return daoUsuarios.obtenerRegulador();
     }
 
 }

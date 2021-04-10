@@ -547,6 +547,7 @@ public class VEmpresa extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Boton beneficiosBoton;

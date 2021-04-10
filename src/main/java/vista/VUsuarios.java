@@ -364,6 +364,7 @@ public class VUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bajaBotonActionPerformed
 
+
     private void compraBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_compraBotonActionPerformed
