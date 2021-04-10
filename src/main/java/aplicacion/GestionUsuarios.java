@@ -44,6 +44,9 @@ public class GestionUsuarios {
         }else{
             return null;
         }
-        
+    }
+    
+    public void iniciaUsuario(String tipo, FachadaAplicacion fa){
+        fgui.iniciaUsuarios(fa, tipo);
     }
 }

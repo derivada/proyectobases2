@@ -351,12 +351,17 @@ public class VRegistro extends javax.swing.JFrame {
         if( tipo == null){
             System.out.println("Usuario no encontrado");
         }else if(tipo.equals("Inversor")) {
+            fa.menuUsuarios(tipo);
             System.out.println("Usuario encontrado, es inversor");
-            
+            this.dispose();
         }else if(tipo.equals("Empresa")){
+            fa.menuEmpresa(tipo);
             System.out.println("Usuario encontrado, es empresa");
+            this.dispose();
         }else if(tipo.equals("Regulador")){
+            fa.menuRegulador(tipo);
             System.out.println("Usuario encontrado, es regulador");
+            this.dispose();
         }
     }
 }

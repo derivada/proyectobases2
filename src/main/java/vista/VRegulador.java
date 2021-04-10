@@ -10,12 +10,14 @@ package vista;
  * @author 34639
  */
 public class VRegulador extends javax.swing.JFrame {
-
+    aplicacion.FachadaAplicacion fa;
     /**
      * Creates new form VRegulador
+     * @param fa
      */
-    public VRegulador() {
+    public VRegulador(aplicacion.FachadaAplicacion fa) {
         initComponents();
+        this.fa = fa;
     }
 
     /**
@@ -177,6 +179,11 @@ public class VRegulador extends javax.swing.JFrame {
         saldoLabel.setText("Saldo");
 
         desconectarBoton.setText("Desconectar");
+        desconectarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desconectarBotonActionPerformed(evt);
+            }
+        });
 
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,6 +278,12 @@ public class VRegulador extends javax.swing.JFrame {
     private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
+
+    private void desconectarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarBotonActionPerformed
+        // TODO add your handling code here:
+        fa.inicializarGUI();
+        this.dispose();
+    }//GEN-LAST:event_desconectarBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,17 +5,30 @@
  */
 package vista;
 
+import aplicacion.Usuario;
+
 /**
  *
  * @author 34639
  */
 public class VUsuarios extends javax.swing.JFrame {
+    aplicacion.FachadaAplicacion fa;
+    private String idUsuario; 
 
     /**
      * Creates new form VUsuarios
+     * @param user
+     * @param tipo
      */
-    public VUsuarios() {
+    public VUsuarios(Usuario user,String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
+        this.fa = fa;
+        this.idUsuario=user.getIdUsuario(); 
+        idTextBox.setText(idUsuario);
+        claveTextBox.setText(user.getClave());
+        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        tipoTextBox.setText(tipo);
+
     }
 
     /**
@@ -85,6 +98,11 @@ public class VUsuarios extends javax.swing.JFrame {
         });
 
         desconectarBoton.setText("Desconectar");
+        desconectarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desconectarBotonActionPerformed(evt);
+            }
+        });
 
         claveLabel.setText("Contraseña");
 
@@ -377,40 +395,12 @@ public class VUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_precioTextBoxActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void desconectarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarBotonActionPerformed
+        // TODO add your handling code here:
+        fa.inicializarGUI();
+        this.dispose();
+    }//GEN-LAST:event_desconectarBotonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VUsuarios().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton bajaBoton;
