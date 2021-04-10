@@ -6,6 +6,7 @@ public class Tabs extends JPanel{
 
     public Tabs(){
         super();
+        this.setBackground(ColoresGUI.fondo);
     }
     
 }

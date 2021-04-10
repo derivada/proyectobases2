@@ -18,16 +18,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Calendar c = Calendar.getInstance();
-        long inicio = c.getTimeInMillis();
+
 
         System.out.println(" --- Proyecto Bases de Datos II ---");
         FachadaAplicacion fa = new FachadaAplicacion();
         fa.inicializarGUI();
-        
-        System.out.println("Tiempo transcurrido: " + (c.getTimeInMillis() - inicio) + " ms");
-        System.out.println("Fin del programa...");
-        
+
     }
 
 }

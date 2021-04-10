@@ -4,13 +4,14 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class TextBox extends JTextField implements MouseListener {
-    public TextBox(){
+public class PasswordField extends JPasswordField implements MouseListener {
+
+    public PasswordField(){
         super();
         this.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.NORMAL));
         this.setForeground(ColoresGUI.texto);
         this.setBackground(ColoresGUI.blanco);
-        this.setBorder(BordesGUI.BordeTextBox);
+        this.setBorder(BordesGUI.BordePasswordField);
         this.addMouseListener(this);
     }
 

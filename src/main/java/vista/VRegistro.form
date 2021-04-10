@@ -23,199 +23,124 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="usuarioIngresoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="claveIngresoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="usuarioIngresoTextBox" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
-                                  <Component id="claveIngresoTextBox" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="boton1" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="aceptarIngresoBoton" min="-2" pref="134" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                      <Component id="ingresoLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="registroLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="596" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="248" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tipoRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="nombreRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="DniRegistroTextBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="idRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="ClaveRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="direccionRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="telefonoRegistroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="ingresoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="usuarioIngresoLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Component id="botonAceptarIngreso" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="claveIngresoLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="ingresoUsuario" pref="200" max="32767" attributes="0"/>
+                                      <Component id="ingresoClave" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="telefonoRegistroTextBox" max="32767" attributes="0"/>
-                          <Component id="ClaveRegistroTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="dniRegistroTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nombreRegistroTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="tipoRegistroTExtBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="idRegistroTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="direccionRegistroTextBox" max="32767" attributes="0"/>
-                          <Component id="registroBoton" alignment="1" max="32767" attributes="0"/>
+                      <EmptySpace pref="201" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="direccionRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="claveRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="idRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="telefonoRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="CIFRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="nombreRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="tipoRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="registroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="botonSalir" min="-2" pref="128" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="botonCrearSolicitud" alignment="1" pref="386" max="32767" attributes="0"/>
+                  <Component id="nombreReg4" alignment="1" max="32767" attributes="0"/>
+                  <Component id="nombreReg1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="nombreReg2" alignment="1" max="32767" attributes="0"/>
+                  <Component id="nombreReg" alignment="1" max="32767" attributes="0"/>
+                  <Component id="tipoReg" alignment="1" max="32767" attributes="0"/>
+                  <Component id="regTipo" alignment="1" pref="386" max="32767" attributes="0"/>
+                  <Component id="regClave" alignment="0" pref="386" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="registroLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="ingresoLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="usuarioIngresoLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="ingresoUsuario" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="regTipo" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="claveIngresoLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="nombreRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoReg" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="ingresoClave" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="nombreReg" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="CIFRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonAceptarIngreso" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="telefonoRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="nombreReg2" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="idRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="nombreReg1" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="claveRegLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="regClave" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="direccionRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="nombreReg4" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
-                      <Component id="ingresoLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="usuarioIngresoTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="usuarioIngresoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="claveIngresoTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="claveIngresoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="aceptarIngresoBoton" min="-2" max="-2" attributes="0"/>
-                          <Component id="boton1" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="botonCrearSolicitud" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="88" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                      <Component id="registroLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tipoRegistroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tipoRegistroTExtBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="nombreRegistroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="nombreRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="DniRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dniRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="telefonoRegistroTextBox" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="telefonoRegistroLabel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="idRegistroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="idRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ClaveRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ClaveRegistroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="direccionRegistroTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="direccionRegistroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="registroBoton" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="botonSalir" min="-2" pref="128" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="148" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="registroLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Registro"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="ingresoLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Ingreso"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="usuarioIngresoTextBox">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-        <Property name="name" type="java.lang.String" value="" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usuarioIngresoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="usuarioIngresoLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Usuario:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="claveIngresoTextBox">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-        <Property name="name" type="java.lang.String" value="" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveIngresoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="claveIngresoLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Clave:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="aceptarIngresoBoton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Aceptar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aceptarIngresoBotonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="tipoRegistroLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tipo:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="tipoRegistroTExtBox">
+    <Component class="javax.swing.JComboBox" name="regTipo">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">
@@ -226,94 +151,126 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoRegistroTExtBoxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regTipoActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="nombreRegistroLabel">
+    <Component class="vista.componentes.Boton" name="botonCrearSolicitud">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nombre:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="nombreRegistroTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreRegistroTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="DniRegistroTextBox">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="CIF/DNI:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="dniRegistroTextBox">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="text" type="java.lang.String" value="Crear solicitud de registro"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dniRegistroTextBoxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarRegistroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="telefonoRegistroTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telefonoRegistroTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="telefonoRegistroLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="idRegistroTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idRegistroTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="ClaveRegistroLabel">
+    <Component class="vista.componentes.Etiqueta" name="claveIngresoLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clave:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="ClaveRegistroTextBox">
+    <Component class="vista.componentes.Etiqueta" name="ingresoLabel">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="text" type="java.lang.String" value="Ingreso"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClaveRegistroTextBoxActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="direccionRegistroTextBox">
+    <Component class="vista.componentes.Etiqueta" name="telefonoRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="direccionRegistroLabel">
+    <Component class="vista.componentes.Etiqueta" name="registroLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Registro"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="usuarioIngresoLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Usuario:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="tipoRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tipo:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="nombreRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="CIFRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="CIF/DNI:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="idRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ID de usuario:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="claveRegLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clave:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="direccionRegLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="idRegistroLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Id de usuario:"/>
-      </Properties>
+    <Component class="vista.componentes.TextBox" name="ingresoUsuario">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ingresoUsuarioActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="registroBoton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Crear solicitud de registro"/>
-      </Properties>
+    <Component class="vista.componentes.TextBox" name="tipoReg">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoRegActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="o"/>
-      </Properties>
+    <Component class="vista.componentes.TextBox" name="nombreReg">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreRegActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="vista.componentes.Boton" name="boton1">
+    <Component class="vista.componentes.Boton" name="botonAceptarIngreso">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cancelar"/>
+        <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarRegistroActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAceptarIngresocancelarRegistroActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="nombreReg1">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="nombreReg2">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="nombreReg4">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg4ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.BotonVolver" name="botonSalir">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonSalirActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.PasswordField" name="ingresoClave">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ingresoClaveActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.PasswordField" name="regClave">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regClaveActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

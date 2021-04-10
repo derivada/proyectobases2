@@ -14,9 +14,9 @@ public class ColoresGUI {
     public static final Color destacado = new Color(220, 220, 220);
     public static final Color destacadoFuerte = new Color(190, 190, 190);
     public static final Color destacadoExtra = new Color(160, 160, 160);
-    public static final Color textoBlanco = new Color(80, 80, 80);
+    public static final Color textoClaro = new Color(80, 80, 80);
     public static final Color texto = new Color(40, 40, 40);
-    public static final Color textoNegro = new Color(20, 20, 20);
+    public static final Color textoOsucro = new Color(20, 20, 20);
     public static final Color negro = new Color(0, 0, 0);
 
     public static Color getColorEscalaGrises(int valor) {

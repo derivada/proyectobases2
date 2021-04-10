@@ -9,6 +9,7 @@ import static vista.componentes.FuentesGUI.*;
 public class Boton extends JButton implements MouseListener {
 
     public Boton() {
+        // Crea un botón predeterminado
         super();
         this.setFont(FuentesGUI.getFuente(Modificador.NEGRITA, Size.GRANDE));
         this.setForeground(ColoresGUI.blanco);
