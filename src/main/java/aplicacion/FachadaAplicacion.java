@@ -30,7 +30,7 @@ public class FachadaAplicacion {
         fgui.muestraExcepcion(e);
     }
 
-    public String validarUsuario(String nombre, String clave) {
+    public Usuario validarUsuario(String nombre, String clave) {
         return cu.validarUsuario(nombre, clave);
     }
 

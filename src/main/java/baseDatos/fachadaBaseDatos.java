@@ -7,6 +7,7 @@ package baseDatos;
 
 import aplicacion.Empresa;
 import aplicacion.Inversor;
+import aplicacion.Regulador;
 import aplicacion.Usuario;
 
 import java.io.FileInputStream;
@@ -71,16 +72,15 @@ public class fachadaBaseDatos {
         return daoUsuarios.validarUsuario(nombre, clave);
     }
 
+    public java.util.List<Usuario> obtenerUsuarios() { return daoUsuarios.obtenerUsuarios(); }
 
-    public java.util.List<Usuario> obtenerInversores() {
-        return daoUsuarios.obtenerInversores();
-    }
+    public java.util.List<Inversor> obtenerInversores() { return daoUsuarios.obtenerInversores(); }
 
-    public java.util.List<Usuario> obtenerEmpresas() {
+    public java.util.List<Empresa> obtenerEmpresas() {
         return daoUsuarios.obtenerEmpresas();
     }
 
-    public java.util.List<Usuario> obtenerRegulador() {
+    public java.util.List<Regulador> obtenerRegulador() {
         return daoUsuarios.obtenerRegulador();
     }
 

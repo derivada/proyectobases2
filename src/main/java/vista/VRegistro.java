@@ -1,8 +1,9 @@
 package vista;
 
+import aplicacion.Empresa;
+import aplicacion.Inversor;
+import aplicacion.Regulador;
 import aplicacion.Usuario;
-import vista.componentes.ColoresGUI;
-import vista.componentes.Fuentes;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
 
@@ -292,7 +293,7 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void botonAceptarIngresocancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarIngresocancelarRegistroActionPerformed
         // TODO add your handling code here:
-        this.validarUsuario(); 
+        this.validarUsuario();
     }//GEN-LAST:event_botonAceptarIngresocancelarRegistroActionPerformed
 
     private void nombreReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReg1ActionPerformed
@@ -346,28 +347,29 @@ public class VRegistro extends javax.swing.JFrame {
     private vista.componentes.Etiqueta usuarioIngresoLabel;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Valida el usuario a partir de los datos del formulario de ingreso.
+     * Abre el menú correspondiente a su tipo y cierra esta ventana si la validación es correcta
+     */
     public void validarUsuario() {
-        String nombreU, contraseña;
 
-        Usuario user;
-
+        String nombreU, password;
         nombreU = ingresoUsuario.getText();
-        contraseña = ingresoClave.getText();
+        password = ingresoClave.getText();
 
-        String tipo = fa.validarUsuario(nombreU, contraseña);
+        Usuario user = fa.validarUsuario(ingresoUsuario.getText(), ingresoClave.getText());
 
-        if (tipo == null) {
-            System.out.println("Usuario no encontrado");
-        } else if (tipo.equals("Inversor")) {
-            fa.menuInversor(tipo, nombreU);
+        // (No hace falta comprobar si es nulo antes de hacer instanceof)
+        if (user instanceof Inversor) {
+            fa.menuInversor("inversor", nombreU);
             System.out.println("Usuario encontrado, es inversor");
             this.dispose();
-        } else if (tipo.equals("Empresa")) {
-            fa.menuEmpresa(tipo, nombreU, contraseña);
+        } else if (user instanceof Empresa) {
+            fa.menuEmpresa("empresa", nombreU, password);
             System.out.println("Usuario encontrado, es empresa");
             this.dispose();
-        } else if (tipo.equals("Regulador")) {
-            fa.menuRegulador(tipo, nombreU, contraseña);
+        } else if (user instanceof Regulador) {
+            fa.menuRegulador("regulador", nombreU, password);
             System.out.println("Usuario encontrado, es regulador");
             this.dispose();
         }
