@@ -162,7 +162,7 @@
         <Property name="text" type="java.lang.String" value="Crear solicitud de registro"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarRegistroActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="solicitarRegistroActionPerformed"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="claveIngresoLabel">
