@@ -1,28 +1,43 @@
 package vista;
 
-import aplicacion.Usuario;
+import aplicacion.Inversor;
 
 /**
  *
  * @author 34639
  */
-public class VUsuarios extends javax.swing.JFrame {
+public class VInversor extends javax.swing.JFrame {
     aplicacion.FachadaAplicacion fa;
     private String idUsuario;
+    
+    //Los siguientes atributos están colocados temporalmente. Según la implementaación 
+    //de la interfaz, si no sirven se quitan 
+    private String nombre; 
+    private String dni; 
+    private String telefono; 
+    private String direccion; 
+    private boolean autorizado; 
 
     /**
      * Creates new form VUsuarios
      * @param user
      * @param tipo
      */
-    public VUsuarios(Usuario user, String tipo, aplicacion.FachadaAplicacion fa) {
+    public VInversor(Inversor i, String tipo, aplicacion.FachadaAplicacion fa) {
         initComponents();
         this.fa = fa;
-        this.idUsuario=user.getIdUsuario();
+        this.idUsuario=i.getIdUsuario();
         idTextBox.setText(idUsuario);
-        claveTextBox.setText(user.getClave());
-        saldoTextBox.setText(String.valueOf(user.getCuenta()));
+        claveTextBox.setText(i.getClave());
+        saldoTextBox.setText(String.valueOf(i.getCuenta()));
         tipoTextBox.setText(tipo);
+        //Atributos que si no sirven se quitan 
+        this.nombre=i.getNombre(); 
+        this.dni=i.getDni(); 
+        this.telefono=i.getTelefono(); 
+        this.direccion=i.getDireccion(); 
+        this.autorizado=i.isAutorizado(); 
+        
 
     }
 

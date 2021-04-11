@@ -46,9 +46,14 @@ public class GestionUsuarios {
         }
     }
     
-    public void iniciaUsuario(String tipo, FachadaAplicacion fa,String id_usuario,String clave){
-        Usuario u=fbd.validarUsuario(id_usuario, clave); 
-        fgui.iniciaUsuarios(fa, tipo,u);
+    public void iniciaInversor(String tipo, FachadaAplicacion fa,String id_usuario){
+        //Usuario u=(Inversor)fbd.validarUsuario(id_usuario, clave); 
+        //fgui.iniciaUsuarios(fa, tipo,u);
+        
+        Inversor i=fbd.seleccionarInversor(id_usuario); 
+        fgui.iniciaInversores(fa, tipo, i);
+        
+        
     }
     
     public void iniciaEmpresa(String tipo, FachadaAplicacion fa,String id_usuario,String clave){

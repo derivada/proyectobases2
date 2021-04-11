@@ -292,6 +292,7 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void botonAceptarIngresocancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarIngresocancelarRegistroActionPerformed
         // TODO add your handling code here:
+        this.validarUsuario(); 
     }//GEN-LAST:event_botonAceptarIngresocancelarRegistroActionPerformed
 
     private void nombreReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReg1ActionPerformed
@@ -358,7 +359,7 @@ public class VRegistro extends javax.swing.JFrame {
         if (tipo == null) {
             System.out.println("Usuario no encontrado");
         } else if (tipo.equals("Inversor")) {
-            fa.menuUsuarios(tipo, nombreU, contraseña);
+            fa.menuInversor(tipo, nombreU);
             System.out.println("Usuario encontrado, es inversor");
             this.dispose();
         } else if (tipo.equals("Empresa")) {

@@ -92,6 +92,10 @@ public fachadaBaseDatos (aplicacion.FachadaAplicacion fa){
     public boolean registroEmpresa(Empresa e){
         return daoUsuarios.registroEmpresa(e);
     }
+    
+    public Inversor seleccionarInversor(String id_usuario){
+        return daoUsuarios.selecionarInversor(id_usuario); 
+    }
 
 }
 
