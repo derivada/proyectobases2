@@ -2,12 +2,13 @@ package vista;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Usuario;
+import aplicacion.Inversor; 
 
 public class FachadaGui {
     
     FachadaAplicacion fa;
     VRegistro vr;
-    VUsuarios va;
+    VInversor va;
     VEmpresa ve;
     VRegulador vreg;
     
@@ -30,8 +31,8 @@ public class FachadaGui {
        System.out.println(txtExcepcion);
     }
     
-    public void iniciaUsuarios(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
-        va = new VUsuarios(user,tipo,fa);
+    public void iniciaInversores(aplicacion.FachadaAplicacion fa, String tipo, Inversor i){
+        va = new VInversor(i,tipo,fa);
         va.setVisible(true);
     }
     

@@ -29,6 +29,7 @@ public class VRegulador extends javax.swing.JFrame {
         claveTextBox.setText(user.getClave());
         saldoTextBox.setText(String.valueOf(user.getCuenta()));
         tipoTextBox.setText(tipo);
+       
 
     }
 

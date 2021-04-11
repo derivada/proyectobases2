@@ -34,8 +34,8 @@ public class FachadaAplicacion {
         return cu.validarUsuario(nombre, clave);
     }
 
-    public void menuUsuarios(String tipo, String id_usuario, String clave) {
-        cu.iniciaUsuario(tipo, this, id_usuario, clave);
+    public void menuInversor(String tipo, String id_usuario) {
+        cu.iniciaInversor(tipo, this, id_usuario);
     }
 
     public void menuEmpresa(String tipo, String id_usuario, String clave) {

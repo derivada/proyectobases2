@@ -321,4 +321,41 @@ public class DAOUsuarios extends AbstractDAO {
         
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
+    
+    
+    //Función para obtener un inversor con todos sus datos 
+    
+    public Inversor selecionarInversor(String id_usuario){
+        Inversor resultado=null; 
+        Connection con; 
+        PreparedStatement stmInversor = null;
+        ResultSet rsInversor;
+         con = this.getConexion();
+
+        try {
+            stmInversor = con.prepareStatement("select i.*,u.cuenta,u.clave " +
+                "from usuario as u, inversor as i " +
+                "where u.id_usuario=i.id_usuario and u.id_usuario= ? " + 
+                    "group by i.id_usuario,u.cuenta,u.clave ");
+            stmInversor.setString(1, id_usuario);
+            rsInversor = stmInversor.executeQuery();
+            while (rsInversor.next()) {
+                resultado = new Inversor(rsInversor.getString("id_usuario"),rsInversor.getString("nombre"),rsInversor.getString("dni"),
+                    rsInversor.getString("direccion"),rsInversor.getString("telefono"),rsInversor.getBoolean("autorizado"));
+                resultado.setCuenta(rsInversor.getFloat("cuenta"));
+                resultado.setClave(rsInversor.getString("clave"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                stmInversor.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado; 
+    }
 }
