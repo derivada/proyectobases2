@@ -1,14 +1,22 @@
-
-
 package vista.modeloTablas;
 
-/**
- * Autora: Elena Fernández del Sel
- * Proyecto: BDII
- * Esta clase representa 
- * Versión: 1
- * Fecha: @today
- */
-public class ModeloTablaBaja {
+import javax.swing.table.AbstractTableModel;
+
+public class ModeloTablaBaja extends AbstractTableModel{
+
+    @Override
+    public int getRowCount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getColumnCount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getValueAt(int i, int i1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

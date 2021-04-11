@@ -33,23 +33,18 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="claveTextBox" max="32767" attributes="0"/>
-                          <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="tipoTextBox" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="saldoTextBox" alignment="1" min="-2" pref="268" max="-2" attributes="0"/>
-                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="idTextBox" min="-2" pref="268" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="idTextBox" pref="268" max="32767" attributes="0"/>
+                  <Component id="claveTextBox" max="32767" attributes="0"/>
+                  <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="65" max="32767" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="807" max="-2" attributes="0"/>
@@ -69,8 +64,8 @@
                       <Component id="idTextBox" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="claveLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="claveTextBox" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <Component id="claveTextBox" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -80,6 +75,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bajaBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="saldoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
@@ -108,6 +105,9 @@
       </Events>
     </Component>
     <Component class="vista.componentes.TextBox" name="idTextBox">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
       </Events>
@@ -119,8 +119,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoTextBoxActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="claveTextBox">
     </Component>
     <Component class="vista.componentes.Etiqueta" name="claveLabel">
       <Properties>
@@ -189,16 +187,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTable" name="movimientosTabla">
-                  <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="movimientosTabla.setModel(new ModeloTablaMovimientos());"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -273,13 +264,8 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="beneficiosTabla">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new ModeloTablaBeneficios()&#xa;" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -415,13 +401,8 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="compraTabla">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new ModeloTablaCompra()" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -540,13 +521,8 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="ventaTabla">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new ModeloTablaVenta()&#xa;" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -625,5 +601,15 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="vista.componentes.PasswordField" name="claveTextBox">
+    </Component>
+    <Component class="vista.componentes.Boton" name="modificarBoton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar usuario"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotonActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
