@@ -1,48 +1,46 @@
 package vista;
 
-import aplicacion.FachadaAplicacion;
-import aplicacion.Usuario;
-import aplicacion.Inversor; 
+import aplicacion.*;
 
 public class FachadaGui {
-    
+
     FachadaAplicacion fa;
     VRegistro vr;
     VInversor va;
     VEmpresa ve;
     VRegulador vreg;
-    
-    
+
+
     public FachadaGui(FachadaAplicacion fa) {
-        this.fa=fa;
-       
+        this.fa = fa;
+
     }
-    
-    public void iniciaVista(aplicacion.FachadaAplicacion fa){
+
+    public void iniciaVista(aplicacion.FachadaAplicacion fa) {
         vr = new VRegistro(fa);
         vr.setVisible(true);
     }
-    
-    public void muestraExcepcion(String txtExcepcion){
+
+    public void muestraExcepcion(String txtExcepcion) {
        /*VAviso va;
        
        va = new VAviso(vp, true, txtExcepcion);
        va.setVisible(true);*/
-       System.out.println(txtExcepcion);
+        System.out.println(txtExcepcion);
     }
-    
-    public void iniciaInversores(aplicacion.FachadaAplicacion fa, String tipo, Inversor i){
-        va = new VInversor(i,tipo,fa);
+
+    public void iniciaInversores(Inversor i, FachadaAplicacion fa) {
+        va = new VInversor(i, fa);
         va.setVisible(true);
     }
-    
-    public void iniciaEmpresa(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
-        ve = new VEmpresa(user,tipo,fa);
+
+    public void iniciaEmpresa(Empresa e, FachadaAplicacion fa) {
+        ve = new VEmpresa(e, fa);
         ve.setVisible(true);
     }
-        
-    public void iniciaRegulador(aplicacion.FachadaAplicacion fa, String tipo, Usuario user){
-        vreg = new VRegulador(user,tipo,fa);
+
+    public void iniciaRegulador(Regulador r, FachadaAplicacion fa) {
+        vreg = new VRegulador(r, fa);
         vreg.setVisible(true);
     }
 }

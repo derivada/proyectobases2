@@ -34,16 +34,16 @@ public class FachadaAplicacion {
         return cu.validarUsuario(nombre, clave);
     }
 
-    public void menuInversor(String tipo, String id_usuario) {
-        cu.iniciaInversor(tipo, this, id_usuario);
+    public void menuInversor(Inversor inversor) {
+        cu.iniciaInversor(inversor, this);
     }
 
-    public void menuEmpresa(String tipo, String id_usuario, String clave) {
-        cu.iniciaEmpresa(tipo, this, id_usuario, clave);
+    public void menuEmpresa(Empresa empresa) {
+        cu.iniciaEmpresa(empresa, this);
     }
 
-    public void menuRegulador(String tipo, String id_usuario, String clave) {
-        cu.iniciaRegulador(tipo, this, id_usuario, clave);
+    public void menuRegulador(Regulador regulador) {
+        cu.iniciaRegulador(regulador, this);
     }
 
     public void salir() {

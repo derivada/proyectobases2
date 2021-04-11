@@ -51,24 +51,17 @@ public class GestionUsuarios {
         return u;
     }
 
-    public void iniciaInversor(String tipo, FachadaAplicacion fa, String id_usuario) {
-        //Usuario u=(Inversor)fbd.validarUsuario(id_usuario, clave); 
-        //fgui.iniciaUsuarios(fa, tipo,u);
+    public void iniciaInversor(Inversor i, FachadaAplicacion fa) {
 
-        Inversor i = fbd.seleccionarInversor(id_usuario);
-        fgui.iniciaInversores(fa, tipo, i);
-
-
+        fgui.iniciaInversores(i, fa);
     }
 
-    public void iniciaEmpresa(String tipo, FachadaAplicacion fa, String id_usuario, String clave) {
-        Usuario u = fbd.validarUsuario(id_usuario, clave);
-        fgui.iniciaEmpresa(fa, tipo, u);
+    public void iniciaEmpresa(Empresa e, FachadaAplicacion fa) {
+        fgui.iniciaEmpresa(e, fa);
     }
 
-    public void iniciaRegulador(String tipo, FachadaAplicacion fa, String id_usuario, String clave) {
-        Usuario u = fbd.validarUsuario(id_usuario, clave);
-        fgui.iniciaRegulador(fa, tipo, u);
+    public void iniciaRegulador(Regulador r, FachadaAplicacion fa) {
+        fgui.iniciaRegulador(r, fa);
     }
 
     public boolean registroUsuario(Usuario u) {

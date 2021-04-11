@@ -6,7 +6,6 @@ import aplicacion.Regulador;
 import aplicacion.Usuario;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
-
 import javax.swing.*;
 
 public class VRegistro extends javax.swing.JFrame {
@@ -361,15 +360,15 @@ public class VRegistro extends javax.swing.JFrame {
 
         // (No hace falta comprobar si es nulo antes de hacer instanceof)
         if (user instanceof Inversor) {
-            fa.menuInversor("inversor", nombreU);
+            fa.menuInversor((Inversor) user);
             System.out.println("Usuario encontrado, es inversor");
             this.dispose();
         } else if (user instanceof Empresa) {
-            fa.menuEmpresa("empresa", nombreU, password);
+            fa.menuEmpresa((Empresa) user);
             System.out.println("Usuario encontrado, es empresa");
             this.dispose();
         } else if (user instanceof Regulador) {
-            fa.menuRegulador("regulador", nombreU, password);
+            fa.menuRegulador((Regulador) user);
             System.out.println("Usuario encontrado, es regulador");
             this.dispose();
         }
