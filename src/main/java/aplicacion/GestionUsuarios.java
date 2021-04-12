@@ -79,4 +79,8 @@ public class GestionUsuarios {
     public int getPartPropEmpresa(Empresa e) {
         return fbd.getPartPropEmpresa(e);
     }
+    
+    public void emitirParticipaciones(Empresa e, int emision){
+        fbd.emitirParticipaciones(e, emision);
+    }
 }

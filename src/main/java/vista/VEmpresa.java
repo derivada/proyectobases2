@@ -77,6 +77,7 @@ public class VEmpresa extends javax.swing.JFrame {
         participacionesTextBox = new vista.componentes.TextBox();
         participacionesBoton = new vista.componentes.Boton();
         totalLabel = new vista.componentes.Etiqueta();
+        participacionesEliminar = new vista.componentes.Boton();
         claveTextBox = new vista.componentes.PasswordField();
         modificarBoton = new vista.componentes.Boton();
 
@@ -373,6 +374,13 @@ public class VEmpresa extends javax.swing.JFrame {
 
         totalLabel.setText("Número total de participaciones");
 
+        participacionesEliminar.setText("Eliminar participaciones");
+        participacionesEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                participacionesEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout tabs10Layout = new javax.swing.GroupLayout(tabs10);
         tabs10.setLayout(tabs10Layout);
         tabs10Layout.setHorizontalGroup(
@@ -387,7 +395,9 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
                 .addContainerGap(395, Short.MAX_VALUE)
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(participacionesEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(99, 99, 99))
         );
         tabs10Layout.setVerticalGroup(
@@ -403,7 +413,9 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addComponent(totalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(325, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(participacionesEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ofertar participaciones", tabs10);
@@ -535,6 +547,11 @@ public class VEmpresa extends javax.swing.JFrame {
         this.setBotones();
     }//GEN-LAST:event_participacionesTextBoxKeyPressed
 
+    private void participacionesEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesEliminarActionPerformed
+        // TODO add your handling code here:
+        this.eliminarParticipaciones();
+    }//GEN-LAST:event_participacionesEliminarActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -567,6 +584,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox numeroVentaTextBox;
     private vista.componentes.Boton pagarBoton;
     private vista.componentes.Boton participacionesBoton;
+    private vista.componentes.Boton participacionesEliminar;
     private vista.componentes.Etiqueta participacionesLabel;
     private vista.componentes.TextBox participacionesTextBox;
     private vista.componentes.Etiqueta precioLabel;
@@ -604,14 +622,32 @@ public class VEmpresa extends javax.swing.JFrame {
         
         int emision = Integer.parseInt(participaciones);
         
+        fa.emitirParticipaciones(e, emision);
         
+        this.rellenarHuecos();
            
+    }
+    
+    public void eliminarParticipaciones(){
+        
+        //en este caso, la empresa solicita eliminar ciertas participaciones de su cartera
+        
+        //la cuestion seria saber cuales estan vendidas y cuales no, de manera que elimine unicamente aquellas que no estan vendidas, y si no hay suficientes pues elimine las que hay sin vender
+        
+        String participaciones = participacionesTextBox.getText();
+        
+        int bajaP = Integer.parseInt(participaciones);
+        
+        //aqui iria la consulta, cuando me apetezca la hago
+        
+        this.rellenarHuecos();
+        
     }
     
     
     public void setBotones(){
         
-        if(participacionesTextBox.getText().equals("")){
+        if(participacionesTextBox.getText().equals("") || participacionesTextBox.getText().equals("Introduzca un número.")){
             participacionesBoton.setEnabled(false);
         }else{
             participacionesBoton.setEnabled(true);
@@ -632,6 +668,6 @@ public class VEmpresa extends javax.swing.JFrame {
         int participacionesTot = fa.getPartPropEmpresa(e);
         totalTextBox.setText(String.valueOf(participacionesTot));
         
-        participacionesTextBox.setText("Introduzca el número de participaciones que quiere emitir.");
+        participacionesTextBox.setText("Introduzca un número.");
     }
 }

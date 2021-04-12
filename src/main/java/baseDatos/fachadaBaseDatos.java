@@ -99,6 +99,10 @@ public class fachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e){
         return daoUsuarios.getPartPropEmpresa(e);
     }
+    
+    public void emitirParticipaciones(Empresa e, int emision){
+        daoUsuarios.emitirParticipaciones(e, emision);
+    }
 
 
 }

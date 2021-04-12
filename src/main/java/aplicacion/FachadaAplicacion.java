@@ -86,4 +86,8 @@ public class FachadaAplicacion {
     public int getPartPropEmpresa(Empresa e){
         return cu.getPartPropEmpresa(e);
     }
+    
+    public void emitirParticipaciones(Empresa e, int emision){
+        cu.emitirParticipaciones(e, emision);
+    }
 }
