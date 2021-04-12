@@ -13,6 +13,7 @@ import aplicacion.Usuario;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -99,7 +100,22 @@ public class fachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e){
         return daoUsuarios.getPartPropEmpresa(e);
     }
+    
+    public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado){
+        return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
+    }
+    
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado){
+        return daoUsuarios.obtenerEmpresaPorAutorizacion(autorizado);
+    }
+    
+    public void modificarEmpresa(String id_usuario, Empresa u){
+        daoUsuarios.modificarDatosEmpresa(id_usuario, u);
+    }
 
+    public void modificarInversor(String id_usuario, Inversor u){
+        daoUsuarios.modificarDatosInversor(id_usuario, u);
+    }
 
 }
 

@@ -44,7 +44,6 @@
                           <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
                           <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
                           <Component id="claveTextBox" max="32767" attributes="0"/>
-                          <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -82,8 +81,6 @@
                       <Component id="bajaBoton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="saldoTextBox" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
@@ -443,14 +440,6 @@
       </SubComponents>
     </Container>
     <Component class="vista.componentes.PasswordField" name="claveTextBox">
-    </Component>
-    <Component class="vista.componentes.Boton" name="modificarBoton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Modificar Usuario"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotonActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

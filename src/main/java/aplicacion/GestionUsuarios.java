@@ -11,6 +11,7 @@ package aplicacion;
 
 import vista.FachadaGui;
 import baseDatos.fachadaBaseDatos;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,5 +79,27 @@ public class GestionUsuarios {
     
     public int getPartPropEmpresa(Empresa e) {
         return fbd.getPartPropEmpresa(e);
+    }
+    
+    public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
+        ArrayList<Usuario> resultado = new ArrayList<>();
+        
+        for(Inversor i:fbd.obtenerInversorPorAutorizacion(autorizado)){
+            resultado.add(i);
+        }
+        
+        for(Empresa e:fbd.obtenerEmpresaPorAutorizacion(autorizado)){
+            resultado.add(e);
+        }
+        
+        return resultado;
+    }
+    
+    public void modificarUsuario(String id_usuario, Usuario u){
+        if(u instanceof Inversor){
+            fbd.modificarInversor(id_usuario, (Inversor)u);
+        } else {
+            fbd.modificarEmpresa(id_usuario, (Empresa)u);
+        }
     }
 }

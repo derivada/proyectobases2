@@ -1,5 +1,6 @@
 package aplicacion;
 
+import java.util.ArrayList;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -85,5 +86,13 @@ public class FachadaAplicacion {
     
     public int getPartPropEmpresa(Empresa e){
         return cu.getPartPropEmpresa(e);
+    }
+    
+    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion){
+        return cu.obtenerUsuarioPorAutorizacion(autorizacion);
+    }
+    
+    public void modificarUsuario(String id_usuario, Usuario u){
+        cu.modificarUsuario(id_usuario, u);
     }
 }
