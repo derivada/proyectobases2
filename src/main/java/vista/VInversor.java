@@ -270,7 +270,7 @@ public class VInversor extends javax.swing.JFrame {
         modificarBoton.setText("Modificar Usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarBotonActionPerformed(evt);
+                //modificarBotonActionPerformed(evt);
             }
         });
 

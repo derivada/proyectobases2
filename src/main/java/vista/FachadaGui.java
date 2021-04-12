@@ -1,6 +1,9 @@
 package vista;
 
 import aplicacion.*;
+import vista.componentes.DialogoInfo;
+
+import javax.swing.*;
 
 public class FachadaGui {
 
@@ -21,12 +24,9 @@ public class FachadaGui {
         vr.setVisible(true);
     }
 
-    public void muestraExcepcion(String txtExcepcion) {
-       /*VAviso va;
-       
-       va = new VAviso(vp, true, txtExcepcion);
-       va.setVisible(true);*/
-        System.out.println(txtExcepcion);
+    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
+
+        DialogoInfo dialogoExcepcion = new DialogoInfo(padre, titulo, descripcion, nivel, bloqueaInput);
     }
 
     public void iniciaInversores(Inversor i, FachadaAplicacion fa) {
@@ -43,4 +43,6 @@ public class FachadaGui {
         vreg = new VRegulador(r, fa);
         vreg.setVisible(true);
     }
+
+
 }
