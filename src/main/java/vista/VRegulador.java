@@ -1,13 +1,16 @@
 package vista;
 
+import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
+import aplicacion.Inversor;
 import aplicacion.Regulador;
+import aplicacion.Usuario;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
 import vista.modeloTablas.ModeloTablaTransacciones;
 
-
 public class VRegulador extends javax.swing.JFrame {
+
     private final FachadaAplicacion fa;
     private final Regulador r;
 
@@ -19,6 +22,18 @@ public class VRegulador extends javax.swing.JFrame {
         // (Ver clase VEmpresas) claveTextBox.setText(r.getClave());
         saldoTextBox.setText(String.valueOf(r.getCuenta()));
         tipoTextBox.setText("Regulador");
+
+        //Modelo tabla Alta
+        ModeloTablaAlta mTAlta = new ModeloTablaAlta();
+        altaTabla.setModel(mTAlta);
+        mTAlta.setFilas(fa.obtenerUsuariosPorAutorizacion(false));
+        if (mTAlta.getRowCount() > 0) {
+            altaTabla.setRowSelectionInterval(0, 0);
+            altaBoton.setEnabled(true);
+        } else {
+            altaBoton.setEnabled(false);
+        }
+
     }
 
     /**
@@ -51,7 +66,6 @@ public class VRegulador extends javax.swing.JFrame {
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
         saldoTextBox = new vista.componentes.TextBox();
-        claveTextBox = new vista.componentes.PasswordField();
         claveTextBox1 = new vista.componentes.PasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -157,6 +171,7 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        idTextBox.setEditable(false);
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idTextBoxActionPerformed(evt);
@@ -182,6 +197,13 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        claveTextBox1.setEditable(false);
+        claveTextBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                claveTextBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,11 +223,6 @@ public class VRegulador extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,26 +241,33 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
+                        .addGap(33, 33, 33)
                         .addComponent(desconectarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
+                        .addGap(57, 57, 57)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
-        // TODO add your handling code here:
+        ModeloTablaAlta modelo = (ModeloTablaAlta) altaTabla.getModel();
+        Usuario u = modelo.obtenerUsuario(altaTabla.getSelectedRow());
+        if(u instanceof Inversor){
+            Inversor us = (Inversor)u;
+            us.setAutorizado(true);
+        } else {
+            Empresa us = (Empresa)u;
+            us.setAutorizado(true);   
+        }
+        
+        fa.modificarUsuario(u.getIdUsuario(), u);
+        
+        modelo.setFilas(fa.obtenerUsuariosPorAutorizacion(false));
     }//GEN-LAST:event_altaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
@@ -264,6 +288,10 @@ public class VRegulador extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_desconectarBotonActionPerformed
 
+    private void claveTextBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveTextBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claveTextBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
@@ -271,7 +299,6 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Boton bajaBoton;
     private javax.swing.JTable bajaTabla;
     private vista.componentes.Etiqueta claveLabel;
-    private vista.componentes.PasswordField claveTextBox;
     private vista.componentes.PasswordField claveTextBox1;
     private vista.componentes.Boton desconectarBoton;
     private vista.componentes.TextBox idTextBox;

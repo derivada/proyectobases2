@@ -1,5 +1,7 @@
 package vista.modeloTablas;
 
+import aplicacion.Empresa;
+import aplicacion.Inversor;
 import aplicacion.Usuario;
 
 import javax.swing.table.AbstractTableModel;
@@ -63,10 +65,23 @@ public class ModeloTablaAlta extends AbstractTableModel{
                 resultado = usuariosAlta.get(row).getIdUsuario();
                 break;
             case 1:
-                resultado = "Nombre";
+                if(usuariosAlta.get(row) instanceof Inversor){
+                    Inversor i = (Inversor)usuariosAlta.get(row);
+                   resultado = i.getNombre(); 
+                } else {
+                   Empresa e = (Empresa)usuariosAlta.get(row);
+                   resultado = e.getNombre();
+                }
+                
                 break;
             case 2:
-                resultado = "DNI";
+                if(usuariosAlta.get(row) instanceof Inversor){
+                   Inversor i = (Inversor)usuariosAlta.get(row);
+                   resultado = i.getDni(); 
+                } else {
+                   Empresa e = (Empresa)usuariosAlta.get(row);
+                   resultado = e.getCIF();
+                }
                 break;
 
         }

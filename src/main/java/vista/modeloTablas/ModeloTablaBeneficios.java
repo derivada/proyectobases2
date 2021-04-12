@@ -80,7 +80,7 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
                 resultado = beneficios.get(row).getFechaAnuncio();
                 break;
             case 3:
-                resultado = beneficios.get(row).getImporteParticipacion();
+                resultado = beneficios.get(row).getImporteparticipacion();
                 break;
 
         }
