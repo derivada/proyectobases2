@@ -16,12 +16,6 @@ public class AnuncioBeneficios {
     private Date fechaAnuncio; 
     private Float importeparticipacion; 
 
-    public AnuncioBeneficios(String empresa, Date fechaPago) {
-        this.empresa = empresa;
-        this.fechaPago = fechaPago;
-        this.fechaAnuncio=null; 
-        this.importeparticipacion=null; 
-    }
 
     public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion) {
         this.empresa = empresa;
