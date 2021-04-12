@@ -418,7 +418,6 @@ public class DAOUsuarios extends AbstractDAO {
     public int getPartPropEmpresa(Empresa e){
         int result = 0;
         PreparedStatement stmCheck = null;
-        PreparedStatement stmIns = null;
         ResultSet rst;
         Connection con;
 
