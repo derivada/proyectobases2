@@ -1,17 +1,28 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package aplicacion;
+import java.sql.Date; 
 
-import java.sql.Date;
-
+/**
+ *
+ * @author Usuario
+ */
 public class AnuncioBeneficios {
-    private String empresa;
-    private Date fechaPago;
-    private Date fechaAnuncio;
-    private Double importeParticipacion;
+    private String empresa; 
+    private Date fechaPago; 
+    private Date fechaAnuncio; 
+    private Float importeparticipacion; 
 
-    public AnuncioBeneficios(String empresa, Date fechaAnuncio, Double importeParticipacion) {
+
+    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion) {
         this.empresa = empresa;
+        this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
-        this.importeParticipacion = importeParticipacion;
+        this.importeparticipacion = importeparticipacion;
     }
 
     public String getEmpresa() {
@@ -38,11 +49,13 @@ public class AnuncioBeneficios {
         this.fechaAnuncio = fechaAnuncio;
     }
 
-    public Double getImporteParticipacion() {
-        return importeParticipacion;
+    public Float getImporteparticipacion() {
+        return importeparticipacion;
     }
 
-    public void setImporteParticipacion(Double importeParticipacion) {
-        this.importeParticipacion = importeParticipacion;
+    public void setImporteparticipacion(Float importeparticipacion) {
+        this.importeparticipacion = importeparticipacion;
     }
+
+   
 }
