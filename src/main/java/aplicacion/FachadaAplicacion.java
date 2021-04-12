@@ -82,4 +82,8 @@ public class FachadaAplicacion {
     public boolean registroEmpresa(Empresa e) {
         return cu.registroEmpresa(e);
     }
+    
+    public int getPartPropEmpresa(Empresa e){
+        return cu.getPartPropEmpresa(e);
+    }
 }

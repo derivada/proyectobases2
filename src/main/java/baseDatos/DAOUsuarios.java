@@ -28,6 +28,9 @@ public class DAOUsuarios extends AbstractDAO {
     /**
      * Comprueba si el usuario con ese id y clave está en la base de datos y devuelve su objeto asocidado
      * El objeto Usuario devuelto ya tiene un tipo asociado y todos sus campos rellenados!
+     * @param idUsuario
+     * @param clave
+     * @return 
      */
     public Usuario validarUsuario(String idUsuario, String clave) {
 
@@ -409,6 +412,40 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
         return insertado;//para que la funcion sepa si se ha insertado o no
+    }
+    
+    public int getPartPropEmpresa(Empresa e){
+        int result = 0;
+        PreparedStatement stmCheck = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select numparticipaciones "
+                + "from participacionesempresa "
+                + "where usuario=? AND empresa=?";
+
+        try {
+            stmCheck = con.prepareStatement(consulta);
+            stmCheck.setString(1, e.getIdUsuario());
+            stmCheck.setString(2, e.getIdUsuario());
+            rst = stmCheck.executeQuery();
+            while (rst.next()) {
+                result = rst.getInt("numparticipaciones");
+            }
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stmCheck.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return result;
     }
 
 }

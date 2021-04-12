@@ -16,13 +16,8 @@ public class VEmpresa extends javax.swing.JFrame {
         this.fa = fa;
         this.e = e;
         initComponents();
-        idTextBox.setText(e.getIdUsuario());
-        // TODO: Esto debería hacerse con un nuevo acceso, no debería estar
-        // guardado permanentemente aquí claveTextBox.setText(e.getClave());
-        // También hay un problema importante aquí. El saldo no es parte de la entidad Empresa, deberíamos
-        // añadirlo??
-        saldoTextBox.setText(String.valueOf(e.getCuenta()));
-        tipoTextBox.setText("Empresa");
+        this.rellenarHuecos();
+        this.setBotones();
     }
 
     /**
@@ -352,7 +347,29 @@ public class VEmpresa extends javax.swing.JFrame {
 
         participacionesLabel.setText("Número de participaciones");
 
+        totalTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalTextBoxActionPerformed(evt);
+            }
+        });
+
+        participacionesTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                participacionesTextBoxActionPerformed(evt);
+            }
+        });
+        participacionesTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                participacionesTextBoxKeyPressed(evt);
+            }
+        });
+
         participacionesBoton.setText("Ofertar participaciones");
+        participacionesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                participacionesBotonActionPerformed(evt);
+            }
+        });
 
         totalLabel.setText("Número total de participaciones");
 
@@ -500,6 +517,24 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarBotonActionPerformed
 
+    private void participacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesBotonActionPerformed
+        // TODO add your handling code here:
+        this.emitirParticipaciones();
+    }//GEN-LAST:event_participacionesBotonActionPerformed
+
+    private void totalTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalTextBoxActionPerformed
+
+    private void participacionesTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_participacionesTextBoxActionPerformed
+
+    private void participacionesTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_participacionesTextBoxKeyPressed
+        // TODO add your handling code here:
+        this.setBotones();
+    }//GEN-LAST:event_participacionesTextBoxKeyPressed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -554,4 +589,49 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Boton ventaBoton;
     private javax.swing.JTable ventaTabla;
     // End of variables declaration//GEN-END:variables
+
+    public void emitirParticipaciones(){
+        
+        //en esta funcion, la empresa indica que quiere crear un nuevo lote de participaciones
+        
+        //cuando lo hace, tendrán que añadirse las participaciones a su cartera de participaciones
+        
+        //esta cartera puede tener participacioens de otras empresas asi que debemos identificar
+        //la tabla de esta empresa en su cartera y sumarlas ahi, es decir no creamos un objeto participaciones
+        //cada vez que se añaden, si no que se suman a esa tabla que tiene como PK a esta empresa, y como PKp a esta empresa de nuevo
+        
+        String participaciones = participacionesTextBox.getText();
+        
+        int emision = Integer.parseInt(participaciones);
+        
+        
+           
+    }
+    
+    
+    public void setBotones(){
+        
+        if(participacionesTextBox.getText().equals("")){
+            participacionesBoton.setEnabled(false);
+        }else{
+            participacionesBoton.setEnabled(true);
+        }
+  
+    }
+    
+    public void rellenarHuecos(){
+        idTextBox.setText(e.getIdUsuario());
+        saldoTextBox.setText(String.valueOf(e.getCuenta()));
+        tipoTextBox.setText("Empresa");
+        // TODO: Esto debería hacerse con un nuevo acceso, no debería estar
+        // guardado permanentemente aquí claveTextBox.setText(e.getClave());
+        // También hay un problema importante aquí. El saldo no es parte de la entidad Empresa, deberíamos
+        // añadirlo??
+        
+        //la funcion getPartPropEmpresa devuelve la cantidad de participaciones que ha emitido la empresa
+        int participacionesTot = fa.getPartPropEmpresa(e);
+        totalTextBox.setText(String.valueOf(participacionesTot));
+        
+        participacionesTextBox.setText("Introduzca el número de participaciones que quiere emitir.");
+    }
 }

@@ -95,6 +95,10 @@ public class fachadaBaseDatos {
     public boolean registroEmpresa(Empresa e) {
         return daoUsuarios.registroEmpresa(e);
     }
+    
+    public int getPartPropEmpresa(Empresa e){
+        return daoUsuarios.getPartPropEmpresa(e);
+    }
 
 
 }

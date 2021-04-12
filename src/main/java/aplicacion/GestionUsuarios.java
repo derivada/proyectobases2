@@ -75,4 +75,8 @@ public class GestionUsuarios {
     public boolean registroEmpresa(Empresa e) {
         return fbd.registroEmpresa(e);
     }
+    
+    public int getPartPropEmpresa(Empresa e) {
+        return fbd.getPartPropEmpresa(e);
+    }
 }
