@@ -27,10 +27,8 @@
               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>

@@ -17,12 +17,13 @@ public class ImagenesGUI {
     public static BufferedImage getImage(String path, int size) {
         BufferedImage imagen;
         try {
-            File archivoImagne = new File(IMG_ROOT + path);
-            System.out.println("CARGANDO IMAGEN DESDE: " + archivoImagne.getAbsolutePath());
-            imagen = ImageIO.read(archivoImagne);
+            File archivoImagen = new File(IMG_ROOT + path);
+            System.out.println("CARGANDO IMAGEN DESDE: " + archivoImagen.getAbsolutePath());
+            imagen = ImageIO.read(archivoImagen);
+            System.out.println("IMAGEN CARGADA!");
             return imagen;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("NO SE PUDO CARGAR LA IMAGEN!");
             return null;
         }
     }

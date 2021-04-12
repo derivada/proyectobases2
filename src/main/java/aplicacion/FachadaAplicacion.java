@@ -1,7 +1,9 @@
 package aplicacion;
 
 import vista.FachadaGui;
+import vista.componentes.DialogoInfo;
 
+import javax.swing.*;
 import java.util.Calendar;
 
 /**
@@ -26,9 +28,26 @@ public class FachadaAplicacion {
         fgui.iniciaVista(this);
     }
 
-    public void muestraExcepcion(String e) {
-        fgui.muestraExcepcion(e);
+    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
+        fgui.muestraExcepcion(padre, titulo, descripcion, nivel, bloqueaInput);
     }
+
+    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fgui.muestraExcepcion(padre, titulo, descripcion, nivel, false);
+    }
+
+    public void muestraExcepcion(JFrame padre, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fgui.muestraExcepcion(padre, "Mercado de Valores", descripcion, nivel, false);
+    }
+
+    public void muestraExcepcion(String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fgui.muestraExcepcion(null, "Mercado de valores", descripcion, nivel, false);
+    }
+
+    public void muestraExcepcion(String descripcion) {
+        fgui.muestraExcepcion(null, "Mercado de valores", descripcion, DialogoInfo.NivelDeAdvertencia.ERROR, false);
+    }
+
 
     public Usuario validarUsuario(String nombre, String clave) {
         return cu.validarUsuario(nombre, clave);
@@ -51,16 +70,16 @@ public class FachadaAplicacion {
         System.out.println("Fin del programa...");
         System.exit(0);
     }
-    
-    public boolean registroUsuario(Usuario u){
+
+    public boolean registroUsuario(Usuario u) {
         return cu.registroUsuario(u);
     }
-    
-    public boolean registroInversor(Inversor i){
+
+    public boolean registroInversor(Inversor i) {
         return cu.registroInversor(i);
     }
-    
-    public boolean registroEmpresa(Empresa e){
+
+    public boolean registroEmpresa(Empresa e) {
         return cu.registroEmpresa(e);
     }
     
