@@ -16,7 +16,7 @@ public class ColoresGUI {
     public static final Color destacadoExtra = new Color(160, 160, 160);
     public static final Color textoClaro = new Color(80, 80, 80);
     public static final Color texto = new Color(40, 40, 40);
-    public static final Color textoOsucro = new Color(20, 20, 20);
+    public static final Color textoOscuro = new Color(20, 20, 20);
     public static final Color negro = new Color(0, 0, 0);
 
     public static Color getColorEscalaGrises(int valor) {
@@ -31,7 +31,24 @@ public class ColoresGUI {
 
 
     // Los siguientes métodos proporcionan variantes de colores: OSCURO, NORMAL, PASTEL, CLARO, EXTRACLARO
-
+    public static Color getGUIColorExtraOscuro(Colores color) {
+        switch (color) {
+            case ROJO:
+                return new Color(87, 0, 0);
+            case VERDE:
+                return new Color(6, 95, 0);
+            case AMARILLO:
+                return new Color(118, 112, 0);
+            case AZUL:
+                return new Color(0, 120, 141);
+            case VIOLETA:
+                return new Color(47, 0, 94);
+            case CYAN:
+                return new Color(0, 71, 31);
+            default:
+                return new Color(0, 0, 0);
+        }
+    }
     public static Color getGUIColorOscuro(Colores color) {
         switch (color) {
             case ROJO:
