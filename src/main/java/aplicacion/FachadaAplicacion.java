@@ -1,5 +1,6 @@
 package aplicacion;
 
+import java.util.ArrayList;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -89,5 +90,12 @@ public class FachadaAplicacion {
     
     public void emitirParticipaciones(Empresa e, int emision){
         cu.emitirParticipaciones(e, emision);
+    }
+    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion){
+        return cu.obtenerUsuarioPorAutorizacion(autorizacion);
+    }
+    
+    public void modificarUsuario(String id_usuario, Usuario u){
+        cu.modificarUsuario(id_usuario, u);
     }
 }

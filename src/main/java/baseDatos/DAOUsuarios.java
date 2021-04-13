@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author migue
@@ -529,4 +531,202 @@ public class DAOUsuarios extends AbstractDAO {
         
     }
 
+    public ArrayList<Inversor> obtenerInversoresPorAutorizacion(Boolean autorizado){
+        ArrayList<Inversor> resultado = new ArrayList<>();
+        PreparedStatement stmInversores = null;
+        ResultSet rst;
+        ResultSet rst2;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select * from inversor where autorizado = ?";
+
+        try {
+            stmInversores = con.prepareStatement(consulta);
+            stmInversores.setBoolean(1,autorizado);
+            rst = stmInversores.executeQuery();
+            while (rst.next()) {
+                Inversor i = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), autorizado); 
+                stmInversores = con.prepareStatement("select * from usuario where id_usuario = ?");
+                stmInversores.setString(1, rst.getString("id_usuario"));
+                
+                rst2 = stmInversores.executeQuery();
+                while(rst2.next()){
+                    Usuario u = (Usuario) i;
+                    u.setClave(rst2.getString("clave"));
+                    u.setIdUsuario(rst2.getString("id_usuario"));
+                    u.setCuenta(rst2.getFloat("cuenta"));
+
+                }
+                
+                resultado.add(i);
+                        
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stmInversores.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+    
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(Boolean autorizado){
+        ArrayList<Empresa> resultado = new ArrayList<>();
+        PreparedStatement stmEmpresas = null;
+        ResultSet rst, rst2;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select * from empresa where autorizado = ?";
+
+        try {
+            stmEmpresas = con.prepareStatement(consulta);
+            stmEmpresas.setBoolean(1,autorizado);
+            rst = stmEmpresas.executeQuery();
+            while (rst.next()) {
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getString("direccion"), rst.getString("telefono"), autorizado);
+                stmEmpresas = con.prepareStatement("select * from usuario where id_usuario = ?");
+                stmEmpresas.setString(1, rst.getString("id_usuario"));
+                
+                rst2 = stmEmpresas.executeQuery();
+                while(rst2.next()){
+                    Usuario u = (Usuario) e;
+                    u.setClave(rst2.getString("clave"));
+                    u.setIdUsuario(rst2.getString("id_usuario"));
+                    u.setCuenta(rst2.getFloat("cuenta"));
+
+                }
+                
+                resultado.add(e);
+                        
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stmEmpresas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+    
+    public void modificarDatosEmpresa (String id_usuario, Empresa e){
+        PreparedStatement stmEmpresas = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta1 = "update empresa "
+                + "set id_usuario = ?,"
+                + " nombrecomercial = ?,"
+                + " cif = ?,"
+                + " direccion = ?,"
+                + " telefono = ?,"
+                + " autorizado = ? "
+                + " where id_usuario = ?";
+        
+        String consulta2 = "update usuario "
+                + "set id_usuario = ?,"
+                + " clave = ?"
+                + " where id_usuario = ?";
+
+        try {
+            stmEmpresas = con.prepareStatement(consulta1);
+            stmEmpresas.setString(1,e.getIdUsuario());
+            stmEmpresas.setString(2,e.getNombre());
+            stmEmpresas.setString(3, e.getCIF());
+            stmEmpresas.setString(4, e.getDireccion());
+            stmEmpresas.setString(5, e.getTelefono());
+            stmEmpresas.setBoolean(6, e.isAutorizado());
+            stmEmpresas.setString(7, id_usuario);
+            
+            stmEmpresas.executeUpdate();
+            
+            stmEmpresas = con.prepareStatement(consulta2);
+            Usuario u = (Usuario)e;
+            stmEmpresas.setString(1, u.getIdUsuario());
+            stmEmpresas.setString(2, u.getClave());
+            stmEmpresas.setString(3, id_usuario);
+            
+            stmEmpresas.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stmEmpresas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+    }
+  
+    public void modificarDatosInversor (String id_usuario, Inversor e){
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta1 = "update inversor "
+                + "set id_usuario = ?,"
+                + " nombre = ?,"
+                + " dni = ?,"
+                + " direccion = ?,"
+                + " telefono = ?,"
+                + " autorizado = ? "
+                + " where id_usuario = ?";
+        
+        String consulta2 = "update usuario "
+                + "set id_usuario = ?,"
+                + " clave = ?"
+                + " where id_usuario = ?";
+        
+
+        try {
+            stm = con.prepareStatement(consulta1);
+            stm.setString(1,e.getIdUsuario());
+            stm.setString(2,e.getNombre());
+            stm.setString(3, e.getDni());
+            stm.setString(4, e.getDireccion());
+            stm.setString(5, e.getTelefono());
+            stm.setBoolean(6, e.isAutorizado());
+            stm.setString(7,id_usuario);
+            
+            stm.executeUpdate();
+            
+            stm = con.prepareStatement(consulta2);
+            stm.setString(1, e.getIdUsuario());
+            stm.setString(2, e.getClave());
+            stm.setString(3, id_usuario);
+            
+            stm.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+    }
+  
 }
