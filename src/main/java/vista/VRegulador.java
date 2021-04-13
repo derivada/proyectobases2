@@ -2,6 +2,7 @@ package vista;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
+import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
 import vista.modeloTablas.ModeloTablaTransacciones;
@@ -32,17 +33,17 @@ public class VRegulador extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tabs5 = new vista.componentes.Tabs();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        altaTabla = new javax.swing.JTable();
         altaBoton = new vista.componentes.Boton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabla1 = new vista.componentes.Tabla();
         tabs6 = new vista.componentes.Tabs();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        bajaTabla = new javax.swing.JTable();
         bajaBoton = new vista.componentes.Boton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla2 = new vista.componentes.Tabla();
         tabs7 = new vista.componentes.Tabs();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        transferenciaTabla = new javax.swing.JTable();
         transferenciaBoton = new vista.componentes.Boton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla3 = new vista.componentes.Tabla();
         saldoLabel = new vista.componentes.Etiqueta();
         desconectarBoton = new vista.componentes.Boton();
         idTextBox = new vista.componentes.TextBox();
@@ -56,9 +57,6 @@ public class VRegulador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        altaTabla.setModel(new ModeloTablaAlta());
-        jScrollPane1.setViewportView(altaTabla);
-
         altaBoton.setText("Autorizar");
         altaBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,84 +64,86 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        tabla1.setModel(new ModeloTablaAlta());
+        jScrollPane4.setViewportView(tabla1);
+
         javax.swing.GroupLayout tabs5Layout = new javax.swing.GroupLayout(tabs5);
         tabs5.setLayout(tabs5Layout);
         tabs5Layout.setHorizontalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs5Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+                    .addGroup(tabs5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17))
         );
         tabs5Layout.setVerticalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs5Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane1.addTab("Solicitudes de alta", tabs5);
 
-        bajaTabla.setModel(new ModeloTablaBaja());
-        jScrollPane2.setViewportView(bajaTabla);
-
         bajaBoton.setText("Autorizar");
+
+        tabla2.setModel(new ModeloTablaBaja());
+        jScrollPane1.setViewportView(tabla2);
 
         javax.swing.GroupLayout tabs6Layout = new javax.swing.GroupLayout(tabs6);
         tabs6.setLayout(tabs6Layout);
         tabs6Layout.setHorizontalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs6Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(31, 31, 31)
                 .addGroup(tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         tabs6Layout.setVerticalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Solicitudes de baja", tabs6);
 
-        transferenciaTabla.setModel(new ModeloTablaTransacciones());
-        jScrollPane3.setViewportView(transferenciaTabla);
-
         transferenciaBoton.setText("Autorizar");
+
+        tabla3.setModel(new ModeloTablaTransacciones());
+        jScrollPane2.setViewportView(tabla3);
 
         javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
         tabs7.setLayout(tabs7Layout);
         tabs7Layout.setHorizontalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(tabs7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabs7Layout.createSequentialGroup()
-                        .addGap(378, 378, 378)
-                        .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         tabs7Layout.setVerticalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Comprobación de transferencia", tabs7);
@@ -239,6 +239,8 @@ public class VRegulador extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        OtrosComponentes.configurarTabbedPane(jTabbedPane1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -267,9 +269,7 @@ public class VRegulador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
-    private javax.swing.JTable altaTabla;
     private vista.componentes.Boton bajaBoton;
-    private javax.swing.JTable bajaTabla;
     private vista.componentes.Etiqueta claveLabel;
     private vista.componentes.PasswordField claveTextBox;
     private vista.componentes.PasswordField claveTextBox1;
@@ -277,17 +277,19 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
+    private vista.componentes.Tabla tabla1;
+    private vista.componentes.Tabla tabla2;
+    private vista.componentes.Tabla tabla3;
     private vista.componentes.Tabs tabs5;
     private vista.componentes.Tabs tabs6;
     private vista.componentes.Tabs tabs7;
     private vista.componentes.Etiqueta tipoLabel;
     private vista.componentes.TextBox tipoTextBox;
     private vista.componentes.Boton transferenciaBoton;
-    private javax.swing.JTable transferenciaTabla;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
 }
