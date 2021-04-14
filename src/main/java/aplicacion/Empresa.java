@@ -14,21 +14,23 @@ public class Empresa extends Usuario{
     private String CIF;
     private String direccion;
     private String telefono;
-    private boolean autorizado;
+    private final Float cuenta;
 
-    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono, boolean autorizado) {
-        super(idUsuario);
+    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono, boolean autorizadoAlta, boolean solicitadoBaja, Float cuenta) {
+        super(idUsuario, autorizadoAlta, solicitadoBaja);
         this.nombre = nombre;
         this.CIF = CIF;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.autorizado = autorizado;
+        this.cuenta = cuenta;
     }
 
     @Override
     public String getIdUsuario() {
         return super.getIdUsuario();
     }
+    
+    
 
 
     public String getNombre() {
@@ -62,14 +64,10 @@ public class Empresa extends Usuario{
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    public boolean isAutorizado() {
-        return autorizado;
+  
+    public boolean isAutorizado(){
+        Usuario u = (Usuario)this;
+        return u.isAutorizadoAlta();
     }
-
-    public void setAutorizado(boolean autorizado) {
-        this.autorizado = autorizado;
-    }
-    
     
 }

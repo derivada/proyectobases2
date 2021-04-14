@@ -395,13 +395,13 @@ public class VRegistro extends javax.swing.JFrame {
             case 1: {
                 //si en el comboBox de selecion de tipo tiene el index 1, es que es inversor
                 Inversor i;
-                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText(), (float) 0.0);//creo un nuevo usuario
+                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText());//creo un nuevo usuario
                 usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
                 if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
                     fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
                 } else {//retorno true, por lo que se ha insertado el nuevo usuario
                     //creo el inversor
-                    i = new Inversor(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false);
+                    i = new Inversor(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false, false);
                     inversor = fa.registroInversor(i);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
                     if (inversor == false) {//si por alguna razon ignota esta el id en inversor pero no en usuario (literal imposible), lo decimos
                         fa.muestraExcepcion("El ID estaba en uso en inversor.");//muestro excepcion
@@ -412,13 +412,13 @@ public class VRegistro extends javax.swing.JFrame {
             case 0: {
                 //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
                 Empresa e;
-                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText(), (float) 0.0);//creo nuevo usuario
+                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText());//creo nuevo usuario
                 usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
                 if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
                     fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
                 } else {//retorno true, por lo que se ha insertado el nuevo usuario
                     //creo la empresa
-                    e = new Empresa(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false);
+                    e = new Empresa(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false, false);
                     empresa = fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
                     if (empresa == false) {//si por alguna razon ignota esta el id en empresa pero no en usuario (literal imposible), lo decimos
                         fa.muestraExcepcion("El ID estaba en uso en empresa.");//muestro excepcion

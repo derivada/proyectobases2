@@ -12,19 +12,31 @@ import java.util.Objects;
  * @author migue
  */
 public class Usuario {
+
     private String idUsuario;
     private String clave;
-    private Float cuenta;
-    
-    public Usuario (String idUsuario, String clave, Float cuenta){
-    this.idUsuario=idUsuario;
-    this.clave=clave;
-    this.cuenta=cuenta;
-   }
-    public Usuario(String idUsuario){
-        this.idUsuario=idUsuario;
+    private boolean autorizadoAlta;
+    private boolean solicitadoBaja;
+
+    public Usuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+        this.clave = null;
+    }
+
+    public Usuario(String idUsuario, String clave) {
+        this.idUsuario = idUsuario;
+        this.clave = clave;
     }
     
+    
+
+    public Usuario(String idUsuario, boolean autorizadoAlta, boolean solicitadoBaja) {
+        this.idUsuario = idUsuario;
+        this.autorizadoAlta = autorizadoAlta;
+        this.solicitadoBaja = solicitadoBaja;
+    }
+
+
 
     public String getIdUsuario() {
         return idUsuario;
@@ -34,21 +46,33 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public String getClave() {
-        return clave;
-    }
-
     public void setClave(String clave) {
         this.clave = clave;
     }
 
-    public Float getCuenta() {
-        return cuenta;
+    public boolean isAutorizadoAlta() {
+        return autorizadoAlta;
     }
 
-    public void setCuenta(Float cuenta) {
-        this.cuenta = cuenta;
+    public void setAutorizadoAlta(boolean autorizadoAlta) {
+        this.autorizadoAlta = autorizadoAlta;
     }
+
+    public boolean isSolicitadoBaja() {
+        return solicitadoBaja;
+    }
+
+    public void setSolicitadoBaja(boolean solicitadoBaja) {
+        this.solicitadoBaja = solicitadoBaja;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+    
+    
+    
+    
 
     @Override
     public int hashCode() {
@@ -74,8 +98,5 @@ public class Usuario {
         }
         return true;
     }
-    
-    
-    
-    
+
 }

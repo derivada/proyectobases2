@@ -44,7 +44,7 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select id_usuario, clave, cuenta "
+            stmUsuario = con.prepareStatement("select id_usuario, cuenta"
                     + "from usuario "
                     + "where id_usuario = ? and clave = ?");
             stmUsuario.setString(1, idUsuario);
@@ -98,7 +98,7 @@ public class DAOUsuarios extends AbstractDAO {
         ResultSet rsUsuarios;
 
         con = this.getConexion();
-        String consulta = "select * "
+        String consulta = "select id_usuario, cuenta "
                 + "from usuario ";
         try {
             stmCatalogo = con.prepareStatement(consulta);
@@ -143,7 +143,7 @@ public class DAOUsuarios extends AbstractDAO {
                         rsInversores.getString("dni"),
                         rsInversores.getString("direccion"),
                         rsInversores.getString("telefono"),
-                        rsInversores.getBoolean("autorizado"));
+                        rsInversores.getBoolean("autorizado"), rsInversores.getBoolean("solicitadoBaja"), rsInversores.getFloat("cuenta"));
                 resultado.add(inversorActual);
             }
         } catch (SQLException e) {
@@ -182,7 +182,7 @@ public class DAOUsuarios extends AbstractDAO {
                         rsEmpresas.getString("cif"),
                         rsEmpresas.getString("direccion"),
                         rsEmpresas.getString("telefono"),
-                        rsEmpresas.getBoolean("autorizado"));
+                        rsEmpresas.getBoolean("autorizado"), rsEmpresas.getBoolean("solicitadoBaja"), rsEmpresas.getFloat("cuenta"));
                 resultado.add(empresaActual);
             }
         } catch (SQLException e) {
@@ -219,7 +219,7 @@ public class DAOUsuarios extends AbstractDAO {
             // porque devolver null podría causar problemas y además después podremos juntas las listas
             // fácilmente si es necesario - PabloD
             while (rsUsuarios.next()) {
-                reguladorActual = new Regulador(rsUsuarios.getString("id_usuario"));
+                reguladorActual = new Regulador(rsUsuarios.getString("id_usuario"), rsUsuarios.getBoolean("autorizado"), rsUsuarios.getBoolean("solicitadoBaja"));
                 resultado.add(reguladorActual);
             }
         } catch (SQLException e) {
@@ -244,7 +244,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         con = this.getConexion();
 
-        String consulta = "select * from usuario where id_usuario=?"; //pillo todo donde el ID sea el mismo (solo quiero el RST para saber si es vacio)
+        String consulta = "select id_usuario, cuenta from usuario where id_usuario=?"; //pillo todo donde el ID sea el mismo (solo quiero el RST para saber si es vacio)
 
         try {
             stmCheck = con.prepareStatement(consulta);
@@ -547,7 +547,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmInversores.setBoolean(1,autorizado);
             rst = stmInversores.executeQuery();
             while (rst.next()) {
-                Inversor i = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), autorizado); 
+                Inversor i = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), autorizado, rst.getBoolean("solicitadoBaja")); 
                 stmInversores = con.prepareStatement("select * from usuario where id_usuario = ?");
                 stmInversores.setString(1, rst.getString("id_usuario"));
                 
@@ -592,7 +592,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmEmpresas.setBoolean(1,autorizado);
             rst = stmEmpresas.executeQuery();
             while (rst.next()) {
-                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getString("direccion"), rst.getString("telefono"), autorizado);
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getString("direccion"), rst.getString("telefono"), autorizado, rst.getBoolean("solicitadoBaja"));
                 stmEmpresas = con.prepareStatement("select * from usuario where id_usuario = ?");
                 stmEmpresas.setString(1, rst.getString("id_usuario"));
                 

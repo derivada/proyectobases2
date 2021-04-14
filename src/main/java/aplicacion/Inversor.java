@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacion;
 
 /**
@@ -14,15 +9,15 @@ public class Inversor extends Usuario{
     private String dni;
     private String direccion;
     private String telefono;
-    private boolean autorizado;
+    private Float cuenta;
 
-    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono, boolean autorizado) {
-        super(idUsuario);
+    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono, boolean autorizadoAlta, boolean solicitadoBaja, Float cuenta) {
+        super(idUsuario, autorizadoAlta, solicitadoBaja);
         this.nombre = nombre;
         this.dni = dni;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.autorizado = autorizado;
+        this.cuenta = cuenta;
     }
 
     
@@ -62,14 +57,21 @@ public class Inversor extends Usuario{
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    public boolean isAutorizado() {
-        return autorizado;
+    
+    public boolean isAutorizado(){
+        Usuario u = (Usuario)this;
+        return u.isAutorizadoAlta();
     }
 
-    public void setAutorizado(boolean autorizado) {
-        this.autorizado = autorizado;
+    public Float getCuenta() {
+        return cuenta;
     }
+
+    public void setCuenta(Float cuenta) {
+        this.cuenta = cuenta;
+    }
+    
+    
     
     
 }

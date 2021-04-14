@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacion;
 
 /**
@@ -11,8 +6,8 @@ package aplicacion;
  */
 public class Regulador extends Usuario{
 
-    public Regulador(String idUsuario) {
-        super(idUsuario);
+    public Regulador(String idUsuario, boolean autorizadoAlta, boolean solicitadoBaja) {
+        super(idUsuario, autorizadoAlta, solicitadoBaja);
     }
 
     @Override
