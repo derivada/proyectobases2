@@ -632,6 +632,7 @@ public class VEmpresa extends javax.swing.JFrame {
     }
     
     public void rellenarHuecos(){
+        //aqui faltaria rellenar las tablas
         totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getCuenta()));
