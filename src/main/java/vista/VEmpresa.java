@@ -23,6 +23,7 @@ public class VEmpresa extends javax.swing.JFrame {
         // También hay un problema importante aquí. El saldo no es parte de la entidad Empresa, deberíamos
         // añadirlo??
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
+        this.rellenarHuecos();
         tipoTextBox.setText("Empresa");
     }
 
@@ -267,6 +268,11 @@ public class VEmpresa extends javax.swing.JFrame {
         participacionesLabel.setText("Número de participaciones");
 
         participacionesBoton.setText("Ofertar participaciones");
+        participacionesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                participacionesBotonActionPerformed(evt);
+            }
+        });
 
         totalLabel.setText("Número total de participaciones disponibles");
 
@@ -505,6 +511,11 @@ public class VEmpresa extends javax.swing.JFrame {
         this.eliminarParticipaciones();
     }//GEN-LAST:event_bajaParticipacionesBotonActionPerformed
 
+    private void participacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesBotonActionPerformed
+        // TODO add your handling code here:
+        this.emitirParticipaciones();
+    }//GEN-LAST:event_participacionesBotonActionPerformed
+
     
     public void AnunciarBeneficios(){
         
@@ -613,6 +624,7 @@ public class VEmpresa extends javax.swing.JFrame {
     }
     
     public void rellenarHuecos(){
+         totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
@@ -624,7 +636,6 @@ public class VEmpresa extends javax.swing.JFrame {
         //la funcion getPartPropEmpresa devuelve la cantidad de participaciones que ha emitido la empresa
         int participacionesTot = fa.getPartPropEmpresa(e);
         totalTextBox.setText(String.valueOf(participacionesTot));
-        
-        participacionesTextBox.setText("Introduzca un número.");
+        precioParticipaciones.setText("0");
     }
 }

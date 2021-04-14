@@ -439,6 +439,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ofertar participaciones"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="participacionesBotonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="vista.componentes.Etiqueta" name="totalLabel">
               <Properties>

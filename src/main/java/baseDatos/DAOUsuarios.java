@@ -425,14 +425,40 @@ public class DAOUsuarios extends AbstractDAO {
         return result;
     }
 
-    public void emitirParticipaciones(Empresa e, int emision) {
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        int antiguasPart = getPartPropEmpresa(e);
+        PreparedStatement stmUpdate = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+        String consulta = "update participacionesempresa "
+                + "set numparticipaciones=? "
+                + "where usuario=? AND empresa=?";
+        
+        try {
+                stmUpdate = con.prepareStatement(consulta);
+                stmUpdate.setInt(1, antiguasPart - baja);
+                stmUpdate.setString(2, e.getIdUsuario());
+                stmUpdate.setString(3, e.getIdUsuario());
+            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                manejarExcepcionSQL(ex);
+            } finally {
+                try {
+                    stmUpdate.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
+            }
+        
+    }
+    public void emitirParticipaciones(Empresa e, int emision, int precio) {
         int antiguasPart = 0;
         PreparedStatement stmAntiguas = null;
         PreparedStatement stmUpdate = null;
         PreparedStatement stmNueva = null;
         ResultSet rst;
-        ResultSet rstUp;
-        ResultSet rstNu;
         Connection con;
 
         con = this.getConexion();
@@ -446,7 +472,7 @@ public class DAOUsuarios extends AbstractDAO {
                 + "set numparticipaciones=? "
                 + "where usuario=? AND empresa=?";
 
-        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones) values(?,now(),?);";
+        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
 
         try {
             con.setAutoCommit(false);
@@ -461,8 +487,7 @@ public class DAOUsuarios extends AbstractDAO {
                 stmNueva = con.prepareStatement(consulta3);
                 stmNueva.setString(1, e.getIdUsuario());
                 stmNueva.setInt(2, emision);
-
-
+                stmNueva.setInt(3, precio);
                 stmNueva.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                 manejarExcepcionSQL(ex);
@@ -478,7 +503,6 @@ public class DAOUsuarios extends AbstractDAO {
                 stmUpdate.setInt(1, emision + antiguasPart);
                 stmUpdate.setString(2, e.getIdUsuario());
                 stmUpdate.setString(3, e.getIdUsuario());
-
                 stmUpdate.executeUpdate();
             } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
                 manejarExcepcionSQL(ex);
