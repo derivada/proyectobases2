@@ -450,7 +450,7 @@ public class DAOUsuarios extends AbstractDAO {
         return result;
     }
     
-    public void emitirParticipaciones(Empresa e, int emision){
+    public void emitirParticipaciones(Empresa e, int emision, int precio){
         int antiguasPart=0;
         PreparedStatement stmAntiguas = null;
         PreparedStatement stmUpdate = null;
@@ -471,7 +471,7 @@ public class DAOUsuarios extends AbstractDAO {
                 + "set numparticipaciones=? "
                 + "where usuario=? AND empresa=?";
         
-        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones) values(?,now(),?);";
+        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
 
         try {
             con.setAutoCommit(false);
@@ -486,6 +486,7 @@ public class DAOUsuarios extends AbstractDAO {
                 stmNueva = con.prepareStatement(consulta3);
                 stmNueva.setString(1, e.getIdUsuario());
                 stmNueva.setInt(2, emision);
+                stmNueva.setInt(3, precio);
                 
                 stmNueva.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -527,6 +528,69 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
         
+    }
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        int antiguasPart=0;
+        PreparedStatement stmAntiguas = null;
+        PreparedStatement stmUpdate = null;
+        PreparedStatement stmNueva = null;
+        ResultSet rst;
+        ResultSet rstUp;
+        ResultSet rstNu;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select numparticipaciones "
+                + "from participacionesempresa "
+                + "where usuario=? AND empresa=?";
+        
+        
+        String consulta2 = "update participacionesempresa "
+                + "set numparticipaciones=? "
+                + "where usuario=? AND empresa=?";
+        
+       
+
+        try {
+            con.setAutoCommit(false);
+            stmAntiguas = con.prepareStatement(consulta);
+            stmAntiguas.setString(1, e.getIdUsuario());
+            stmAntiguas.setString(2, e.getIdUsuario());
+            rst = stmAntiguas.executeQuery();
+            while (rst.next()) {
+                antiguasPart = rst.getInt("numparticipaciones");
+            }
+            
+            try {
+                stmUpdate = con.prepareStatement(consulta2);
+                stmUpdate.setInt(1, antiguasPart - baja);
+                stmUpdate.setString(2, e.getIdUsuario());
+                stmUpdate.setString(3, e.getIdUsuario());
+                stmUpdate.executeUpdate();
+            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                System.out.println(ex.getMessage());
+                this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+            } finally {
+                try {
+                    stmUpdate.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
+            }
+            con.commit();
+            con.setAutoCommit(true);
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            System.out.println(ex.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(ex.getMessage());
+        } finally {
+            try {
+                stmAntiguas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
 
     public ArrayList<Inversor> obtenerInversoresPorAutorizacion(Boolean autorizado){

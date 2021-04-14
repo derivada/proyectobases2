@@ -81,8 +81,12 @@ public class GestionUsuarios {
         return fbd.getPartPropEmpresa(e);
     }
     
-    public void emitirParticipaciones(Empresa e, int emision){
-        fbd.emitirParticipaciones(e, emision);
+    public void emitirParticipaciones(Empresa e, int emision, int precio){
+        fbd.emitirParticipaciones(e, emision, precio);
+    }
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        fbd.bajaParticipaciones(e, baja);
     }
     public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
         ArrayList<Usuario> resultado = new ArrayList<>();

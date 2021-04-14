@@ -476,7 +476,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="368" max="-2" attributes="0"/>
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -538,7 +538,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
@@ -546,12 +546,14 @@
                           <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
                           <Component id="participacionesTextBox" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="398" max="32767" attributes="0"/>
-                      <Component id="participacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="bajaPArticipaciones" min="-2" pref="308" max="-2" attributes="0"/>
+                          <Component id="precioPart" min="-2" pref="315" max="-2" attributes="0"/>
+                          <Component id="participacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
+                          <Component id="totalLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -559,16 +561,24 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="participacionesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="participacionesTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="participacionesTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="precioPart" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="totalTextBox" min="-2" pref="43" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="participacionesBoton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="345" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="bajaPArticipaciones" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="252" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -590,8 +600,23 @@
             </Component>
             <Component class="vista.componentes.Etiqueta" name="totalLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="N&#xfa;mero total de participaciones"/>
+                <Property name="text" type="java.lang.String" value="N&#xfa;mero total de participaciones disponibles"/>
               </Properties>
+            </Component>
+            <Component class="vista.componentes.TextBox" name="precioPart">
+            </Component>
+            <Component class="vista.componentes.Etiqueta" name="totalLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Precio"/>
+              </Properties>
+            </Component>
+            <Component class="vista.componentes.Boton" name="bajaPArticipaciones">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Eliminar participaciones"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bajaPArticipacionesActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

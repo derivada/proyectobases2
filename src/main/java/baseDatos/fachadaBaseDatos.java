@@ -101,8 +101,12 @@ public class fachadaBaseDatos {
         return daoUsuarios.getPartPropEmpresa(e);
     }
     
-    public void emitirParticipaciones(Empresa e, int emision){
-        daoUsuarios.emitirParticipaciones(e, emision);
+    public void emitirParticipaciones(Empresa e, int emision, int precio){
+        daoUsuarios.emitirParticipaciones(e, emision, precio);
+    }
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        daoUsuarios.bajaParticipaciones(e, baja);
     }
     public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado){
         return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);

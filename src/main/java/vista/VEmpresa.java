@@ -24,6 +24,7 @@ public class VEmpresa extends javax.swing.JFrame {
         // añadirlo??
         saldoTextBox.setText(String.valueOf(e.getCuenta()));
         tipoTextBox.setText("Empresa");
+        this.rellenarHuecos();
     }
 
     /**
@@ -83,6 +84,9 @@ public class VEmpresa extends javax.swing.JFrame {
         participacionesTextBox = new vista.componentes.TextBox();
         participacionesBoton = new vista.componentes.Boton();
         totalLabel = new vista.componentes.Etiqueta();
+        precioPart = new vista.componentes.TextBox();
+        totalLabel1 = new vista.componentes.Etiqueta();
+        bajaPArticipaciones = new vista.componentes.Boton();
         claveTextBox = new vista.componentes.PasswordField();
         modificarBoton = new vista.componentes.Boton();
 
@@ -339,7 +343,7 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Venta", tabs8);
@@ -348,39 +352,56 @@ public class VEmpresa extends javax.swing.JFrame {
 
         participacionesBoton.setText("Ofertar participaciones");
 
-        totalLabel.setText("Número total de participaciones");
+        totalLabel.setText("Número total de participaciones disponibles");
+
+        totalLabel1.setText("Precio");
+
+        bajaPArticipaciones.setText("Eliminar participaciones");
+        bajaPArticipaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaPArticipacionesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tabs10Layout = new javax.swing.GroupLayout(tabs10);
         tabs10.setLayout(tabs10Layout);
         tabs10Layout.setHorizontalGroup(
             tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs10Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
-                .addContainerGap(398, Short.MAX_VALUE)
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bajaPArticipaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioPart, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(92, 92, 92))
         );
         tabs10Layout.setVerticalGroup(
             tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs10Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioPart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(bajaPArticipaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(252, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ofertar participaciones", tabs10);
@@ -496,10 +517,16 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarBotonActionPerformed
 
+    private void bajaPArticipacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaPArticipacionesActionPerformed
+        // TODO add your handling code here:
+        this.eliminarParticipaciones();
+    }//GEN-LAST:event_bajaPArticipacionesActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton bajaBoton;
+    private vista.componentes.Boton bajaPArticipaciones;
     private vista.componentes.Boton beneficiosBoton;
     private javax.swing.ButtonGroup buttonGroup1;
     private vista.componentes.Etiqueta claveLabel;
@@ -528,6 +555,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta participacionesLabel;
     private vista.componentes.TextBox participacionesTextBox;
     private vista.componentes.Etiqueta precioLabel;
+    private vista.componentes.TextBox precioPart;
     private vista.componentes.TextBox precioTextBox;
     private vista.componentes.Etiqueta precioVentaLabel;
     private vista.componentes.TextBox precioVentaTextBox;
@@ -546,6 +574,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta tipoLabel;
     private vista.componentes.TextBox tipoTextBox;
     private vista.componentes.Etiqueta totalLabel;
+    private vista.componentes.Etiqueta totalLabel1;
     private vista.componentes.TextBox totalTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.componentes.Boton ventaBoton;
@@ -565,7 +594,9 @@ public class VEmpresa extends javax.swing.JFrame {
         
         int emision = Integer.parseInt(participaciones);
         
-        fa.emitirParticipaciones(e, emision);
+        int precio = Integer.parseInt(precioPart.getText());
+        
+        fa.emitirParticipaciones(e, emision, precio);
         
         this.rellenarHuecos();
            
@@ -583,7 +614,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
         //aqui iria la consulta, cuando me apetezca la hago
         
-        //fa.bajaParticipaciones(e, bajaP);
+        fa.bajaParticipaciones(e, bajaP);
         
         this.rellenarHuecos();
         
@@ -601,6 +632,7 @@ public class VEmpresa extends javax.swing.JFrame {
     }
     
     public void rellenarHuecos(){
+        totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getCuenta()));
         tipoTextBox.setText("Empresa");
@@ -613,6 +645,5 @@ public class VEmpresa extends javax.swing.JFrame {
         int participacionesTot = fa.getPartPropEmpresa(e);
         totalTextBox.setText(String.valueOf(participacionesTot));
         
-        participacionesTextBox.setText("Introduzca un número.");
     }
 }

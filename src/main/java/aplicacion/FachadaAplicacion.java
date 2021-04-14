@@ -88,9 +88,14 @@ public class FachadaAplicacion {
         return cu.getPartPropEmpresa(e);
     }
     
-    public void emitirParticipaciones(Empresa e, int emision){
-        cu.emitirParticipaciones(e, emision);
+    public void emitirParticipaciones(Empresa e, int emision, int precio){
+        cu.emitirParticipaciones(e, emision, precio);
     }
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        cu.bajaParticipaciones(e, baja);
+    }
+    
     public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion){
         return cu.obtenerUsuarioPorAutorizacion(autorizacion);
     }
