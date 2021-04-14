@@ -58,6 +58,7 @@ public class AnuncioBeneficios {
         this.importeparticipacion = importeparticipacion;
     }
 
+
     public boolean isSoicitadobaja() {
         return soicitadobaja;
     }
@@ -65,7 +66,11 @@ public class AnuncioBeneficios {
     public void setSoicitadobaja(boolean soicitadobaja) {
         this.soicitadobaja = soicitadobaja;
     }
-    
+     public Object getImporteParticipacion() {
+        // TODO
+        return null;
+    }
 
    
+
 }

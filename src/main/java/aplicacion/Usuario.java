@@ -8,12 +8,12 @@ package aplicacion;
 import java.util.Objects;
 
 /**
- *
  * @author migue
  */
 public class Usuario {
     private String idUsuario;
     private String clave;
+
     private boolean solititadobaja; 
     private boolean autorizado; 
 
@@ -27,8 +27,9 @@ public class Usuario {
    
     public Usuario(String idUsuario){
         this.idUsuario=idUsuario;
+
     }
-    
+
 
     public String getIdUsuario() {
         return idUsuario;
@@ -91,8 +92,6 @@ public class Usuario {
         }
         return true;
     }
-    
-    
-    
-    
+
+
 }
