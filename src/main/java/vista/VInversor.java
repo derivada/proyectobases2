@@ -19,7 +19,7 @@ public class VInversor extends javax.swing.JFrame {
         initComponents();
         idTextBox.setText(i.getIdUsuario());
         // (Ver VEmpresa) claveTextBox.setText(i.getClave());
-        saldoTextBox.setText(String.valueOf(i.getCuenta()));
+        saldoTextBox.setText(String.valueOf(i.getSaldo()));
         tipoTextBox.setText("Inversor");
     }
 

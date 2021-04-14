@@ -14,15 +14,18 @@ public class Empresa extends Usuario{
     private String CIF;
     private String direccion;
     private String telefono;
-    private boolean autorizado;
+    private Float saldo; 
+    private Float saldobloqueado; 
 
-    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono, boolean autorizado) {
+
+    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono,Float saldo,Float saldobloqueado) {
         super(idUsuario);
         this.nombre = nombre;
         this.CIF = CIF;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.autorizado = autorizado;
+        this.saldo=saldo; 
+        this.saldobloqueado=saldobloqueado; 
     }
 
     @Override
@@ -63,13 +66,23 @@ public class Empresa extends Usuario{
         this.telefono = telefono;
     }
 
-    public boolean isAutorizado() {
-        return autorizado;
+    public Float getSaldo() {
+        return saldo;
     }
 
-    public void setAutorizado(boolean autorizado) {
-        this.autorizado = autorizado;
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
+    }
+
+    public Float getSaldobloqueado() {
+        return saldobloqueado;
+    }
+
+    public void setSaldobloqueado(Float saldobloqueado) {
+        this.saldobloqueado = saldobloqueado;
     }
     
+
+
     
 }

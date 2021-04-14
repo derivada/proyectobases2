@@ -14,15 +14,15 @@ public class Inversor extends Usuario{
     private String dni;
     private String direccion;
     private String telefono;
-    private boolean autorizado;
+    private Float saldo; 
 
-    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono, boolean autorizado) {
+    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono,Float saldo) {
         super(idUsuario);
         this.nombre = nombre;
         this.dni = dni;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.autorizado = autorizado;
+        this.saldo=saldo; 
     }
 
     
@@ -63,13 +63,15 @@ public class Inversor extends Usuario{
         this.telefono = telefono;
     }
 
-    public boolean isAutorizado() {
-        return autorizado;
+    public Float getSaldo() {
+        return saldo;
     }
 
-    public void setAutorizado(boolean autorizado) {
-        this.autorizado = autorizado;
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
     }
     
     
+
+ 
 }

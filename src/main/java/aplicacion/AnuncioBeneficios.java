@@ -16,13 +16,14 @@ public class AnuncioBeneficios {
     private Date fechaPago; 
     private Date fechaAnuncio; 
     private Float importeparticipacion; 
+    private boolean soicitadobaja; 
 
-
-    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion) {
+    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion,boolean solicitadobaja) {
         this.empresa = empresa;
         this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
         this.importeparticipacion = importeparticipacion;
+        this.soicitadobaja=solicitadobaja; 
     }
 
     public String getEmpresa() {
@@ -56,6 +57,15 @@ public class AnuncioBeneficios {
     public void setImporteparticipacion(Float importeparticipacion) {
         this.importeparticipacion = importeparticipacion;
     }
+
+    public boolean isSoicitadobaja() {
+        return soicitadobaja;
+    }
+
+    public void setSoicitadobaja(boolean soicitadobaja) {
+        this.soicitadobaja = soicitadobaja;
+    }
+    
 
    
 }

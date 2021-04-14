@@ -22,7 +22,7 @@ public class VEmpresa extends javax.swing.JFrame {
         // guardado permanentemente aquí claveTextBox.setText(e.getClave());
         // También hay un problema importante aquí. El saldo no es parte de la entidad Empresa, deberíamos
         // añadirlo??
-        saldoTextBox.setText(String.valueOf(e.getCuenta()));
+        saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
     }
 
@@ -49,15 +49,6 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoLabel = new vista.componentes.Etiqueta();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tabs11 = new vista.componentes.Tabs();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tabla1 = new vista.componentes.Tabla();
-        tabs9 = new vista.componentes.Tabs();
-        importeTextBox = new vista.componentes.TextBox();
-        importeLabel = new vista.componentes.Etiqueta();
-        beneficiosBoton = new vista.componentes.Boton();
-        pagarBoton = new vista.componentes.Boton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tabla2 = new vista.componentes.Tabla();
         tabs7 = new vista.componentes.Tabs();
         empresaTextBox = new vista.componentes.TextBox();
         precioTextBox = new vista.componentes.TextBox();
@@ -65,8 +56,6 @@ public class VEmpresa extends javax.swing.JFrame {
         precioLabel = new vista.componentes.Etiqueta();
         filtrarLabel = new vista.componentes.Etiqueta();
         compraBoton = new vista.componentes.Boton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tabla3 = new vista.componentes.Tabla();
         tabs8 = new vista.componentes.Tabs();
         empresaVentaTextBox = new vista.componentes.TextBox();
         precioVentaTextBox = new vista.componentes.TextBox();
@@ -75,14 +64,19 @@ public class VEmpresa extends javax.swing.JFrame {
         empresaVentaLabel = new vista.componentes.Etiqueta();
         precioVentaLabel = new vista.componentes.Etiqueta();
         numeroVentaLabel = new vista.componentes.Etiqueta();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla4 = new vista.componentes.Tabla();
         tabs10 = new vista.componentes.Tabs();
         participacionesLabel = new vista.componentes.Etiqueta();
         totalTextBox = new vista.componentes.TextBox();
         participacionesTextBox = new vista.componentes.TextBox();
         participacionesBoton = new vista.componentes.Boton();
         totalLabel = new vista.componentes.Etiqueta();
+        tabs9 = new vista.componentes.Tabs();
+        importeTextBox = new vista.componentes.TextBox();
+        importeLabel = new vista.componentes.Etiqueta();
+        beneficiosBoton = new vista.componentes.Boton();
+        pagarBoton = new vista.componentes.Boton();
+        FechaTextBox = new vista.componentes.TextBox();
+        FechaLabel = new vista.componentes.Etiqueta();
         claveTextBox = new vista.componentes.PasswordField();
         modificarBoton = new vista.componentes.Boton();
 
@@ -130,81 +124,18 @@ public class VEmpresa extends javax.swing.JFrame {
 
         saldoLabel.setText("Saldo");
 
-        tabla1.setModel(new ModeloTablaMovimientos());
-        jScrollPane5.setViewportView(tabla1);
-
         javax.swing.GroupLayout tabs11Layout = new javax.swing.GroupLayout(tabs11);
         tabs11.setLayout(tabs11Layout);
         tabs11Layout.setHorizontalGroup(
             tabs11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs11Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+            .addGap(0, 802, Short.MAX_VALUE)
         );
         tabs11Layout.setVerticalGroup(
             tabs11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs11Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+            .addGap(0, 603, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lista de movimientos", tabs11);
-
-        importeLabel.setText("Importe por participación");
-
-        beneficiosBoton.setText("Anunciar beneficios");
-        beneficiosBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                beneficiosBotonActionPerformed(evt);
-            }
-        });
-
-        pagarBoton.setText("Pagar");
-        pagarBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pagarBotonActionPerformed(evt);
-            }
-        });
-
-        tabla2.setModel(new ModeloTablaBeneficios());
-        jScrollPane4.setViewportView(tabla2);
-
-        javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
-        tabs9.setLayout(tabs9Layout);
-        tabs9Layout.setHorizontalGroup(
-            tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs9Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(tabs9Layout.createSequentialGroup()
-                            .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-        tabs9Layout.setVerticalGroup(
-            tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
-        );
-
-        jTabbedPane1.addTab("Anunciar beneficios", tabs9);
 
         empresaTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,10 +162,6 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         });
 
-        tabla3.setModel(new ModeloTablaCompra());
-        tabla3.setToolTipText("");
-        jScrollPane3.setViewportView(tabla3);
-
         javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
         tabs7.setLayout(tabs7Layout);
         tabs7Layout.setHorizontalGroup(
@@ -260,10 +187,8 @@ public class VEmpresa extends javax.swing.JFrame {
                             .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(298, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 494, Short.MAX_VALUE)
+                .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
         tabs7Layout.setVerticalGroup(
@@ -279,11 +204,9 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(empresaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(precioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(57, 57, 57)
                 .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(384, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compra", tabs7);
@@ -296,17 +219,13 @@ public class VEmpresa extends javax.swing.JFrame {
 
         numeroVentaLabel.setText("Número de participaciones");
 
-        tabla4.setModel(new ModeloTablaVenta());
-        jScrollPane1.setViewportView(tabla4);
-
         javax.swing.GroupLayout tabs8Layout = new javax.swing.GroupLayout(tabs8);
         tabs8.setLayout(tabs8Layout);
         tabs8Layout.setHorizontalGroup(
             tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs8Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(tabs8Layout.createSequentialGroup()
                         .addGroup(tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -318,7 +237,7 @@ public class VEmpresa extends javax.swing.JFrame {
                             .addComponent(numeroVentaTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ventaBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         tabs8Layout.setVerticalGroup(
             tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,9 +256,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addGroup(tabs8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ventaBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Venta", tabs8);
@@ -384,6 +301,68 @@ public class VEmpresa extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Ofertar participaciones", tabs10);
+
+        importeLabel.setText("Importe por participación");
+
+        beneficiosBoton.setText("Anunciar beneficios");
+        beneficiosBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beneficiosBotonActionPerformed(evt);
+            }
+        });
+
+        pagarBoton.setText("Pagar");
+        pagarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarBotonActionPerformed(evt);
+            }
+        });
+
+        FechaTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FechaTextBoxActionPerformed(evt);
+            }
+        });
+
+        FechaLabel.setText("Fecha de pago");
+
+        javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
+        tabs9.setLayout(tabs9Layout);
+        tabs9Layout.setHorizontalGroup(
+            tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabs9Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(tabs9Layout.createSequentialGroup()
+                            .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+        tabs9Layout.setVerticalGroup(
+            tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
+                .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
+        jTabbedPane1.addTab("Anunciar beneficios", tabs9);
 
         modificarBoton.setText("Modificar usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -480,6 +459,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
     private void beneficiosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosBotonActionPerformed
         // TODO add your handling code here:
+        AnunciarBeneficios(); 
     }//GEN-LAST:event_beneficiosBotonActionPerformed
 
     private void pagarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBotonActionPerformed
@@ -496,9 +476,19 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarBotonActionPerformed
 
+    private void FechaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FechaTextBoxActionPerformed
+
+    
+    public void AnunciarBeneficios(){
+        
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vista.componentes.Etiqueta FechaLabel;
+    private vista.componentes.TextBox FechaTextBox;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Boton beneficiosBoton;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -515,10 +505,6 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox idTextBox;
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Boton modificarBoton;
     private vista.componentes.Etiqueta numeroVentaLabel;
@@ -533,10 +519,6 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox precioVentaTextBox;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
-    private vista.componentes.Tabla tabla1;
-    private vista.componentes.Tabla tabla2;
-    private vista.componentes.Tabla tabla3;
-    private vista.componentes.Tabla tabla4;
     private vista.componentes.Tabs tabs10;
     private vista.componentes.Tabs tabs11;
     private vista.componentes.Tabs tabs7;
