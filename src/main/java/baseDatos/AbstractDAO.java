@@ -1,19 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package baseDatos;
+
+import vista.componentes.DialogoInfo;
 
 import java.sql.SQLException;
 
-/**
- * @author basesdatos
- */
 public abstract class AbstractDAO {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
-
 
     protected java.sql.Connection getConexion() {
         return this.conexion;
@@ -33,9 +26,9 @@ public abstract class AbstractDAO {
 
     protected void manejarExcepcionSQL(SQLException e) {
         System.err.println("Excepción al acceder a la base de datos...");
-        System.err.println(e.getMessage());
         e.printStackTrace();
-        this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        this.getFachadaAplicacion().muestraExcepcion("Excepción al acceder a la base de datos", e.getMessage(),
+                DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
     }
 
 }

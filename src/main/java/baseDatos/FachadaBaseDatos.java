@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package baseDatos;
 
-import aplicacion.Empresa;
-import aplicacion.Inversor;
-import aplicacion.Regulador;
-import aplicacion.Usuario;
+import aplicacion.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,16 +8,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-/**
- * @author migue
- */
-public class fachadaBaseDatos {
+public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private static final String nombreArchivo = "baseDatos.properties";
 
-    public fachadaBaseDatos(aplicacion.FachadaAplicacion fa) {
+    public FachadaAplicacion getFachadaAplicacion(){
+        return this.fa;
+    }
+
+    public FachadaBaseDatos(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
         conectar();
     }
@@ -73,16 +66,8 @@ public class fachadaBaseDatos {
         return daoUsuarios.validarUsuario(nombre, clave);
     }
 
-    public java.util.List<Usuario> obtenerUsuarios() { return daoUsuarios.obtenerUsuarios(); }
-
-    public java.util.List<Inversor> obtenerInversores() { return daoUsuarios.obtenerInversores(); }
-
-    public java.util.List<Empresa> obtenerEmpresas() {
-        return daoUsuarios.obtenerEmpresas();
-    }
-
-    public java.util.List<Regulador> obtenerRegulador() {
-        return daoUsuarios.obtenerRegulador();
+    public java.util.List<String> obtenerListaNombresUsuarios() {
+        return daoUsuarios.obtenerListaNombresUsuarios();
     }
 
     public boolean registroUsuario(Usuario u) {
@@ -96,27 +81,28 @@ public class fachadaBaseDatos {
     public boolean registroEmpresa(Empresa e) {
         return daoUsuarios.registroEmpresa(e);
     }
-    
-    public int getPartPropEmpresa(Empresa e){
+
+    public int getPartPropEmpresa(Empresa e) {
         return daoUsuarios.getPartPropEmpresa(e);
     }
-    
-    public void emitirParticipaciones(Empresa e, int emision){
+
+    public void emitirParticipaciones(Empresa e, int emision) {
         daoUsuarios.emitirParticipaciones(e, emision);
     }
-    public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado){
+
+    public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado) {
         return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
     }
-    
-    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado){
+
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado) {
         return daoUsuarios.obtenerEmpresaPorAutorizacion(autorizado);
     }
-    
-    public void modificarEmpresa(String id_usuario, Empresa u){
+
+    public void modificarEmpresa(String id_usuario, Empresa u) {
         daoUsuarios.modificarDatosEmpresa(id_usuario, u);
     }
 
-    public void modificarInversor(String id_usuario, Inversor u){
+    public void modificarInversor(String id_usuario, Inversor u) {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
 

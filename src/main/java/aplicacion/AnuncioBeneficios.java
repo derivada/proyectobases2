@@ -57,5 +57,9 @@ public class AnuncioBeneficios {
         this.importeparticipacion = importeparticipacion;
     }
 
-   
+
+    public Object getImporteParticipacion() {
+        // TODO
+        return null;
+    }
 }

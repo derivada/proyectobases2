@@ -10,7 +10,9 @@ package aplicacion;
  */
 
 import vista.FachadaGui;
-import baseDatos.fachadaBaseDatos;
+import baseDatos.FachadaBaseDatos;
+import vista.componentes.DialogoInfo;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -18,23 +20,21 @@ import java.util.stream.Collectors;
 
 public class GestionUsuarios {
     FachadaGui fgui;
-    fachadaBaseDatos fbd;
+    FachadaBaseDatos fbd;
 
 
-    public GestionUsuarios(FachadaGui fgui, fachadaBaseDatos fbd) {
+    public GestionUsuarios(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fgui = fgui;
         this.fbd = fbd;
     }
 
     public Usuario validarUsuario(String nombre, String clave) {
-        // Las llamadas a replaceAll son para ignorar los espacios en blanco al
-        // final de los nombres de usuario
-        List<String> listaNombresUsuarios = fbd.obtenerUsuarios().
-                stream().map(u -> u.getIdUsuario().replaceAll("\\s+$", ""))
-                .collect(Collectors.toList());
+
+        List<String> listaNombresUsuarios = fbd.obtenerListaNombresUsuarios();
 
         if (!listaNombresUsuarios.contains(nombre.replaceAll("\\s+$", ""))) {
-            System.out.println("El usuario no está registrado!");
+            fbd.getFachadaAplicacion().muestraExcepcion("Error al autentificar usuario", "El usuario no está registrado!",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
             return null;
         }
 
@@ -44,7 +44,8 @@ public class GestionUsuarios {
         // Si el método devuelve null es que la clave no es correcta
         if (u == null) {
             // TODO: Ventana emergente que muestre que la clave no es correcta
-            System.out.println("La clave introducida no es correcta!");
+            fbd.getFachadaAplicacion().muestraExcepcion("Error al autentificar usuario", "La clave no es correcta!",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
             return null;
         }
 
@@ -53,7 +54,6 @@ public class GestionUsuarios {
     }
 
     public void iniciaInversor(Inversor i, FachadaAplicacion fa) {
-
         fgui.iniciaInversores(i, fa);
     }
 
@@ -86,14 +86,9 @@ public class GestionUsuarios {
     }
     public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
         ArrayList<Usuario> resultado = new ArrayList<>();
-        
-        for(Inversor i:fbd.obtenerInversorPorAutorizacion(autorizado)){
-            resultado.add(i);
-        }
-        
-        for(Empresa e:fbd.obtenerEmpresaPorAutorizacion(autorizado)){
-            resultado.add(e);
-        }
+
+        resultado.addAll(fbd.obtenerInversorPorAutorizacion(autorizado));
+        resultado.addAll(fbd.obtenerEmpresaPorAutorizacion(autorizado));
         
         return resultado;
     }

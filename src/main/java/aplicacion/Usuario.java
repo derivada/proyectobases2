@@ -8,23 +8,24 @@ package aplicacion;
 import java.util.Objects;
 
 /**
- *
  * @author migue
  */
 public class Usuario {
     private String idUsuario;
     private String clave;
     private Float cuenta;
-    
-    public Usuario (String idUsuario, String clave, Float cuenta){
-    this.idUsuario=idUsuario;
-    this.clave=clave;
-    this.cuenta=cuenta;
-   }
-    public Usuario(String idUsuario){
-        this.idUsuario=idUsuario;
+
+    public Usuario(String idUsuario, String clave, Float cuenta) {
+        /* Usar solo para el registro, no cargar contraseñas en el programa */
+        this.idUsuario = idUsuario;
+        this.clave = clave;
+        this.cuenta = cuenta;
     }
-    
+
+    public Usuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
 
     public String getIdUsuario() {
         return idUsuario;
@@ -74,8 +75,6 @@ public class Usuario {
         }
         return true;
     }
-    
-    
-    
-    
+
+
 }

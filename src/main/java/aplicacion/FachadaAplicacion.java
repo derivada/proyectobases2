@@ -1,6 +1,8 @@
 package aplicacion;
 
 import java.util.ArrayList;
+
+import baseDatos.FachadaBaseDatos;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -13,14 +15,14 @@ import java.util.Calendar;
 public class FachadaAplicacion {
 
     FachadaGui fgui;
-    baseDatos.fachadaBaseDatos fbd;
+    FachadaBaseDatos fbd;
     GestionUsuarios cu;
     private final long fechaInicio;
 
     public FachadaAplicacion() {
         fechaInicio = Calendar.getInstance().getTimeInMillis();
         fgui = new FachadaGui(this);
-        fbd = new baseDatos.fachadaBaseDatos(this);
+        fbd = new FachadaBaseDatos(this);
         cu = new GestionUsuarios(fgui, fbd);
     }
 
@@ -37,8 +39,8 @@ public class FachadaAplicacion {
         fgui.muestraExcepcion(padre, titulo, descripcion, nivel, false);
     }
 
-    public void muestraExcepcion(JFrame padre, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
-        fgui.muestraExcepcion(padre, "Mercado de Valores", descripcion, nivel, false);
+    public void muestraExcepcion(String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fgui.muestraExcepcion(null, titulo, descripcion, nivel, false);
     }
 
     public void muestraExcepcion(String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
@@ -83,19 +85,20 @@ public class FachadaAplicacion {
     public boolean registroEmpresa(Empresa e) {
         return cu.registroEmpresa(e);
     }
-    
-    public int getPartPropEmpresa(Empresa e){
+
+    public int getPartPropEmpresa(Empresa e) {
         return cu.getPartPropEmpresa(e);
     }
-    
-    public void emitirParticipaciones(Empresa e, int emision){
+
+    public void emitirParticipaciones(Empresa e, int emision) {
         cu.emitirParticipaciones(e, emision);
     }
-    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion){
+
+    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion) {
         return cu.obtenerUsuarioPorAutorizacion(autorizacion);
     }
-    
-    public void modificarUsuario(String id_usuario, Usuario u){
+
+    public void modificarUsuario(String id_usuario, Usuario u) {
         cu.modificarUsuario(id_usuario, u);
     }
 }
