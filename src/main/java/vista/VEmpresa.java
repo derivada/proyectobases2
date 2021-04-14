@@ -640,7 +640,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
         //aqui iria la consulta, cuando me apetezca la hago
         
-        fa.bajaParticipaciones(e, bajaP);
+        //fa.bajaParticipaciones(e, bajaP);
         
         this.rellenarHuecos();
         
