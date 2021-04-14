@@ -1,16 +1,14 @@
 package vista;
 
-import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
-import aplicacion.Inversor;
 import aplicacion.Regulador;
-import aplicacion.Usuario;
+import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
 import vista.modeloTablas.ModeloTablaTransacciones;
 
-public class VRegulador extends javax.swing.JFrame {
 
+public class VRegulador extends javax.swing.JFrame {
     private final FachadaAplicacion fa;
     private final Regulador r;
 
@@ -22,18 +20,6 @@ public class VRegulador extends javax.swing.JFrame {
         // (Ver clase VEmpresas) claveTextBox.setText(r.getClave());
         saldoTextBox.setText(String.valueOf(r.getCuenta()));
         tipoTextBox.setText("Regulador");
-
-        //Modelo tabla Alta
-        ModeloTablaAlta mTAlta = new ModeloTablaAlta();
-        altaTabla.setModel(mTAlta);
-        mTAlta.setFilas(fa.obtenerUsuariosPorAutorizacion(false));
-        if (mTAlta.getRowCount() > 0) {
-            altaTabla.setRowSelectionInterval(0, 0);
-            altaBoton.setEnabled(true);
-        } else {
-            altaBoton.setEnabled(false);
-        }
-
     }
 
     /**
@@ -47,17 +33,17 @@ public class VRegulador extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tabs5 = new vista.componentes.Tabs();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        altaTabla = new javax.swing.JTable();
         altaBoton = new vista.componentes.Boton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabla1 = new vista.componentes.Tabla();
         tabs6 = new vista.componentes.Tabs();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        bajaTabla = new javax.swing.JTable();
         bajaBoton = new vista.componentes.Boton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla2 = new vista.componentes.Tabla();
         tabs7 = new vista.componentes.Tabs();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        transferenciaTabla = new javax.swing.JTable();
         transferenciaBoton = new vista.componentes.Boton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla3 = new vista.componentes.Tabla();
         saldoLabel = new vista.componentes.Etiqueta();
         desconectarBoton = new vista.componentes.Boton();
         idTextBox = new vista.componentes.TextBox();
@@ -66,12 +52,10 @@ public class VRegulador extends javax.swing.JFrame {
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
         saldoTextBox = new vista.componentes.TextBox();
+        claveTextBox = new vista.componentes.PasswordField();
         claveTextBox1 = new vista.componentes.PasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        altaTabla.setModel(new ModeloTablaAlta());
-        jScrollPane1.setViewportView(altaTabla);
 
         altaBoton.setText("Autorizar");
         altaBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -80,84 +64,86 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        tabla1.setModel(new ModeloTablaAlta());
+        jScrollPane4.setViewportView(tabla1);
+
         javax.swing.GroupLayout tabs5Layout = new javax.swing.GroupLayout(tabs5);
         tabs5.setLayout(tabs5Layout);
         tabs5Layout.setHorizontalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs5Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+                    .addGroup(tabs5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17))
         );
         tabs5Layout.setVerticalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs5Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane1.addTab("Solicitudes de alta", tabs5);
 
-        bajaTabla.setModel(new ModeloTablaBaja());
-        jScrollPane2.setViewportView(bajaTabla);
-
         bajaBoton.setText("Autorizar");
+
+        tabla2.setModel(new ModeloTablaBaja());
+        jScrollPane1.setViewportView(tabla2);
 
         javax.swing.GroupLayout tabs6Layout = new javax.swing.GroupLayout(tabs6);
         tabs6.setLayout(tabs6Layout);
         tabs6Layout.setHorizontalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs6Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(31, 31, 31)
                 .addGroup(tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         tabs6Layout.setVerticalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Solicitudes de baja", tabs6);
 
-        transferenciaTabla.setModel(new ModeloTablaTransacciones());
-        jScrollPane3.setViewportView(transferenciaTabla);
-
         transferenciaBoton.setText("Autorizar");
+
+        tabla3.setModel(new ModeloTablaTransacciones());
+        jScrollPane2.setViewportView(tabla3);
 
         javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
         tabs7.setLayout(tabs7Layout);
         tabs7Layout.setHorizontalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(tabs7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabs7Layout.createSequentialGroup()
-                        .addGap(378, 378, 378)
-                        .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         tabs7Layout.setVerticalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Comprobación de transferencia", tabs7);
@@ -171,7 +157,6 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
-        idTextBox.setEditable(false);
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idTextBoxActionPerformed(evt);
@@ -197,13 +182,6 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
-        claveTextBox1.setEditable(false);
-        claveTextBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                claveTextBox1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,6 +201,11 @@ public class VRegulador extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,33 +224,28 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addGap(11, 11, 11)
                         .addComponent(desconectarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
+                        .addGap(79, 79, 79)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        OtrosComponentes.configurarTabbedPane(jTabbedPane1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
-        ModeloTablaAlta modelo = (ModeloTablaAlta) altaTabla.getModel();
-        Usuario u = modelo.obtenerUsuario(altaTabla.getSelectedRow());
-        if(u instanceof Inversor){
-            Inversor us = (Inversor)u;
-            us.setAutorizado(true);
-        } else {
-            Empresa us = (Empresa)u;
-            us.setAutorizado(true);   
-        }
-        
-        fa.modificarUsuario(u.getIdUsuario(), u);
-        
-        modelo.setFilas(fa.obtenerUsuariosPorAutorizacion(false));
+        // TODO add your handling code here:
     }//GEN-LAST:event_altaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
@@ -288,33 +266,30 @@ public class VRegulador extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_desconectarBotonActionPerformed
 
-    private void claveTextBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveTextBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_claveTextBox1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
-    private javax.swing.JTable altaTabla;
     private vista.componentes.Boton bajaBoton;
-    private javax.swing.JTable bajaTabla;
     private vista.componentes.Etiqueta claveLabel;
+    private vista.componentes.PasswordField claveTextBox;
     private vista.componentes.PasswordField claveTextBox1;
     private vista.componentes.Boton desconectarBoton;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
+    private vista.componentes.Tabla tabla1;
+    private vista.componentes.Tabla tabla2;
+    private vista.componentes.Tabla tabla3;
     private vista.componentes.Tabs tabs5;
     private vista.componentes.Tabs tabs6;
     private vista.componentes.Tabs tabs7;
     private vista.componentes.Etiqueta tipoLabel;
     private vista.componentes.TextBox tipoTextBox;
     private vista.componentes.Boton transferenciaBoton;
-    private javax.swing.JTable transferenciaTabla;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
 }
