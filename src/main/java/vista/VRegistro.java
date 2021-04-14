@@ -268,7 +268,7 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void solicitarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarRegistroActionPerformed
         // TODO add your handling code here:
-        this.solicitarRegistro();
+        //this.solicitarRegistro();
     }//GEN-LAST:event_solicitarRegistroActionPerformed
 
     private void regTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regTipoActionPerformed
