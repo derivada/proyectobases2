@@ -565,7 +565,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
         int emision = Integer.parseInt(participaciones);
         
-        //fa.emitirParticipaciones(e, emision);
+        fa.emitirParticipaciones(e, emision);
         
         this.rellenarHuecos();
            

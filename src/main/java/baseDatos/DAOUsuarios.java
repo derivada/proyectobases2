@@ -487,7 +487,6 @@ public class DAOUsuarios extends AbstractDAO {
                 stmNueva.setString(1, e.getIdUsuario());
                 stmNueva.setInt(2, emision);
                 
-                
                 stmNueva.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                 System.out.println(ex.getMessage());
@@ -504,7 +503,6 @@ public class DAOUsuarios extends AbstractDAO {
                 stmUpdate.setInt(1, emision+antiguasPart);
                 stmUpdate.setString(2, e.getIdUsuario());
                 stmUpdate.setString(3, e.getIdUsuario());
-                
                 stmUpdate.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                 System.out.println(ex.getMessage());
