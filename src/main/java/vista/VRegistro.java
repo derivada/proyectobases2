@@ -44,7 +44,7 @@ public class VRegistro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        regTipo = new javax.swing.JComboBox<>();
+        tipoReg = new javax.swing.JComboBox<>();
         botonCrearSolicitud = new vista.componentes.Boton();
         claveIngresoLabel = new vista.componentes.Etiqueta();
         ingresoLabel = new vista.componentes.Etiqueta();
@@ -58,22 +58,22 @@ public class VRegistro extends javax.swing.JFrame {
         claveRegLabel = new vista.componentes.Etiqueta();
         direccionRegLabel = new vista.componentes.Etiqueta();
         ingresoUsuario = new vista.componentes.TextBox();
-        tipoReg = new vista.componentes.TextBox();
         nombreReg = new vista.componentes.TextBox();
+        CIFReg = new vista.componentes.TextBox();
         botonAceptarIngreso = new vista.componentes.Boton();
-        nombreReg1 = new vista.componentes.TextBox();
-        nombreReg2 = new vista.componentes.TextBox();
-        nombreReg4 = new vista.componentes.TextBox();
+        IDReg = new vista.componentes.TextBox();
+        tlfoReg = new vista.componentes.TextBox();
+        direccionReg = new vista.componentes.TextBox();
         botonSalir = new vista.componentes.BotonVolver();
         ingresoClave = new vista.componentes.PasswordField();
-        regClave = new vista.componentes.PasswordField();
+        claveReg = new vista.componentes.PasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        regTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Empresa", "Inversor", " "}));
-        regTipo.addActionListener(new java.awt.event.ActionListener() {
+        tipoReg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empresa", "Inversor", " " }));
+        tipoReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regTipoActionPerformed(evt);
+                tipoRegActionPerformed(evt);
             }
         });
 
@@ -112,15 +112,15 @@ public class VRegistro extends javax.swing.JFrame {
             }
         });
 
-        tipoReg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoRegActionPerformed(evt);
-            }
-        });
-
         nombreReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreRegActionPerformed(evt);
+            }
+        });
+
+        CIFReg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CIFRegActionPerformed(evt);
             }
         });
 
@@ -131,21 +131,21 @@ public class VRegistro extends javax.swing.JFrame {
             }
         });
 
-        nombreReg1.addActionListener(new java.awt.event.ActionListener() {
+        IDReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreReg1ActionPerformed(evt);
+                IDRegActionPerformed(evt);
             }
         });
 
-        nombreReg2.addActionListener(new java.awt.event.ActionListener() {
+        tlfoReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreReg2ActionPerformed(evt);
+                tlfoRegActionPerformed(evt);
             }
         });
 
-        nombreReg4.addActionListener(new java.awt.event.ActionListener() {
+        direccionReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreReg4ActionPerformed(evt);
+                direccionRegActionPerformed(evt);
             }
         });
 
@@ -161,106 +161,106 @@ public class VRegistro extends javax.swing.JFrame {
             }
         });
 
-        regClave.addActionListener(new java.awt.event.ActionListener() {
+        claveReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regClaveActionPerformed(evt);
+                claveRegActionPerformed(evt);
             }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap(248, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGroup(layout.createSequentialGroup()
-                                                                        .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addGap(48, 48, 48)
-                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                                                .addComponent(ingresoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                                                                .addComponent(ingresoClave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(direccionRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(claveRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(CIFRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(nombreRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(tipoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(registroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(42, 42, 42)
-                                                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                                        .addComponent(nombreReg4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(nombreReg1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(nombreReg2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(nombreReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(tipoReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(regTipo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 386, Short.MAX_VALUE)
-                                        .addComponent(regClave, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
-                                .addGap(225, 225, 225))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(248, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(48, 48, 48)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(ingresoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                        .addComponent(ingresoClave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(direccionRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(claveRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CIFRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombreRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tipoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(registroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(direccionReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(IDReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tlfoReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CIFReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nombreReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tipoReg, javax.swing.GroupLayout.Alignment.TRAILING, 0, 386, Short.MAX_VALUE)
+                    .addComponent(claveReg, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                .addGap(225, 225, 225))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(registroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(71, 71, 71)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ingresoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(tipoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(regTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombreRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(tipoReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ingresoClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(nombreReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(CIFRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombreReg2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombreReg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(claveRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(regClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(direccionRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombreReg4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(35, 35, 35)
-                                                .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(31, 31, 31))))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(registroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ingresoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ingresoClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(CIFReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CIFRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tlfoReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(claveRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(claveReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(direccionRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(direccionReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31))))
         );
 
         pack();
@@ -271,9 +271,9 @@ public class VRegistro extends javax.swing.JFrame {
         this.solicitarRegistro();
     }//GEN-LAST:event_solicitarRegistroActionPerformed
 
-    private void regTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regTipoActionPerformed
+    private void tipoRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_regTipoActionPerformed
+    }//GEN-LAST:event_tipoRegActionPerformed
 
     private void botoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2cancelarRegistroActionPerformed
         // TODO add your handling code here:
@@ -283,30 +283,30 @@ public class VRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ingresoUsuarioActionPerformed
 
-    private void tipoRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoRegActionPerformed
-
     private void nombreRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreRegActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nombreRegActionPerformed
+
+    private void CIFRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CIFRegActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CIFRegActionPerformed
 
     private void botonAceptarIngresocancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarIngresocancelarRegistroActionPerformed
         // TODO add your handling code here:
         this.validarUsuario();
     }//GEN-LAST:event_botonAceptarIngresocancelarRegistroActionPerformed
 
-    private void nombreReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReg1ActionPerformed
+    private void IDRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreReg1ActionPerformed
+    }//GEN-LAST:event_IDRegActionPerformed
 
-    private void nombreReg2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReg2ActionPerformed
+    private void tlfoRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tlfoRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreReg2ActionPerformed
+    }//GEN-LAST:event_tlfoRegActionPerformed
 
-    private void nombreReg4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReg4ActionPerformed
+    private void direccionRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreReg4ActionPerformed
+    }//GEN-LAST:event_direccionRegActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         // TODO add your handling code here:
@@ -316,34 +316,34 @@ public class VRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ingresoClaveActionPerformed
 
-    private void regClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regClaveActionPerformed
+    private void claveRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_regClaveActionPerformed
+    }//GEN-LAST:event_claveRegActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vista.componentes.TextBox CIFReg;
     private vista.componentes.Etiqueta CIFRegLabel;
+    private vista.componentes.TextBox IDReg;
     private vista.componentes.Boton botonAceptarIngreso;
     private vista.componentes.Boton botonCrearSolicitud;
     private vista.componentes.BotonVolver botonSalir;
     private vista.componentes.Etiqueta claveIngresoLabel;
+    private vista.componentes.PasswordField claveReg;
     private vista.componentes.Etiqueta claveRegLabel;
+    private vista.componentes.TextBox direccionReg;
     private vista.componentes.Etiqueta direccionRegLabel;
     private vista.componentes.Etiqueta idRegLabel;
     private vista.componentes.PasswordField ingresoClave;
     private vista.componentes.Etiqueta ingresoLabel;
     private vista.componentes.TextBox ingresoUsuario;
     private vista.componentes.TextBox nombreReg;
-    private vista.componentes.TextBox nombreReg1;
-    private vista.componentes.TextBox nombreReg2;
-    private vista.componentes.TextBox nombreReg4;
     private vista.componentes.Etiqueta nombreRegLabel;
-    private vista.componentes.PasswordField regClave;
-    private javax.swing.JComboBox<String> regTipo;
     private vista.componentes.Etiqueta registroLabel;
     private vista.componentes.Etiqueta telefonoRegLabel;
-    private vista.componentes.TextBox tipoReg;
+    private javax.swing.JComboBox<String> tipoReg;
     private vista.componentes.Etiqueta tipoRegLabel;
+    private vista.componentes.TextBox tlfoReg;
     private vista.componentes.Etiqueta usuarioIngresoLabel;
     // End of variables declaration//GEN-END:variables
 
@@ -382,12 +382,12 @@ public class VRegistro extends javax.swing.JFrame {
         boolean usuario, inversor, empresa;
 
         //compruebo si estan vacios los campos que no pueden estar vacios
-        if (this.nombreReg1.getText().isEmpty() || this.regClave.getText().isEmpty() || this.tipoReg.getText().isEmpty() || this.nombreReg.getText().isEmpty()) {
+        if (this.IDReg.getText().isEmpty() || this.claveReg.getText().isEmpty() || this.nombreReg.getText().isEmpty() || this.CIFReg.getText().isEmpty()) {
             fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
             return;
         }
 
-        switch (this.regTipo.getSelectedIndex()) {//switch segun el elemento seleccionado en el combobox
+        switch (this.tipoReg.getSelectedIndex()) {//switch segun el elemento seleccionado en el combobox
             case 2:
                 //si en el comboBox de seleccion de tipo tiene el index 2, es que esta en blanco
                 fa.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.");//muestro excepcion
@@ -395,13 +395,13 @@ public class VRegistro extends javax.swing.JFrame {
             case 1: {
                 //si en el comboBox de selecion de tipo tiene el index 1, es que es inversor
                 Inversor i;
-                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText(), (float) 0.0);//creo un nuevo usuario
+                u = new Usuario(this.IDReg.getText(), this.claveReg.getText(), false, false);//creo un nuevo usuario
                 usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
                 if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
                     fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
                 } else {//retorno true, por lo que se ha insertado el nuevo usuario
                     //creo el inversor
-                    i = new Inversor(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false);
+                    i = new Inversor(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), this.direccionReg.getText(), this.tlfoReg.getText(), 0.0f, false, false);
                     inversor = fa.registroInversor(i);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
                     if (inversor == false) {//si por alguna razon ignota esta el id en inversor pero no en usuario (literal imposible), lo decimos
                         fa.muestraExcepcion("El ID estaba en uso en inversor.");//muestro excepcion
@@ -412,13 +412,13 @@ public class VRegistro extends javax.swing.JFrame {
             case 0: {
                 //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
                 Empresa e;
-                u = new Usuario(this.nombreReg1.getText(), this.regClave.getText(), (float) 0.0);//creo nuevo usuario
+                u = new Usuario(this.IDReg.getText(), this.claveReg.getText(), false, false);//creo un nuevo usuario
                 usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
                 if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
                     fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
                 } else {//retorno true, por lo que se ha insertado el nuevo usuario
                     //creo la empresa
-                    e = new Empresa(this.nombreReg1.getText(), this.tipoReg.getText(), this.nombreReg.getText(), this.nombreReg4.getText(), this.nombreReg2.getText(), false);
+                    e = new Empresa(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), 0.0f, 0.0f, this.direccionReg.getText(), this.tlfoReg.getText(), false, false);
                     empresa = fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
                     if (empresa == false) {//si por alguna razon ignota esta el id en empresa pero no en usuario (literal imposible), lo decimos
                         fa.muestraExcepcion("El ID estaba en uso en empresa.");//muestro excepcion

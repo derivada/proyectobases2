@@ -6,26 +6,23 @@
 package aplicacion;
 
 /**
- *
  * @author migue
  */
-public class Empresa extends Usuario{
+public class Empresa extends Usuario {
     private String nombre;
     private String CIF;
     private String direccion;
     private String telefono;
-    private Float saldo; 
-    private Float saldobloqueado; 
+    private Float saldo;
+    private Float saldobloqueado;
 
 
-    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono,Float saldo,Float saldobloqueado,boolean solicitadobaja, boolean autorizado) {
-        super(idUsuario,solicitadobaja,autorizado);
+    public Empresa(String idUsuario, String nombre, String CIF, Float saldo, Float saldobloqueado, String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario, solicitadobaja, autorizado);
         this.nombre = nombre;
         this.CIF = CIF;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.saldo=saldo; 
-        this.saldobloqueado=saldobloqueado; 
     }
 
     @Override
@@ -81,8 +78,6 @@ public class Empresa extends Usuario{
     public void setSaldobloqueado(Float saldobloqueado) {
         this.saldobloqueado = saldobloqueado;
     }
-    
 
 
-    
 }

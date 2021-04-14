@@ -84,6 +84,7 @@ public class GestionUsuarios {
     public void emitirParticipaciones(Empresa e, int emision){
         fbd.emitirParticipaciones(e, emision);
     }
+    /*
     public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
         ArrayList<Usuario> resultado = new ArrayList<>();
 
@@ -92,7 +93,7 @@ public class GestionUsuarios {
         
         return resultado;
     }
-    
+    */
     public void modificarUsuario(String id_usuario, Usuario u){
         if(u instanceof Inversor){
             fbd.modificarInversor(id_usuario, (Inversor)u);

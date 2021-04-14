@@ -28,7 +28,9 @@ public class DAOUsuarios extends AbstractDAO {
      */
     public Usuario validarUsuario(String idUsuario, String clave) {
 
-        Usuario usuario = null;
+        Usuario usuarioValidado = null;
+        Usuario result = null;
+
         Connection con;
         PreparedStatement stmUsuario = null;
         ResultSet rsUsuario;
@@ -47,22 +49,15 @@ public class DAOUsuarios extends AbstractDAO {
              * Obtiene el tipo del usuario que está intentando acceder
              */
             while (rsUsuario.next()) {
-                usuario = new Usuario(rsUsuario.getString("id_usuario"),rsUsuario.getBoolean("solicitadobaja"),rsUsuario.getBoolean("autorizado"));
+                usuarioValidado = new Usuario(rsUsuario.getString("id_usuario"), rsUsuario.getBoolean("solicitadobaja"), rsUsuario.getBoolean("autorizado"));
             }
-            if (usuario != null && usuario.isAutorizado()) {
+            if (usuarioValidado != null && usuarioValidado.isAutorizado()) {
                 // Busca el usuario en cada una de las tablas
-                for (Regulador r : obtenerDatosRegulador(usuario)) {
-                    if (r.getIdUsuario().equals(usuario.getIdUsuario()))
-                        return r;
-                }
-                for (Inversor i : obtenerDatosInversor(usuario)) {
-                    if (i.getIdUsuario().equals(usuario.getIdUsuario()))
-                        return i;
-                }
-                for (Empresa p : obtenerDatosEmpresa(usuario)) {
-                    if (p.getIdUsuario().equals(usuario.getIdUsuario()))
-                        return p;
-                }
+                result = obtenerDatosEmpresa(usuarioValidado);
+                if (result == null)
+                    result = obtenerDatosInversor(usuarioValidado);
+                if (result == null)
+                    result = obtenerDatosRegulador(usuarioValidado);
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -73,7 +68,7 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-        return usuario;
+        return result;
     }
 
     /**
@@ -111,11 +106,10 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     /**
-     * Obtiene una lista de todaos los inversores con todos los atributos de ellos
+     * Obtiene los datos concretos del usuario si este es un inversor
      */
-    public java.util.List<Inversor> obtenerDatosInversor(Usuario user) {
-        java.util.List<Inversor> resultado = new java.util.ArrayList<Inversor>();
-        Inversor inversorActual;
+    public Inversor obtenerDatosInversor(Usuario user) {
+        Inversor resultado = null;
         Connection con;
         PreparedStatement stmCatalogo = null;
         ResultSet rsInversores;
@@ -130,7 +124,7 @@ public class DAOUsuarios extends AbstractDAO {
             rsInversores = stmCatalogo.executeQuery();
             while (rsInversores.next()) {
                 // Empresas con todos sus atributos
-                inversorActual = new Inversor(rsInversores.getString("id_usuario"),
+                resultado = new Inversor(rsInversores.getString("id_usuario"),
                         rsInversores.getString("nombre"),
                         rsInversores.getString("dni"),
                         rsInversores.getString("direccion"),
@@ -138,7 +132,6 @@ public class DAOUsuarios extends AbstractDAO {
                         rsInversores.getFloat("saldo"),
                         user.isSolicitadobaja(),
                         user.isAutorizado());
-                resultado.add(inversorActual);
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -153,11 +146,10 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     /**
-     * Obtiene una lista de todas las empresas con todos los atributos de ellas
+     * Obtiene los datos concretos del usuario si este es una empresa
      */
-    public java.util.List<Empresa> obtenerDatosEmpresa(Usuario user) {
-        java.util.List<Empresa> resultado = new java.util.ArrayList<Empresa>();
-        Empresa empresaActual;
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        Empresa resultado = null;
         Connection con;
         PreparedStatement stmCatalogo = null;
         ResultSet rsEmpresas;
@@ -171,16 +163,15 @@ public class DAOUsuarios extends AbstractDAO {
             rsEmpresas = stmCatalogo.executeQuery();
             while (rsEmpresas.next()) {
                 // Empresas con todos sus atributos
-                empresaActual = new Empresa(rsEmpresas.getString("id_usuario"),
+                resultado = new Empresa(rsEmpresas.getString("id_usuario"),
                         rsEmpresas.getString("nombrecomercial"),
                         rsEmpresas.getString("cif"),
-                        rsEmpresas.getString("direccion"),
-                        rsEmpresas.getString("telefono"),
                         rsEmpresas.getFloat("saldo"),
                         rsEmpresas.getFloat("saldobloqueado"),
+                        rsEmpresas.getString("direccion"),
+                        rsEmpresas.getString("telefono"),
                         user.isSolicitadobaja(),
                         user.isAutorizado());
-                resultado.add(empresaActual);
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -195,12 +186,10 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     /**
-     * Obtiene una lista (de un solo elemento) con el regulador del mercado
-     * Abajo se explica porque mantuve la lista aunque solo sea 1 elemento
+     * Obtiene los datos concretos del usuario si este es el regulador
      */
-    public java.util.List<Regulador> obtenerDatosRegulador(Usuario user) {
-        java.util.List<Regulador> resultado = new java.util.ArrayList<Regulador>();
-        Regulador reguladorActual;
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        Regulador resultado = null;
         Connection con;
         PreparedStatement stmCatalogo = null;
         ResultSet rsUsuarios;
@@ -213,12 +202,8 @@ public class DAOUsuarios extends AbstractDAO {
             stmCatalogo = con.prepareStatement(consulta);
             stmCatalogo.setString(1, user.getIdUsuario());
             rsUsuarios = stmCatalogo.executeQuery();
-            // Solo debería haber un regulador, de todas formas mantengo la Lista
-            // porque devolver null podría causar problemas y además después podremos juntas las listas
-            // fácilmente si es necesario - PabloD
             while (rsUsuarios.next()) {
-                reguladorActual = new Regulador(rsUsuarios.getString("id_usuario"),user.isSolicitadobaja(),user.isAutorizado());
-                resultado.add(reguladorActual);
+                resultado = new Regulador(rsUsuarios.getString("id_usuario"), user.isSolicitadobaja(), user.isAutorizado());
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -264,11 +249,11 @@ public class DAOUsuarios extends AbstractDAO {
 
         if (insertado) {
             try {
-                consulta = "insert into usuario(id_usuario, clave, cuenta) values (?,?,?)";
+                consulta = "insert into usuario(id_usuario, clave, autorizado) values (?,?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, u.getIdUsuario());
                 stmIns.setString(2, u.getClave());
-                stmIns.setFloat(3, u.getCuenta());
+                stmIns.setBoolean(3, false);
                 stmIns.executeUpdate();
             } catch (SQLException e) {
                 manejarExcepcionSQL(e);
@@ -517,7 +502,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
     }
-
+/*
     public ArrayList<Inversor> obtenerInversoresPorAutorizacion(Boolean autorizado) {
         ArrayList<Inversor> resultado = new ArrayList<>();
         PreparedStatement stmInversores = null;
@@ -560,51 +545,55 @@ public class DAOUsuarios extends AbstractDAO {
 
         return resultado;
     }
+    */
 
-    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(Boolean autorizado) {
-        ArrayList<Empresa> resultado = new ArrayList<>();
-        PreparedStatement stmEmpresas = null;
-        ResultSet rst, rst2;
-        Connection con;
+    /*
+        public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(Boolean autorizado) {
+            ArrayList<Empresa> resultado = new ArrayList<>();
+            PreparedStatement stmEmpresas = null;
+            ResultSet rst, rst2;
+            Connection con;
 
-        con = this.getConexion();
+            con = this.getConexion();
 
-        String consulta = "select * from empresa where autorizado = ?";
+            String consulta = "select * from empresa where autorizado = ?";
 
-        try {
-            stmEmpresas = con.prepareStatement(consulta);
-            stmEmpresas.setBoolean(1, autorizado);
-            rst = stmEmpresas.executeQuery();
-            while (rst.next()) {
-                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getString("direccion"), rst.getString("telefono"), autorizado);
-                stmEmpresas = con.prepareStatement("select * from usuario where id_usuario = ?");
-                stmEmpresas.setString(1, rst.getString("id_usuario"));
-
-                rst2 = stmEmpresas.executeQuery();
-                while (rst2.next()) {
-                    Usuario u = (Usuario) e;
-                    u.setClave(rst2.getString("clave"));
-                    u.setIdUsuario(rst2.getString("id_usuario"));
-                    u.setCuenta(rst2.getFloat("cuenta"));
-
-                }
-
-                resultado.add(e);
-
-            }
-        } catch (SQLException ex) {
-            manejarExcepcionSQL(ex);
-        } finally {
             try {
-                stmEmpresas.close();
+                stmEmpresas = con.prepareStatement(consulta);
+                stmEmpresas.setBoolean(1, autorizado);
+                rst = stmEmpresas.executeQuery();
+                while (rst.next()) {
+                    Empresa e = new Empresa(rst.getString("id_usuario"),
+                            rst.getString("nombrecomercial"),
+                            rst.getString("cif"),
+                            rst.getFloat("saldo"),
+                            rst.getFloat("saldobloqueado"),
+                            rst.getString("direccion"),
+                            rst.getString("telefono"));
+                    stmEmpresas = con.prepareStatement("select * from usuario where id_usuario = ?");
+                    stmEmpresas.setString(1, rst.getString("id_usuario"));
+
+                    rst2 = stmEmpresas.executeQuery();
+                    while (rst2.next()) {
+                        Usuario u = (Usuario) e;
+                        u.setClave(rst2.getString("clave"));
+                        u.setIdUsuario(rst2.getString("id_usuario"));
+                    }
+                    resultado.add(e);
+                }
             } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
+                manejarExcepcionSQL(ex);
+            } finally {
+                try {
+                    stmEmpresas.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
             }
+
+            return resultado;
         }
-
-        return resultado;
-    }
-
+    */
     public void modificarDatosEmpresa(String id_usuario, Empresa e) {
         PreparedStatement stmEmpresas = null;
         ResultSet rst;

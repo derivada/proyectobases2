@@ -63,13 +63,13 @@
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="botonCrearSolicitud" alignment="1" pref="386" max="32767" attributes="0"/>
-                  <Component id="nombreReg4" alignment="1" max="32767" attributes="0"/>
-                  <Component id="nombreReg1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="nombreReg2" alignment="1" max="32767" attributes="0"/>
+                  <Component id="direccionReg" alignment="1" max="32767" attributes="0"/>
+                  <Component id="IDReg" alignment="1" max="32767" attributes="0"/>
+                  <Component id="tlfoReg" alignment="1" max="32767" attributes="0"/>
+                  <Component id="CIFReg" alignment="1" max="32767" attributes="0"/>
                   <Component id="nombreReg" alignment="1" max="32767" attributes="0"/>
-                  <Component id="tipoReg" alignment="1" max="32767" attributes="0"/>
-                  <Component id="regTipo" alignment="1" pref="386" max="32767" attributes="0"/>
-                  <Component id="regClave" alignment="0" pref="386" max="32767" attributes="0"/>
+                  <Component id="tipoReg" alignment="1" pref="386" max="32767" attributes="0"/>
+                  <Component id="claveReg" alignment="0" pref="386" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
           </Group>
@@ -88,40 +88,40 @@
                   <Component id="usuarioIngresoLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="ingresoUsuario" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="tipoRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="regTipo" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoReg" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="claveIngresoLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="nombreRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="tipoReg" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="nombreReg" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="ingresoClave" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="nombreReg" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="CIFReg" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="CIFRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="botonAceptarIngreso" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="telefonoRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="nombreReg2" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="tlfoReg" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="idRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="nombreReg1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="IDReg" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="claveRegLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="regClave" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="claveReg" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="direccionRegLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="nombreReg4" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="direccionReg" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -140,7 +140,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JComboBox" name="regTipo">
+    <Component class="javax.swing.JComboBox" name="tipoReg">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">
@@ -151,7 +151,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regTipoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoRegActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -225,14 +225,14 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ingresoUsuarioActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.TextBox" name="tipoReg">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoRegActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.TextBox" name="nombreReg">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreRegActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="CIFReg">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CIFRegActionPerformed"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Boton" name="botonAceptarIngreso">
@@ -243,19 +243,19 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAceptarIngresocancelarRegistroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.TextBox" name="nombreReg1">
+    <Component class="vista.componentes.TextBox" name="IDReg">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="IDRegActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.TextBox" name="nombreReg2">
+    <Component class="vista.componentes.TextBox" name="tlfoReg">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tlfoRegActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.TextBox" name="nombreReg4">
+    <Component class="vista.componentes.TextBox" name="direccionReg">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreReg4ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="direccionRegActionPerformed"/>
       </Events>
     </Component>
     <Component class="vista.componentes.BotonVolver" name="botonSalir">
@@ -268,9 +268,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ingresoClaveActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.PasswordField" name="regClave">
+    <Component class="vista.componentes.PasswordField" name="claveReg">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regClaveActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveRegActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

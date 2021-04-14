@@ -94,10 +94,11 @@ public class FachadaAplicacion {
         cu.emitirParticipaciones(e, emision);
     }
 
+    /*
     public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion) {
         return cu.obtenerUsuarioPorAutorizacion(autorizacion);
     }
-
+    */
     public void modificarUsuario(String id_usuario, Usuario u) {
         cu.modificarUsuario(id_usuario, u);
     }

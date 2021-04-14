@@ -89,7 +89,7 @@ public class FachadaBaseDatos {
     public void emitirParticipaciones(Empresa e, int emision) {
         daoUsuarios.emitirParticipaciones(e, emision);
     }
-
+/*
     public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado) {
         return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
     }
@@ -97,7 +97,7 @@ public class FachadaBaseDatos {
     public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado) {
         return daoUsuarios.obtenerEmpresaPorAutorizacion(autorizado);
     }
-
+*/
     public void modificarEmpresa(String id_usuario, Empresa u) {
         daoUsuarios.modificarDatosEmpresa(id_usuario, u);
     }
