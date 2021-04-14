@@ -94,13 +94,26 @@ public class FachadaBaseDatos {
         daoUsuarios.bajaParticipaciones(e, baja);
     }
 
-//    public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado) {
-//        return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
-//    }
-//
-//    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado) {
-//        return daoUsuarios.obtenerEmpresaPorAutorizacion(autorizado);
-//    }
+    public ArrayList<Inversor> obtenerInversorPorAutorizacion() {
+        return daoUsuarios.obtenerInversoresPorAutorizacion();
+    }
+
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion() {
+        return daoUsuarios.obtenerEmpresaPorAutorizacion();
+    }
+
+    public void autorizarUsuario(String id_usuario){
+        daoUsuarios.autorizarUsuario(id_usuario);
+    }
+
+    public ArrayList<Inversor> obtenerInversorBaja() {
+        return daoUsuarios.obtenerInversorBaja();
+    }
+
+    public ArrayList<Empresa> obtenerEmpresaBaja() {
+        return daoUsuarios.obtenerEmpresaBaja();
+    }
+
 
     public void modificarEmpresa(String id_usuario, Empresa u) {
         daoUsuarios.modificarDatosEmpresa(id_usuario, u);

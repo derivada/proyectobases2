@@ -98,12 +98,20 @@ public class FachadaAplicacion {
         cu.bajaParticipaciones(e, baja);
     }
 
-    /*
-    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion(boolean autorizacion) {
-        return cu.obtenerUsuarioPorAutorizacion(autorizacion);
+
+    public ArrayList<Usuario> obtenerUsuariosPorAutorizacion() {
+        return cu.obtenerUsuarioPorAutorizacion();
     }
-    */
+
+    public void autorizarUsuarios(String idUsuario){
+        cu.autorizarUsuario(idUsuario);
+    }
+
     public void modificarUsuario(String id_usuario, Usuario u) {
         cu.modificarUsuario(id_usuario, u);
+    }
+
+    public ArrayList<Usuario> obtenerUsuariosBaja() {
+        return cu.obtenerUsuarioBaja();
     }
 }

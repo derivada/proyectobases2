@@ -1,15 +1,17 @@
 package vista.modeloTablas;
 
+import aplicacion.Empresa;
+import aplicacion.Inversor;
 import aplicacion.Usuario;
 
 import javax.swing.table.AbstractTableModel;
 
 public class ModeloTablaBaja extends AbstractTableModel{
 
-    private java.util.List<Usuario> usuariosBaja;
+    private java.util.List<Usuario> usuariosAlta;
 
     public ModeloTablaBaja() {
-        this.usuariosBaja = new java.util.ArrayList<Usuario>();
+        this.usuariosAlta = new java.util.ArrayList<Usuario>();
     }
 
     public int getColumnCount() {
@@ -17,7 +19,7 @@ public class ModeloTablaBaja extends AbstractTableModel{
     }
 
     public int getRowCount() {
-        return usuariosBaja.size();
+        return usuariosAlta.size();
     }
 
     @Override
@@ -60,13 +62,26 @@ public class ModeloTablaBaja extends AbstractTableModel{
 
         switch (col) {
             case 0:
-                resultado = usuariosBaja.get(row).getIdUsuario();
+                resultado = usuariosAlta.get(row).getIdUsuario();
                 break;
             case 1:
-                resultado = "Nombre";
+                if(usuariosAlta.get(row) instanceof Inversor){
+                    Inversor i = (Inversor)usuariosAlta.get(row);
+                    resultado = i.getNombre();
+                } else {
+                    Empresa e = (Empresa)usuariosAlta.get(row);
+                    resultado = e.getNombre();
+                }
+
                 break;
             case 2:
-                resultado = "DNI";
+                if(usuariosAlta.get(row) instanceof Inversor){
+                    Inversor i = (Inversor)usuariosAlta.get(row);
+                    resultado = i.getDni();
+                } else {
+                    Empresa e = (Empresa)usuariosAlta.get(row);
+                    resultado = e.getCIF();
+                }
                 break;
 
         }
@@ -74,26 +89,25 @@ public class ModeloTablaBaja extends AbstractTableModel{
     }
 
     public void setFilas(java.util.List<Usuario> usuariosAlta) {
-        this.usuariosBaja = usuariosAlta;
+        this.usuariosAlta = usuariosAlta;
         fireTableDataChanged();
     }
 
     public void nuevoUsuario(Usuario u) {
-        this.usuariosBaja.add(u);
-        fireTableRowsInserted(this.usuariosBaja.size() - 1, this.usuariosBaja.size() - 1);
+        this.usuariosAlta.add(u);
+        fireTableRowsInserted(this.usuariosAlta.size() - 1, this.usuariosAlta.size() - 1);
     }
 
     public void borrarUsuario(int indice) {
-        this.usuariosBaja.remove(indice);
+        this.usuariosAlta.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }
 
     public java.util.List<Usuario> getFilas() {
-        return this.usuariosBaja;
+        return this.usuariosAlta;
     }
 
     public Usuario obtenerUsuario(int i) {
-        return this.usuariosBaja.get(i);
+        return this.usuariosAlta.get(i);
     }
-
 }
