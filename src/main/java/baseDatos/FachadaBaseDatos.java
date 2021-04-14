@@ -85,7 +85,7 @@ public class FachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e) {
         return daoUsuarios.getPartPropEmpresa(e);
     }
-
+/*
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         daoUsuarios.emitirParticipaciones(e, emision, precio);
     }
@@ -93,7 +93,7 @@ public class FachadaBaseDatos {
     public void bajaParticipaciones(Empresa e, int baja){
         daoUsuarios.bajaParticipaciones(e, baja);
     }
-/*
+
     public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado) {
         return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
     }
