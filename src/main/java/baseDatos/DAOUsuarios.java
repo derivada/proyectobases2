@@ -424,7 +424,6 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return result;
     }
-
     
     public void bajaParticipaciones(Empresa e, int baja){
         int antiguasPart = getPartPropEmpresa(e);
@@ -453,6 +452,7 @@ public class DAOUsuarios extends AbstractDAO {
             }
         
     }
+
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         int antiguasPart = 0;
         PreparedStatement stmAntiguas = null;
@@ -526,8 +526,9 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
     }
-/*
-    public ArrayList<Inversor> obtenerInversoresPorAutorizacion(Boolean autorizado) {
+
+    //Obtiene una lista de inversores con la autorizacion a false
+    public ArrayList<Inversor> obtenerInversoresPorAutorizacion() {
         ArrayList<Inversor> resultado = new ArrayList<>();
         PreparedStatement stmInversores = null;
         ResultSet rst;
@@ -536,25 +537,13 @@ public class DAOUsuarios extends AbstractDAO {
 
         con = this.getConexion();
 
-        String consulta = "select * from inversor where autorizado = ?";
+        String consulta = "select * from inversor natural join usuario where autorizado = false";
 
         try {
             stmInversores = con.prepareStatement(consulta);
-            stmInversores.setBoolean(1, autorizado);
             rst = stmInversores.executeQuery();
             while (rst.next()) {
-                Inversor i = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), autorizado);
-                stmInversores = con.prepareStatement("select * from usuario where id_usuario = ?");
-                stmInversores.setString(1, rst.getString("id_usuario"));
-
-                rst2 = stmInversores.executeQuery();
-                while (rst2.next()) {
-                    Usuario u = (Usuario) i;
-                    u.setClave(rst2.getString("clave"));
-                    u.setIdUsuario(rst2.getString("id_usuario"));
-                    u.setCuenta(rst2.getFloat("cuenta"));
-
-                }
+                Inversor i = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), rst.getFloat("saldo"), false, false);
                 resultado.add(i);
             }
         } catch (SQLException ex) {
@@ -569,55 +558,137 @@ public class DAOUsuarios extends AbstractDAO {
 
         return resultado;
     }
-    */
 
-    /*
-        public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(Boolean autorizado) {
-            ArrayList<Empresa> resultado = new ArrayList<>();
-            PreparedStatement stmEmpresas = null;
-            ResultSet rst, rst2;
-            Connection con;
+    //Obtiene una lista de empresas con la autorizacion a false
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion() {
+        ArrayList<Empresa> resultado = new ArrayList<>();
+        PreparedStatement stmEmpresas = null;
+        ResultSet rst;
+        Connection con;
 
-            con = this.getConexion();
+        con = this.getConexion();
 
-            String consulta = "select * from empresa where autorizado = ?";
+        String consulta = "select * from empresa natural join usuario where autorizado = false";
 
-            try {
-                stmEmpresas = con.prepareStatement(consulta);
-                stmEmpresas.setBoolean(1, autorizado);
-                rst = stmEmpresas.executeQuery();
-                while (rst.next()) {
-                    Empresa e = new Empresa(rst.getString("id_usuario"),
-                            rst.getString("nombrecomercial"),
-                            rst.getString("cif"),
-                            rst.getFloat("saldo"),
-                            rst.getFloat("saldobloqueado"),
-                            rst.getString("direccion"),
-                            rst.getString("telefono"));
-                    stmEmpresas = con.prepareStatement("select * from usuario where id_usuario = ?");
-                    stmEmpresas.setString(1, rst.getString("id_usuario"));
+        try {
+            stmEmpresas = con.prepareStatement(consulta);
 
-                    rst2 = stmEmpresas.executeQuery();
-                    while (rst2.next()) {
-                        Usuario u = (Usuario) e;
-                        u.setClave(rst2.getString("clave"));
-                        u.setIdUsuario(rst2.getString("id_usuario"));
-                    }
-                    resultado.add(e);
-                }
-            } catch (SQLException ex) {
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmEmpresas.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
+            rst = stmEmpresas.executeQuery();
+            while (rst.next()) {
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"),rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), false, false);
+                resultado.add(e);
             }
-
-            return resultado;
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmEmpresas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
         }
-    */
+
+        return resultado;
+    }
+
+    //Obtiene una lista de empresas que se quieren dar de baja
+    public ArrayList<Empresa> obtenerEmpresaBaja() {
+        ArrayList<Empresa> resultado = new ArrayList<>();
+        PreparedStatement stmEmpresas = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select * from empresa natural join usuario where solicitadoBaja = true";
+
+        try {
+            stmEmpresas = con.prepareStatement(consulta);
+            rst = stmEmpresas.executeQuery();
+            while (rst.next()) {
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"),rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), true, true);
+                resultado.add(e);
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmEmpresas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+
+    //Obtiene una lista de inversores que se quieren dar de baja
+    public ArrayList<Inversor> obtenerInversorBaja() {
+        ArrayList<Inversor> resultado = new ArrayList<>();
+        PreparedStatement stmEmpresas = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select * from inversor natural join usuario where solicitadoBaja = true";
+
+        try {
+            stmEmpresas = con.prepareStatement(consulta);
+            rst = stmEmpresas.executeQuery();
+            while (rst.next()) {
+                Inversor e = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"),rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), rst.getFloat("saldo"),true, true);
+                resultado.add(e);
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmEmpresas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+
+    //Funcion para autorizar el registro de un usuario en la aplicacion
+    public void autorizarUsuario(String id_usuario){
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "update usuario "
+                + "set autorizado = true"
+                + " where id_usuario = ?";
+
+
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, id_usuario);
+
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+    }
+
+    /*TODO: Funciones para autorizar la baja del usuario,
+      si el usuario tiene participaciones se cancela la baja y si tiene el saldo en un valor distinto de 0
+      entonces se pone a 0 y se tramita la baja, sql??? */
+
+
     public void modificarDatosEmpresa(String id_usuario, Empresa e) {
         PreparedStatement stmEmpresas = null;
         ResultSet rst;

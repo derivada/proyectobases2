@@ -88,16 +88,30 @@ public class GestionUsuarios {
     public void bajaParticipaciones(Empresa e, int baja){
         fbd.bajaParticipaciones(e, baja);
     }
-    /*
-    public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
+
+    public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(){
         ArrayList<Usuario> resultado = new ArrayList<>();
 
-        resultado.addAll(fbd.obtenerInversorPorAutorizacion(autorizado));
-        resultado.addAll(fbd.obtenerEmpresaPorAutorizacion(autorizado));
+        resultado.addAll(fbd.obtenerInversorPorAutorizacion());
+        resultado.addAll(fbd.obtenerEmpresaPorAutorizacion());
         
         return resultado;
     }
-    */
+
+    public void autorizarUsuario(String id_usuario){
+        fbd.autorizarUsuario(id_usuario);
+    }
+
+    public ArrayList<Usuario> obtenerUsuarioBaja(){
+        ArrayList<Usuario> resultado = new ArrayList<>();
+
+        resultado.addAll(fbd.obtenerInversorBaja());
+        resultado.addAll(fbd.obtenerEmpresaBaja());
+
+        return resultado;
+    }
+
+
     public void modificarUsuario(String id_usuario, Usuario u){
         if(u instanceof Inversor){
             fbd.modificarInversor(id_usuario, (Inversor)u);
