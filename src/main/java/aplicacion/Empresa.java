@@ -18,8 +18,8 @@ public class Empresa extends Usuario{
     private Float saldobloqueado; 
 
 
-    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono,Float saldo,Float saldobloqueado) {
-        super(idUsuario);
+    public Empresa(String idUsuario, String nombre, String CIF, String direccion, String telefono,Float saldo,Float saldobloqueado,boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario,solicitadobaja,autorizado);
         this.nombre = nombre;
         this.CIF = CIF;
         this.direccion = direccion;

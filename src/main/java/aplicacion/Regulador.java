@@ -10,15 +10,23 @@ package aplicacion;
  * @author migue
  */
 public class Regulador extends Usuario{
-
-    public Regulador(String idUsuario) {
-        super(idUsuario);
+    private Float saldo;
+    
+    public Regulador(String idUsuario,boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario,solicitadobaja,autorizado);
+        this.saldo=(float)0.0;
     }
 
     @Override
     public String getIdUsuario() {
         return super.getIdUsuario();
     }
-    
-    
+
+    public Float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
+    }
 }

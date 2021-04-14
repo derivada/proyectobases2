@@ -36,7 +36,7 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select id_usuario, clave, cuenta "
+            stmUsuario = con.prepareStatement("select id_usuario, autorizado, solicitadobaja "
                     + "from usuario "
                     + "where id_usuario = ? and clave = ?");
             stmUsuario.setString(1, idUsuario);
@@ -47,19 +47,19 @@ public class DAOUsuarios extends AbstractDAO {
              * Obtiene el tipo del usuario que está intentando acceder
              */
             while (rsUsuario.next()) {
-                usuario = new Usuario(rsUsuario.getString("id_usuario"));
+                usuario = new Usuario(rsUsuario.getString("id_usuario"),rsUsuario.getBoolean("solicitadobaja"),rsUsuario.getBoolean("autorizado"));
             }
-            if (usuario != null) {
+            if (usuario != null && usuario.isAutorizado()) {
                 // Busca el usuario en cada una de las tablas
-                for (Regulador r : obtenerDatosRegulador(usuario.getIdUsuario())) {
+                for (Regulador r : obtenerDatosRegulador(usuario)) {
                     if (r.getIdUsuario().equals(usuario.getIdUsuario()))
                         return r;
                 }
-                for (Inversor i : obtenerDatosInversor(usuario.getIdUsuario())) {
+                for (Inversor i : obtenerDatosInversor(usuario)) {
                     if (i.getIdUsuario().equals(usuario.getIdUsuario()))
                         return i;
                 }
-                for (Empresa p : obtenerDatosEmpresa(usuario.getIdUsuario())) {
+                for (Empresa p : obtenerDatosEmpresa(usuario)) {
                     if (p.getIdUsuario().equals(usuario.getIdUsuario()))
                         return p;
                 }
@@ -113,7 +113,7 @@ public class DAOUsuarios extends AbstractDAO {
     /**
      * Obtiene una lista de todaos los inversores con todos los atributos de ellos
      */
-    public java.util.List<Inversor> obtenerDatosInversor(String id_inversor) {
+    public java.util.List<Inversor> obtenerDatosInversor(Usuario user) {
         java.util.List<Inversor> resultado = new java.util.ArrayList<Inversor>();
         Inversor inversorActual;
         Connection con;
@@ -126,7 +126,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmCatalogo = con.prepareStatement(consulta);
             stmCatalogo = con.prepareStatement(consulta);
-            stmCatalogo.setString(1, id_inversor);
+            stmCatalogo.setString(1, user.getIdUsuario());
             rsInversores = stmCatalogo.executeQuery();
             while (rsInversores.next()) {
                 // Empresas con todos sus atributos
@@ -135,7 +135,9 @@ public class DAOUsuarios extends AbstractDAO {
                         rsInversores.getString("dni"),
                         rsInversores.getString("direccion"),
                         rsInversores.getString("telefono"),
-                        rsInversores.getBoolean("autorizado"));
+                        rsInversores.getFloat("saldo"),
+                        user.isSolicitadobaja(),
+                        user.isAutorizado());
                 resultado.add(inversorActual);
             }
         } catch (SQLException e) {
@@ -153,7 +155,7 @@ public class DAOUsuarios extends AbstractDAO {
     /**
      * Obtiene una lista de todas las empresas con todos los atributos de ellas
      */
-    public java.util.List<Empresa> obtenerDatosEmpresa(String id_empresa) {
+    public java.util.List<Empresa> obtenerDatosEmpresa(Usuario user) {
         java.util.List<Empresa> resultado = new java.util.ArrayList<Empresa>();
         Empresa empresaActual;
         Connection con;
@@ -165,7 +167,7 @@ public class DAOUsuarios extends AbstractDAO {
         String consulta = "select * from empresa where id_usuario = ?";
         try {
             stmCatalogo = con.prepareStatement(consulta);
-            stmCatalogo.setString(1, id_empresa);
+            stmCatalogo.setString(1, user.getIdUsuario());
             rsEmpresas = stmCatalogo.executeQuery();
             while (rsEmpresas.next()) {
                 // Empresas con todos sus atributos
@@ -174,7 +176,10 @@ public class DAOUsuarios extends AbstractDAO {
                         rsEmpresas.getString("cif"),
                         rsEmpresas.getString("direccion"),
                         rsEmpresas.getString("telefono"),
-                        rsEmpresas.getBoolean("autorizado"));
+                        rsEmpresas.getFloat("saldo"),
+                        rsEmpresas.getFloat("saldobloqueado"),
+                        user.isSolicitadobaja(),
+                        user.isAutorizado());
                 resultado.add(empresaActual);
             }
         } catch (SQLException e) {
@@ -193,7 +198,7 @@ public class DAOUsuarios extends AbstractDAO {
      * Obtiene una lista (de un solo elemento) con el regulador del mercado
      * Abajo se explica porque mantuve la lista aunque solo sea 1 elemento
      */
-    public java.util.List<Regulador> obtenerDatosRegulador(String id_regulador) {
+    public java.util.List<Regulador> obtenerDatosRegulador(Usuario user) {
         java.util.List<Regulador> resultado = new java.util.ArrayList<Regulador>();
         Regulador reguladorActual;
         Connection con;
@@ -206,13 +211,13 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stmCatalogo = con.prepareStatement(consulta);
-            stmCatalogo.setString(1, id_regulador);
+            stmCatalogo.setString(1, user.getIdUsuario());
             rsUsuarios = stmCatalogo.executeQuery();
             // Solo debería haber un regulador, de todas formas mantengo la Lista
             // porque devolver null podría causar problemas y además después podremos juntas las listas
             // fácilmente si es necesario - PabloD
             while (rsUsuarios.next()) {
-                reguladorActual = new Regulador(rsUsuarios.getString("id_usuario"));
+                reguladorActual = new Regulador(rsUsuarios.getString("id_usuario"),user.isSolicitadobaja(),user.isAutorizado());
                 resultado.add(reguladorActual);
             }
         } catch (SQLException e) {

@@ -14,13 +14,20 @@ public class Usuario {
     private String idUsuario;
     private String clave;
 
-    private boolean solititadobaja; 
+    private boolean solicitadobaja; 
     private boolean autorizado; 
 
-    public Usuario(String idUsuario, String clave, Float cuenta, boolean solititadobaja,boolean autorizado) {
+    public Usuario(String idUsuario, String clave,boolean solicitadobaja,boolean autorizado) {
         this.idUsuario = idUsuario;
         this.clave = clave;
-        this.solititadobaja = solititadobaja;
+        this.solicitadobaja = solicitadobaja;
+        this.autorizado=autorizado; 
+    }
+    
+    public Usuario(String idUsuario, boolean solicitadobaja, boolean autorizado) {
+        this.idUsuario = idUsuario;
+        this.clave = null;
+        this.solicitadobaja = solicitadobaja;
         this.autorizado=autorizado; 
     }
     
@@ -49,12 +56,12 @@ public class Usuario {
 
 
 
-    public boolean isSolititadobaja() {
-        return solititadobaja;
+    public boolean isSolicitadobaja() {
+        return solicitadobaja;
     }
 
-    public void setSolititadobaja(boolean solititadobaja) {
-        this.solititadobaja = solititadobaja;
+    public void setSolicitadobaja(boolean solicitadobaja) {
+        this.solicitadobaja = solicitadobaja;
     }
 
     public boolean isAutorizado() {

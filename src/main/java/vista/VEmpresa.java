@@ -584,7 +584,7 @@ public class VEmpresa extends javax.swing.JFrame {
     
     public void rellenarHuecos(){
         idTextBox.setText(e.getIdUsuario());
-        saldoTextBox.setText(String.valueOf(e.getCuenta()));
+        saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
         // TODO: Esto debería hacerse con un nuevo acceso, no debería estar
         // guardado permanentemente aquí claveTextBox.setText(e.getClave());

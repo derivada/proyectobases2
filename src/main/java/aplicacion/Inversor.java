@@ -16,8 +16,8 @@ public class Inversor extends Usuario{
     private String telefono;
     private Float saldo; 
 
-    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono,Float saldo) {
-        super(idUsuario);
+    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono,Float saldo,boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario,solicitadobaja,autorizado);
         this.nombre = nombre;
         this.dni = dni;
         this.direccion = direccion;
