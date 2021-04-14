@@ -70,6 +70,9 @@ public class VEmpresa extends javax.swing.JFrame {
         participacionesTextBox = new vista.componentes.TextBox();
         participacionesBoton = new vista.componentes.Boton();
         totalLabel = new vista.componentes.Etiqueta();
+        precioParticipaciones = new vista.componentes.TextBox();
+        participacionesLabel1 = new vista.componentes.Etiqueta();
+        bajaParticipacionesBoton = new vista.componentes.Boton();
         tabs9 = new vista.componentes.Tabs();
         importeTextBox = new vista.componentes.TextBox();
         importeLabel = new vista.componentes.Etiqueta();
@@ -265,39 +268,56 @@ public class VEmpresa extends javax.swing.JFrame {
 
         participacionesBoton.setText("Ofertar participaciones");
 
-        totalLabel.setText("Número total de participaciones");
+        totalLabel.setText("Número total de participaciones disponibles");
+
+        participacionesLabel1.setText("Precio");
+
+        bajaParticipacionesBoton.setText("Eliminar Participaciones");
+        bajaParticipacionesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaParticipacionesBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tabs10Layout = new javax.swing.GroupLayout(tabs10);
         tabs10.setLayout(tabs10Layout);
         tabs10Layout.setHorizontalGroup(
             tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs10Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
-                .addContainerGap(398, Short.MAX_VALUE)
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioParticipaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participacionesLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(99, 99, 99))
         );
         tabs10Layout.setVerticalGroup(
             tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs10Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participacionesLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(participacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioParticipaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(261, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ofertar participaciones", tabs10);
@@ -480,6 +500,11 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FechaTextBoxActionPerformed
 
+    private void bajaParticipacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaParticipacionesBotonActionPerformed
+        // TODO add your handling code here:
+        this.eliminarParticipaciones();
+    }//GEN-LAST:event_bajaParticipacionesBotonActionPerformed
+
     
     public void AnunciarBeneficios(){
         
@@ -490,6 +515,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta FechaLabel;
     private vista.componentes.TextBox FechaTextBox;
     private vista.componentes.Boton bajaBoton;
+    private vista.componentes.Boton bajaParticipacionesBoton;
     private vista.componentes.Boton beneficiosBoton;
     private javax.swing.ButtonGroup buttonGroup1;
     private vista.componentes.Etiqueta claveLabel;
@@ -512,8 +538,10 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Boton pagarBoton;
     private vista.componentes.Boton participacionesBoton;
     private vista.componentes.Etiqueta participacionesLabel;
+    private vista.componentes.Etiqueta participacionesLabel1;
     private vista.componentes.TextBox participacionesTextBox;
     private vista.componentes.Etiqueta precioLabel;
+    private vista.componentes.TextBox precioParticipaciones;
     private vista.componentes.TextBox precioTextBox;
     private vista.componentes.Etiqueta precioVentaLabel;
     private vista.componentes.TextBox precioVentaTextBox;
@@ -547,7 +575,9 @@ public class VEmpresa extends javax.swing.JFrame {
         
         int emision = Integer.parseInt(participaciones);
         
-        fa.emitirParticipaciones(e, emision);
+        int precio = Integer.parseInt(precioParticipaciones.getText());
+        
+        fa.emitirParticipaciones(e, emision, precio);
         
         this.rellenarHuecos();
            
@@ -565,7 +595,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
         //aqui iria la consulta, cuando me apetezca la hago
         
-        //fa.bajaParticipaciones(e, bajaP);
+        fa.bajaParticipaciones(e, bajaP);
         
         this.rellenarHuecos();
         
