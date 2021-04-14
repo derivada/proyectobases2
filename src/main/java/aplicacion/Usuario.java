@@ -13,17 +13,21 @@ import java.util.Objects;
 public class Usuario {
     private String idUsuario;
     private String clave;
-    private Float cuenta;
 
-    public Usuario(String idUsuario, String clave, Float cuenta) {
-        /* Usar solo para el registro, no cargar contraseñas en el programa */
+    private boolean solititadobaja; 
+    private boolean autorizado; 
+
+    public Usuario(String idUsuario, String clave, Float cuenta, boolean solititadobaja,boolean autorizado) {
         this.idUsuario = idUsuario;
         this.clave = clave;
-        this.cuenta = cuenta;
+        this.solititadobaja = solititadobaja;
+        this.autorizado=autorizado; 
     }
+    
+   
+    public Usuario(String idUsuario){
+        this.idUsuario=idUsuario;
 
-    public Usuario(String idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
 
@@ -43,13 +47,26 @@ public class Usuario {
         this.clave = clave;
     }
 
-    public Float getCuenta() {
-        return cuenta;
+
+
+    public boolean isSolititadobaja() {
+        return solititadobaja;
     }
 
-    public void setCuenta(Float cuenta) {
-        this.cuenta = cuenta;
+    public void setSolititadobaja(boolean solititadobaja) {
+        this.solititadobaja = solititadobaja;
     }
+
+    public boolean isAutorizado() {
+        return autorizado;
+    }
+
+    public void setAutorizado(boolean autorizado) {
+        this.autorizado = autorizado;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {

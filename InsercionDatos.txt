@@ -1,0 +1,74 @@
+
+insert into anunciobeneficios (empresa,fechapago,fechaanuncio,importeparticipacion) values ('Lenovo','2021-04-12','2021-05-31',20000)
+
+
+alter table empresa add capitalbloqueado double precision 
+
+
+update empresa set capitalbloqueado=10000 where id_usuario='Lenovo'
+
+//////////
+
+alter table empresa add capitalbloqueado double precision 
+
+
+Create trigger bloqueo_dinero after insert on anunciobeneficios 
+for each row 
+execute procedure actualizar_capital()
+
+
+
+
+
+create procedure actualizar_capital(Dinero double precision)	
+LANGUAGE SQL 
+AS $$
+	update empresa set capitalbloqueado=Dinero where id_usuario='Lenovo'
+$$;  
+
+
+drop procedure actualizar_capital
+
+CREATE FUNCTION actualizar_capital(Dinero double precision)
+RETURNS void AS $$
+
+	update empresa set capitalbloqueado=Dinero where id_usuario='Lenovo'
+$$ 
+LANGUAGE SQL; 
+
+drop function actualizar_capital
+
+--Creamos funcion
+CREATE OR REPLACE FUNCTION actualizar_capital()
+RETURNS trigger AS
+$BODY$
+begin
+IF EXISTS(SELECT * FROM prestamo WHERE usuario != new.usuario and libro = new.libro and ejemplar = new.ejemplar and fecha_devolucion is null) THEN
+	DELETE
+	FROM prestamo
+	WHERE usuario = new.usuario
+		and libro = new.libro
+		and ejemplar = new.ejemplar
+		and fecha_devolucion is null;
+END IF;
+	
+	return new;
+end;
+$BODY$
+LANGUAGE plpgsql VOLATILE;
+
+
+call actualizar_capital(23)
+
+select * from empresa 
+
+
+alter table empresa add capitalbloqueado double precision 
+
+update empresa set capitalbloqueado=0 where id_usuario='Lenovo'
+
+select * from anunciobeneficios
+
+delete from anunciobeneficios
+
+insert into anunciobeneficios (empresa,fechapago,fechaanuncio,importeparticipacion) values ('Lenovo','2021-04-12','2021-05-31',20000)
