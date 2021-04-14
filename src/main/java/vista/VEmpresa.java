@@ -8,6 +8,8 @@ import vista.modeloTablas.ModeloTablaCompra;
 import vista.modeloTablas.ModeloTablaMovimientos;
 import vista.modeloTablas.ModeloTablaVenta;
 
+import java.sql.Date; 
+
 
 public class VEmpresa extends javax.swing.JFrame {
     private final FachadaAplicacion fa;
@@ -79,8 +81,8 @@ public class VEmpresa extends javax.swing.JFrame {
         importeLabel = new vista.componentes.Etiqueta();
         beneficiosBoton = new vista.componentes.Boton();
         pagarBoton = new vista.componentes.Boton();
-        FechaTextBox = new vista.componentes.TextBox();
         FechaLabel = new vista.componentes.Etiqueta();
+        entradaFecha = new vista.componentes.EntradaFecha();
         claveTextBox = new vista.componentes.PasswordField();
         modificarBoton = new vista.componentes.Boton();
 
@@ -344,12 +346,6 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         });
 
-        FechaTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FechaTextBoxActionPerformed(evt);
-            }
-        });
-
         FechaLabel.setText("Fecha de pago");
 
         javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
@@ -362,12 +358,13 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(tabs9Layout.createSequentialGroup()
-                            .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(entradaFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(importeTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
                             .addGap(18, 18, 18)
-                            .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         tabs9Layout.setVerticalGroup(
@@ -381,9 +378,9 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(entradaFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
                 .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -415,7 +412,7 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(claveTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(modificarBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );
@@ -502,10 +499,6 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarBotonActionPerformed
 
-    private void FechaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FechaTextBoxActionPerformed
-
     private void bajaParticipacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaParticipacionesBotonActionPerformed
         // TODO add your handling code here:
         this.eliminarParticipaciones();
@@ -517,14 +510,11 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_participacionesBotonActionPerformed
 
     
-    public void AnunciarBeneficios(){
-        
-    }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Etiqueta FechaLabel;
-    private vista.componentes.TextBox FechaTextBox;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Boton bajaParticipacionesBoton;
     private vista.componentes.Boton beneficiosBoton;
@@ -537,6 +527,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox empresaTextBox;
     private vista.componentes.Etiqueta empresaVentaLabel;
     private vista.componentes.TextBox empresaVentaTextBox;
+    private vista.componentes.EntradaFecha entradaFecha;
     private vista.componentes.Etiqueta etiqueta1;
     private vista.componentes.Etiqueta filtrarLabel;
     private vista.componentes.TextBox idTextBox;
@@ -572,6 +563,14 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Boton ventaBoton;
     // End of variables declaration//GEN-END:variables
 
+    public void AnunciarBeneficios(){
+        String hola=importeTextBox.getText(); 
+        Float importe=Float.parseFloat(importeTextBox.getText()); 
+        java.util.Date aux=entradaFecha.ParseFecha(entradaFecha.getText()); 
+        Date fecha= new Date(entradaFecha.ParseFecha(entradaFecha.getText()).getTime()); 
+        fa.crearAnuncio(importe, this.e.getIdUsuario(), fecha);
+    }
+    
     public void emitirParticipaciones(){
         
         //en esta funcion, la empresa indica que quiere crear un nuevo lote de participaciones
@@ -638,4 +637,6 @@ public class VEmpresa extends javax.swing.JFrame {
         totalTextBox.setText(String.valueOf(participacionesTot));
         precioParticipaciones.setText("0");
     }
+    
+
 }

@@ -11,6 +11,7 @@ package aplicacion;
 
 import vista.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.componentes.DialogoInfo;
 
 import java.util.ArrayList;
@@ -104,5 +105,9 @@ public class GestionUsuarios {
         } else {
             fbd.modificarEmpresa(id_usuario, (Empresa)u);
         }
+    }
+    
+    public void crearAnuncio(Float importe, String empresa,Date fecha){
+        fbd.crearAnuncio(importe, empresa, fecha);
     }
 }

@@ -46,7 +46,7 @@
                   <Component id="claveTextBox" max="32767" attributes="0"/>
                   <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="65" max="32767" attributes="0"/>
+              <EmptySpace pref="122" max="32767" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="807" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
           </Group>
@@ -483,13 +483,15 @@
                           <Component id="pagarBoton" min="-2" pref="346" max="-2" attributes="0"/>
                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                               <Component id="importeLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="FechaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="importeTextBox" min="-2" pref="301" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="entradaFecha" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="importeTextBox" alignment="0" pref="301" max="32767" attributes="0"/>
+                                  </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="beneficiosBoton" min="-2" pref="392" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="FechaTextBox" alignment="0" min="-2" pref="301" max="-2" attributes="0"/>
-                              <Component id="FechaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="44" max="32767" attributes="0"/>
@@ -508,9 +510,9 @@
                       </Group>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="FechaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="FechaTextBox" min="-2" pref="36" max="-2" attributes="0"/>
-                      <EmptySpace pref="320" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="entradaFecha" min="-2" pref="36" max="-2" attributes="0"/>
+                      <EmptySpace pref="311" max="32767" attributes="0"/>
                       <Component id="pagarBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
@@ -541,15 +543,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pagarBotonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="vista.componentes.TextBox" name="FechaTextBox">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FechaTextBoxActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="vista.componentes.Etiqueta" name="FechaLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Fecha de pago"/>
               </Properties>
+            </Component>
+            <Component class="vista.componentes.EntradaFecha" name="entradaFecha">
             </Component>
           </SubComponents>
         </Container>

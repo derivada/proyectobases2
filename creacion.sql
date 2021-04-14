@@ -87,7 +87,7 @@ Create table anuncioBeneficios
 (
   empresa varchar(20) not null,
   fechaPago date not null,
-  fechaAnuncio date,
+  fechaAnuncio date default now(),
   importeParticipacion integer not null,
   solicitadobaja boolean,
 
@@ -101,6 +101,7 @@ Create table emitirParticipaciones
 (
   empresa varchar(20) not null,
   fechaEmision date not null,
+  precio double precision,
 
   primary key (fechaEmision, empresa),
   
@@ -119,3 +120,11 @@ Create table historial
   precio double precision not null
   
 );
+
+
+
+create procedure actualizar_capital(Dinero double precision,Empresa character varying(30))	
+LANGUAGE SQL 
+AS $$
+	update empresa set saldobloqueado=Dinero where id_usuario=Empresa::text
+$$;  

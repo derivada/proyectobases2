@@ -5,6 +5,7 @@ import aplicacion.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -108,6 +109,10 @@ public class FachadaBaseDatos {
 
     public void modificarInversor(String id_usuario, Inversor u) {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
+    }
+    
+    public void crearAnuncio(Float importe, String empresa,Date fecha){
+        daoUsuarios.crearAnuncio(importe, empresa, fecha);
     }
 
 }

@@ -3,6 +3,7 @@ package aplicacion;
 import java.util.ArrayList;
 
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -105,5 +106,9 @@ public class FachadaAplicacion {
     */
     public void modificarUsuario(String id_usuario, Usuario u) {
         cu.modificarUsuario(id_usuario, u);
+    }
+    
+    public void crearAnuncio(Float importe, String empresa,Date fecha){
+        cu.crearAnuncio(importe, empresa, fecha);
     }
 }

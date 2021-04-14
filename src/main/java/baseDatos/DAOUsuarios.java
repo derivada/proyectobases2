@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date; 
 
 public class DAOUsuarios extends AbstractDAO {
 
@@ -721,4 +722,9 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
     }
+    
+    public void crearAnuncio(Float importe, String empresa,Date fecha){
+        System.out.println("Hola");
+    }
+    
 }
