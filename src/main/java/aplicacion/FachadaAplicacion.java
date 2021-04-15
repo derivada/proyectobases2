@@ -93,8 +93,8 @@ public class FachadaAplicacion {
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         cu.emitirParticipaciones(e, emision, precio);
     }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
+
+    public void bajaParticipaciones(Empresa e, int baja) {
         cu.bajaParticipaciones(e, baja);
     }
 
@@ -103,7 +103,7 @@ public class FachadaAplicacion {
         return cu.obtenerUsuarioPorAutorizacion();
     }
 
-    public void autorizarUsuarios(String idUsuario){
+    public void autorizarUsuarios(String idUsuario) {
         cu.autorizarUsuario(idUsuario);
     }
 
@@ -113,5 +113,26 @@ public class FachadaAplicacion {
 
     public ArrayList<Usuario> obtenerUsuariosBaja() {
         return cu.obtenerUsuarioBaja();
+    }
+
+    public void _tests() {
+        StringBuilder log = new StringBuilder();
+        for (Usuario u : fbd.obtenerListaUsuarios()) {
+            Usuario temp = fbd.obtenerDatosEmpresa(u);
+            if (temp == null)
+                temp = fbd.obtenerDatosInversor(u);
+            if (temp == null)
+                temp = fbd.obtenerDatosRegulador(u);
+            u = temp;
+            if (u == null) continue;
+            int part = fbd.getParticipacionesTotales(u);
+            log.append("Usuario: " + u.getIdUsuario() + " Tipo: "
+                    + u.getClass().getSimpleName() + " Participaciones totales: " + part + "\n");
+        }
+        Usuario elena = fbd.validarUsuario("Elena", "432");
+        Usuario HP = fbd.validarUsuario("HP", "778");
+        int partHP = fbd.getParticipacionesEmpresa(elena, (Empresa) HP);
+        log.append("Elena tiene " + partHP + " participaciones de HP\n");
+        this.muestraExcepcion(log.toString(), DialogoInfo.NivelDeAdvertencia.INFORMACION);
     }
 }

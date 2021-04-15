@@ -72,26 +72,31 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     /**
-     * Obtiene una lista de usuarios en los que tan solo se conocerá su nombre de usuario
+     * Obtiene una lista de usuarios en los que tan solo se conocerá su nombre de usuario y si están
+     * autorizados o con solicitud de baja
      * Para obtener una lista parametrizada con los atributos completos
      * de cada tipo de usuarios usar los métodos obtenerEmpresa/Inversor/Regulador()
      */
-    public java.util.List<String> obtenerListaNombresUsuarios() {
+    public java.util.List<Usuario> obtenerListaUsuarios() {
 
-        java.util.List<String> resultado = new java.util.ArrayList<String>();
+        java.util.List<Usuario> resultado = new java.util.ArrayList<Usuario>();
         Usuario usuarioActual;
         Connection con;
         PreparedStatement stmCatalogo = null;
         ResultSet rsUsuarios;
 
         con = this.getConexion();
-        String consulta = "select id_usuario "
+        String consulta = "select id_usuario, autorizado, solicitadobaja "
                 + "from usuario ";
         try {
             stmCatalogo = con.prepareStatement(consulta);
             rsUsuarios = stmCatalogo.executeQuery();
             while (rsUsuarios.next()) {
-                resultado.add(rsUsuarios.getString("id_usuario").replaceAll("\\s+$", ""));
+                resultado.add(
+                        new Usuario(rsUsuarios.getString("id_usuario"),
+                                rsUsuarios.getBoolean("autorizado"),
+                                rsUsuarios.getBoolean("solicitadobaja"))
+                );
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -393,140 +398,6 @@ public class DAOUsuarios extends AbstractDAO {
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
 
-    public int getPartPropEmpresa(Empresa e) {
-        int result = 0;
-        PreparedStatement stmCheck = null;
-        ResultSet rst;
-        Connection con;
-
-        con = this.getConexion();
-
-        String consulta = "select numparticipaciones "
-                + "from participacionesempresa "
-                + "where usuario=? AND empresa=?";
-
-        try {
-            stmCheck = con.prepareStatement(consulta);
-            stmCheck.setString(1, e.getIdUsuario());
-            stmCheck.setString(2, e.getIdUsuario());
-            rst = stmCheck.executeQuery();
-            while (rst.next()) {
-                result = rst.getInt("numparticipaciones");
-            }
-        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-            manejarExcepcionSQL(ex);
-        } finally {
-            try {
-                stmCheck.close();
-            } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-        return result;
-    }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
-        int antiguasPart = getPartPropEmpresa(e);
-        PreparedStatement stmUpdate = null;
-        ResultSet rst;
-        Connection con;
-
-        con = this.getConexion();
-        String consulta = "update participacionesempresa "
-                + "set numparticipaciones=? "
-                + "where usuario=? AND empresa=?";
-        
-        try {
-                stmUpdate = con.prepareStatement(consulta);
-                stmUpdate.setInt(1, antiguasPart - baja);
-                stmUpdate.setString(2, e.getIdUsuario());
-                stmUpdate.setString(3, e.getIdUsuario());
-            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmUpdate.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
-            }
-        
-    }
-
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
-        int antiguasPart = 0;
-        PreparedStatement stmAntiguas = null;
-        PreparedStatement stmUpdate = null;
-        PreparedStatement stmNueva = null;
-        ResultSet rst;
-        Connection con;
-
-        con = this.getConexion();
-
-        String consulta = "select numparticipaciones "
-                + "from participacionesempresa "
-                + "where usuario=? AND empresa=?";
-
-
-        String consulta2 = "update participacionesempresa "
-                + "set numparticipaciones=? "
-                + "where usuario=? AND empresa=?";
-
-        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
-
-        try {
-            con.setAutoCommit(false);
-            stmAntiguas = con.prepareStatement(consulta);
-            stmAntiguas.setString(1, e.getIdUsuario());
-            stmAntiguas.setString(2, e.getIdUsuario());
-            rst = stmAntiguas.executeQuery();
-            while (rst.next()) {
-                antiguasPart = rst.getInt("numparticipaciones");
-            }
-            try {
-                stmNueva = con.prepareStatement(consulta3);
-                stmNueva.setString(1, e.getIdUsuario());
-                stmNueva.setInt(2, emision);
-                stmNueva.setInt(3, precio);
-                stmNueva.executeUpdate();
-            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmNueva.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
-            }
-            try {
-                stmUpdate = con.prepareStatement(consulta2);
-                stmUpdate.setInt(1, emision + antiguasPart);
-                stmUpdate.setString(2, e.getIdUsuario());
-                stmUpdate.setString(3, e.getIdUsuario());
-                stmUpdate.executeUpdate();
-            } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmUpdate.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
-            }
-            con.commit();
-        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-            manejarExcepcionSQL(ex);
-        } finally {
-            try {
-                con.setAutoCommit(true);
-                stmAntiguas.close();
-            } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-
-    }
-
     //Obtiene una lista de inversores con la autorizacion a false
     public ArrayList<Inversor> obtenerInversoresPorAutorizacion() {
         ArrayList<Inversor> resultado = new ArrayList<>();
@@ -575,7 +446,7 @@ public class DAOUsuarios extends AbstractDAO {
 
             rst = stmEmpresas.executeQuery();
             while (rst.next()) {
-                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"),rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), false, false);
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), false, false);
                 resultado.add(e);
             }
         } catch (SQLException ex) {
@@ -606,7 +477,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmEmpresas = con.prepareStatement(consulta);
             rst = stmEmpresas.executeQuery();
             while (rst.next()) {
-                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"),rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), true, true);
+                Empresa e = new Empresa(rst.getString("id_usuario"), rst.getString("nombrecomercial"), rst.getString("cif"), rst.getFloat("saldo"), rst.getFloat("saldobloqueado"), rst.getString("direccion"), rst.getString("telefono"), true, true);
                 resultado.add(e);
             }
         } catch (SQLException ex) {
@@ -637,7 +508,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmEmpresas = con.prepareStatement(consulta);
             rst = stmEmpresas.executeQuery();
             while (rst.next()) {
-                Inversor e = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"),rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), rst.getFloat("saldo"),true, true);
+                Inversor e = new Inversor(rst.getString("id_usuario"), rst.getString("nombre"), rst.getString("dni"), rst.getString("direccion"), rst.getString("telefono"), rst.getFloat("saldo"), true, true);
                 resultado.add(e);
             }
         } catch (SQLException ex) {
@@ -654,7 +525,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     //Funcion para autorizar el registro de un usuario en la aplicacion
-    public void autorizarUsuario(String id_usuario){
+    public void autorizarUsuario(String id_usuario) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -664,14 +535,10 @@ public class DAOUsuarios extends AbstractDAO {
         String consulta = "update usuario "
                 + "set autorizado = true"
                 + " where id_usuario = ?";
-
-
         try {
             stm = con.prepareStatement(consulta);
             stm.setString(1, id_usuario);
-
             stm.executeUpdate();
-
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -681,7 +548,6 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-
     }
 
     /*TODO: Funciones para autorizar la baja del usuario,
