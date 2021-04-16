@@ -33,18 +33,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="desconectarBoton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="idTextBox" pref="268" max="32767" attributes="0"/>
-                  <Component id="claveTextBox" max="32767" attributes="0"/>
-                  <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                      <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="claveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="idTextBox" pref="268" max="32767" attributes="0"/>
+                      <Component id="claveTextBox" max="32767" attributes="0"/>
+                      <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="65" max="32767" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="807" max="-2" attributes="0"/>
@@ -56,7 +58,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jTabbedPane1" min="-2" pref="637" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
@@ -70,9 +72,7 @@
                       <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tipoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Component id="desconectarBoton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                       <Component id="bajaBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
@@ -80,6 +80,8 @@
                       <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="saldoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="35" max="32767" attributes="0"/>
@@ -88,14 +90,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="vista.componentes.Boton" name="desconectarBoton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Desconectar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="desconectarBotonActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.Boton" name="bajaBoton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Solicitud de baja"/>
@@ -564,6 +558,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.BotonVolver" name="botonVolver1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="botonVolver1.configurar(fa, this, false);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

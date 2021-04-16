@@ -28,7 +28,6 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void configureComponentes() {
         // Configura los componentes introducidos
-        botonSalir.configurar(fa, this, null, true);
         ingresoLabel.setFont(FuentesGUI.getFuente(
                 FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.TITULO));
         registroLabel.setFont(FuentesGUI.getFuente(
@@ -262,6 +261,8 @@ public class VRegistro extends javax.swing.JFrame {
                         .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))))
         );
+
+        botonSalir.configurar(fa, this, true);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

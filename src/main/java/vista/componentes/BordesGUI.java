@@ -17,7 +17,7 @@ public class BordesGUI {
                 BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         BordeBotonVolver = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColoresGUI.getGUIColorOscuro(ColoresGUI.Colores.ROJO), 2, true),
+                BorderFactory.createLineBorder(ColoresGUI.texto, 1, true),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         BordeTextBox = BorderFactory.createLineBorder(ColoresGUI.getGUIColorOscuro(ColoresGUI.Colores.AZUL), 1, true);
