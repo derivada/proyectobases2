@@ -4,11 +4,9 @@ import aplicacion.Empresa;
 import aplicacion.Inversor;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
+import vista.componentes.DialogoInfo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DAOParticipaciones extends AbstractDAO {
     public DAOParticipaciones(Connection conexion, aplicacion.FachadaAplicacion fa) {
@@ -113,7 +111,7 @@ public class DAOParticipaciones extends AbstractDAO {
     }
 
     public int getPartPropEmpresa(Empresa e) {
-        return getParticipacionesEmpresa(e, e);
+        return getParticipacionesTotales(e);
     }
 
     public void bajaParticipaciones(Empresa e, int baja) {
@@ -216,5 +214,82 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
 
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa e, int numero, float precioVenta) {
+        if (u == null || u instanceof Regulador) {
+            manejarExcepcion(new Exception("El usuario no puede crear ofertas de venta!"));
+            return;
+        }
+
+        int result = 0;
+        PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null;
+        Connection con;
+
+        con = this.getConexion();
+        String consultaOferta = "INSERT INTO public.ofertaventa(\n" +
+                "\tusuario, empresa, fecha, numparticipaciones, precio)\n" +
+                "\tVALUES (?, ?, ?, ?, ?);";
+
+        String consultaSustracion = "UPDATE public.@\n" +
+                "\tSET numparticipaciones=?\n" +
+                "\tWHERE usuario=? AND empresa=?;";
+
+        String consultaEliminacion = "DELETE FROM public.@\n" +
+                "\tWHERE usuario=? AND empresa=?;";
+
+        if (u instanceof Inversor) {
+            consultaSustracion = consultaSustracion.replace("@", "participacionesInversor");
+            consultaEliminacion = consultaEliminacion.replace("@", "participacionesInversor");
+        }
+        if (u instanceof Empresa) {
+            consultaSustracion = consultaSustracion.replace("@", "participacionesEmpresa");
+            consultaEliminacion = consultaEliminacion.replace("@", "participacionesEmpresa");
+        }
+
+        try {
+            con.setAutoCommit(false);
+
+            // 1. CREAR OFERTA DE VENTA
+            stmOferta = con.prepareStatement(consultaOferta);
+            stmOferta.setString(1, u.getIdUsuario());
+            stmOferta.setString(2, e.getIdUsuario());
+            stmOferta.setDate(3, new Date(System.currentTimeMillis()));
+            stmOferta.setInt(4, numero);
+            stmOferta.setFloat(5, precioVenta);
+            stmOferta.executeUpdate();
+
+
+            // 2. SUSTRAER PARTICIPACIONES
+            int nuevaCantidad = this.getParticipacionesEmpresa(u, e) - numero;
+            stmSustracion = con.prepareStatement(consultaSustracion);
+            stmSustracion.setInt(1, nuevaCantidad);
+            stmSustracion.setString(2, u.getIdUsuario());
+            stmSustracion.setString(3, e.getIdUsuario());
+            stmSustracion.executeUpdate();
+
+            if (nuevaCantidad == 0) {
+                // 3. ELIMINAR LA TUPLA YA QUE NO QUEDAN PARTICIPACIONES
+                stmEliminacion = con.prepareStatement(consultaEliminacion);
+                stmEliminacion.setString(1, u.getIdUsuario());
+                stmEliminacion.setString(2, e.getIdUsuario());
+                stmEliminacion.executeUpdate();
+            }
+            String part = numero == 1 ? "1 participación " : (numero + " participaciones ");
+            muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "
+                    + part + "de " + e.getIdUsuario() + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                con.setAutoCommit(true);
+                stmOferta.close();
+                stmSustracion.close();
+                if (stmEliminacion != null)
+                    stmEliminacion.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
 }

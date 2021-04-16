@@ -4,6 +4,7 @@ import aplicacion.Empresa;
 import aplicacion.Inversor;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
+import vista.componentes.DialogoInfo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,14 +52,23 @@ public class DAOUsuarios extends AbstractDAO {
             while (rsUsuario.next()) {
                 usuarioValidado = new Usuario(rsUsuario.getString("id_usuario"), rsUsuario.getBoolean("solicitadobaja"), rsUsuario.getBoolean("autorizado"));
             }
-            if (usuarioValidado != null && usuarioValidado.isAutorizado()) {
-                // Busca el usuario en cada una de las tablas
-                result = obtenerDatosEmpresa(usuarioValidado);
-                if (result == null)
-                    result = obtenerDatosInversor(usuarioValidado);
-                if (result == null)
-                    result = obtenerDatosRegulador(usuarioValidado);
+
+            if (usuarioValidado == null) {
+                muestraExcepcion("La contraseña introducida es incorrecta! \nNo se puede acceder al sistema...", DialogoInfo.NivelDeAdvertencia.ERROR);
+                return null;
             }
+            if (!usuarioValidado.isAutorizado()) {
+                muestraExcepcion("El usuario no está validado! \nNo se puede acceder al sistema...", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return null;
+            }
+
+            // Busca el usuario en cada una de las tablas
+            result = obtenerDatosEmpresa(usuarioValidado);
+            if (result == null)
+                result = obtenerDatosInversor(usuarioValidado);
+            if (result == null)
+                result = obtenerDatosRegulador(usuarioValidado);
+
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
         } finally {
@@ -71,6 +81,7 @@ public class DAOUsuarios extends AbstractDAO {
         return result;
     }
 
+
     /**
      * Obtiene una lista de usuarios en los que tan solo se conocerá su nombre de usuario y si están
      * autorizados o con solicitud de baja
@@ -78,7 +89,24 @@ public class DAOUsuarios extends AbstractDAO {
      * de cada tipo de usuarios usar los métodos obtenerEmpresa/Inversor/Regulador()
      */
     public java.util.List<Usuario> obtenerListaUsuarios() {
+        return _obtenerListaUsuarios("usuario");
+    }
 
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return _obtenerListaUsuarios("empresa");
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return _obtenerListaUsuarios("inversor");
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return _obtenerListaUsuarios("regulador");
+    }
+
+    private java.util.List<Usuario> _obtenerListaUsuarios(String tipo) {
+        // Método interno llamado desde obtenrListaUsuarios() obtenerListaEmpresas() obtenerListaInversores()
+        // y obtenerListaReguladores() que maneja las consultas generales
         java.util.List<Usuario> resultado = new java.util.ArrayList<Usuario>();
         Usuario usuarioActual;
         Connection con;
@@ -86,8 +114,13 @@ public class DAOUsuarios extends AbstractDAO {
         ResultSet rsUsuarios;
 
         con = this.getConexion();
+        // esto es obviamente muy poco seguro pero al ser un método privado no hace falta complicarse mucho
         String consulta = "select id_usuario, autorizado, solicitadobaja "
-                + "from usuario ";
+                + "from usuario";
+        if (!tipo.equals("usuario"))
+            consulta = "select id_usuario, autorizado, solicitadobaja "
+                    + "from usuario natural join " + tipo;
+
         try {
             stmCatalogo = con.prepareStatement(consulta);
             rsUsuarios = stmCatalogo.executeQuery();

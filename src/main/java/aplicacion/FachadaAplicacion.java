@@ -56,6 +56,35 @@ public class FachadaAplicacion {
         return cu.validarUsuario(nombre, clave);
     }
 
+    public java.util.List<Usuario> obtenerListaUsuarios() {
+        return cu.obtenerListaUsuarios();
+    }
+
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return cu.obtenerListaEmpresas();
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return cu.obtenerListaInversores();
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return cu.obtenerListaReguladores();
+    }
+
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        return cu.obtenerDatosEmpresa(user);
+    }
+
+    public Inversor obtenerDatosInversor(Usuario user) {
+        return cu.obtenerDatosInversor(user);
+    }
+
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        return cu.obtenerDatosRegulador(user);
+    }
+
+
     public void menuInversor(Inversor inversor) {
         cu.iniciaInversor(inversor, this);
     }
@@ -86,9 +115,18 @@ public class FachadaAplicacion {
         return cu.registroEmpresa(e);
     }
 
+    public int getParticipacionesTotales(Usuario u) {
+        return cu.getParticipacionesTotales(u);
+    }
+
+    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+        return cu.getParticipacionesEmpresa(u, e);
+    }
+
     public int getPartPropEmpresa(Empresa e) {
         return cu.getPartPropEmpresa(e);
     }
+
 
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         cu.emitirParticipaciones(e, emision, precio);
@@ -134,5 +172,9 @@ public class FachadaAplicacion {
         int partHP = fbd.getParticipacionesEmpresa(elena, (Empresa) HP);
         log.append("Elena tiene " + partHP + " participaciones de HP\n");
         this.muestraExcepcion(log.toString(), DialogoInfo.NivelDeAdvertencia.INFORMACION);
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
+        cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
 }
