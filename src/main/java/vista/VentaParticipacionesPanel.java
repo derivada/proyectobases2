@@ -43,9 +43,10 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         precioVentaLabel = new vista.componentes.Etiqueta();
         empresaVentaLabel = new vista.componentes.Etiqueta();
         numeroVentaLabel = new vista.componentes.Etiqueta();
-        numeroVentaTextBox = new vista.componentes.TextBox();
         ventaBoton = new vista.componentes.Boton();
         empresaVenta = new vista.componentes.SelecionBox<String>(nombresOtrosUsuarios);
+        numeroVenta = new vista.componentes.Deslizador(0, 0);
+        numeroLabel = new vista.componentes.Etiqueta();
 
         precioVentaTextBox.setName("precioVentaTextBox"); // NOI18N
 
@@ -58,8 +59,6 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         numeroVentaLabel.setText("Número de participaciones");
         numeroVentaLabel.setName("numeroVentaLabel"); // NOI18N
 
-        numeroVentaTextBox.setName("numeroVentaTextBox"); // NOI18N
-
         ventaBoton.setText("Crear oferta de venta");
         ventaBoton.setName("ventaBoton"); // NOI18N
         ventaBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -69,47 +68,74 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         });
 
         empresaVenta.setName("empresaVenta"); // NOI18N
+        empresaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empresaVentaActionPerformed(evt);
+            }
+        });
+
+        numeroVenta.setName("numeroVenta"); // NOI18N
+        numeroVenta.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                numeroVentaStateChanged(evt);
+            }
+        });
+
+        numeroLabel.setText("0");
+        numeroLabel.setName("numeroLabel"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(40, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                        .addComponent(empresaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(77, 77, 77)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(numeroVentaTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ventaBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(40, 40, 40))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                    .addComponent(empresaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(77, 77, 77)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numeroVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(numeroVentaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(precioVentaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(empresaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(60, 60, 60))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioVentaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numeroVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(empresaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48))
         );
+
+        try{
+            numeroVenta.setMaximum(fa.getParticipacionesEmpresa(
+                u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0),
+                    false, false))));
+    }catch(Exception ignored){
+
+    }
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearOfertaVenta(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearOfertaVenta
@@ -139,17 +165,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
             return;
         }
 
-        int numero = -1;
-        try {
-            numero = Integer.parseInt(numeroVentaTextBox.getText());
-        } catch (Exception e) {
-            fa.muestraExcepcion("El número de participaciones a vender no es un número bien formado!");
-            return;
-        }
-        if (numero <= 0) {
-            fa.muestraExcepcion("El número de participaciones debe ser positivo!");
-            return;
-        }
+        int numero = numeroVenta.getValue();
         int participacionesDisponibles = fa.getParticipacionesEmpresa(u, empresa);
         if (participacionesDisponibles < numero) {
             fa.muestraExcepcion("El usuario no posee suficientes participaciones!\n" +
@@ -159,14 +175,28 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
         // 2. Crear oferta de venta
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
+        numeroVenta.setValue(0);
+        numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
     }//GEN-LAST:event_crearOfertaVenta
+
+    private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
+        // Actualizar slider
+        numeroVenta.setValue(0);
+        numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+    }//GEN-LAST:event_empresaVentaActionPerformed
+
+    private void numeroVentaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numeroVentaStateChanged
+        // TODO add your handling code here:
+        numeroLabel.setText(Integer.toString(numeroVenta.getValue()));
+    }//GEN-LAST:event_numeroVentaStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.SelecionBox empresaVenta;
     private vista.componentes.Etiqueta empresaVentaLabel;
+    private vista.componentes.Etiqueta numeroLabel;
+    private vista.componentes.Deslizador numeroVenta;
     private vista.componentes.Etiqueta numeroVentaLabel;
-    private vista.componentes.TextBox numeroVentaTextBox;
     private vista.componentes.Etiqueta precioVentaLabel;
     private vista.componentes.TextBox precioVentaTextBox;
     private vista.componentes.Boton ventaBoton;

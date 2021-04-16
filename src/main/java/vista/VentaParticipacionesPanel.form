@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
@@ -25,12 +25,13 @@
                   <Component id="empresaVenta" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="numeroVentaTextBox" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="numeroVentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="ventaBoton" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
+                  <Component id="ventaBoton" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
+                  <Component id="numeroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="numeroVenta" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,28 +39,32 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="numeroVentaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="numeroVentaTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="precioVentaLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="precioVentaTextBox" min="-2" pref="43" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="numeroVentaLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="36" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="precioVentaTextBox" min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="numeroVenta" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="numeroLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="ventaBoton" alignment="1" min="-2" pref="66" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="empresaVentaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="empresaVenta" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="ventaBoton" min="-2" pref="66" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -88,11 +93,6 @@
         <Property name="name" type="java.lang.String" value="numeroVentaLabel" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="vista.componentes.TextBox" name="numeroVentaTextBox">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="numeroVentaTextBox" noResource="true"/>
-      </Properties>
-    </Component>
     <Component class="vista.componentes.Boton" name="ventaBoton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Crear oferta de venta"/>
@@ -106,9 +106,30 @@
       <Properties>
         <Property name="name" type="java.lang.String" value="empresaVenta" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empresaVentaActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.componentes.SelecionBox&lt;String&gt;(nombresOtrosUsuarios)"/>
       </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Deslizador" name="numeroVenta">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="numeroVenta" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="numeroVentaStateChanged"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    numeroVenta.setMaximum(fa.getParticipacionesEmpresa(&#xa;    u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0), &#xa;    false, false))));&#xa;}catch(Exception ignored){&#xa;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.componentes.Deslizador(0, 0)"/>
+      </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="numeroLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="numeroLabel" noResource="true"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
