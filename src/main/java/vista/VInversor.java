@@ -17,10 +17,8 @@ public class VInversor extends javax.swing.JFrame {
         this.i = i;
         this.fa = fa;
         initComponents();
-        idTextBox.setText(i.getIdUsuario());
-        // (Ver VEmpresa) claveTextBox.setText(i.getClave());
-        saldoTextBox.setText(String.valueOf(i.getSaldo()));
-        tipoTextBox.setText("Inversor");
+        this.huecos();
+
     }
 
     /**
@@ -396,4 +394,22 @@ public class VInversor extends javax.swing.JFrame {
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.componentes.Boton ventaBoton;
     // End of variables declaration//GEN-END:variables
+
+    public void huecos(){
+        idTextBox.setText(i.getIdUsuario());
+        // (Ver VEmpresa) claveTextBox.setText(i.getClave());
+        saldoTextBox.setText(String.valueOf(i.getSaldo()));
+        tipoTextBox.setText("Inversor");
+        
+        ModeloTablaCompra m;
+
+        m=(ModeloTablaCompra) tabla1.getModel();
+        m.setFilas(fa.getOfertasVenta());
+        if (m.getRowCount() > 0) {
+            tabla1.setRowSelectionInterval(0, 0);
+            compraBoton.setEnabled(true);
+        }
+        else compraBoton.setEnabled(false);
+    }
+
 }

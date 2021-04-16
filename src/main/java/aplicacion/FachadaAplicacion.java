@@ -114,4 +114,8 @@ public class FachadaAplicacion {
     public ArrayList<Usuario> obtenerUsuariosBaja() {
         return cu.obtenerUsuarioBaja();
     }
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        return cu.getOfertasVenta();
+    }
 }

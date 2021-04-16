@@ -119,4 +119,8 @@ public class GestionUsuarios {
             fbd.modificarEmpresa(id_usuario, (Empresa)u);
         }
     }
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        return fbd.getOfertasVenta();
+    }
 }

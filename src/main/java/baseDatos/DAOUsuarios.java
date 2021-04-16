@@ -2,6 +2,7 @@ package baseDatos;
 
 import aplicacion.Empresa;
 import aplicacion.Inversor;
+import aplicacion.OfertaVenta;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
 
@@ -10,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DAOUsuarios extends AbstractDAO {
 
@@ -441,6 +444,7 @@ public class DAOUsuarios extends AbstractDAO {
                 stmUpdate.setInt(1, antiguasPart - baja);
                 stmUpdate.setString(2, e.getIdUsuario());
                 stmUpdate.setString(3, e.getIdUsuario());
+                stmUpdate.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                 manejarExcepcionSQL(ex);
             } finally {
@@ -514,11 +518,11 @@ public class DAOUsuarios extends AbstractDAO {
                 }
             }
             con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                con.setAutoCommit(true);
                 stmAntiguas.close();
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
@@ -791,5 +795,45 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+    
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+        
+        String consulta = "select * "
+                + "from ofertaVenta";
+        
+        try {
+            stm = con.prepareStatement(consulta);
+
+            rst = stm.executeQuery();
+            
+            while (rst.next()) {
+                //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getDate("fecha"), rst.getInt("numParticipaciones"), rst.getDouble("precio"));
+                
+                resultado.add(v);
+                
+            }
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado;
+        
+        
     }
 }
