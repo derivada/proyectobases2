@@ -145,10 +145,20 @@ public class VEmpresa extends javax.swing.JFrame {
                 empresaTextBoxActionPerformed(evt);
             }
         });
+        empresaTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empresaTextBoxKeyPressed(evt);
+            }
+        });
 
         precioTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 precioTextBoxActionPerformed(evt);
+            }
+        });
+        precioTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                precioTextBoxKeyPressed(evt);
             }
         });
 
@@ -165,30 +175,34 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         });
 
+        tablaCompra.setModel(new ModeloTablaCompra());
+        jScrollPane2.setViewportView(tablaCompra);
+
         javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
         tabs7.setLayout(tabs7Layout);
         tabs7Layout.setHorizontalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(tabs7Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(filtrarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(tabs7Layout.createSequentialGroup()
-                        .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(tabs7Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(empresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(tabs7Layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(empresaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(44, 44, 44)
-                        .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(tabs7Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(tabs7Layout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addComponent(filtrarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(tabs7Layout.createSequentialGroup()
+                            .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(tabs7Layout.createSequentialGroup()
+                                    .addGap(41, 41, 41)
+                                    .addComponent(empresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(tabs7Layout.createSequentialGroup()
+                                    .addGap(61, 61, 61)
+                                    .addComponent(empresaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(292, 292, 292)
+                            .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(tabs7Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
                                     .addComponent(precioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(295, Short.MAX_VALUE))
         );
@@ -462,6 +476,16 @@ public class VEmpresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_empresaTextBoxActionPerformed
 
+    private void empresaTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empresaTextBoxKeyPressed
+        // TODO add your handling code here:
+        this.buscarOfertas();
+    }//GEN-LAST:event_empresaTextBoxKeyPressed
+
+    private void precioTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioTextBoxKeyPressed
+        // TODO add your handling code here:
+        this.buscarOfertas();
+    }//GEN-LAST:event_precioTextBoxKeyPressed
+
     
     public void AnunciarBeneficios(){
         
@@ -486,6 +510,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Boton modificarBoton;
     private vista.componentes.Boton pagarBoton;
@@ -499,6 +524,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
     private vista.componentes.Tabla tabla1;
+    private javax.swing.JTable tablaCompra;
     private vista.componentes.Tabs tabs10;
     private vista.componentes.Tabs tabs11;
     private vista.componentes.Tabs tabs7;
@@ -552,8 +578,23 @@ public class VEmpresa extends javax.swing.JFrame {
         
     }
     
+    public void buscarOfertas(){
+        if(precioTextBox.getText().equals("")){
+            precioTextBox.setText("0");
+        }
+        ModeloTablaCompra m;
+
+        m=(ModeloTablaCompra) tablaCompra.getModel();
+        m.setFilas(fa.getOfertasVenta(empresaTextBox.getText(), Integer.parseInt(precioTextBox.getText())));
+        if (m.getRowCount() > 0) {
+            tablaCompra.setRowSelectionInterval(0, 0);
+            compraBoton.setEnabled(true);
+        }
+        else compraBoton.setEnabled(false);
+    }
+    
     public void rellenarHuecos(){
-         totalTextBox.setEditable(false);
+        totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
@@ -566,5 +607,10 @@ public class VEmpresa extends javax.swing.JFrame {
         int participacionesTot = fa.getPartPropEmpresa(e);
         totalTextBox.setText(String.valueOf(participacionesTot));
         precioParticipaciones.setText("0");
+        empresaTextBox.setText("");
+        precioTextBox.setText("0");
+        
+        this.buscarOfertas();
+        
     }
 }

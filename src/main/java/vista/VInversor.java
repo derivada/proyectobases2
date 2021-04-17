@@ -105,10 +105,20 @@ public class VInversor extends javax.swing.JFrame {
                 empresaTextBoxActionPerformed(evt);
             }
         });
+        empresaTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empresaTextBoxKeyPressed(evt);
+            }
+        });
 
         precioTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 precioTextBoxActionPerformed(evt);
+            }
+        });
+        precioTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                precioTextBoxKeyPressed(evt);
             }
         });
 
@@ -279,6 +289,7 @@ public class VInversor extends javax.swing.JFrame {
 
     private void compraBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraBotonActionPerformed
         // TODO add your handling code here:
+        this.compraParticipaciones();
     }//GEN-LAST:event_compraBotonActionPerformed
 
     private void empresaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaTextBoxActionPerformed
@@ -292,6 +303,16 @@ public class VInversor extends javax.swing.JFrame {
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarBotonActionPerformed
+
+    private void empresaTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empresaTextBoxKeyPressed
+        // TODO add your handling code here:
+        this.buscarOfertas();
+    }//GEN-LAST:event_empresaTextBoxKeyPressed
+
+    private void precioTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioTextBoxKeyPressed
+        // TODO add your handling code here:
+        this.buscarOfertas();
+    }//GEN-LAST:event_precioTextBoxKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -326,16 +347,39 @@ public class VInversor extends javax.swing.JFrame {
         // (Ver VEmpresa) claveTextBox.setText(i.getClave());
         saldoTextBox.setText(String.valueOf(i.getSaldo()));
         tipoTextBox.setText("Inversor");
-        
+        empresaTextBox.setText("");
+        precioTextBox.setText("0");
+        this.buscarOfertas();
+    }
+    
+    public void buscarOfertas(){
+        if(precioTextBox.getText().equals("")){
+            precioTextBox.setText("0");
+        }
         ModeloTablaCompra m;
 
         m=(ModeloTablaCompra) tabla1.getModel();
-        m.setFilas(fa.getOfertasVenta());
+        m.setFilas(fa.getOfertasVenta(empresaTextBox.getText(), Integer.parseInt(precioTextBox.getText())));
         if (m.getRowCount() > 0) {
             tabla1.setRowSelectionInterval(0, 0);
             compraBoton.setEnabled(true);
         }
         else compraBoton.setEnabled(false);
+    }
+    
+    public void compraParticipaciones(){
+        //en esta funcion se efectuará la compra de acciones
+        
+        //cuando se compran acciones, tenemos que comprobar a que empresa se refiere, por lo queel usuario tendrá que selccionar una oferta de compra para comprobar la empresa
+        
+        //aunq seleccione una, podrá comprar varias ofertas de compra si lo necesita para completar el número total de participaciones que quiere
+        
+        //se compraran las máximas posibles sin pasarnos del precio máximo y se ordenan de menor a mayor precio
+        
+        //en cuannto se hace la seleccion completa de las ofertas, se guarda y se calcula el precio de manera que no se pase con el saldo
+        
+        //si se tiene suficiente saldo, se efectua la transaccion, eliminando las ofertas de venta de la tabla de ofertas y metiendolas al historial como una sola operacion, ademas, se acutalizan las carteras tanto del comprador como del vendedor
+        
     }
 
 }

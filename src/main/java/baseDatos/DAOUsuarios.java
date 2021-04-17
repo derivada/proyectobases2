@@ -188,6 +188,8 @@ public class DAOUsuarios extends AbstractDAO {
 
     /**
      * Obtiene los datos concretos del usuario si este es una empresa
+     * @param user
+     * @return 
      */
     public Empresa obtenerDatosEmpresa(Usuario user) {
         Empresa resultado = null;
@@ -831,7 +833,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
     
     
-    public java.util.List<OfertaVenta> getOfertasVenta(){
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rst;
@@ -840,11 +842,15 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
         
         String consulta = "select * "
-                + "from ofertaVenta";
+                + "from ofertaVenta "
+                + "where usuario like ? AND "
+                + "precio >= ?";
         
         try {
             stm = con.prepareStatement(consulta);
-
+            empresa = "%" + empresa + "%";
+            stm.setString(1, empresa);
+            stm.setInt(2, precio);
             rst = stm.executeQuery();
             
             while (rst.next()) {

@@ -153,8 +153,8 @@ public class FachadaAplicacion {
         return cu.obtenerUsuarioBaja();
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(){
-        return cu.getOfertasVenta();
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+        return cu.getOfertasVenta(empresa, precio);
     }
 
     public void _tests() {
