@@ -93,7 +93,6 @@ public class DAOParticipaciones extends AbstractDAO {
             stmCheck = con.prepareStatement(consulta);
             stmCheck.setString(1, u.getIdUsuario());
             stmCheck.setString(2, e.getIdUsuario());
-            System.out.println(stmCheck);
             rst = stmCheck.executeQuery();
             while (rst.next()) {
                 result = rst.getInt("result");

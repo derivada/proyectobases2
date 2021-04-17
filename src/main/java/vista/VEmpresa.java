@@ -47,20 +47,12 @@ public class VEmpresa extends javax.swing.JFrame {
         usuarioLabel = new vista.componentes.Etiqueta();
         saldoTextBox = new vista.componentes.TextBox();
         saldoLabel = new vista.componentes.Etiqueta();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        panelCompra = new javax.swing.JTabbedPane();
         tabs11 = new vista.componentes.Tabs();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new vista.componentes.Tabla();
+        compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(e, fa);
         ventaPanel = new vista.VentaParticipacionesPanel(e, fa);
-        tabs7 = new vista.componentes.Tabs();
-        empresaTextBox = new vista.componentes.TextBox();
-        precioTextBox = new vista.componentes.TextBox();
-        empresaLabel = new vista.componentes.Etiqueta();
-        precioLabel = new vista.componentes.Etiqueta();
-        filtrarLabel = new vista.componentes.Etiqueta();
-        compraBoton = new vista.componentes.Boton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaCompra = new javax.swing.JTable();
         tabs10 = new vista.componentes.Tabs();
         participacionesLabel = new vista.componentes.Etiqueta();
         totalTextBox = new vista.componentes.TextBox();
@@ -116,7 +108,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
         saldoLabel.setText("Saldo");
 
-        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        panelCompra.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         tabla1.setModel(new ModeloTablaMovimientos()
         );
@@ -139,96 +131,9 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Lista de movimientos", tabs11);
-        jTabbedPane1.addTab("Venta", ventaPanel);
-
-        empresaTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empresaTextBoxActionPerformed(evt);
-            }
-        });
-        empresaTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                empresaTextBoxKeyPressed(evt);
-            }
-        });
-
-        precioTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                precioTextBoxActionPerformed(evt);
-            }
-        });
-        precioTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                precioTextBoxKeyPressed(evt);
-            }
-        });
-
-        empresaLabel.setText("Id de Empresa");
-
-        precioLabel.setText("Precio máximo");
-
-        filtrarLabel.setText("Filtrar");
-
-        compraBoton.setText("Petición de compra");
-        compraBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compraBotonActionPerformed(evt);
-            }
-        });
-
-        tablaCompra.setModel(new ModeloTablaCompra());
-        jScrollPane2.setViewportView(tablaCompra);
-
-        javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
-        tabs7.setLayout(tabs7Layout);
-        tabs7Layout.setHorizontalGroup(
-            tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs7Layout.createSequentialGroup()
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(tabs7Layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(filtrarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(tabs7Layout.createSequentialGroup()
-                            .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(tabs7Layout.createSequentialGroup()
-                                    .addGap(41, 41, 41)
-                                    .addComponent(empresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(tabs7Layout.createSequentialGroup()
-                                    .addGap(61, 61, 61)
-                                    .addComponent(empresaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(292, 292, 292)
-                            .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(tabs7Layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addComponent(precioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(295, Short.MAX_VALUE))
-        );
-        tabs7Layout.setVerticalGroup(
-            tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(filtrarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(empresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(empresaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(precioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(compraBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(429, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Compra", tabs7);
+        panelCompra.addTab("Lista de movimientos", tabs11);
+        panelCompra.addTab("Compra", compraParticipacionesPanel1);
+        panelCompra.addTab("Venta", ventaPanel);
 
         participacionesLabel.setText("Número de participaciones");
 
@@ -291,7 +196,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addContainerGap(328, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Ofertar participaciones", tabs10);
+        panelCompra.addTab("Ofertar participaciones", tabs10);
 
         importeLabel.setText("Importe por participación");
 
@@ -356,7 +261,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addGap(23, 23, 23))
         );
 
-        jTabbedPane1.addTab("Anunciar beneficios", tabs9);
+        panelCompra.addTab("Anunciar beneficios", tabs9);
 
         modificarBoton.setText("Modificar usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -386,15 +291,15 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelCompra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -415,10 +320,10 @@ public class VEmpresa extends javax.swing.JFrame {
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50)
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
-        OtrosComponentes.configurarTabbedPane(jTabbedPane1);
+        OtrosComponentes.configurarTabbedPane(panelCompra);
         botonVolver1.configurar(fa, this, false);
         bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
 
@@ -468,28 +373,6 @@ public class VEmpresa extends javax.swing.JFrame {
         this.emitirParticipaciones();
     }//GEN-LAST:event_participacionesBotonActionPerformed
 
-    private void compraBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_compraBotonActionPerformed
-
-    private void precioTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_precioTextBoxActionPerformed
-
-    private void empresaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_empresaTextBoxActionPerformed
-
-    private void empresaTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empresaTextBoxKeyPressed
-        // TODO add your handling code here:
-        this.buscarOfertas();
-    }//GEN-LAST:event_empresaTextBoxKeyPressed
-
-    private void precioTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioTextBoxKeyPressed
-        // TODO add your handling code here:
-        this.buscarOfertas();
-    }//GEN-LAST:event_precioTextBoxKeyPressed
-
     
     public void AnunciarBeneficios(){
         
@@ -505,33 +388,25 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.BotonVolver botonVolver1;
     private javax.swing.ButtonGroup buttonGroup1;
-    private vista.componentes.Boton compraBoton;
-    private vista.componentes.Etiqueta empresaLabel;
-    private vista.componentes.TextBox empresaTextBox;
+    private vista.CompraParticipacionesPanel compraParticipacionesPanel1;
     private vista.componentes.Etiqueta etiqueta1;
-    private vista.componentes.Etiqueta filtrarLabel;
     private vista.componentes.TextBox idTextBox;
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Boton modificarBoton;
     private vista.componentes.Boton pagarBoton;
+    private javax.swing.JTabbedPane panelCompra;
     private vista.componentes.Boton participacionesBoton;
     private vista.componentes.Etiqueta participacionesLabel;
     private vista.componentes.Etiqueta participacionesLabel1;
     private vista.componentes.TextBox participacionesTextBox;
-    private vista.componentes.Etiqueta precioLabel;
     private vista.componentes.TextBox precioParticipaciones;
-    private vista.componentes.TextBox precioTextBox;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
     private vista.componentes.Tabla tabla1;
-    private javax.swing.JTable tablaCompra;
     private vista.componentes.Tabs tabs10;
     private vista.componentes.Tabs tabs11;
-    private vista.componentes.Tabs tabs7;
     private vista.componentes.Tabs tabs9;
     private vista.componentes.TextBox textBox1;
     private vista.componentes.Etiqueta tipoLabel;
@@ -582,20 +457,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
     }
     
-    public void buscarOfertas(){
-        if(precioTextBox.getText().equals("")){
-            precioTextBox.setText("0");
-        }
-        ModeloTablaCompra m;
 
-        m=(ModeloTablaCompra) tablaCompra.getModel();
-        m.setFilas(fa.getOfertasVenta(empresaTextBox.getText(), Integer.parseInt(precioTextBox.getText())));
-        if (m.getRowCount() > 0) {
-            tablaCompra.setRowSelectionInterval(0, 0);
-            compraBoton.setEnabled(true);
-        }
-        else compraBoton.setEnabled(false);
-    }
     
     public void rellenarHuecos(){
         totalTextBox.setEditable(false);
@@ -611,10 +473,6 @@ public class VEmpresa extends javax.swing.JFrame {
         int participacionesTot = fa.getPartPropEmpresa(e);
         totalTextBox.setText(String.valueOf(participacionesTot));
         precioParticipaciones.setText("0");
-        empresaTextBox.setText("");
-        precioTextBox.setText("0");
-        
-        this.buscarOfertas();
         
     }
 }

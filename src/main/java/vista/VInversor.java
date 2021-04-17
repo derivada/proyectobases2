@@ -37,7 +37,7 @@ public class VInversor extends javax.swing.JFrame {
         bajaBoton = new vista.componentes.Boton();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        panelCompra = new javax.swing.JTabbedPane();
         tabs1 = new vista.componentes.Tabs();
         precioLabel = new vista.componentes.Etiqueta();
         filtrarLabel = new vista.componentes.Etiqueta();
@@ -47,6 +47,7 @@ public class VInversor extends javax.swing.JFrame {
         empresaLabel = new vista.componentes.Etiqueta();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla1 = new vista.componentes.Tabla();
+        compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(i, fa);
         ventaPanel = new vista.VentaParticipacionesPanel(i, fa);
         tabs3 = new vista.componentes.Tabs();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -172,8 +173,9 @@ public class VInversor extends javax.swing.JFrame {
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Compra", tabs1);
-        jTabbedPane1.addTab("Venta", ventaPanel);
+        panelCompra.addTab("Compra", tabs1);
+        panelCompra.addTab("Compra", compraParticipacionesPanel1);
+        panelCompra.addTab("Venta", ventaPanel);
 
         tabla2.setModel(new ModeloTablaMovimientos()
         );
@@ -197,7 +199,7 @@ public class VInversor extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Lista de movimientos", tabs3);
+        panelCompra.addTab("Lista de movimientos", tabs3);
 
         modificarBoton.setText("Modificar Usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -232,7 +234,7 @@ public class VInversor extends javax.swing.JFrame {
                     .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(155, 155, 155))
         );
         layout.setVerticalGroup(
@@ -260,11 +262,11 @@ public class VInversor extends javax.swing.JFrame {
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
 
-        OtrosComponentes.configurarTabbedPane(jTabbedPane1);
+        OtrosComponentes.configurarTabbedPane(panelCompra);
         botonVolver1.configurar(fa, this, false);
 
         pack();
@@ -320,14 +322,15 @@ public class VInversor extends javax.swing.JFrame {
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.Boton compraBoton;
+    private vista.CompraParticipacionesPanel compraParticipacionesPanel1;
     private vista.componentes.Etiqueta empresaLabel;
     private vista.componentes.TextBox empresaTextBox;
     private vista.componentes.Etiqueta filtrarLabel;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Boton modificarBoton;
+    private javax.swing.JTabbedPane panelCompra;
     private vista.componentes.Etiqueta precioLabel;
     private vista.componentes.TextBox precioTextBox;
     private vista.componentes.Etiqueta saldoLabel;

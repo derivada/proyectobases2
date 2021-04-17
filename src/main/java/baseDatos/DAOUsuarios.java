@@ -833,7 +833,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
     
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precioMaximoPart){
         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rst;
@@ -843,14 +843,14 @@ public class DAOUsuarios extends AbstractDAO {
         
         String consulta = "select * "
                 + "from ofertaVenta "
-                + "where usuario like ? AND "
-                + "precio >= ?";
+                + "where empresa like ? AND "
+                + "precio <= ?"; // cambiado >= por <= (queremos las que cuesten menos o igual que el precio maximo dado
         
         try {
             stm = con.prepareStatement(consulta);
             empresa = "%" + empresa + "%";
             stm.setString(1, empresa);
-            stm.setInt(2, precio);
+            stm.setInt(2, precioMaximoPart);
             rst = stm.executeQuery();
             
             while (rst.next()) {

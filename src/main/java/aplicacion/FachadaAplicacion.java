@@ -26,7 +26,6 @@ public class FachadaAplicacion {
         cu = new GestionUsuarios(fgui, fbd);
     }
 
-
     public void inicializarGUI() {
         fgui.iniciaVista(this);
     }
@@ -50,7 +49,6 @@ public class FachadaAplicacion {
     public void muestraExcepcion(String descripcion) {
         fgui.muestraExcepcion(null, "Mercado de valores", descripcion, DialogoInfo.NivelDeAdvertencia.ERROR, false);
     }
-
 
     public Usuario validarUsuario(String nombre, String clave) {
         return cu.validarUsuario(nombre, clave);
@@ -83,7 +81,6 @@ public class FachadaAplicacion {
     public Regulador obtenerDatosRegulador(Usuario user) {
         return cu.obtenerDatosRegulador(user);
     }
-
 
     public void menuInversor(Inversor inversor) {
         cu.iniciaInversor(inversor, this);
@@ -127,7 +124,6 @@ public class FachadaAplicacion {
         return cu.getPartPropEmpresa(e);
     }
 
-
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         cu.emitirParticipaciones(e, emision, precio);
     }
@@ -135,7 +131,6 @@ public class FachadaAplicacion {
     public void bajaParticipaciones(Empresa e, int baja) {
         cu.bajaParticipaciones(e, baja);
     }
-
 
     public ArrayList<Usuario> obtenerUsuariosPorAutorizacion() {
         return cu.obtenerUsuarioPorAutorizacion();
@@ -152,8 +147,8 @@ public class FachadaAplicacion {
     public ArrayList<Usuario> obtenerUsuariosBaja() {
         return cu.obtenerUsuarioBaja();
     }
-    
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio) {
         return cu.getOfertasVenta(empresa, precio);
     }
 
@@ -161,12 +156,16 @@ public class FachadaAplicacion {
         StringBuilder log = new StringBuilder();
         for (Usuario u : fbd.obtenerListaUsuarios()) {
             Usuario temp = fbd.obtenerDatosEmpresa(u);
-            if (temp == null)
+            if (temp == null) {
                 temp = fbd.obtenerDatosInversor(u);
-            if (temp == null)
+            }
+            if (temp == null) {
                 temp = fbd.obtenerDatosRegulador(u);
+            }
             u = temp;
-            if (u == null) continue;
+            if (u == null) {
+                continue;
+            }
             int part = fbd.getParticipacionesTotales(u);
             log.append("Usuario: " + u.getIdUsuario() + " Tipo: "
                     + u.getClass().getSimpleName() + " Participaciones totales: " + part + "\n");
@@ -180,5 +179,13 @@ public class FachadaAplicacion {
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
+    }
+
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int numero, float precioMaximo) {
+        // TODO
+        System.out.println("Comprador: " + comprador.getIdUsuario()
+                + "\nVendedor: " + vendedor.getIdUsuario()
+                + "\nCantidad: " + numero
+                + "\nPrecio máximo: " + precioMaximo);
     }
 }

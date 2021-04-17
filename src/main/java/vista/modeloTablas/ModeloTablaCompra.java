@@ -37,7 +37,7 @@ public class ModeloTablaCompra extends AbstractTableModel {
                 nombre = "Fecha";
                 break;
             case 3:
-                nombre = "Numero de participaciones";
+                nombre = "Número";
                 break;
             case 4:
                 nombre = "Precio";
