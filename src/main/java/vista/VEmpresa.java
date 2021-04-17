@@ -552,17 +552,6 @@ public class VEmpresa extends javax.swing.JFrame {
         
     }
     
-    
-    public void setBotones(){
-        
-        if(participacionesTextBox.getText().equals("") || participacionesTextBox.getText().equals("Introduzca un número.")){
-            participacionesBoton.setEnabled(false);
-        }else{
-            participacionesBoton.setEnabled(true);
-        }
-  
-    }
-    
     public void rellenarHuecos(){
          totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());

@@ -134,6 +134,10 @@ public class GestionUsuarios {
             fbd.modificarEmpresa(id_usuario, (Empresa) u);
         }
     }
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        return fbd.getOfertasVenta();
+    }
 
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return fbd.getParticipacionesEmpresa(u, e);
@@ -145,5 +149,6 @@ public class GestionUsuarios {
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
+
     }
 }

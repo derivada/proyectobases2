@@ -2,6 +2,7 @@ package baseDatos;
 
 import aplicacion.Empresa;
 import aplicacion.Inversor;
+import aplicacion.OfertaVenta;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
 import vista.componentes.DialogoInfo;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DAOUsuarios extends AbstractDAO {
 
@@ -431,6 +434,141 @@ public class DAOUsuarios extends AbstractDAO {
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
 
+    public int getPartPropEmpresa(Empresa e) {
+        int result = 0;
+        PreparedStatement stmCheck = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select numparticipaciones "
+                + "from participacionesempresa "
+                + "where usuario=? AND empresa=?";
+
+        try {
+            stmCheck = con.prepareStatement(consulta);
+            stmCheck.setString(1, e.getIdUsuario());
+            stmCheck.setString(2, e.getIdUsuario());
+            rst = stmCheck.executeQuery();
+            while (rst.next()) {
+                result = rst.getInt("numparticipaciones");
+            }
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmCheck.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return result;
+    }
+    
+    public void bajaParticipaciones(Empresa e, int baja){
+        int antiguasPart = getPartPropEmpresa(e);
+        PreparedStatement stmUpdate = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+        String consulta = "update participacionesempresa "
+                + "set numparticipaciones=? "
+                + "where usuario=? AND empresa=?";
+        
+        try {
+                stmUpdate = con.prepareStatement(consulta);
+                stmUpdate.setInt(1, antiguasPart - baja);
+                stmUpdate.setString(2, e.getIdUsuario());
+                stmUpdate.setString(3, e.getIdUsuario());
+                stmUpdate.executeUpdate();
+            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                manejarExcepcionSQL(ex);
+            } finally {
+                try {
+                    stmUpdate.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
+            }
+        
+    }
+
+    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+        int antiguasPart = 0;
+        PreparedStatement stmAntiguas = null;
+        PreparedStatement stmUpdate = null;
+        PreparedStatement stmNueva = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select numparticipaciones "
+                + "from participacionesempresa "
+                + "where usuario=? AND empresa=?";
+
+
+        String consulta2 = "update participacionesempresa "
+                + "set numparticipaciones=? "
+                + "where usuario=? AND empresa=?";
+
+        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
+
+        try {
+            con.setAutoCommit(false);
+            stmAntiguas = con.prepareStatement(consulta);
+            stmAntiguas.setString(1, e.getIdUsuario());
+            stmAntiguas.setString(2, e.getIdUsuario());
+            rst = stmAntiguas.executeQuery();
+            while (rst.next()) {
+                antiguasPart = rst.getInt("numparticipaciones");
+            }
+            try {
+                stmNueva = con.prepareStatement(consulta3);
+                stmNueva.setString(1, e.getIdUsuario());
+                stmNueva.setInt(2, emision);
+                stmNueva.setInt(3, precio);
+                stmNueva.executeUpdate();
+            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                manejarExcepcionSQL(ex);
+            } finally {
+                try {
+                    stmNueva.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
+            }
+            try {
+                stmUpdate = con.prepareStatement(consulta2);
+                stmUpdate.setInt(1, emision + antiguasPart);
+                stmUpdate.setString(2, e.getIdUsuario());
+                stmUpdate.setString(3, e.getIdUsuario());
+                stmUpdate.executeUpdate();
+            } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
+                manejarExcepcionSQL(ex);
+            } finally {
+                try {
+                    stmUpdate.close();
+                } catch (SQLException ex) {
+                    System.out.println("Imposible cerrar cursores");
+                }
+            }
+            con.commit();
+            con.setAutoCommit(true);
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmAntiguas.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+    }
+
     //Obtiene una lista de inversores con la autorizacion a false
     public ArrayList<Inversor> obtenerInversoresPorAutorizacion() {
         ArrayList<Inversor> resultado = new ArrayList<>();
@@ -690,5 +828,45 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+    
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+        
+        String consulta = "select * "
+                + "from ofertaVenta";
+        
+        try {
+            stm = con.prepareStatement(consulta);
+
+            rst = stm.executeQuery();
+            
+            while (rst.next()) {
+                //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getDate("fecha"), rst.getInt("numParticipaciones"), rst.getDouble("precio"));
+                
+                resultado.add(v);
+                
+            }
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado;
+        
+        
     }
 }

@@ -146,6 +146,10 @@ public class FachadaBaseDatos {
     public void modificarInversor(String id_usuario, Inversor u) {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
+    
+    public java.util.List<OfertaVenta> getOfertasVenta(){
+        return daoUsuarios.getOfertasVenta();
+    }
 
     public int getParticipacionesTotales(Usuario u) {
         return daoParticipaciones.getParticipacionesTotales(u);
