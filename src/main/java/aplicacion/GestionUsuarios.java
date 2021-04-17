@@ -120,7 +120,7 @@ public class GestionUsuarios {
         }
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(){
-        return fbd.getOfertasVenta();
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+        return fbd.getOfertasVenta(empresa, precio);
     }
 }

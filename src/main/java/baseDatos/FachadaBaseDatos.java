@@ -123,8 +123,8 @@ public class FachadaBaseDatos {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(){
-        return daoUsuarios.getOfertasVenta();
+    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, int precio){
+        return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
 
 }
