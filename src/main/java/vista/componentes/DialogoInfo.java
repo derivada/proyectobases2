@@ -54,8 +54,9 @@ public class DialogoInfo extends JDialog {
                     this.setIconImage(IMAGEN_ADVERTENCIA);
                     descIcono = new Etiqueta("Advertencia!");
                     descIcono.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA, FuentesGUI.Size.ENORME));
-                    descIcono.setForeground(ColoresGUI.getGUIColor(ColoresGUI.Colores.AMARILLO));
+                    descIcono.setForeground(ColoresGUI.getGUIColorOscuro(ColoresGUI.Colores.AMARILLO));
                 }
+                this.setModalityType(ModalityType.APPLICATION_MODAL);
                 break;
             case ERROR_BASEDATOS:
                 if (IMAGEN_ERROR_BASEDATOS != null) {
@@ -64,6 +65,7 @@ public class DialogoInfo extends JDialog {
                     descIcono.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA, FuentesGUI.Size.GRANDE));
                     descIcono.setForeground(ColoresGUI.getGUIColor(ColoresGUI.Colores.ROJO));
                 }
+                this.setModalityType(ModalityType.APPLICATION_MODAL);
                 break;
             default:
                 if (IMAGEN_ERROR != null) {
@@ -72,11 +74,11 @@ public class DialogoInfo extends JDialog {
                     descIcono.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA, FuentesGUI.Size.ENORME));
                     descIcono.setForeground(ColoresGUI.getGUIColor(ColoresGUI.Colores.ROJO));
                 }
+                this.setModalityType(ModalityType.APPLICATION_MODAL);
                 break;
         }
         if (descIcono != null)
             add(descIcono, BorderLayout.PAGE_START);
-
         JTextArea texto = new JTextArea(descripcion);
         texto.setWrapStyleWord(true);
         texto.setLineWrap(true);
@@ -84,6 +86,14 @@ public class DialogoInfo extends JDialog {
         texto.setForeground(ColoresGUI.texto);
         texto.setBackground(ColoresGUI.fondo);
         add(texto, BorderLayout.CENTER);
+
+        Boton salir = new Boton();
+        salir.setText("Ok");
+        salir.addActionListener(e -> {
+            this.dispose();
+        });
+        add(salir, BorderLayout.AFTER_LAST_LINE);
+
         this.setVisible(true);
     }
 

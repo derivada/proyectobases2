@@ -43,7 +43,6 @@ public class VRegistro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tipoReg = new javax.swing.JComboBox<>();
         botonCrearSolicitud = new vista.componentes.Boton();
         claveIngresoLabel = new vista.componentes.Etiqueta();
         ingresoLabel = new vista.componentes.Etiqueta();
@@ -66,15 +65,11 @@ public class VRegistro extends javax.swing.JFrame {
         botonSalir = new vista.componentes.BotonVolver();
         ingresoClave = new vista.componentes.PasswordField();
         claveReg = new vista.componentes.PasswordField();
+        botonTests = new vista.componentes.Boton();
+        String[] tipos = {"Inversor", "Empresa"};
+        tipoReg = new vista.componentes.SelecionBox(tipos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tipoReg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empresa", "Inversor", " " }));
-        tipoReg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoRegActionPerformed(evt);
-            }
-        });
 
         botonCrearSolicitud.setText("Crear solicitud de registro");
         botonCrearSolicitud.addActionListener(new java.awt.event.ActionListener() {
@@ -166,6 +161,14 @@ public class VRegistro extends javax.swing.JFrame {
             }
         });
 
+        botonTests.setForeground(new java.awt.Color(0, 153, 153));
+        botonTests.setText("tests");
+        botonTests.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonTestsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,16 +178,18 @@ public class VRegistro extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(248, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(48, 48, 48)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(ingresoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                        .addComponent(ingresoClave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(claveIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(48, 48, 48)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(ingresoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                            .addComponent(ingresoClave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(botonTests, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(direccionRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,8 +212,8 @@ public class VRegistro extends javax.swing.JFrame {
                     .addComponent(tlfoReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(CIFReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nombreReg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tipoReg, javax.swing.GroupLayout.Alignment.TRAILING, 0, 386, Short.MAX_VALUE)
-                    .addComponent(claveReg, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                    .addComponent(claveReg, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(tipoReg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(225, 225, 225))
         );
         layout.setVerticalGroup(
@@ -218,7 +223,7 @@ public class VRegistro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(registroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ingresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(71, 71, 71)
+                .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(usuarioIngresoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ingresoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,13 +241,17 @@ public class VRegistro extends javax.swing.JFrame {
                     .addComponent(CIFRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAceptarIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tlfoReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(telefonoRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tlfoReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(IDReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonTests, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(claveRegLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,12 +278,8 @@ public class VRegistro extends javax.swing.JFrame {
 
     private void solicitarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarRegistroActionPerformed
         // TODO add your handling code here:
-        //this.solicitarRegistro();
+        this.solicitarRegistro();
     }//GEN-LAST:event_solicitarRegistroActionPerformed
-
-    private void tipoRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoRegActionPerformed
 
     private void botoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2cancelarRegistroActionPerformed
         // TODO add your handling code here:
@@ -321,6 +326,11 @@ public class VRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_claveRegActionPerformed
 
+    private void botonTestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTestsActionPerformed
+        // TODO add your handling code here:
+        fa._tests();
+    }//GEN-LAST:event_botonTestsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.TextBox CIFReg;
@@ -329,6 +339,7 @@ public class VRegistro extends javax.swing.JFrame {
     private vista.componentes.Boton botonAceptarIngreso;
     private vista.componentes.Boton botonCrearSolicitud;
     private vista.componentes.BotonVolver botonSalir;
+    private vista.componentes.Boton botonTests;
     private vista.componentes.Etiqueta claveIngresoLabel;
     private vista.componentes.PasswordField claveReg;
     private vista.componentes.Etiqueta claveRegLabel;
@@ -342,7 +353,7 @@ public class VRegistro extends javax.swing.JFrame {
     private vista.componentes.Etiqueta nombreRegLabel;
     private vista.componentes.Etiqueta registroLabel;
     private vista.componentes.Etiqueta telefonoRegLabel;
-    private javax.swing.JComboBox<String> tipoReg;
+    private vista.componentes.SelecionBox tipoReg;
     private vista.componentes.Etiqueta tipoRegLabel;
     private vista.componentes.TextBox tlfoReg;
     private vista.componentes.Etiqueta usuarioIngresoLabel;
@@ -381,7 +392,6 @@ public class VRegistro extends javax.swing.JFrame {
     public void solicitarRegistro() {
         Usuario u;
         boolean usuario, inversor, empresa;
-
         //compruebo si estan vacios los campos que no pueden estar vacios
         if (this.IDReg.getText().isEmpty() || this.claveReg.getText().isEmpty() || this.nombreReg.getText().isEmpty() || this.CIFReg.getText().isEmpty()) {
             fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
@@ -389,10 +399,7 @@ public class VRegistro extends javax.swing.JFrame {
         }
 
         switch (this.tipoReg.getSelectedIndex()) {//switch segun el elemento seleccionado en el combobox
-            case 2:
-                //si en el comboBox de seleccion de tipo tiene el index 2, es que esta en blanco
-                fa.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.");//muestro excepcion
-                break;
+
             case 1: {
                 //si en el comboBox de selecion de tipo tiene el index 1, es que es inversor
                 Inversor i;
@@ -410,7 +417,7 @@ public class VRegistro extends javax.swing.JFrame {
                 }
                 break;
             }
-            case 0: {
+            case 2: {
                 //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
                 Empresa e;
                 u = new Usuario(this.IDReg.getText(), this.claveReg.getText(), false, false);//creo un nuevo usuario
@@ -428,6 +435,7 @@ public class VRegistro extends javax.swing.JFrame {
                 break;
             }
             default:
+                fa.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.");//muestro excepcion
                 break;
         }
     }

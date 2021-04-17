@@ -7,14 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
+    private DAOParticipaciones daoParticipaciones;
     private static final String nombreArchivo = "baseDatos.properties";
 
-    public FachadaAplicacion getFachadaAplicacion(){
+    public FachadaAplicacion getFachadaAplicacion() {
         return this.fa;
     }
 
@@ -45,6 +47,7 @@ public class FachadaBaseDatos {
                             configuracion.getProperty("baseDatos"),
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
+            daoParticipaciones = new DAOParticipaciones(conexion, fa);
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
                     + "\" realizada con éxito!");
         } catch (FileNotFoundException f) {
@@ -66,8 +69,36 @@ public class FachadaBaseDatos {
         return daoUsuarios.validarUsuario(nombre, clave);
     }
 
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        return daoUsuarios.obtenerDatosEmpresa(user);
+    }
+
+    public Inversor obtenerDatosInversor(Usuario user) {
+        return daoUsuarios.obtenerDatosInversor(user);
+    }
+
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        return daoUsuarios.obtenerDatosRegulador(user);
+    }
+
+    public java.util.List<Usuario> obtenerListaUsuarios() {
+        return daoUsuarios.obtenerListaUsuarios();
+    }
+
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return daoUsuarios.obtenerListaEmpresas();
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return daoUsuarios.obtenerListaInversores();
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return daoUsuarios.obtenerListaReguladores();
+    }
+
     public java.util.List<String> obtenerListaNombresUsuarios() {
-        return daoUsuarios.obtenerListaNombresUsuarios();
+        return this.obtenerListaUsuarios().stream().map(u -> u.getIdUsuario()).collect(Collectors.toList());
     }
 
     public boolean registroUsuario(Usuario u) {
@@ -82,16 +113,9 @@ public class FachadaBaseDatos {
         return daoUsuarios.registroEmpresa(e);
     }
 
-    public int getPartPropEmpresa(Empresa e) {
-        return daoUsuarios.getPartPropEmpresa(e);
-    }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
-        daoUsuarios.emitirParticipaciones(e, emision, precio);
-    }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
-        daoUsuarios.bajaParticipaciones(e, baja);
+    public void bajaParticipaciones(Empresa e, int baja) {
+        daoParticipaciones.bajaParticipaciones(e, baja);
     }
 
     public ArrayList<Inversor> obtenerInversorPorAutorizacion() {
@@ -102,7 +126,7 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerEmpresaPorAutorizacion();
     }
 
-    public void autorizarUsuario(String id_usuario){
+    public void autorizarUsuario(String id_usuario) {
         daoUsuarios.autorizarUsuario(id_usuario);
     }
 
@@ -127,6 +151,25 @@ public class FachadaBaseDatos {
         return daoUsuarios.getOfertasVenta();
     }
 
+    public int getParticipacionesTotales(Usuario u) {
+        return daoParticipaciones.getParticipacionesTotales(u);
+    }
+
+    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+        return daoParticipaciones.getParticipacionesEmpresa(u, e);
+    }
+
+    public int getPartPropEmpresa(Empresa e) {
+        return daoParticipaciones.getPartPropEmpresa(e);
+    }
+
+    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+        daoParticipaciones.emitirParticipaciones(e, emision, precio);
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
+        daoParticipaciones.crearOfertaVenta(u, empresa, numero, precioVenta);
+    }
 }
 
 
