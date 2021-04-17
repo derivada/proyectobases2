@@ -20,12 +20,6 @@ public class Usuario {
         this.autorizado = autorizado;
     }
 
-
-    public Usuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-
-    }
-
     public String getIdUsuario() {
         return idUsuario;
     }

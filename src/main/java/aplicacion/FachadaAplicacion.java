@@ -56,6 +56,35 @@ public class FachadaAplicacion {
         return cu.validarUsuario(nombre, clave);
     }
 
+    public java.util.List<Usuario> obtenerListaUsuarios() {
+        return cu.obtenerListaUsuarios();
+    }
+
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return cu.obtenerListaEmpresas();
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return cu.obtenerListaInversores();
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return cu.obtenerListaReguladores();
+    }
+
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        return cu.obtenerDatosEmpresa(user);
+    }
+
+    public Inversor obtenerDatosInversor(Usuario user) {
+        return cu.obtenerDatosInversor(user);
+    }
+
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        return cu.obtenerDatosRegulador(user);
+    }
+
+
     public void menuInversor(Inversor inversor) {
         cu.iniciaInversor(inversor, this);
     }
@@ -86,15 +115,24 @@ public class FachadaAplicacion {
         return cu.registroEmpresa(e);
     }
 
+    public int getParticipacionesTotales(Usuario u) {
+        return cu.getParticipacionesTotales(u);
+    }
+
+    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+        return cu.getParticipacionesEmpresa(u, e);
+    }
+
     public int getPartPropEmpresa(Empresa e) {
         return cu.getPartPropEmpresa(e);
     }
 
+
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         cu.emitirParticipaciones(e, emision, precio);
     }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
+
+    public void bajaParticipaciones(Empresa e, int baja) {
         cu.bajaParticipaciones(e, baja);
     }
 
@@ -103,7 +141,7 @@ public class FachadaAplicacion {
         return cu.obtenerUsuarioPorAutorizacion();
     }
 
-    public void autorizarUsuarios(String idUsuario){
+    public void autorizarUsuarios(String idUsuario) {
         cu.autorizarUsuario(idUsuario);
     }
 
@@ -117,5 +155,30 @@ public class FachadaAplicacion {
     
     public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
         return cu.getOfertasVenta(empresa, precio);
+    }
+
+    public void _tests() {
+        StringBuilder log = new StringBuilder();
+        for (Usuario u : fbd.obtenerListaUsuarios()) {
+            Usuario temp = fbd.obtenerDatosEmpresa(u);
+            if (temp == null)
+                temp = fbd.obtenerDatosInversor(u);
+            if (temp == null)
+                temp = fbd.obtenerDatosRegulador(u);
+            u = temp;
+            if (u == null) continue;
+            int part = fbd.getParticipacionesTotales(u);
+            log.append("Usuario: " + u.getIdUsuario() + " Tipo: "
+                    + u.getClass().getSimpleName() + " Participaciones totales: " + part + "\n");
+        }
+        Usuario elena = fbd.validarUsuario("Elena", "432");
+        Usuario HP = fbd.validarUsuario("HP", "778");
+        int partHP = fbd.getParticipacionesEmpresa(elena, (Empresa) HP);
+        log.append("Elena tiene " + partHP + " participaciones de HP\n");
+        this.muestraExcepcion(log.toString(), DialogoInfo.NivelDeAdvertencia.INFORMACION);
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
+        cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
 }

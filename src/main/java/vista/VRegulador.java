@@ -1,7 +1,6 @@
 package vista;
 
 import aplicacion.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import vista.componentes.FuentesGUI;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;

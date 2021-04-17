@@ -47,9 +47,9 @@
                   <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                   <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="65" max="32767" attributes="0"/>
+              <EmptySpace pref="54" max="32767" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="807" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,7 +58,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTabbedPane1" min="-2" pref="637" max="-2" attributes="0"/>
+                  <Component id="jTabbedPane1" alignment="1" min="-2" pref="637" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -134,7 +134,7 @@
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
       <Properties>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Por defecto"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -158,7 +158,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="720" max="-2" attributes="0"/>
-                      <EmptySpace pref="45" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -167,7 +167,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="513" max="-2" attributes="0"/>
-                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <EmptySpace pref="49" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -191,6 +191,18 @@
             </Container>
           </SubComponents>
         </Container>
+        <Component class="vista.VentaParticipacionesPanel" name="ventaPanel">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.VentaParticipacionesPanel(e, fa)"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Venta">
+                <Property name="tabTitle" type="java.lang.String" value="Venta"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
         <Container class="vista.componentes.Tabs" name="tabs7">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
@@ -234,7 +246,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="47" max="32767" attributes="0"/>
+                      <EmptySpace pref="295" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -257,6 +269,7 @@
                       <Component id="jScrollPane2" min="-2" pref="403" max="-2" attributes="0"/>
                       <EmptySpace pref="26" max="32767" attributes="0"/>
                       <Component id="compraBoton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="429" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -315,94 +328,6 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="vista.componentes.Tabs" name="tabs8">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Venta">
-                <Property name="tabTitle" type="java.lang.String" value="Venta"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="precioVentaLabel" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="empresaVentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="precioVentaTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
-                                  <Component id="empresaVentaTextBox" min="-2" pref="315" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="numeroVentaTextBox" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
-                                  <Component id="numeroVentaLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ventaBoton" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="39" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="empresaVentaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="numeroVentaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="empresaVentaTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                          <Component id="numeroVentaTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="precioVentaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="precioVentaTextBox" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
-                          <Component id="ventaBoton" alignment="3" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="391" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="vista.componentes.TextBox" name="empresaVentaTextBox">
-            </Component>
-            <Component class="vista.componentes.TextBox" name="precioVentaTextBox">
-            </Component>
-            <Component class="vista.componentes.TextBox" name="numeroVentaTextBox">
-            </Component>
-            <Component class="vista.componentes.Boton" name="ventaBoton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Crear oferta de venta"/>
-              </Properties>
-            </Component>
-            <Component class="vista.componentes.Etiqueta" name="empresaVentaLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Empresa"/>
-              </Properties>
-            </Component>
-            <Component class="vista.componentes.Etiqueta" name="precioVentaLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Precio total"/>
-              </Properties>
-            </Component>
-            <Component class="vista.componentes.Etiqueta" name="numeroVentaLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="N&#xfa;mero de participaciones"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
         <Container class="vista.componentes.Tabs" name="tabs10">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
@@ -423,7 +348,7 @@
                           <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
                           <Component id="participacionesTextBox" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="bajaParticipacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
                           <Component id="precioParticipaciones" min="-2" pref="308" max="-2" attributes="0"/>
@@ -456,7 +381,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bajaParticipacionesBoton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="330" max="32767" attributes="0"/>
+                      <EmptySpace pref="328" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -533,7 +458,7 @@
                               <Component id="beneficiosBoton" min="-2" pref="346" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="47" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -551,7 +476,7 @@
                       <Component id="FechaLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="FechaTextBox" min="-2" pref="36" max="-2" attributes="0"/>
-                      <EmptySpace pref="342" max="32767" attributes="0"/>
+                      <EmptySpace pref="340" max="32767" attributes="0"/>
                       <Component id="pagarBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
