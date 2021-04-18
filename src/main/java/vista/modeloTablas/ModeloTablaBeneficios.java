@@ -38,8 +38,6 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
             case 3:
                 nombre = "Importe por participacion";
                 break;
-
-
         }
         return nombre;
     }

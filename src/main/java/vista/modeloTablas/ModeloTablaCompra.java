@@ -28,7 +28,7 @@ public class ModeloTablaCompra extends AbstractTableModel {
 
         switch (col) {
             case 0:
-                nombre = "Usuario";
+                nombre = "Vendedor";
                 break;
             case 1:
                 nombre = "Empresa";
@@ -74,10 +74,10 @@ public class ModeloTablaCompra extends AbstractTableModel {
 
         switch (col) {
             case 0:
-                resultado = ofertaVentas.get(row).getEmpresa();
+                resultado = ofertaVentas.get(row).getVendedor();
                 break;
             case 1:
-                resultado = ofertaVentas.get(row).getUsuario();
+                resultado = ofertaVentas.get(row).getEmpresa();
                 break;
             case 2:
                 resultado = ofertaVentas.get(row).getFecha();
