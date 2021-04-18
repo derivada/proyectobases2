@@ -20,7 +20,8 @@ public class FachadaGui {
     }
 
     public void iniciaVista(aplicacion.FachadaAplicacion fa) {
-        vr = new VRegistro(fa);
+        if (vr == null)
+            vr = new VRegistro(fa);
         vr.setVisible(true);
     }
 

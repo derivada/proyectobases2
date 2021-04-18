@@ -1,9 +1,14 @@
 package vista;
 
+
 import aplicacion.AnuncioBeneficios;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
 import vista.modeloTablas.ModeloTablaBeneficios; 
+
+import aplicacion.*;
+import vista.componentes.FuentesGUI;
+
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
@@ -22,6 +27,7 @@ public class VRegulador extends javax.swing.JFrame {
         // (Ver clase VEmpresas) claveTextBox.setText(r.getClave());
         saldoTextBox.setText(String.valueOf(r.getSaldo()));
         tipoTextBox.setText("Regulador");
+
         ModeloTablaBeneficios tablaAnuncios=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
         tablaAnuncios.setFilas(fa.obtenerAnunciosRegulador());
         if(tablaAnuncios.getRowCount()>0){
@@ -29,7 +35,29 @@ public class VRegulador extends javax.swing.JFrame {
         }
         
         
-        
+
+
+        //Modelo tabla Alta
+        ModeloTablaAlta mTAlta = new ModeloTablaAlta();
+        tabla1.setModel(mTAlta);
+        mTAlta.setFilas(fa.obtenerUsuariosPorAutorizacion());
+        if (mTAlta.getRowCount() > 0) {
+            tabla1.setRowSelectionInterval(0, 0);
+            altaBoton.setEnabled(true);
+        } else {
+            altaBoton.setEnabled(false);
+        }
+
+        ModeloTablaBaja mTBaja = new ModeloTablaBaja();
+        tabla2.setModel(mTBaja);
+        mTBaja.setFilas(fa.obtenerUsuariosBaja());
+        if (mTBaja.getRowCount() > 0) {
+            tabla2.setRowSelectionInterval(0, 0);
+            bajaBoton.setEnabled(true);
+        } else {
+            bajaBoton.setEnabled(false);
+        }
+
     }
 
     /**
@@ -59,14 +87,17 @@ public class VRegulador extends javax.swing.JFrame {
         anunciosTabla = new vista.componentes.Tabla();
         bajaAnuncioBoton = new vista.componentes.Boton();
         saldoLabel = new vista.componentes.Etiqueta();
-        desconectarBoton = new vista.componentes.Boton();
         idTextBox = new vista.componentes.TextBox();
         tipoTextBox = new vista.componentes.TextBox();
-        claveLabel = new vista.componentes.Etiqueta();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
         saldoTextBox = new vista.componentes.TextBox();
+
         claveTextBox1 = new vista.componentes.TextBox();
+
+        botonVolver1 = new vista.componentes.BotonVolver();
+        bienvenidoLabel = new vista.componentes.Etiqueta();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,20 +116,18 @@ public class VRegulador extends javax.swing.JFrame {
         tabs5Layout.setHorizontalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
-                    .addGroup(tabs5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(altaBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
         tabs5Layout.setVerticalGroup(
             tabs5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs5Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(altaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -106,6 +135,11 @@ public class VRegulador extends javax.swing.JFrame {
         jTabbedPane1.addTab("Solicitudes de alta", tabs5);
 
         bajaBoton.setText("Autorizar");
+        bajaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaBotonActionPerformed(evt);
+            }
+        });
 
         tabla2.setModel(new ModeloTablaBaja());
         jScrollPane1.setViewportView(tabla2);
@@ -123,12 +157,18 @@ public class VRegulador extends javax.swing.JFrame {
         );
         tabs6Layout.setVerticalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
             .addGroup(tabs6Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs6Layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+
                 .addGap(18, 18, 18)
                 .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
 
         jTabbedPane1.addTab("Solicitudes de baja", tabs6);
@@ -152,9 +192,9 @@ public class VRegulador extends javax.swing.JFrame {
         tabs7Layout.setVerticalGroup(
             tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -199,12 +239,14 @@ public class VRegulador extends javax.swing.JFrame {
 
         saldoLabel.setText("Saldo");
 
+
         desconectarBoton.setText("Desconectar");
         desconectarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 desconectarBotonActionPerformed(evt);
             }
         });
+
 
         idTextBox.setEditable(false);
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
@@ -220,8 +262,6 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
-        claveLabel.setText("Contraseña:");
-
         tipoLabel.setText("Tipo:");
 
         usuarioLabel.setText("Usuario:");
@@ -232,22 +272,25 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        bienvenidoLabel.setText("Bienvenid@, " +r.getIdUsuario());
+        bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(desconectarBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(claveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(claveTextBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                        .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                        .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
+                    .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
@@ -256,33 +299,63 @@ public class VRegulador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(claveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(claveTextBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
+
+                        .addGap(18, 18, 18)
+
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+
                         .addGap(33, 33, 33)
                         .addComponent(desconectarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57)
+
+                        .addGap(114, 114, 114)
+
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
         OtrosComponentes.configurarTabbedPane(jTabbedPane1);
+        botonVolver1.configurar(fa, this, false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
+    private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
+        ModeloTablaAlta modelo = (ModeloTablaAlta) tabla1.getModel();
+        Usuario u = modelo.obtenerUsuario(tabla1.getSelectedRow());
+        if (u instanceof Inversor) {
+            Inversor us = (Inversor) u;
+            us.setAutorizado(true);
+        } else {
+            Empresa us = (Empresa) u;
+            us.setAutorizado(true);
+        }
+
+        fa.autorizarUsuarios(u.getIdUsuario());
+
+        modelo.setFilas(fa.obtenerUsuariosPorAutorizacion());
+    }//GEN-LAST:event_altaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
         // TODO add your handling code here:
@@ -296,11 +369,12 @@ public class VRegulador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
 
-    private void desconectarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarBotonActionPerformed
-        // TODO add your handling code here:
-        fa.inicializarGUI();
-        this.dispose();
-    }//GEN-LAST:event_desconectarBotonActionPerformed
+    private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
+        ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
+        Usuario u = modelo.obtenerUsuario(tabla2.getSelectedRow());
+
+        fa.bajaUsuario(u);
+
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
         // TODO add your handling code here:
@@ -312,14 +386,22 @@ public class VRegulador extends javax.swing.JFrame {
     }//GEN-LAST:event_bajaAnuncioBotonActionPerformed
 
 
+        modelo.setFilas(fa.obtenerUsuariosBaja());
+    }//GEN-LAST:event_bajaBotonActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
     private vista.componentes.Tabla anunciosTabla;
     private vista.componentes.Boton bajaAnuncioBoton;
     private vista.componentes.Boton bajaBoton;
+
     private vista.componentes.Etiqueta claveLabel;
     private vista.componentes.TextBox claveTextBox1;
     private vista.componentes.Boton desconectarBoton;
+
+    private vista.componentes.Etiqueta bienvenidoLabel;
+    private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

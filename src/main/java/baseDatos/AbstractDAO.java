@@ -2,6 +2,7 @@ package baseDatos;
 
 import vista.componentes.DialogoInfo;
 
+import javax.swing.*;
 import java.sql.SQLException;
 
 public abstract class AbstractDAO {
@@ -30,5 +31,33 @@ public abstract class AbstractDAO {
         this.getFachadaAplicacion().muestraExcepcion("Excepción al acceder a la base de datos", e.getMessage(),
                 DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
     }
+
+    protected void manejarExcepcion(Exception e) {
+        System.err.println("Excepción al acceder a la base de datos...");
+        e.printStackTrace();
+        this.getFachadaAplicacion().muestraExcepcion("Excepción al acceder a la base de datos", e.getMessage(),
+                DialogoInfo.NivelDeAdvertencia.ERROR);
+    }
+
+    protected void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
+        fa.muestraExcepcion(padre, titulo, descripcion, nivel, bloqueaInput);
+    }
+
+    protected void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fa.muestraExcepcion(padre, titulo, descripcion, nivel, false);
+    }
+
+    protected void muestraExcepcion(String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fa.muestraExcepcion(null, titulo, descripcion, nivel, false);
+    }
+
+    protected void muestraExcepcion(String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        fa.muestraExcepcion(null, "Mercado de valores", descripcion, nivel, false);
+    }
+
+    protected void muestraExcepcion(String descripcion) {
+        fa.muestraExcepcion(null, "Mercado de valores", descripcion, DialogoInfo.NivelDeAdvertencia.ERROR, false);
+    }
+
 
 }

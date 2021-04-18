@@ -67,20 +67,20 @@ public class ModeloTablaAlta extends AbstractTableModel{
             case 1:
                 if(usuariosAlta.get(row) instanceof Inversor){
                     Inversor i = (Inversor)usuariosAlta.get(row);
-                   resultado = i.getNombre(); 
+                    resultado = i.getNombre();
                 } else {
-                   Empresa e = (Empresa)usuariosAlta.get(row);
-                   resultado = e.getNombre();
+                    Empresa e = (Empresa)usuariosAlta.get(row);
+                    resultado = e.getNombre();
                 }
-                
+
                 break;
             case 2:
                 if(usuariosAlta.get(row) instanceof Inversor){
-                   Inversor i = (Inversor)usuariosAlta.get(row);
-                   resultado = i.getDni(); 
+                    Inversor i = (Inversor)usuariosAlta.get(row);
+                    resultado = i.getDni();
                 } else {
-                   Empresa e = (Empresa)usuariosAlta.get(row);
-                   resultado = e.getCIF();
+                    Empresa e = (Empresa)usuariosAlta.get(row);
+                    resultado = e.getCIF();
                 }
                 break;
 
@@ -111,4 +111,3 @@ public class ModeloTablaAlta extends AbstractTableModel{
         return this.usuariosAlta.get(i);
     }
 }
-

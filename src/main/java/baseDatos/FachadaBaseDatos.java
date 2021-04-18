@@ -8,15 +8,20 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import vista.componentes.DialogoInfo;
+
+import java.util.stream.Collectors;
+
 
 public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
+    private DAOParticipaciones daoParticipaciones;
     private static final String nombreArchivo = "baseDatos.properties";
 
-    public FachadaAplicacion getFachadaAplicacion(){
+    public FachadaAplicacion getFachadaAplicacion() {
         return this.fa;
     }
 
@@ -47,6 +52,7 @@ public class FachadaBaseDatos {
                             configuracion.getProperty("baseDatos"),
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
+            daoParticipaciones = new DAOParticipaciones(conexion, fa);
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
                     + "\" realizada con éxito!");
         } catch (FileNotFoundException f) {
@@ -68,8 +74,36 @@ public class FachadaBaseDatos {
         return daoUsuarios.validarUsuario(nombre, clave);
     }
 
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        return daoUsuarios.obtenerDatosEmpresa(user);
+    }
+
+    public Inversor obtenerDatosInversor(Usuario user) {
+        return daoUsuarios.obtenerDatosInversor(user);
+    }
+
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        return daoUsuarios.obtenerDatosRegulador(user);
+    }
+
+    public java.util.List<Usuario> obtenerListaUsuarios() {
+        return daoUsuarios.obtenerListaUsuarios();
+    }
+
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return daoUsuarios.obtenerListaEmpresas();
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return daoUsuarios.obtenerListaInversores();
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return daoUsuarios.obtenerListaReguladores();
+    }
+
     public java.util.List<String> obtenerListaNombresUsuarios() {
-        return daoUsuarios.obtenerListaNombresUsuarios();
+        return this.obtenerListaUsuarios().stream().map(u -> u.getIdUsuario()).collect(Collectors.toList());
     }
 
     public boolean registroUsuario(Usuario u) {
@@ -84,25 +118,31 @@ public class FachadaBaseDatos {
         return daoUsuarios.registroEmpresa(e);
     }
 
-    public int getPartPropEmpresa(Empresa e) {
-        return daoUsuarios.getPartPropEmpresa(e);
+
+    public void bajaParticipaciones(Empresa e, int baja) {
+        daoParticipaciones.bajaParticipaciones(e, baja);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
-        daoUsuarios.emitirParticipaciones(e, emision, precio);
-    }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
-        daoUsuarios.bajaParticipaciones(e, baja);
+    public ArrayList<Inversor> obtenerInversorPorAutorizacion() {
+        return daoUsuarios.obtenerInversoresPorAutorizacion();
     }
 
-//    public ArrayList<Inversor> obtenerInversorPorAutorizacion(boolean autorizado) {
-//        return daoUsuarios.obtenerInversoresPorAutorizacion(autorizado);
-//    }
-//
-//    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion(boolean autorizado) {
-//        return daoUsuarios.obtenerEmpresaPorAutorizacion(autorizado);
-//    }
+    public ArrayList<Empresa> obtenerEmpresaPorAutorizacion() {
+        return daoUsuarios.obtenerEmpresaPorAutorizacion();
+    }
+
+    public void autorizarUsuario(String id_usuario) {
+        daoUsuarios.autorizarUsuario(id_usuario);
+    }
+
+    public ArrayList<Inversor> obtenerInversorBaja() {
+        return daoUsuarios.obtenerInversorBaja();
+    }
+
+    public ArrayList<Empresa> obtenerEmpresaBaja() {
+        return daoUsuarios.obtenerEmpresaBaja();
+    }
+
 
     public void modificarEmpresa(String id_usuario, Empresa u) {
         daoUsuarios.modificarDatosEmpresa(id_usuario, u);
@@ -111,7 +151,7 @@ public class FachadaBaseDatos {
     public void modificarInversor(String id_usuario, Inversor u) {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
-    
+
     public int crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
         return daoUsuarios.crearAnuncio(importe, e, fecha,numeroParticipaciones);
     }
@@ -137,6 +177,42 @@ public class FachadaBaseDatos {
          daoUsuarios.bajaAnuncio(empresa, fecha, importe);
      }
 
+    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, int precio){
+        return daoUsuarios.getOfertasVenta(Empresa, precio);
+    }
+
+    public int getParticipacionesTotales(Usuario u) {
+        return daoParticipaciones.getParticipacionesTotales(u);
+    }
+
+    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+        return daoParticipaciones.getParticipacionesEmpresa(u, e);
+    }
+
+    public int getPartPropEmpresa(Empresa e) {
+        return daoParticipaciones.getPartPropEmpresa(e);
+    }
+
+    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+        daoParticipaciones.emitirParticipaciones(e, emision, precio);
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
+        daoParticipaciones.crearOfertaVenta(u, empresa, numero, precioVenta);
+    }
+
+
+    public void eliminarInversor(String idUsuario) {
+        daoUsuarios.eliminarInversor(idUsuario);
+    }
+
+    public void eliminarEmpresa(String idUsuario) {
+        daoUsuarios.eliminarEmpresa(idUsuario);
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        daoUsuarios.solicitarBaja(idUsuario);
+    }
 }
 
 

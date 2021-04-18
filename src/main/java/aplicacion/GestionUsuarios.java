@@ -17,7 +17,6 @@ import vista.componentes.DialogoInfo;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GestionUsuarios {
     FachadaGui fgui;
@@ -38,20 +37,36 @@ public class GestionUsuarios {
                     DialogoInfo.NivelDeAdvertencia.ERROR);
             return null;
         }
-
         // El usuario está registrado, intentar validarlo
-        Usuario u = fbd.validarUsuario(nombre, clave);
+        return  fbd.validarUsuario(nombre, clave);
+    }
 
-        // Si el método devuelve null es que la clave no es correcta
-        if (u == null) {
-            // TODO: Ventana emergente que muestre que la clave no es correcta
-            fbd.getFachadaAplicacion().muestraExcepcion("Error al autentificar usuario", "La clave no es correcta!",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-            return null;
-        }
+    public java.util.List<Usuario> obtenerListaUsuarios() {
+        return fbd.obtenerListaUsuarios();
+    }
 
-        // Si el método no devuelve null ya tenemos al usuario completo
-        return u;
+    public java.util.List<Usuario> obtenerListaEmpresas() {
+        return fbd.obtenerListaEmpresas();
+    }
+
+    public java.util.List<Usuario> obtenerListaInversores() {
+        return fbd.obtenerListaInversores();
+    }
+
+    public java.util.List<Usuario> obtenerListaReguladores() {
+        return fbd.obtenerListaReguladores();
+    }
+
+    public Empresa obtenerDatosEmpresa(Usuario user) {
+        return fbd.obtenerDatosEmpresa(user);
+    }
+
+    public Inversor obtenerDatosInversor(Usuario user) {
+        return fbd.obtenerDatosInversor(user);
+    }
+
+    public Regulador obtenerDatosRegulador(Usuario user) {
+        return fbd.obtenerDatosRegulador(user);
     }
 
     public void iniciaInversor(Inversor i, FachadaAplicacion fa) {
@@ -77,36 +92,51 @@ public class GestionUsuarios {
     public boolean registroEmpresa(Empresa e) {
         return fbd.registroEmpresa(e);
     }
-    
+
     public int getPartPropEmpresa(Empresa e) {
         return fbd.getPartPropEmpresa(e);
     }
-    
-    public void emitirParticipaciones(Empresa e, int emision, int precio){
+
+    public void emitirParticipaciones(Empresa e, int emision, int precio) {
         fbd.emitirParticipaciones(e, emision, precio);
     }
-    
-    public void bajaParticipaciones(Empresa e, int baja){
+
+    public void bajaParticipaciones(Empresa e, int baja) {
         fbd.bajaParticipaciones(e, baja);
     }
-    /*
-    public ArrayList<Usuario> obtenerUsuarioPorAutorizacion(boolean autorizado){
+
+    public ArrayList<Usuario> obtenerUsuarioPorAutorizacion() {
         ArrayList<Usuario> resultado = new ArrayList<>();
 
-        resultado.addAll(fbd.obtenerInversorPorAutorizacion(autorizado));
-        resultado.addAll(fbd.obtenerEmpresaPorAutorizacion(autorizado));
-        
+        resultado.addAll(fbd.obtenerInversorPorAutorizacion());
+        resultado.addAll(fbd.obtenerEmpresaPorAutorizacion());
+
         return resultado;
     }
-    */
-    public void modificarUsuario(String id_usuario, Usuario u){
-        if(u instanceof Inversor){
-            fbd.modificarInversor(id_usuario, (Inversor)u);
+
+    public void autorizarUsuario(String id_usuario) {
+        fbd.autorizarUsuario(id_usuario);
+    }
+
+    public ArrayList<Usuario> obtenerUsuarioBaja() {
+        ArrayList<Usuario> resultado = new ArrayList<>();
+
+        resultado.addAll(fbd.obtenerInversorBaja());
+        resultado.addAll(fbd.obtenerEmpresaBaja());
+
+        return resultado;
+    }
+
+
+    public void modificarUsuario(String id_usuario, Usuario u) {
+        if (u instanceof Inversor) {
+            fbd.modificarInversor(id_usuario, (Inversor) u);
         } else {
-            fbd.modificarEmpresa(id_usuario, (Empresa)u);
+            fbd.modificarEmpresa(id_usuario, (Empresa) u);
         }
     }
     
+
     public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
         int aux= fbd.crearAnuncio(importe, e, fecha,numeroParticipaciones);
         if(aux==1){
@@ -146,4 +176,36 @@ public class GestionUsuarios {
       public void bajaAnuncio(String empresa,Date fecha,Float importe){
          fbd.bajaAnuncio(empresa, fecha, importe);
      }
+
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+        return fbd.getOfertasVenta(empresa, precio);
+    }
+
+    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+        return fbd.getParticipacionesEmpresa(u, e);
+    }
+
+    public int getParticipacionesTotales(Usuario u) {
+        return fbd.getParticipacionesTotales(u);
+    }
+
+    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
+        fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
+
+    }
+
+    //TODO haría falta comprobar que el saldo es 0??
+    public void bajaUsuario(Usuario u) {
+        if(u instanceof Inversor){
+            fbd.eliminarInversor(u.getIdUsuario());
+
+        } else{
+            fbd.eliminarEmpresa(u.getIdUsuario());
+        }
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        fbd.solicitarBaja(idUsuario);
+    }
+
 }
