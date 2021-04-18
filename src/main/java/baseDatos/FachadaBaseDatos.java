@@ -101,10 +101,6 @@ public class FachadaBaseDatos {
         return this.obtenerListaUsuarios().stream().map(u -> u.getIdUsuario()).collect(Collectors.toList());
     }
 
-    public boolean registroUsuario(Usuario u) {
-        return daoUsuarios.registroUsuario(u);
-    }
-
     public boolean registroInversor(Inversor i) {
         return daoUsuarios.registroInversor(i);
     }

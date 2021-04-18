@@ -12,7 +12,8 @@ public class FachadaGui {
     VInversor va;
     VEmpresa ve;
     VRegulador vreg;
-
+    VModificarEmpresa vme;
+    VModificarUsuario vmi;
 
     public FachadaGui(FachadaAplicacion fa) {
         this.fa = fa;
@@ -43,6 +44,11 @@ public class FachadaGui {
     public void iniciaRegulador(Regulador r, FachadaAplicacion fa) {
         vreg = new VRegulador(r, fa);
         vreg.setVisible(true);
+    }
+    
+    public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa){
+        vmi=new VModificarUsuario(i, fa);
+        vmi.setVisible(true);
     }
 
 

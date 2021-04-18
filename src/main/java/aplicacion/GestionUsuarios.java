@@ -79,9 +79,9 @@ public class GestionUsuarios {
     public void iniciaRegulador(Regulador r, FachadaAplicacion fa) {
         fgui.iniciaRegulador(r, fa);
     }
-
-    public boolean registroUsuario(Usuario u) {
-        return fbd.registroUsuario(u);
+    
+    public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa){
+        fgui.iniciaModificarInversor(i,fa);
     }
 
     public boolean registroInversor(Inversor i) {

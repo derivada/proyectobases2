@@ -5,17 +5,33 @@
  */
 package vista;
 
+import aplicacion.FachadaAplicacion;
+import aplicacion.Inversor;
+import vista.componentes.FuentesGUI;
+import vista.componentes.OtrosComponentes;
 /**
  *
  * @author 34639
  */
 public class VModificarUsuario extends javax.swing.JPanel {
-
+    
+    private final FachadaAplicacion fa;
+    private final Inversor i;
     /**
      * Creates new form VModificar
      */
-    public VModificarUsuario() {
+    public VModificarUsuario(Inversor i, FachadaAplicacion fa) {
+        this.fa=fa;
+        this.i=i;
         initComponents();
+        
+        //this.idTextBox.setText(i.getIdUsuario());
+        //this.nombreTextBox.setText(i.getNombre());
+        //this.telefonoTextBox.setText(i.getTelefono());
+        //this.clave.setText(i.getClave());
+        //this.claveConf.setText(i.getClave());
+        //this.dniTextBox.setText(i.getDni());
+        //this.direccionTextBox.setText(i.getDireccion());
     }
 
     /**

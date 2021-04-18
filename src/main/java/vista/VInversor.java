@@ -303,7 +303,7 @@ public class VInversor extends javax.swing.JFrame {
     }//GEN-LAST:event_precioTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
-        // TODO add your handling code here:
+        fa.menuModificarInversor(i);
     }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void empresaTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empresaTextBoxKeyPressed

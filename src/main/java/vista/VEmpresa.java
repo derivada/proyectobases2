@@ -347,7 +347,7 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
-        // TODO add your handling code here:
+        // llamada para crear la ventanita
     }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void FechaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaTextBoxActionPerformed

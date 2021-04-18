@@ -93,15 +93,15 @@ public class FachadaAplicacion {
     public void menuRegulador(Regulador regulador) {
         cu.iniciaRegulador(regulador, this);
     }
+    
+    public void menuModificarInversor(Inversor inversor){
+        cu.iniciaModificarInversor(inversor,this);
+    }
 
     public void salir() {
         System.out.println("Tiempo transcurrido: " + (Calendar.getInstance().getTimeInMillis() - fechaInicio) + " ms");
         System.out.println("Fin del programa...");
         System.exit(0);
-    }
-
-    public boolean registroUsuario(Usuario u) {
-        return cu.registroUsuario(u);
     }
 
     public boolean registroInversor(Inversor i) {

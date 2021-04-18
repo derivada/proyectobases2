@@ -260,9 +260,9 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    //funcion para el registro de un nuevo Usuario
-    public boolean registroUsuario(Usuario u) {
-        boolean insertado = false;//boolean para saber si se ha podido insertar o no
+    //funcion para insertar un nuevo inversor, totalmente analoga a la de usuario
+    public boolean registroInversor(Inversor i) {
+        boolean insertado = false;
         PreparedStatement stmCheck = null;
         PreparedStatement stmIns = null;
         ResultSet rst;
@@ -274,60 +274,9 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stmCheck = con.prepareStatement(consulta);
-            stmCheck.setString(1, u.getIdUsuario());
-            rst = stmCheck.executeQuery();
-
-            if (!rst.isBeforeFirst()) {//si el rst esta vacio no hay nadie con su id, podemos insertar
-                insertado = true;
-            }
-        } catch (SQLException e) {
-            manejarExcepcionSQL(e);
-        } finally {
-            try {
-                stmCheck.close();
-            } catch (SQLException e) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-
-        if (insertado) {
-            try {
-                consulta = "insert into usuario(id_usuario, clave, autorizado) values (?,?,?)";
-                stmIns = con.prepareStatement(consulta);
-                stmIns.setString(1, u.getIdUsuario());
-                stmIns.setString(2, u.getClave());
-                stmIns.setBoolean(3, false);
-                stmIns.executeUpdate();
-            } catch (SQLException e) {
-                manejarExcepcionSQL(e);
-            } finally {
-                try {
-                    stmIns.close();
-                } catch (SQLException e) {
-                    System.out.println("Imposible cerrar cursores");
-                }
-            }
-        }
-
-        return insertado;//para que la funcion sepa si se ha insertado o no
-    }
-
-    //funcion para insertar un nuevo inversor, totalmente analoga a la de usuario
-    public boolean registroInversor(Inversor i) {
-        boolean insertado = false;
-        PreparedStatement stmCheck = null;
-        PreparedStatement stmIns = null;
-        ResultSet rst;
-        Connection con;
-
-        con = this.getConexion();
-
-        String consulta = "select * from inversor where id_usuario=?";
-
-        try {
-            stmCheck = con.prepareStatement(consulta);
             stmCheck.setString(1, i.getIdUsuario());
             rst = stmCheck.executeQuery();
+
             if (!rst.isBeforeFirst()) {//si el rst esta vacio no hay nadie con su id, podemos insertar
                 insertado = true;
             }
@@ -343,22 +292,12 @@ public class DAOUsuarios extends AbstractDAO {
 
         if (insertado) {
             try {
-                consulta = "insert into inversor(id_usuario, nombre, dni, direccion, telefono, autorizado) values (?,?,?,?,?,?)";
+                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, i.getIdUsuario());
-                stmIns.setString(2, i.getNombre());
-                stmIns.setString(3, i.getDni());
-                if (i.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
-                    stmIns.setString(4, null);
-                } else {
-                    stmIns.setString(4, i.getDireccion());
-                }
-                if (i.getTelefono().isEmpty()) {
-                    stmIns.setString(5, null);
-                } else {
-                    stmIns.setString(5, i.getTelefono());
-                }
-                stmIns.setBoolean(6, i.isAutorizado());
+                stmIns.setString(2, i.getClave());
+                stmIns.setBoolean(3, false);
+                stmIns.setBoolean(4, false);
                 stmIns.executeUpdate();
             } catch (SQLException e) {
                 manejarExcepcionSQL(e);
@@ -370,11 +309,42 @@ public class DAOUsuarios extends AbstractDAO {
                 }
             }
         }
+        else{
+            return insertado;
+        }
+        
+        try {
+            consulta = "insert into inversor(id_usuario, nombre, saldo, dni, direccion, telefono) values (?,?,?,?,?,?)";
+            stmIns = con.prepareStatement(consulta);
+            stmIns.setString(1, i.getIdUsuario());
+            stmIns.setString(2, i.getNombre());
+            stmIns.setDouble(3, (double) i.getSaldo());
+            stmIns.setString(4, i.getDni());
+            if (i.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
+                stmIns.setString(5, null);
+            } else {
+                stmIns.setString(5, i.getDireccion());
+            }
+            if (i.getTelefono().isEmpty()) {
+                stmIns.setString(6, null);
+            } else {
+                stmIns.setString(6, i.getTelefono());
+            }
+            stmIns.executeUpdate();
+        } catch (SQLException e) {
+            manejarExcepcionSQL(e);
+        } finally {
+            try {
+                stmIns.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
 
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
-
-    //funcion para insertar una nueva empresa, totalmente analoga a la de usuario
+    
+    //funcion para insertar un nuevo inversor, totalmente analoga a la de usuario
     public boolean registroEmpresa(Empresa e) {
         boolean insertado = false;
         PreparedStatement stmCheck = null;
@@ -384,16 +354,17 @@ public class DAOUsuarios extends AbstractDAO {
 
         con = this.getConexion();
 
-        String consulta = "select * from empresa where id_usuario=?";
+        String consulta = "select * from usuario where id_usuario=?"; //pillo todo donde el ID sea el mismo (solo quiero el RST para saber si es vacio)
 
         try {
             stmCheck = con.prepareStatement(consulta);
             stmCheck.setString(1, e.getIdUsuario());
             rst = stmCheck.executeQuery();
+
             if (!rst.isBeforeFirst()) {//si el rst esta vacio no hay nadie con su id, podemos insertar
                 insertado = true;
             }
-        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+        } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
             try {
@@ -405,22 +376,12 @@ public class DAOUsuarios extends AbstractDAO {
 
         if (insertado) {
             try {
-                consulta = "insert into empresa(id_usuario, nombrecomercial, cif, direccion, telefono, autorizado) values (?,?,?,?,?,?)";
+                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, e.getIdUsuario());
-                stmIns.setString(2, e.getNombre());
-                stmIns.setString(3, e.getCIF());
-                if (e.getDireccion().isEmpty()) {//si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
-                    stmIns.setString(4, null);
-                } else {
-                    stmIns.setString(4, e.getDireccion());
-                }
-                if (e.getTelefono().isEmpty()) {
-                    stmIns.setString(5, null);
-                } else {
-                    stmIns.setString(5, e.getTelefono());
-                }
-                stmIns.setBoolean(6, e.isAutorizado());
+                stmIns.setString(2, e.getClave());
+                stmIns.setBoolean(3, false);
+                stmIns.setBoolean(4, false);
                 stmIns.executeUpdate();
             } catch (SQLException ex) {
                 manejarExcepcionSQL(ex);
@@ -430,6 +391,38 @@ public class DAOUsuarios extends AbstractDAO {
                 } catch (SQLException ex) {
                     System.out.println("Imposible cerrar cursores");
                 }
+            }
+        }
+        else{
+            return insertado;
+        }
+        
+        try {
+            consulta = "insert into empresa(id_usuario, nombrecomercial, cif, saldo, saldobloqueado, direccion, telefono) values (?,?,?,?,?,?,?)";
+            stmIns = con.prepareStatement(consulta);
+            stmIns.setString(1, e.getIdUsuario());
+            stmIns.setString(2, e.getNombre());
+            stmIns.setString(3, e.getCIF());
+            stmIns.setDouble(4, (double) e.getSaldo());
+            stmIns.setDouble(5, (double) e.getSaldobloqueado());
+            if (e.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
+                stmIns.setString(6, null);
+            } else {
+                stmIns.setString(6, e.getDireccion());
+            }
+            if (e.getTelefono().isEmpty()) {
+                stmIns.setString(7, null);
+            } else {
+                stmIns.setString(7, e.getTelefono());
+            }
+            stmIns.executeUpdate();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmIns.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
             }
         }
 
