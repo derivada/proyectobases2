@@ -7,9 +7,9 @@ public class OfertaVenta {
     private String empresa;
     private Date fecha;
     private Integer numParticipaciones;
-    private Double precio;
+    private float precio;
 
-    public OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio) {
+    public OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, float precio) {
         this.vendedor = usuario;
         this.empresa = empresa;
         this.fecha = fecha;
@@ -49,11 +49,11 @@ public class OfertaVenta {
         this.numParticipaciones = numParticipaciones;
     }
 
-    public Double getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 }

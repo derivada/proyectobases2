@@ -149,7 +149,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         int antiguasPart = 0;
         PreparedStatement stmAntiguas = null;
         PreparedStatement stmUpdate = null;
@@ -182,7 +182,7 @@ public class DAOParticipaciones extends AbstractDAO {
                 stmNueva = con.prepareStatement(consulta3);
                 stmNueva.setString(1, e.getIdUsuario());
                 stmNueva.setInt(2, emision);
-                stmNueva.setInt(3, precio);
+                stmNueva.setFloat(3, precio);
                 stmNueva.executeUpdate();
             } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                 manejarExcepcionSQL(ex);
@@ -298,76 +298,14 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
     }
-    
-    private int tipoUsuario(String id_usuario){
-        int result = 0;
-        
-        PreparedStatement stmEmpresa = null, stmInversor = null;
-        
-        Connection con;
-        
-        con = this.getConexion();
-        
-        ResultSet rst1 = null;
-        ResultSet rst2 = null;
-        
-        String empresas = "select id_usuario "
-                + "from empresa "
-                + "where id_usuario = ? ";
-        
-        String inversor = "select id_usuario "
-                + "from inversor "
-                + "where id_usuario = ? ";
-        
-        try{
-            con.setAutoCommit(false);
-            
-            stmEmpresa = con.prepareStatement(empresas);
-            stmEmpresa.setString(1, id_usuario);
-            
-            rst1 = stmEmpresa.executeQuery();
-            
-            while(rst1.next()){
-                result = 1; //es una empresa
-            }
-            
-            stmInversor = con.prepareStatement(inversor);
-            stmInversor.setString(1, id_usuario);
-            
-            rst2 = stmInversor.executeQuery();
-            
-            while(rst2.next()){
-                result = 2; //es un inversor
-            }
-            
-            con.commit();
-            
-        }catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-            manejarExcepcionSQL(ex);
-        } finally {
-            try {
-                con.setAutoCommit(true);
-                stmEmpresa.close();
-                if (stmInversor != null) {
-                    stmInversor.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-        
-        
-        
-        return result;
-    }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
         if (comprador == null || comprador instanceof Regulador) {
             manejarExcepcion(new Exception("El usuario no puede comprar participaciones!"));
             return;
         }
-        boolean salir = false;
-        int participacionesIteracion = 0, participacionesTotales = 0;
+        boolean dineroAgotado = false;
+        int participacionesIteracion = 0, participacionesCompradas = 0;
         float precioAcumulado = 0, precioIteracion = 0, saldoCompra = 0;
         PreparedStatement stmParticipaciones = null, stmUpdate = null, stmEliminacion = null;
         ResultSet rst = null;
@@ -375,7 +313,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
         con = this.getConexion();
 
-        String consultaOfertas = "select * \n"
+        String encontrarMejorOferta = "select * \n"
                 + "from ofertaVenta\n"
                 + "where empresa = ? \n"
                 + "AND fecha = \n"
@@ -394,25 +332,18 @@ public class DAOParticipaciones extends AbstractDAO {
 
         String updateOferta = "update ofertaVenta set numparticipaciones = ? where usuario = ? AND fecha = ?";
 
-        String updateCarterasComprador = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
-        
-        String updateCarterasVendedor = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
-
-        if (comprador instanceof Inversor) {
-            updateCarterasComprador = updateCarterasComprador.replace("@", "participacionesInversor");
-            saldoCompra = ((Inversor) comprador).getSaldo();
-        }
-        if (comprador instanceof Empresa) {
-            updateCarterasComprador = updateCarterasComprador.replace("@", "participacionesEmpresa");
-            saldoCompra = ((Empresa) comprador).getSaldo();
-        }
-
         StringBuilder logOperacion = new StringBuilder();
-        //lo primero es escoger las participaciones y ver cuanto cuestan
+
+        if (comprador instanceof Inversor)
+            saldoCompra = ((Inversor) comprador).getSaldo();
+        if (comprador instanceof Empresa)
+            saldoCompra = ((Empresa) comprador).getSaldo();
+
         try {
             con.setAutoCommit(false);
-            while (participacionesTotales < cantidad && salir != true) { //mientras no se hayan escogido todas las pedidas seguimos cogiendo
-                stmParticipaciones = con.prepareStatement(consultaOfertas);
+
+            while (participacionesCompradas < cantidad && !dineroAgotado) { //mientras no se hayan escogido todas las pedidas seguimos cogiendo
+                stmParticipaciones = con.prepareStatement(encontrarMejorOferta);
                 stmParticipaciones.setString(1, empresa.getIdUsuario());
                 stmParticipaciones.setString(2, empresa.getIdUsuario());
                 stmParticipaciones.setString(3, empresa.getIdUsuario());
@@ -423,42 +354,24 @@ public class DAOParticipaciones extends AbstractDAO {
                     //variables de la iteracion
                     participacionesIteracion = rst.getInt("numparticipaciones");
                     precioIteracion = rst.getFloat("precio");
-                    int participacionesCompradas;
 
-                    //sustrer participaciones
-                    if (participacionesIteracion + participacionesTotales > cantidad) {
-                        //como nos pasamos, tenemos que actualizar la oferta de venta y no eliminarla, y vamos a sumar
-                        // unicamente las participaciones necesarias a la compra, siendo estas tmb las que se
-                        // eliminan de la oferta de venta
-                        participacionesCompradas = cantidad - participacionesTotales;
-                        if (precioAcumulado + (float) participacionesCompradas * (float) precioIteracion > saldoCompra) {
-                            //reducimos numero participaciones compradas
+                    // El mínimo de las que hay y las que faltan por comprar
+                    int partCompradasIteraccion = Math.min(participacionesIteracion, cantidad - participacionesCompradas);
 
-                            float saldoRonda = saldoCompra - precioAcumulado;
+                    // No hay suficiente dinero -> reducimos el número al que podemos comprar
+                    if (precioAcumulado + (float) partCompradasIteraccion * precioIteracion > saldoCompra) {
+                        float saldoRonda = saldoCompra - precioAcumulado;
+                        partCompradasIteraccion = (int) (saldoRonda / precioIteracion);
 
-                            participacionesCompradas = (int) (saldoRonda / precioIteracion);
-
-                            salir = true;
-                        }
-                        precioAcumulado += (float) participacionesCompradas * (float) precioIteracion;
-
-                    } else {
-                        //como la oferta de venta no cubre entera la cantidad la eliminamos y pasamos a la siguiente
-                        //las sumamos a las enteras
-                        participacionesCompradas = participacionesIteracion;
-
-                        if (precioAcumulado + (float) participacionesCompradas * (float) precioIteracion > saldoCompra) {
-                            //reducimos numero participaciones compradas
-                            float saldoRonda = saldoCompra - precioAcumulado;
-
-                            participacionesCompradas = (int) (saldoRonda / precioIteracion);
-
-                            salir = true;
-                        }
-                        precioAcumulado += (float) participacionesCompradas * (float) precioIteracion;
+                        // Hace falta otro booleano para esto por si la última en comprar vale 5 pero solo
+                        // te quedan 3, no basta comprobar precioAcumulado == saldoCompra
+                        dineroAgotado = true;
                     }
 
-                    if (participacionesCompradas == participacionesIteracion) {
+                    precioAcumulado += (float) partCompradasIteraccion * precioIteracion;
+
+                    // Ahora que ya sabemos cuantas vamos a comprar las quitamos de la oferta
+                    if (partCompradasIteraccion == participacionesIteracion) {
                         stmEliminacion = con.prepareStatement(eliminacionOferta);
                         stmEliminacion.setString(1, rst.getString("usuario"));
                         stmEliminacion.setDate(2, rst.getDate("fecha"));
@@ -466,83 +379,161 @@ public class DAOParticipaciones extends AbstractDAO {
                         stmEliminacion.executeUpdate();
                     } else {
                         stmUpdate = con.prepareStatement(updateOferta);
-                        stmUpdate.setInt(1, participacionesIteracion - participacionesCompradas);
+                        stmUpdate.setInt(1, participacionesIteracion - partCompradasIteraccion);
                         stmUpdate.setString(2, rst.getString("usuario"));
                         stmUpdate.setDate(3, rst.getDate("fecha"));
 
                         stmUpdate.executeUpdate();
                     }
-                    
-                    String vendedor = rst.getString("id_usuario");
-                    
-                    if(this.tipoUsuario(vendedor) == 1){
-                        //es empresa
-                        updateCarterasVendedor = updateCarterasVendedor.replace("@", "participacionesEmpresa");
-                    }else{
-                        //es usuario
-                        updateCarterasVendedor = updateCarterasVendedor.replace("@", "participacionesInversor");
-                    }
-                    
-                    
-                    //quiero quitar las participaciones compradas de la cartera del vendedor, y ademas meterlas en la del comprador
-                    
-                    //por ultimo tendremos que actualizar los saldos, añadir el saldo al vendedor substrayendo del comprador
-                    
-                    participacionesTotales += participacionesCompradas;
-                    logOperacion.append("Se han comprado " + participacionesCompradas
+
+                    String nombreVendedor = rst.getString("usuario");
+                    Usuario vendedor = fa.obtenerDatosEmpresa(new Usuario(nombreVendedor, false, true));
+                    if (vendedor == null)
+                        vendedor = fa.obtenerDatosRegulador(new Usuario(nombreVendedor, false, true));
+
+                    // DEBUG: HASTA AQUÍ VA BIEN
+                    participacionesCompradas += partCompradasIteraccion;
+
+                    moverParticipaciones(comprador, vendedor, participacionesCompradas, empresa);
+
+
+                    // Le damos su dinero al vendedor, el del comprador lo podemos restar al final fuera del bucle
+                    modificarSaldo(vendedor, partCompradasIteraccion * precioIteracion);
+
+                    logOperacion.append("Se han comprado " + partCompradasIteraccion
                             + " al usuario " + rst.getString("usuario")
                             + " que las puso a la venta el " + rst.getDate("fecha")
                             + " a " + precioIteracion + "$\n");
-                    logOperacion.append("Se han comprado " + participacionesTotales + "/" + cantidad + " por " + precioAcumulado + "$\n");
+                    logOperacion.append("Se han comprado " + participacionesCompradas + "/" + cantidad + " por " + precioAcumulado + "$\n");
                 }
             }
+            modificarSaldo(comprador, (int) -precioAcumulado);
             System.out.println(logOperacion);
+            // TODO: Preguntar al comprador por confirmación si la modificación excede el x% de su saldo actual
 
-
-            /*
-            // Estaría bien preguntar al usuario si desea realizar esa operación con el coste asociado
-            // que acabamos de calcular, por ejemplo si la operación gastaría más del 10% de su saldo
-
-            //habria que hacer un switch para cada tipo de user, es decir segun sea empresa o inversor hara una cosa o otra
-            // (solo usando instanceof se puede hacer)
-            //float saldoUsuario = ; aqui necesitamos saber el saldo
-            if(precioAcumulado >= saldo){
-                //error pero no se si puedo lanzar una excepcion y tal para que haga catch y cierre los cursores
-                // Creo que se aborta así???
-                stmParticipaciones.cancel();
-                stmEliminacion.cancel();
-                stmUpdate.cancel();
-
-            }else{
-                //se ejecutará todo si se cumple la condicion, de manera que quedaran eliminadas las ofertas de venta
-            
-                //como cumple la condicion, cambiaremos las carteras de participaciones de cada uno, del empresa eliminaremos las que tenia y al comprador se las ponemos
-                con.commit();
-            }
-
-            
-                
-            tras todo eso, el precio acumulado tiene que ser <= al saldo, el saldo no esta en user, asi que necesito una clase para conseguir su saldo
-                
-            hago un filtro o cambio lo de pasarle un usuario por el tipo de usuario que es?*/
-            //con.commit();
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
+            try {
+                con.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Imposible cerrar cursores");
+            }
         } finally {
             try {
+                con.commit();
                 con.setAutoCommit(true);
-                stmParticipaciones.close();
-                if (stmUpdate != null) {
+                if (stmParticipaciones != null)
+                    stmParticipaciones.close();
+                if (stmUpdate != null)
                     stmUpdate.close();
-                }
-                if (stmEliminacion != null) {
+                if (stmEliminacion != null)
                     stmEliminacion.close();
-                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-
     }
 
+    private void moverParticipaciones(Usuario comprador, Usuario vendedor, int cantidad, Empresa empresa) throws SQLException {
+        // Mover las participaciones de la carte de vendedor a la de comprador
+        PreparedStatement stmCreacion = null, stmUpdate = null;
+        ResultSet rst = null;
+        Connection con;
+        con = this.getConexion();
+
+        // Aquí el autocommit ya debería estar en false
+
+        String crearComprador = "INSERT INTO public.@(\n" +
+                "\tusuario, empresa, numparticipaciones)\n" +
+                "\tVALUES (?, ?, ?);";
+        String sumarComprador = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
+
+        String restarVendedor = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
+
+        // Encontramos la tabla para el update en las cartera del comprador
+        if (comprador instanceof Inversor) {
+            crearComprador = crearComprador.replace("@", "participacionesInversor");
+            sumarComprador = sumarComprador.replace("@", "participacionesInversor");
+        } else {
+            crearComprador = crearComprador.replace("@", "participacionesEmpresa");
+            sumarComprador = sumarComprador.replace("@", "participacionesEmpresa");
+        }
+
+        if (vendedor instanceof Inversor) {
+            restarVendedor = restarVendedor.replace("@", "participacionesInversor");
+        } else {
+            restarVendedor = restarVendedor.replace("@", "participacionesEmpresa");
+        }
+
+        try {
+            int participacionesPreviasComprador = this.getParticipacionesEmpresa(comprador, empresa);
+            int participacionesPreviasVendedor = this.getParticipacionesEmpresa(vendedor, empresa);
+
+            if (participacionesPreviasComprador == 0) {
+                // Crear tabla de participaciones en la cartera del comprador
+                stmCreacion = con.prepareStatement(crearComprador);
+                stmCreacion.setString(1, comprador.getIdUsuario());
+                stmCreacion.setString(2, empresa.getIdUsuario());
+                stmCreacion.setInt(3, 0);
+                stmCreacion.executeUpdate();
+            }
+            // Sumar en la cartera del comprador
+            stmUpdate = con.prepareStatement(sumarComprador);
+            stmUpdate.setInt(1, participacionesPreviasComprador + cantidad);
+            stmUpdate.setString(2, comprador.getIdUsuario());
+            stmUpdate.setString(3, empresa.getIdUsuario());
+            stmUpdate.executeUpdate();
+
+            // Restar en la cartera del vendedor
+            stmUpdate = con.prepareStatement(restarVendedor);
+            stmUpdate.setInt(1, participacionesPreviasVendedor - cantidad);
+            stmUpdate.setString(2, comprador.getIdUsuario());
+            stmUpdate.setString(3, empresa.getIdUsuario());
+            stmUpdate.executeUpdate();
+        } finally {
+            try {
+                if (stmCreacion != null)
+                    stmCreacion.close();
+                if (stmUpdate != null)
+                    stmUpdate.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    private void modificarSaldo(Usuario u, float cantidad) throws SQLException {
+        // Mover las participaciones de la carte de vendedor a la de comprador
+        PreparedStatement stmUpdate = null;
+        ResultSet rst = null;
+        Connection con;
+        con = this.getConexion();
+
+        // Aquí el autocommit ya debería estar en false
+
+        String modificarSaldo = "update public.@ set saldo = ? where id_usuario=?";
+        if (u instanceof Inversor) {
+            modificarSaldo = modificarSaldo.replace("@", "inversor");
+        } else {
+            modificarSaldo = modificarSaldo.replace("@", "empresa");
+        }
+        // Encontramos la tabla para el update en las cartera del comprador
+        try {
+            stmUpdate = con.prepareStatement(modificarSaldo);
+            if (u instanceof Inversor) {
+                stmUpdate.setFloat(1, ((Inversor) u).getSaldo() + cantidad);
+            } else {
+                stmUpdate.setFloat(1, ((Empresa) u).getSaldo() + cantidad);
+            }
+            stmUpdate.setString(2, u.getIdUsuario());
+            stmUpdate.executeUpdate();
+        } finally {
+            try {
+                if (stmUpdate != null)
+                    stmUpdate.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
 }

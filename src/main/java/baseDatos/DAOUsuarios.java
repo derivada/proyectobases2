@@ -833,7 +833,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
     
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precioMaximoPart){
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precioMaximoPart){
         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rst;
@@ -850,12 +850,12 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta);
             empresa = "%" + empresa + "%";
             stm.setString(1, empresa);
-            stm.setInt(2, precioMaximoPart);
+            stm.setFloat(2, precioMaximoPart);
             rst = stm.executeQuery();
             
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
-                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getDate("fecha"), rst.getInt("numParticipaciones"), rst.getDouble("precio"));
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getDate("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"));
                 
                 resultado.add(v);
                 
@@ -872,7 +872,6 @@ public class DAOUsuarios extends AbstractDAO {
         }
         
         return resultado;
-        
-        
     }
+
 }

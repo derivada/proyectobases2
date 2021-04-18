@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public abstract class AbstractDAO {
-    private aplicacion.FachadaAplicacion fa;
+    protected aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
 
     protected java.sql.Connection getConexion() {
