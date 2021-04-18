@@ -108,7 +108,27 @@ public class FachadaAplicacion {
         cu.modificarUsuario(id_usuario, u);
     }
     
-    public void crearAnuncio(Float importe, String empresa,Date fecha){
-        cu.crearAnuncio(importe, empresa, fecha);
+    public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        cu.crearAnuncio(importe, e, fecha,numeroParticipaciones);
     }
+    
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        cu.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+    
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return cu.obtenerAnuncios(empresa); 
+    }
+    
+    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+        cu.solicitarBajaAnuncio(empresa, fechaPago);
+    }
+    
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return cu.obtenerAnunciosRegulador(); 
+    }
+     
+      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         cu.bajaAnuncio(empresa, fecha, importe);
+     }
 }

@@ -25,3 +25,21 @@ Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Saldo
 
 --regulador
 Insert into regulador(id_usuario) values ('Regulador');
+
+
+--ofertasVenta
+insert into ofertaventa (usuario, empresa, fecha, numparticipaciones, precio) values('Lenovo', 'Lenovo', '2002-02-25', 300, 12);
+
+--participaciones empresa
+Insert into participacionesempresa(usuario,empresa,numparticipaciones) values ('HP','Lenovo',2);
+
+--pariticipaciones inversor
+
+Insert into participacionesinversor(usuario,empresa,numparticipaciones) values ('Elena','Lenovo',2);
+
+--Anuncio beneficios 
+
+Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,solicitadobaja) values ('Lenovo','2021-06-09','2021-04-15',500,false);
+update empresa set saldobloqueado=500 where id_usuario='Lenovo';
+Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,solicitadobaja) values ('Lenovo','2021-05-13','2021-04-15',1000,false);
+update empresa set saldobloqueado=saldobloqueado+1000 where id_usuario='Lenovo';

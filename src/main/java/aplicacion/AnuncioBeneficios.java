@@ -16,14 +16,16 @@ public class AnuncioBeneficios {
     private Date fechaPago; 
     private Date fechaAnuncio; 
     private Float importeparticipacion; 
+    private Integer numeroparticipaciones; 
     private boolean soicitadobaja; 
 
-    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion,boolean solicitadobaja) {
+    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion,Integer numeroparticipaciones,boolean solicitadobaja) {
         this.empresa = empresa;
         this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
         this.importeparticipacion = importeparticipacion;
-        this.soicitadobaja=solicitadobaja; 
+        this.soicitadobaja=solicitadobaja;
+        this.numeroparticipaciones=numeroparticipaciones; 
     }
 
     public String getEmpresa() {
@@ -70,6 +72,16 @@ public class AnuncioBeneficios {
         // TODO
         return null;
     }
+
+    public Integer getNumeroparticipaciones() {
+        return numeroparticipaciones;
+    }
+
+    public void setNumeroparticipaciones(Integer numeroparticipaciones) {
+        this.numeroparticipaciones = numeroparticipaciones;
+    }
+     
+     
 
    
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
+import vista.componentes.DialogoInfo;
 
 public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
@@ -111,9 +112,30 @@ public class FachadaBaseDatos {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
     
-    public void crearAnuncio(Float importe, String empresa,Date fecha){
-        daoUsuarios.crearAnuncio(importe, empresa, fecha);
+    public int crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        return daoUsuarios.crearAnuncio(importe, e, fecha,numeroParticipaciones);
     }
+    
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        daoUsuarios.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+    
+     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return daoUsuarios.obtenerAnuncios(empresa); 
+    }
+     
+     public boolean solicitarBajaAnuncio(String empresa,Date fechaPago){
+        return daoUsuarios.solicitarBajaAnuncio(empresa, fechaPago);
+       
+    }
+     
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return daoUsuarios.obtenerAnunciosRegulador(); 
+    }
+     
+     public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+     }
 
 }
 

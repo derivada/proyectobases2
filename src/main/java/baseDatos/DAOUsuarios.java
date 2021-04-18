@@ -4,6 +4,7 @@ import aplicacion.Empresa;
 import aplicacion.Inversor;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
+import aplicacion.AnuncioBeneficios; 
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date; 
+import java.util.HashMap; 
 
 public class DAOUsuarios extends AbstractDAO {
 
@@ -723,8 +725,682 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
     
-    public void crearAnuncio(Float importe, String empresa,Date fecha){
-        System.out.println("Hola");
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        java.util.List<AnuncioBeneficios> resultado=new java.util.ArrayList<AnuncioBeneficios>(); 
+        Connection con; 
+        PreparedStatement stmConsulta=null; 
+        ResultSet rstConsulta; 
+        AnuncioBeneficios aux=null; 
+        
+        String consulta="select * from anunciobeneficios where empresa= ? "; 
+        
+        con=this.getConexion(); 
+        try {
+            stmConsulta=con.prepareStatement(consulta); 
+            stmConsulta.setString(1, empresa);
+            rstConsulta=stmConsulta.executeQuery(); 
+            while(rstConsulta.next()){
+                if(rstConsulta.getString("solicitadobaja").isEmpty()){
+                    aux=new AnuncioBeneficios(rstConsulta.getString("empresa"),rstConsulta.getDate("fechapago"),
+                        rstConsulta.getDate("fechaanuncio"),rstConsulta.getFloat("importeparticipacion"),rstConsulta.getInt("numeroparticipaciones"),false); 
+                }
+                else{
+                    aux=new AnuncioBeneficios(rstConsulta.getString("empresa"),rstConsulta.getDate("fechapago"),
+                        rstConsulta.getDate("fechaanuncio"),rstConsulta.getFloat("importeparticipacion"),rstConsulta.getInt("numeroparticipaciones"),rstConsulta.getBoolean("solicitadobaja")); 
+                }
+                
+                resultado.add(aux); 
+            }
+            
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmConsulta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado; 
+    }
+    //Función para obtener los anuncios con una solicitud de baja 
+    public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+         java.util.List<AnuncioBeneficios> resultado=new java.util.ArrayList<AnuncioBeneficios>(); 
+        Connection con; 
+        PreparedStatement stmConsulta=null; 
+        ResultSet rstConsulta; 
+        AnuncioBeneficios aux=null; 
+        
+        String consulta="select * from anunciobeneficios where solicitadobaja=true "; 
+        
+        con=this.getConexion(); 
+        try {
+            stmConsulta=con.prepareStatement(consulta);
+            rstConsulta=stmConsulta.executeQuery(); 
+            while(rstConsulta.next()){
+                aux=new AnuncioBeneficios(rstConsulta.getString("empresa"),rstConsulta.getDate("fechapago"),
+                    rstConsulta.getDate("fechaanuncio"),rstConsulta.getFloat("importeparticipacion"),
+                        rstConsulta.getInt("numeroparticipaciones"),rstConsulta.getBoolean("solicitadobaja")); 
+                
+                resultado.add(aux); 
+            }
+            
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmConsulta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado; 
+    }
+    
+    //Función para crear un anuncio de beneficios 
+    //Devuelve 1 si se ha creado correcetamente, 2 si el importe es insuficiente, y 3 si 
+    //las participaciones no son suficientes para afrontar el pago. 
+    public int  crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        Connection con; 
+        PreparedStatement stmAnunciar1=null; 
+        PreparedStatement stmAnunciar2=null; 
+        PreparedStatement stmAnunciar3=null; 
+        PreparedStatement stmBloquear=null; 
+        PreparedStatement stmPrecioParticipaciones=null; //Statement para consultar el precio por participación de la empresa 
+        int resultado=1; 
+        String consulta1="Insert into anunciobeneficios  (empresa,fechapago,numeroparticipaciones,solicitadobaja) values (?,?,?,false)"; 
+        
+        String consulta2="Insert into anunciobeneficios  (empresa,fechapago,importeparticipacion,solicitadobaja) values (?,?,?,false)"; 
+        
+        String consulta3="Insert into anunciobeneficios  (empresa,fechapago,importeparticipacion,numeroparticipaciones,solicitadobaja) "
+                + "values (?,?,?,?,false)"; 
+        
+        String consulta4="update empresa set saldobloqueado=saldobloqueado + ? ,saldo=saldo - ? where id_usuario= ? "; 
+               
+         
+            //Diferenciamos 3 casos
+
+            //El primer es pagar únicamente con participaciones 
+            if(numeroParticipaciones!=0 && importe==0.0f){
+                 if(this.getPartPropEmpresa(e)<(numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()))){
+                    resultado=3; 
+                }
+                 else{
+                      con=this.getConexion(); 
+                      try {
+                           stmAnunciar1=con.prepareStatement(consulta1); 
+                            stmAnunciar1.setString(1, e.getIdUsuario());
+                            stmAnunciar1.setDate(2,fecha); 
+                            stmAnunciar1.setInt(3, numeroParticipaciones);
+                            stmAnunciar1.executeUpdate(); 
+                       } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                           manejarExcepcionSQL(ex);
+                       } finally {
+                           try {
+                               stmAnunciar1.close(); 
+
+                           } catch (SQLException ex) {
+                               System.out.println("Imposible cerrar cursores");
+                           }
+                       }
+                 }
+
+
+            }
+            //Segundo caso, solo importe 
+            else if(numeroParticipaciones==0 && importe>=0){
+                if(importe>this.comprobarSaldoEmpresa(e.getIdUsuario())){
+                    resultado=2; 
+                }
+                else{
+                     con=this.getConexion(); 
+                     try {
+                           stmAnunciar2=con.prepareStatement(consulta2); 
+                           stmAnunciar2.setString(1,e.getIdUsuario() );
+                           stmAnunciar2.setDate(2, fecha);
+                           stmAnunciar2.setFloat(3, importe);
+                           stmAnunciar2.executeUpdate(); 
+
+                           stmBloquear=con.prepareStatement(consulta4); 
+                           stmBloquear.setFloat(1, importe);
+                           stmBloquear.setFloat(2, importe);
+                           stmBloquear.setString(3,e.getIdUsuario());
+                           stmBloquear.executeUpdate(); 
+                       } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                           manejarExcepcionSQL(ex);
+                       } finally {
+                           try {
+                               stmAnunciar2.close(); 
+                               stmBloquear.close();
+
+                           } catch (SQLException ex) {
+                               System.out.println("Imposible cerrar cursores");
+                           }
+                       }
+
+                }
+            }
+            //Tercer caso, con importe y participaciones. 
+            //Se comprueban tanto que el importe sea suficiente como que las participaciones sean suficientes. 
+
+            else{
+                if (importe>this.comprobarSaldoEmpresa(e.getIdUsuario())){
+                    resultado=2; 
+                }
+                else if(this.getPartPropEmpresa(e)<(numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()))){
+                    resultado=3; 
+                }
+                else{
+                    con=this.getConexion(); 
+                    try {
+                           stmAnunciar3=con.prepareStatement(consulta3); 
+                           stmAnunciar3.setString(1, e.getIdUsuario());
+                           stmAnunciar3.setDate(2, fecha);
+                           stmAnunciar3.setFloat(3, importe);
+                           stmAnunciar3.setInt(4, numeroParticipaciones);
+                           stmAnunciar3.executeUpdate();
+
+                           stmBloquear=con.prepareStatement(consulta4); 
+                           stmBloquear.setFloat(1, importe);
+                           stmBloquear.setFloat(2, importe);
+                           stmBloquear.setString(3,e.getIdUsuario());
+                           stmBloquear.executeUpdate(); 
+                       } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                           manejarExcepcionSQL(ex);
+                       } finally {
+                           try {
+                               stmAnunciar3.close(); 
+                               stmBloquear.close();
+
+                           } catch (SQLException ex) {
+                               System.out.println("Imposible cerrar cursores");
+                           }
+                       }
+
+
+                }
+            }
+            
+       
+        return resultado; 
+        
+    }
+    
+    //Función para dar de baja un anuncio de la base de datos 
+    public void bajaAnuncio(String empresa,Date fecha,Float importe){
+        Connection con; 
+        PreparedStatement stmResta=null; 
+         PreparedStatement stmSuma=null;
+          PreparedStatement stmBaja=null; 
+        //Consulta para quitar el importe del saldo bloqueado de la empresa 
+        String consulta1="update empresa set saldobloqueado=saldobloqueado- ? where id_usuario= ? "; 
+        
+        //Consulta para sumar el importe al salod
+        String consulta2="update empresa set saldo=saldo+ ? where id_usuario= ? ";
+        //Consulta para borrar el anuncio 
+        String consulta3="delete from anunciobeneficios where empresa= ? and fechapago= ? ";
+        
+        con=this.getConexion(); 
+         
+        try {
+            //Se resta de saldobloqueado
+            stmResta=con.prepareStatement(consulta1); 
+            stmResta.setFloat(1, importe);
+            stmResta.setString(2, empresa);
+            stmResta.executeUpdate(); 
+            //Se suma a saldo
+            stmSuma=con.prepareStatement(consulta2); 
+            stmSuma.setFloat(1, importe);
+            stmSuma.setString(2, empresa);
+            stmSuma.executeUpdate(); 
+            
+            //Se elimina el anuncio 
+            
+            stmBaja=con.prepareStatement(consulta3); 
+            stmBaja.setString(1, empresa);
+            stmBaja.setDate(2, fecha);
+            stmBaja.executeUpdate(); 
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmBaja.close();
+                stmSuma.close();
+                stmResta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        
+    }
+    
+    public boolean solicitarBajaAnuncio(String empresa,Date fechaPago){
+        Connection con; 
+        PreparedStatement stmAnuncio=null; 
+        String consulta="update anunciobeneficios set solicitadobaja=true where empresa= ?  and fechapago= ? "; 
+        con=this.getConexion(); 
+        try {
+           stmAnuncio=con.prepareStatement(consulta); 
+           stmAnuncio.setString(1, empresa);
+           stmAnuncio.setDate(2, fechaPago);
+           stmAnuncio.executeUpdate(); 
+            
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+            return false; 
+        } finally {
+            try {
+                stmAnuncio.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return true; 
+        
+        
+    }
+    
+    //Función para obtener el saldo de una empresa 
+    public Float comprobarSaldoEmpresa(String empresa){
+        Float resultado=0.0f; 
+        
+        Connection con; 
+        PreparedStatement stmConsulta=null;  
+        ResultSet rstResultado; 
+        
+        String consulta="select saldo from empresa where id_usuario= ?  "; 
+        
+        con=this.getConexion(); 
+        try {
+             stmConsulta=con.prepareStatement(consulta); 
+             stmConsulta.setString(1, empresa);
+             rstResultado=stmConsulta.executeQuery(); 
+             while(rstResultado.next()){
+                 resultado=rstResultado.getFloat("saldo"); 
+             }
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+            
+        } finally {
+            try {
+                stmConsulta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado; 
+    }
+    
+    //Función para obtener el numer de participaciones que tiene vendidas la empresa 
+    
+    public int participacionesVendidas(String empresa){
+
+        PreparedStatement stmConsulta=null; 
+        ResultSet rstResultado;
+        Connection con;
+        int resultado=0; 
+        String consulta="select sum(numparticipaciones)" +
+            "from ( " +
+            "    select pi.* " +
+            "    from participacionesinversor as pi " +
+            "    where  pi.empresa= ? " +
+            "    union " +
+            "    select pe.* " +
+            "    from participacionesempresa as pe " +
+            "    where  pe.empresa= ?) as resultado " +
+            "where resultado.usuario!= ? "; 
+         con=this.getConexion(); 
+        try {
+             stmConsulta=con.prepareStatement(consulta); 
+             stmConsulta.setString(1, empresa);
+             stmConsulta.setString(2, empresa);
+             stmConsulta.setString(3, empresa);
+             rstResultado=stmConsulta.executeQuery(); 
+             while(rstResultado.next()){
+                 resultado=rstResultado.getInt("sum"); 
+             }
+            
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+            
+        } finally {
+            try {
+                stmConsulta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return resultado; 
+    }
+    
+    //Función que paga los beneficios, con o sin anuncio previo. 
+    //Si el pago es sin anuncio, se llama a esta función con un null en anuncio
+    
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa e,AnuncioBeneficios anuncio){
+        //Para restar a empresa 
+        PreparedStatement stmImporte = null;
+        PreparedStatement stmImporteB = null;
+        PreparedStatement stmParticipaciones=null; 
+        Connection con;
+        int num=0; //Variable que se va a usar para obtener el número de participaciones en varias consultas 
+        //ResultSet y statements para modificar los datos de inversores 
+        ResultSet rstMI; 
+        PreparedStatement stmMI=null; 
+        PreparedStatement stmSumaI=null; 
+        PreparedStatement stmSuma2I=null; 
+        
+        //ResultSet y statements para modificar los datos de empresa 
+        ResultSet rstME; 
+        PreparedStatement stmME=null; 
+        PreparedStatement stmSumaE=null; 
+        PreparedStatement stmSuma2E=null; 
+        
+        //Statement de eliminación de anuncio, con su consulta 
+        PreparedStatement stmEliminacion=null; 
+        String consulta10="delete from anunciobeneficios where empresa= ?  and fechapago= ? "; 
+
+        
+        
+        
+        //Consulta 1 es para actualizar el saldo de la empresa 
+        String consulta1="update empresa set saldo=saldo-? where id_usuario= ? ";
+        
+        //Consulta 1 es para actualizar el saldobloquead de la empresa si el pago es con un anuncio
+        String consulta11="update empresa set saldobloqueado=saldobloqueado-? where id_usuario= ? ";
+        
+        //Consulta9 es para actualizar las participaciones disponibles de la empresa
+        String consulta9="update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
+                + "where empresa= ?  and usuario= ? ";
+       
+        //Consulta 3 es para seleccionar de los inversores que tienen las participaciones de la empresa 
+        String consulta3="select i.id_usuario,pi.numparticipaciones,pi.empresa " +
+            "from participacionesinversor as pi,inversor as i, empresa as e " +
+            "where pi.usuario=i.id_usuario and pi.empresa= ? " +
+            "group by i.id_usuario,pi.numparticipaciones,pi.empresa"; 
+        //Consulta 4 para aumentar el saldo de inversor
+        String consulta4="update inversor set saldo=saldo+? where id_usuario= ? "; 
+        //Consulta 7 para aumentar las participaciones del inversor 
+        String consulta7="update participacionesinversor set numparticipaciones=numparticipaciones+ ? where empresa= ? "; 
+        //Consulta 5, igual que consulta 3, pero para empresas
+        String consulta5="select e.id_usuario,pe.numparticipaciones,pe.empresa " +
+            "from participacionesempresa as pe,empresa as e " +
+            "where pe.usuario=e.id_usuario and pe.empresa= ? and pe.usuario!= ? " +
+            "group by e.id_usuario,pe.numparticipaciones,pe.empresa";
+        //Consulta 6 para aumentar el saldo de la empresa 
+        String consulta6="update empresa set saldo=saldo+? where id_usuario= ? "; 
+         //Consulta 8 para aumentar las participaciones de la empresa 
+        String consulta8="update participacionesempresa set numparticipaciones=numparticipaciones+ ?  "
+                + "where empresa= ? and usuario!= ? "; 
+        
+        con = this.getConexion();
+        
+                
+         try {
+             
+            con.setAutoCommit(false);
+            //En todos los casos se va a diferenciar si hay un anuncio o no. 
+            
+            //Se comprueba el número de participaciones que tiene la empresa vendidas 
+            num=this.participacionesVendidas(e.getIdUsuario()); 
+            
+            
+            //Ahora se resta el dinero en la empresa y participaciones de la empresa 
+ 
+            if(anuncio==null){
+                //Dinero 
+                float dinero=importe*(float)num; 
+                stmImporte=con.prepareStatement(consulta1); 
+                stmImporte.setFloat(1, dinero);
+                stmImporte.setString(2, e.getIdUsuario());
+                stmImporte.executeUpdate();
+                
+                //Participaciones 
+                int p=num*participaciones;
+                stmParticipaciones=con.prepareStatement(consulta9); 
+                stmParticipaciones.setInt(1, p);
+                stmParticipaciones.setString(2, e.getIdUsuario());
+                stmParticipaciones.setString(3, e.getIdUsuario());
+                stmParticipaciones.executeUpdate(); 
+            }
+            else{
+                
+               try {
+                    //Dinero bloqueado
+                    float dinero=anuncio.getImporteparticipacion()*(float)num; 
+                    stmImporteB=con.prepareStatement(consulta11); 
+                    stmImporteB=con.prepareStatement(consulta1); 
+                    stmImporteB.setFloat(1, dinero);
+                    stmImporteB.setString(2, e.getIdUsuario());
+                    stmImporteB.executeUpdate();
+
+               } catch (SQLException ex) {
+                   manejarExcepcionSQL(ex);
+
+               } finally {
+                   try {
+                       stmImporteB.close();
+                   } catch (SQLException ex) {
+                       System.out.println("Imposible cerrar cursores");
+                   }
+               }
+                
+                
+                
+                //Participaciones 
+                int p=num*anuncio.getNumeroparticipaciones(); 
+                stmParticipaciones=con.prepareStatement(consulta9); 
+                stmParticipaciones.setInt(1, p);
+                stmParticipaciones.setString(2, e.getIdUsuario());
+                stmParticipaciones.setString(3, e.getIdUsuario());
+                stmParticipaciones.executeUpdate(); 
+            }
+           
+            
+            //Y ahora se suma a los usuarios que tenian las participaciones, tanto inversores como empresas
+            //Hay que hacer dos consultas distintas, primero la de inversores 
+            
+            if(anuncio==null){
+                //Dinero
+                stmMI=con.prepareStatement(consulta3); 
+                stmSumaI=con.prepareStatement(consulta4); 
+                stmMI.setString(1, e.getIdUsuario());
+                rstMI=stmMI.executeQuery();
+                float suma=0; 
+                while(rstMI.next()){
+                    num=rstMI.getInt("numparticipaciones"); 
+                    suma=importe*num; 
+                    stmSumaI.setFloat(1, suma);
+                    stmSumaI.setString(2, rstMI.getString("id_usuario"));
+                    stmSumaI.executeUpdate(); 
+
+                }
+                
+                //Participaciones 
+                stmSuma2I=con.prepareStatement(consulta7); 
+                stmSuma2I.setInt(1, participaciones);
+                stmSuma2I.setString(2, e.getIdUsuario());
+                stmSuma2I.executeUpdate(); 
+            }
+            else{
+                //Dinero
+                stmMI=con.prepareStatement(consulta3); 
+                stmSumaI=con.prepareStatement(consulta4); 
+                stmMI.setString(1, e.getIdUsuario());
+                rstMI=stmMI.executeQuery();
+                float suma=0; 
+                while(rstMI.next()){
+                    num=rstMI.getInt("numparticipaciones"); 
+                    suma=anuncio.getImporteparticipacion()*num; 
+                    stmSumaI.setFloat(1, suma);
+                    stmSumaI.setString(2, rstMI.getString("id_usuario"));
+                    stmSumaI.executeUpdate(); 
+
+                }
+                
+                //Participaciones 
+                stmSuma2I=con.prepareStatement(consulta7); 
+                stmSuma2I.setInt(1, anuncio.getNumeroparticipaciones());
+                stmSuma2I.setString(2, e.getIdUsuario());
+                stmSuma2I.executeUpdate(); 
+            }
+            
+            //Y ahora la de empresas 
+            
+            if(anuncio==null){
+                //Importe 
+                stmME=con.prepareStatement(consulta5); 
+                stmSumaE=con.prepareStatement(consulta6); 
+                stmME.setString(1, e.getIdUsuario());
+                stmME.setString(2, e.getIdUsuario());
+                rstME=stmME.executeQuery(); 
+                float sum=0; 
+                while(rstME.next()){
+                    num=rstME.getInt("numparticipaciones"); 
+                    sum=importe*num; 
+                    stmSumaE.setFloat(1, sum);
+                    stmSumaE.setString(2, rstME.getString("id_usuario"));
+                    stmSumaE.executeUpdate(); 
+                }
+                //Participaciones 
+                stmSuma2E=con.prepareStatement(consulta8); 
+                stmSuma2E.setInt(1, participaciones);
+                stmSuma2E.setString(2, e.getIdUsuario());
+                stmSuma2E.setString(3, e.getIdUsuario());
+                stmSuma2E.executeUpdate(); 
+                
+            }
+            else{
+                 //Importe 
+                stmME=con.prepareStatement(consulta5); 
+                stmSumaE=con.prepareStatement(consulta6); 
+                stmME.setString(1, e.getIdUsuario());
+                stmME.setString(2, e.getIdUsuario());
+                rstME=stmME.executeQuery(); 
+                float sum=0; 
+                while(rstME.next()){
+                    num=rstME.getInt("numparticipaciones"); 
+                    sum=anuncio.getImporteparticipacion()*num; 
+                    stmSumaE.setFloat(1, sum);
+                    stmSumaE.setString(2, rstME.getString("id_usuario"));
+                    stmSumaE.executeUpdate(); 
+                }
+                //Participaciones 
+                stmSuma2E=con.prepareStatement(consulta8); 
+                stmSuma2E.setInt(1, anuncio.getNumeroparticipaciones());
+                stmSuma2E.setString(2, e.getIdUsuario());
+                stmSuma2E.setString(3, e.getIdUsuario());
+                stmSuma2E.executeUpdate(); 
+            }
+            
+            //Por último, si hay un anuncio, se elimina
+            if(anuncio!=null){
+                try {
+                    stmEliminacion=con.prepareStatement(consulta10); 
+                    stmEliminacion.setString(1, e.getIdUsuario());
+                    stmEliminacion.setDate(2, anuncio.getFechaPago());
+                    stmEliminacion.executeUpdate(); 
+
+               } catch (SQLException ex) {
+                   manejarExcepcionSQL(ex);
+
+               } finally {
+                   try {
+                       stmEliminacion.close();
+                   } catch (SQLException ex) {
+                       System.out.println("Imposible cerrar cursores");
+                   }
+               }
+            }
+          
+            
+            
+            
+            
+            con.commit();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                con.setAutoCommit(true);
+                stmImporte.close();
+                stmParticipaciones.close();
+                stmMI.close();
+                stmSumaI.close();
+                stmSuma2I.close();
+                stmME.close();
+                stmSumaE.close(); 
+                stmSuma2E.close();
+                
+                
+                
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+    }
+    
+    public void pagarBeneficiosAnuncio(AnuncioBeneficios anuncio){
+        Connection con; 
+        PreparedStatement stmRestarDinero=null; 
+        PreparedStatement stmRestarParticipaciones=null; 
+        PreparedStatement stmPagar1=null; 
+        PreparedStatement stmPagar2=null; 
+        String consulta1="update empresa set saldobloqueado=saldobloqueado - ? where id_usuario= ? "; 
+        
+        String consulta2="update participacionesempresa set numparticipaciones=numparticipaciones- ? "
+                + "where usuario= ?  and empresa= ? "; 
+        
+        
+        
+        con=this.getConexion(); 
+          try {
+              /*Primero se restas las participaciones y el dinero de la emprea. 
+              En caso de que un anuncio sea solo de importe, como el anuncio almacenaría 
+              un 0 en participaciones, se va a restas 0 en participaciones de la 
+              empresa, por lo que se ejecutan siempre las dos instrucciones de resta*/
+             
+             con.setAutoCommit(false);
+             //Primero se resta el dinero del saldo bloqueado de la empresa 
+             stmRestarDinero=con.prepareStatement(consulta1); 
+             stmRestarDinero.setFloat(1, anuncio.getImporteparticipacion());
+             stmRestarDinero.setString(2, anuncio.getEmpresa());
+             //Ahora se restan las participaciones 
+             stmRestarParticipaciones=con.prepareStatement(consulta2); 
+             stmRestarParticipaciones.setInt(1, anuncio.getNumeroparticipaciones());
+             stmRestarParticipaciones.setString(2, anuncio.getEmpresa());
+             stmRestarParticipaciones.setString(3, anuncio.getEmpresa());
+             
+             //Ahora se suma a los inversores o empresas que tengan las participaciones
+             
+             
+            
+            
+            
+            
+            con.commit();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                con.setAutoCommit(true);
+                stmPagar1.close();
+                stmPagar2.close();
+                
+                
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
     
 }

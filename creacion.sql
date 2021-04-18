@@ -24,8 +24,8 @@ Create table empresa
   id_usuario varchar(20) not null primary key,
   nombrecomercial varchar(60) not null,
   cif varchar(9) not null,
-  saldo float,
-  saldobloqueado float,
+  saldo float default 0,
+  saldobloqueado float default 0,
   direccion varchar(50),
   telefono varchar(9),
   foreign key (id_usuario) references usuario (id_usuario)
@@ -88,7 +88,8 @@ Create table anuncioBeneficios
   empresa varchar(20) not null,
   fechaPago date not null,
   fechaAnuncio date default now(),
-  importeParticipacion integer not null,
+  importeParticipacion double precision,
+  numeroParticipaciones integer,
   solicitadobaja boolean,
 
   primary key (fechaPago, empresa),
@@ -122,9 +123,9 @@ Create table historial
 );
 
 
-
 create procedure actualizar_capital(Dinero double precision,Empresa character varying(30))	
 LANGUAGE SQL 
 AS $$
-	update empresa set saldobloqueado=Dinero where id_usuario=Empresa::text
+	update empresa set saldobloqueado=saldobloqueado+dinero,saldo=saldo-dinero where id_usuario=Empresa::text
+
 $$;  

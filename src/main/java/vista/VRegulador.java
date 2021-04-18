@@ -1,7 +1,9 @@
 package vista;
 
+import aplicacion.AnuncioBeneficios;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
+import vista.modeloTablas.ModeloTablaBeneficios; 
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
@@ -20,6 +22,14 @@ public class VRegulador extends javax.swing.JFrame {
         // (Ver clase VEmpresas) claveTextBox.setText(r.getClave());
         saldoTextBox.setText(String.valueOf(r.getSaldo()));
         tipoTextBox.setText("Regulador");
+        ModeloTablaBeneficios tablaAnuncios=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
+        tablaAnuncios.setFilas(fa.obtenerAnunciosRegulador());
+        if(tablaAnuncios.getRowCount()>0){
+            anunciosTabla.setRowSelectionInterval(0,0);
+        }
+        
+        
+        
     }
 
     /**
@@ -44,6 +54,10 @@ public class VRegulador extends javax.swing.JFrame {
         transferenciaBoton = new vista.componentes.Boton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla3 = new vista.componentes.Tabla();
+        tabs1 = new vista.componentes.Tabs();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        anunciosTabla = new vista.componentes.Tabla();
+        bajaAnuncioBoton = new vista.componentes.Boton();
         saldoLabel = new vista.componentes.Etiqueta();
         desconectarBoton = new vista.componentes.Boton();
         idTextBox = new vista.componentes.TextBox();
@@ -52,8 +66,7 @@ public class VRegulador extends javax.swing.JFrame {
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
         saldoTextBox = new vista.componentes.TextBox();
-        claveTextBox = new vista.componentes.PasswordField();
-        claveTextBox1 = new vista.componentes.PasswordField();
+        claveTextBox1 = new vista.componentes.TextBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,17 +115,17 @@ public class VRegulador extends javax.swing.JFrame {
         tabs6Layout.setHorizontalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabs6Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(742, 742, 742)
                 .addGroup(tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tabs6Layout.setVerticalGroup(
             tabs6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs6Layout.createSequentialGroup()
+            .addGroup(tabs6Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -143,10 +156,46 @@ public class VRegulador extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Comprobación de transferencia", tabs7);
+
+        anunciosTabla.setModel(new ModeloTablaBeneficios(
+        ));
+        jScrollPane3.setViewportView(anunciosTabla);
+
+        bajaAnuncioBoton.setText("Dar de baja anuncio");
+        bajaAnuncioBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaAnuncioBotonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tabs1Layout = new javax.swing.GroupLayout(tabs1);
+        tabs1.setLayout(tabs1Layout);
+        tabs1Layout.setHorizontalGroup(
+            tabs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabs1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tabs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+                    .addGroup(tabs1Layout.createSequentialGroup()
+                        .addComponent(bajaAnuncioBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        tabs1Layout.setVerticalGroup(
+            tabs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabs1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bajaAnuncioBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Solicitud baja anuncios", tabs1);
 
         saldoLabel.setText("Saldo");
 
@@ -157,6 +206,7 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        idTextBox.setEditable(false);
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idTextBoxActionPerformed(evt);
@@ -201,11 +251,6 @@ public class VRegulador extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,35 +263,26 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(claveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(claveTextBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(claveTextBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
+                        .addGap(33, 33, 33)
                         .addComponent(desconectarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
+                        .addGap(57, 57, 57)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(claveTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         OtrosComponentes.configurarTabbedPane(jTabbedPane1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_altaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
         // TODO add your handling code here:
@@ -266,17 +302,28 @@ public class VRegulador extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_desconectarBotonActionPerformed
 
+    private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_altaBotonActionPerformed
+
+    private void bajaAnuncioBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnuncioBotonActionPerformed
+        // TODO add your handling code here:
+        darBajaAnuncio(); 
+    }//GEN-LAST:event_bajaAnuncioBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
+    private vista.componentes.Tabla anunciosTabla;
+    private vista.componentes.Boton bajaAnuncioBoton;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Etiqueta claveLabel;
-    private vista.componentes.PasswordField claveTextBox;
-    private vista.componentes.PasswordField claveTextBox1;
+    private vista.componentes.TextBox claveTextBox1;
     private vista.componentes.Boton desconectarBoton;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Etiqueta saldoLabel;
@@ -284,6 +331,7 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Tabla tabla1;
     private vista.componentes.Tabla tabla2;
     private vista.componentes.Tabla tabla3;
+    private vista.componentes.Tabs tabs1;
     private vista.componentes.Tabs tabs5;
     private vista.componentes.Tabs tabs6;
     private vista.componentes.Tabs tabs7;
@@ -292,4 +340,20 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Boton transferenciaBoton;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
+
+public void darBajaAnuncio(){
+    ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
+    int fila=anunciosTabla.getSelectedRow(); 
+    AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
+    fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion());
+    //Se actualiza la tabla 
+    tabla.setFilas(fa.obtenerAnunciosRegulador());
+        if(tabla.getRowCount()>0){
+            anunciosTabla.setRowSelectionInterval(0,0);
+        }
+    
+    
+    
+}
+
 }
