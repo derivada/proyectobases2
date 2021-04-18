@@ -188,4 +188,12 @@ public class FachadaAplicacion {
                 + "\nCantidad: " + numero
                 + "\nPrecio máximo: " + precioMaximo);
     }
+
+    public void bajaUsuario(Usuario u) {
+        cu.bajaUsuario(u);
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        cu.solicitarBaja(idUsuario);
+    }
 }

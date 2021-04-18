@@ -151,4 +151,18 @@ public class GestionUsuarios {
         fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
 
     }
+
+    //TODO haría falta comprobar que el saldo es 0??
+    public void bajaUsuario(Usuario u) {
+        if(u instanceof Inversor){
+            fbd.eliminarInversor(u.getIdUsuario());
+
+        } else{
+            fbd.eliminarEmpresa(u.getIdUsuario());
+        }
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        fbd.solicitarBaja(idUsuario);
+    }
 }

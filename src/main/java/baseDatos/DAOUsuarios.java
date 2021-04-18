@@ -875,4 +875,93 @@ public class DAOUsuarios extends AbstractDAO {
         
         
     }
+
+
+    //TODO como se hace para que si falla la primera consulta se deshaga la primera??
+    public void eliminarInversor(String idUsuario) {
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta1 = "delete from inversor "
+                + "where id_usuario = ?";
+        String consulta2 = "delete from usuario "
+                + "where id_usuario = ?";
+        try {
+            stm = con.prepareStatement(consulta1);
+            stm.setString(1, idUsuario);
+            stm.executeUpdate();
+
+            stm = con.prepareStatement(consulta2);
+            stm.setString(1, idUsuario);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    public void eliminarEmpresa(String idUsuario) {
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta1 = "delete from empresa "
+                + "where id_usuario = ?";
+        String consulta2 = "delete from usuario "
+                + "where id_usuario = ?";
+        try {
+            stm = con.prepareStatement(consulta1);
+            stm.setString(1, idUsuario);
+            stm.executeUpdate();
+
+            stm = con.prepareStatement(consulta2);
+            stm.setString(1, idUsuario);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "update usuario "
+                + "set solicitadobaja = true"
+                + " where id_usuario = ?";
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, idUsuario);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
 }
