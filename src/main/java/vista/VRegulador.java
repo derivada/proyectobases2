@@ -5,6 +5,7 @@ import vista.componentes.FuentesGUI;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
+import vista.modeloTablas.ModeloTablaBeneficios;
 import vista.modeloTablas.ModeloTablaTransacciones;
 
 
@@ -41,6 +42,10 @@ public class VRegulador extends javax.swing.JFrame {
         } else {
             bajaBoton.setEnabled(false);
         }
+        
+        ModeloTablaBeneficios tablaAnuncios=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
+        tablaAnuncios.setFilas(fa.obtenerAnunciosRegulador());
+        
     }
 
     /**
@@ -65,6 +70,10 @@ public class VRegulador extends javax.swing.JFrame {
         transferenciaBoton = new vista.componentes.Boton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla3 = new vista.componentes.Tabla();
+        bajaAnuncioTabs = new vista.componentes.Tabs();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        anunciosTabla = new vista.componentes.Tabla();
+        bajaAnunciosBoton = new vista.componentes.Boton();
         saldoLabel = new vista.componentes.Etiqueta();
         idTextBox = new vista.componentes.TextBox();
         tipoTextBox = new vista.componentes.TextBox();
@@ -165,10 +174,43 @@ public class VRegulador extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Comprobación de transferencia", tabs7);
+
+        anunciosTabla.setModel(new ModeloTablaBeneficios());
+        jScrollPane3.setViewportView(anunciosTabla);
+
+        bajaAnunciosBoton.setText("Dar de baja anuncio");
+        bajaAnunciosBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaAnunciosBotonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout bajaAnuncioTabsLayout = new javax.swing.GroupLayout(bajaAnuncioTabs);
+        bajaAnuncioTabs.setLayout(bajaAnuncioTabsLayout);
+        bajaAnuncioTabsLayout.setHorizontalGroup(
+            bajaAnuncioTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bajaAnuncioTabsLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(bajaAnuncioTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bajaAnunciosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(147, Short.MAX_VALUE))
+        );
+        bajaAnuncioTabsLayout.setVerticalGroup(
+            bajaAnuncioTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bajaAnuncioTabsLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(bajaAnunciosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+        );
+
+        jTabbedPane1.addTab("Solicitud baja anuncio", bajaAnuncioTabs);
 
         saldoLabel.setText("Saldo");
 
@@ -287,14 +329,23 @@ public class VRegulador extends javax.swing.JFrame {
         modelo.setFilas(fa.obtenerUsuariosBaja());
     }//GEN-LAST:event_bajaBotonActionPerformed
 
+    private void bajaAnunciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosBotonActionPerformed
+        // TODO add your handling code here:
+        darBajaAnuncio(); 
+    }//GEN-LAST:event_bajaAnunciosBotonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
+    private vista.componentes.Tabla anunciosTabla;
+    private vista.componentes.Tabs bajaAnuncioTabs;
+    private vista.componentes.Boton bajaAnunciosBoton;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Etiqueta saldoLabel;
@@ -310,4 +361,19 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Boton transferenciaBoton;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
+
+public void darBajaAnuncio(){
+    ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
+    int fila=anunciosTabla.getSelectedRow(); 
+    AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
+    fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion());
+    //Se actualiza la tabla 
+    tabla.setFilas(fa.obtenerAnunciosRegulador());
+        if(tabla.getRowCount()>0){
+            anunciosTabla.setRowSelectionInterval(0,0);
+        }
+    
+    
+    
+}
 }

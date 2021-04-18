@@ -11,6 +11,7 @@ package aplicacion;
 
 import vista.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.componentes.DialogoInfo;
 
 import java.util.ArrayList;
@@ -165,4 +166,44 @@ public class GestionUsuarios {
     public void solicitarBaja(String idUsuario) {
         fbd.solicitarBaja(idUsuario);
     }
+    
+    public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        int aux= fbd.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+        if(aux==1){
+          fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
+                    DialogoInfo.NivelDeAdvertencia.INFORMACION);  
+        }
+        else if (aux==2){
+            fbd.getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+            
+        }
+        else{
+            fbd.getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+        }
+    }
+    
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        fbd.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+    
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return fbd.obtenerAnuncios(empresa); 
+    }
+    
+    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+        boolean realizado=fbd.solicitarBajaAnuncio(empresa, fechaPago);
+         if(realizado==false){
+            fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio",DialogoInfo.NivelDeAdvertencia.ERROR); 
+        }
+    }
+    
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return fbd.obtenerAnunciosRegulador();
+    }
+     
+      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         fbd.bajaAnuncio(empresa, fecha, importe);
+     }
 }

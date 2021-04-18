@@ -14,7 +14,7 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
     }
 
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     public int getRowCount() {
@@ -38,6 +38,9 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
             case 3:
                 nombre = "Importe por participacion";
                 break;
+            case 4:
+                nombre = "Numero de participaciones"; 
+                break; 
 
 
         }
@@ -62,6 +65,9 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
             case 3:
                 clase = java.lang.Double.class;
                 break;
+            case 4: 
+                clase = java.lang.Integer.class; 
+                break; 
         }
         return clase;
     }
@@ -81,8 +87,9 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
                 break;
             case 3:
                 resultado = beneficios.get(row).getImporteparticipacion();
-
                 break;
+            case 4: 
+                resultado = beneficios.get(row).getNumeroparticipaciones(); 
 
         }
         return resultado;
