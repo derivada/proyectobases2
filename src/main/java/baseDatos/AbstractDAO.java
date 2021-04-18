@@ -58,4 +58,6 @@ public abstract class AbstractDAO {
     protected void muestraExcepcion(String descripcion) {
         fa.muestraExcepcion(null, "Mercado de valores", descripcion, DialogoInfo.NivelDeAdvertencia.ERROR, false);
     }
+
+
 }

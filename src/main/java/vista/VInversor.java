@@ -285,7 +285,7 @@ public class VInversor extends javax.swing.JFrame {
     }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        // TODO add your handling code here:
+        fa.solicitarBaja(i.getIdUsuario());
     }//GEN-LAST:event_bajaBotonActionPerformed
 
 

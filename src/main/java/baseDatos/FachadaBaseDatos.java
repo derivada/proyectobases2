@@ -170,6 +170,18 @@ public class FachadaBaseDatos {
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         daoParticipaciones.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
+
+    public void eliminarInversor(String idUsuario) {
+        daoUsuarios.eliminarInversor(idUsuario);
+    }
+
+    public void eliminarEmpresa(String idUsuario) {
+        daoUsuarios.eliminarEmpresa(idUsuario);
+    }
+
+    public void solicitarBaja(String idUsuario) {
+        daoUsuarios.solicitarBaja(idUsuario);
+    }
 }
 
 

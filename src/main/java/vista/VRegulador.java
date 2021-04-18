@@ -282,9 +282,9 @@ public class VRegulador extends javax.swing.JFrame {
         ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
         Usuario u = modelo.obtenerUsuario(tabla2.getSelectedRow());
 
-        //TODO: autorizarBaja
+        fa.bajaUsuario(u);
 
-        modelo.setFilas(fa.obtenerUsuariosPorAutorizacion());
+        modelo.setFilas(fa.obtenerUsuariosBaja());
     }//GEN-LAST:event_bajaBotonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
