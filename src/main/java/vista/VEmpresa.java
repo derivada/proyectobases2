@@ -460,7 +460,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
     
     public void rellenarHuecos(){
-        totalTextBox.setEditable(false);
+        //totalTextBox.setEditable(false);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");

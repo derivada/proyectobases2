@@ -162,6 +162,10 @@ public class FachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e) {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
+    
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    }
 
     public void emitirParticipaciones(Empresa e, int emision, int precio) {
         daoParticipaciones.emitirParticipaciones(e, emision, precio);

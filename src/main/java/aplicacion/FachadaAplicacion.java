@@ -187,5 +187,6 @@ public class FachadaAplicacion {
                 + "\nVendedor: " + vendedor.getIdUsuario()
                 + "\nCantidad: " + numero
                 + "\nPrecio máximo: " + precioMaximo);
+        cu.comprarParticipaciones(comprador, vendedor, numero, precioMaximo);
     }
 }

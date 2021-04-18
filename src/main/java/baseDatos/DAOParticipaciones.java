@@ -129,6 +129,7 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.setInt(1, antiguasPart - baja);
             stmUpdate.setString(2, e.getIdUsuario());
             stmUpdate.setString(3, e.getIdUsuario());
+            stmUpdate.executeUpdate();
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
@@ -291,4 +292,61 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
     }
+    
+    
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        int participacionesIteracion = 0, participacionesTotales = 0;
+        float precioAcumulado = 0, precioIteracion = 0;
+        PreparedStatement stmParticipaciones = null, stmSustracion = null, stmEliminacion = null;
+        ResultSet rst = null;
+        Connection con;
+        
+        con = this.getConexion();
+        
+        String consulta1 = "select * "
+                + "from ofertaVenta "
+                + "where empresa = ? AND "
+                + "precio = (select MIN(precio) from ofertaVenta where empresa = ?) "
+                + "AND fecha = (select MIN(fecha) from ofertaVenta where empresa = ?)";
+        //lo primero es escoger las participaciones y ver cuanto cuestan
+        try {
+            con.setAutoCommit(false);
+            while(participacionesTotales <= cantidad){ //mientras no se hayan escogido todas las pedidas seguimos cogiendo
+                stmParticipaciones = con.prepareStatement(consulta1);
+                stmParticipaciones.setString(1, vendedor.getIdUsuario());
+                stmParticipaciones.setString(2, vendedor.getIdUsuario());
+                stmParticipaciones.setString(3, vendedor.getIdUsuario());
+                rst = stmParticipaciones.executeQuery();
+                while(rst.next()){
+                    
+                    //variables de la iteracion
+                    participacionesIteracion = rst.getInt("numparticipaciones");
+                    precioIteracion = rst.getFloat("precio");
+                    
+                    //las sumamos a las enteras
+                    precioAcumulado += (float)participacionesIteracion * (float)precioIteracion;
+                    participacionesTotales += participacionesIteracion;
+                    
+                    //aqui unicamente faltaría eliminar esta tupla, es decir hacer una consulta que cada vez que pilla un precio lo elimina basicamente, y que si el precio total es mayor pues no se hace el commit de nada y nada qued modficado
+                }
+                //if(precioAcumulado >= )
+                
+                //tras todo eso, el precio acumulado tiene que ser <= al saldo, el saldo no esta en user, asi que necesito una clase para conseguir su saldo
+                
+                //hago un filtro o cambio lo de pasarle un usuario por el tipo de usuario que es?
+                
+            }
+            
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmParticipaciones.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+    }
+    
 }

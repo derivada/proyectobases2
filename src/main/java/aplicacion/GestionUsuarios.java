@@ -151,4 +151,8 @@ public class GestionUsuarios {
         fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
 
     }
+    
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        fbd.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    }
 }
