@@ -433,7 +433,7 @@ public class VEmpresa extends javax.swing.JFrame {
         
         int precio = Integer.parseInt(precioParticipaciones.getText());
         
-        fa.emitirParticipaciones(e, emision, precio);
+        fa.emitirParticipaciones(e, emision, precio); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
         
         this.rellenarHuecos();
            
