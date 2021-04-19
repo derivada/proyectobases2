@@ -154,67 +154,79 @@ public class DAOParticipaciones extends AbstractDAO {
         PreparedStatement stmAntiguas = null;
         PreparedStatement stmUpdate = null;
         PreparedStatement stmNueva = null;
+        PreparedStatement stmCartera = null;
         ResultSet rst;
         Connection con;
 
         con = this.getConexion();
 
-        String consulta = "select numparticipaciones "
+        String participacionesAnteriores = "select numparticipaciones "
                 + "from participacionesempresa "
                 + "where usuario=? AND empresa=?";
 
-        String consulta2 = "update participacionesempresa "
+        String updateCartera = "update participacionesempresa "
                 + "set numparticipaciones=? "
                 + "where usuario=? AND empresa=?";
+        
+        //añadir una participacionesAnteriores que cree la cartera si es que no esta creada, ya que el update si no esta creada no funciona
+        String nuevaCartera = "insert into participacionesempresa(usuario, empresa, numparticipaciones) values(?,?,?);";
 
-        String consulta3 = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
+        String nuevaEmision = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
 
         try {
             con.setAutoCommit(false);
-            stmAntiguas = con.prepareStatement(consulta);
+            stmAntiguas = con.prepareStatement(participacionesAnteriores);
             stmAntiguas.setString(1, e.getIdUsuario());
             stmAntiguas.setString(2, e.getIdUsuario());
             rst = stmAntiguas.executeQuery();
             while (rst.next()) {
                 antiguasPart = rst.getInt("numparticipaciones");
             }
-            try {
-                stmNueva = con.prepareStatement(consulta3);
-                stmNueva.setString(1, e.getIdUsuario());
-                stmNueva.setInt(2, emision);
-                stmNueva.setFloat(3, precio);
-                stmNueva.executeUpdate();
-            } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmNueva.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
+            
+            stmNueva = con.prepareStatement(nuevaEmision);
+            stmNueva.setString(1, e.getIdUsuario());
+            stmNueva.setInt(2, emision);
+            stmNueva.setFloat(3, precio);
+            
+            stmNueva.executeUpdate();
+            
+            if(antiguasPart == 0){
+                stmCartera = con.prepareStatement(nuevaCartera);
+                stmCartera.setString(1, e.getIdUsuario());
+                stmCartera.setString(2, e.getIdUsuario());
+                stmCartera.setInt(3, 0);
+                
+                stmCartera.executeUpdate();
             }
-            try {
-                stmUpdate = con.prepareStatement(consulta2);
-                stmUpdate.setInt(1, emision + antiguasPart);
-                stmUpdate.setString(2, e.getIdUsuario());
-                stmUpdate.setString(3, e.getIdUsuario());
-                stmUpdate.executeUpdate();
-            } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
-                manejarExcepcionSQL(ex);
-            } finally {
-                try {
-                    stmUpdate.close();
-                } catch (SQLException ex) {
-                    System.out.println("Imposible cerrar cursores");
-                }
-            }
+            
+            stmUpdate = con.prepareStatement(updateCartera);
+            stmUpdate.setInt(1, emision + antiguasPart);
+            stmUpdate.setString(2, e.getIdUsuario());
+            stmUpdate.setString(3, e.getIdUsuario());
+            
+            stmUpdate.executeUpdate();
+            
             con.commit();
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
                 con.setAutoCommit(true);
-                stmAntiguas.close();
+                if(stmAntiguas != null){
+                    stmAntiguas.close();
+                }
+                
+                if(stmCartera != null){
+                    stmCartera.close();
+                }
+                
+                if(stmUpdate != null){
+                    stmUpdate.close();
+                }
+                
+                if(stmNueva != null){
+                    stmNueva.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -342,7 +354,7 @@ public class DAOParticipaciones extends AbstractDAO {
         try {
             con.setAutoCommit(false);
 
-            while (participacionesCompradas < cantidad && !dineroAgotado) { //mientras no se hayan escogido todas las pedidas seguimos cogiendo
+            while (participacionesCompradas < cantidad && !dineroAgotado) { //mientras no se hayan escogido todas las pedidas seguimos cogiendo y si no hay dinero salimos del bucle    
                 stmParticipaciones = con.prepareStatement(encontrarMejorOferta);
                 stmParticipaciones.setString(1, empresa.getIdUsuario());
                 stmParticipaciones.setString(2, empresa.getIdUsuario());
@@ -490,6 +502,8 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.setString(2, comprador.getIdUsuario());
             stmUpdate.setString(3, empresa.getIdUsuario());
             stmUpdate.executeUpdate();
+            
+            
         } finally {
             try {
                 if (stmCreacion != null)

@@ -24,7 +24,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         this.u = u;
         this.fa = fa;
         List<String> lista = fa.obtenerListaEmpresas().stream().map(e -> e.getIdUsuario()).collect(Collectors.toList());
-        lista.remove(u.getIdUsuario());
+        //lista.remove(u.getIdUsuario());
         nombresOtrosUsuarios = new String[lista.size()];
         nombresOtrosUsuarios = lista.toArray(nombresOtrosUsuarios);
         initComponents();
