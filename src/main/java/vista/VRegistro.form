@@ -28,22 +28,19 @@
                   <Group type="102" attributes="0">
                       <EmptySpace pref="248" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="ingresoLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="usuarioIngresoLabel" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                  <Component id="botonAceptarIngreso" min="-2" pref="132" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="claveIngresoLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="ingresoUsuario" pref="200" max="32767" attributes="0"/>
-                                          <Component id="ingresoClave" max="32767" attributes="0"/>
-                                      </Group>
+                          <Component id="ingresoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="usuarioIngresoLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Component id="botonAceptarIngreso" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="claveIngresoLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="ingresoUsuario" pref="200" max="32767" attributes="0"/>
+                                      <Component id="ingresoClave" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
-                          <Component id="botonTests" alignment="1" min="-2" pref="132" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="201" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -117,8 +114,7 @@
                       <Component id="IDReg" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="botonTests" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                       <Component id="idRegLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -266,17 +262,6 @@
     <Component class="vista.componentes.PasswordField" name="claveReg">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveRegActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.Boton" name="botonTests">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="99" red="0" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="tests"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonTestsActionPerformed"/>
       </Events>
     </Component>
     <Component class="vista.componentes.SelecionBox" name="tipoReg">

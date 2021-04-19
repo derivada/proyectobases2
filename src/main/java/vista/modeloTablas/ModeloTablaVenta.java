@@ -77,7 +77,7 @@ public class ModeloTablaVenta extends AbstractTableModel{
                 resultado = ofertaVentas.get(row).getEmpresa();
                 break;
             case 1:
-                resultado = ofertaVentas.get(row).getUsuario();
+                resultado = ofertaVentas.get(row).getVendedor();
                 break;
             case 2:
                 resultado = ofertaVentas.get(row).getFecha();

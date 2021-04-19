@@ -147,7 +147,7 @@ public class FachadaBaseDatos {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, int precio){
+    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio){
         return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
 
@@ -162,8 +162,12 @@ public class FachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e) {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
+    
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         daoParticipaciones.emitirParticipaciones(e, emision, precio);
     }
 
