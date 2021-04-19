@@ -96,7 +96,7 @@ public class GestionUsuarios {
         return fbd.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         fbd.emitirParticipaciones(e, emision, precio);
     }
 
@@ -135,7 +135,7 @@ public class GestionUsuarios {
         }
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio){
         return fbd.getOfertasVenta(empresa, precio);
     }
 
