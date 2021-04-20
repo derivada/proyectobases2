@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
-  </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="formSizePolicy" type="int" value="2"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -23,7 +19,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
@@ -34,27 +30,27 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="telefonoLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="idLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="nombreLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="nombreLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="telefonoTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nombreTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="idTextBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="telefonoTextBox" max="32767" attributes="0"/>
+                          <Component id="nombreTextBox" max="32767" attributes="0"/>
+                          <Component id="idTextBox" max="32767" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="direccionLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="dniLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="direccionLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dniLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="claveConfLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="claveLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="claveConfLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="claveLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -63,7 +59,7 @@
                           <Component id="claveConf" alignment="0" max="32767" attributes="0"/>
                           <Component id="direccionTextBox" alignment="0" max="32767" attributes="0"/>
                           <Component id="dniTextBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="clave" alignment="1" min="-2" pref="305" max="-2" attributes="0"/>
+                          <Component id="clave" min="-2" pref="305" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -73,7 +69,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
@@ -112,75 +108,12 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="vista.componentes.TextBox" name="idTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="telefonoTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telefonoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="claveLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Clave:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="nombreLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Nombre Comercial:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.PasswordField" name="clave">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="direccionTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="direccionTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.Boton" name="modificarBoton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar modificaciones"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotoncancelarRegistroActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="dniLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="CIF:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="direccionLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="idLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID de usuario:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.PasswordField" name="claveConf">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveConfActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="claveConfLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Confirmaci&#xf3;n de la clave:"/>
-      </Properties>
-    </Component>
     <Component class="vista.componentes.TextBox" name="nombreTextBox">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nombreTextBoxActionPerformed"/>
@@ -195,6 +128,69 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dniTextBoxActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="idTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="telefonoTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telefonoTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="nombreLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="direccionTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="direccionTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="dniLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DNI:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="idLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ID de usuario:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="claveLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clave:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.PasswordField" name="clave">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Boton" name="modificarBoton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Guardar modificaciones"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotoncancelarRegistroActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="direccionLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.PasswordField" name="claveConf">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveConfActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="claveConfLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Confirmaci&#xf3;n de la clave:"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

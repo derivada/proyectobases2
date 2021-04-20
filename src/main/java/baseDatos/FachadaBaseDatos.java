@@ -178,6 +178,18 @@ public class FachadaBaseDatos {
     public void solicitarBaja(String idUsuario) {
         daoUsuarios.solicitarBaja(idUsuario);
     }
+    
+    public boolean comprobarID(String id){
+        return daoUsuarios.comprobarID(id);
+    }
+    
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        return daoUsuarios.modificarInversor(i, pass, idviejo);
+    }
+    
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        return daoUsuarios.modificarEmpresa(e, pass, idviejo);
+    }
 }
 
 

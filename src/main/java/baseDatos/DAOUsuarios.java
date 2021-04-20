@@ -259,8 +259,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
-
-    //funcion para insertar un nuevo inversor, totalmente analoga a la de usuario
+    
     public boolean registroInversor(Inversor i) {
         boolean insertado = false;
         PreparedStatement stmCheck = null;
@@ -269,7 +268,7 @@ public class DAOUsuarios extends AbstractDAO {
         Connection con;
 
         con = this.getConexion();
-
+        
         String consulta = "select * from usuario where id_usuario=?"; //pillo todo donde el ID sea el mismo (solo quiero el RST para saber si es vacio)
 
         try {
@@ -292,6 +291,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         if (insertado) {
             try {
+                con.setAutoCommit(false);
+                
                 consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, i.getIdUsuario());
@@ -299,48 +300,48 @@ public class DAOUsuarios extends AbstractDAO {
                 stmIns.setBoolean(3, false);
                 stmIns.setBoolean(4, false);
                 stmIns.executeUpdate();
-            } catch (SQLException e) {
+                
+                consulta = "insert into inversor(id_usuario, nombre, saldo, dni, direccion, telefono) values (?,?,?,?,?,?)";
+                stmIns = con.prepareStatement(consulta);
+                stmIns.setString(1, i.getIdUsuario());
+                stmIns.setString(2, i.getNombre());
+                stmIns.setDouble(3, (double) i.getSaldo());
+                stmIns.setString(4, i.getDni());
+                if (i.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
+                    stmIns.setString(5, null);
+                } else {
+                    stmIns.setString(5, i.getDireccion());
+                }
+                if (i.getTelefono().isEmpty()) {
+                    stmIns.setString(6, null);
+                } else {
+                    stmIns.setString(6, i.getTelefono());
+                }
+                stmIns.executeUpdate();
+                
+                con.commit();
+                con.setAutoCommit(true);
+            } 
+            catch (SQLException e) {
                 manejarExcepcionSQL(e);
-            } finally {
+                try{
+                    insertado=true;//para que no salga el mensajito de error
+                    con.rollback();
+                }
+                catch (SQLException rollEx){
+                    manejarExcepcionSQL(rollEx);
+                }
+            } 
+            finally {
                 try {
                     stmIns.close();
-                } catch (SQLException e) {
+                } 
+                catch (SQLException e) {
                     System.out.println("Imposible cerrar cursores");
                 }
             }
         }
-        else{
-            return insertado;
-        }
         
-        try {
-            consulta = "insert into inversor(id_usuario, nombre, saldo, dni, direccion, telefono) values (?,?,?,?,?,?)";
-            stmIns = con.prepareStatement(consulta);
-            stmIns.setString(1, i.getIdUsuario());
-            stmIns.setString(2, i.getNombre());
-            stmIns.setDouble(3, (double) i.getSaldo());
-            stmIns.setString(4, i.getDni());
-            if (i.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
-                stmIns.setString(5, null);
-            } else {
-                stmIns.setString(5, i.getDireccion());
-            }
-            if (i.getTelefono().isEmpty()) {
-                stmIns.setString(6, null);
-            } else {
-                stmIns.setString(6, i.getTelefono());
-            }
-            stmIns.executeUpdate();
-        } catch (SQLException e) {
-            manejarExcepcionSQL(e);
-        } finally {
-            try {
-                stmIns.close();
-            } catch (SQLException e) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
     
@@ -376,6 +377,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         if (insertado) {
             try {
+                con.setAutoCommit(false);
+                
                 consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, e.getIdUsuario());
@@ -383,49 +386,49 @@ public class DAOUsuarios extends AbstractDAO {
                 stmIns.setBoolean(3, false);
                 stmIns.setBoolean(4, false);
                 stmIns.executeUpdate();
-            } catch (SQLException ex) {
+                
+                consulta = "insert into empresa(id_usuario, nombrecomercial, cif, saldo, saldobloqueado, direccion, telefono) values (?,?,?,?,?,?,?)";
+                stmIns = con.prepareStatement(consulta);
+                stmIns.setString(1, e.getIdUsuario());
+                stmIns.setString(2, e.getNombre());
+                stmIns.setString(3, e.getCIF());
+                stmIns.setDouble(4, (double) e.getSaldo());
+                stmIns.setDouble(5, (double) e.getSaldobloqueado());
+                if (e.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
+                    stmIns.setString(6, null);
+                } else {
+                    stmIns.setString(6, e.getDireccion());
+                }
+                if (e.getTelefono().isEmpty()) {
+                    stmIns.setString(7, null);
+                } else {
+                    stmIns.setString(7, e.getTelefono());
+                }
+                stmIns.executeUpdate();
+                
+                con.commit();
+                con.setAutoCommit(true);
+            } 
+            catch (SQLException ex) {
                 manejarExcepcionSQL(ex);
-            } finally {
+                try{
+                    insertado=true;//para que no se imprima el mensajito
+                    con.rollback();
+                }
+                catch(SQLException rollEx){
+                    manejarExcepcionSQL(rollEx);
+                }
+            } 
+            finally {
                 try {
                     stmIns.close();
-                } catch (SQLException ex) {
+                } 
+                catch (SQLException ex) {
                     System.out.println("Imposible cerrar cursores");
                 }
             }
         }
-        else{
-            return insertado;
-        }
         
-        try {
-            consulta = "insert into empresa(id_usuario, nombrecomercial, cif, saldo, saldobloqueado, direccion, telefono) values (?,?,?,?,?,?,?)";
-            stmIns = con.prepareStatement(consulta);
-            stmIns.setString(1, e.getIdUsuario());
-            stmIns.setString(2, e.getNombre());
-            stmIns.setString(3, e.getCIF());
-            stmIns.setDouble(4, (double) e.getSaldo());
-            stmIns.setDouble(5, (double) e.getSaldobloqueado());
-            if (e.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
-                stmIns.setString(6, null);
-            } else {
-                stmIns.setString(6, e.getDireccion());
-            }
-            if (e.getTelefono().isEmpty()) {
-                stmIns.setString(7, null);
-            } else {
-                stmIns.setString(7, e.getTelefono());
-            }
-            stmIns.executeUpdate();
-        } catch (SQLException ex) {
-            manejarExcepcionSQL(ex);
-        } finally {
-            try {
-                stmIns.close();
-            } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-
         return insertado;//para que la funcion sepa si se ha insertado o no
     }
 
@@ -956,5 +959,145 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+    
+    public boolean comprobarID(String id){
+        boolean libre = false;
+        PreparedStatement stmCheck = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select * from usuario where id_usuario=?"; //pillo todo donde el ID sea el mismo (solo quiero el RST para saber si es vacio)
+
+        try {
+            stmCheck = con.prepareStatement(consulta);
+            stmCheck.setString(1, id);
+            rst = stmCheck.executeQuery();
+            if (!rst.isBeforeFirst()) {//si el rst esta vacio no hay nadie con su id, podemos insertar
+                libre = true;
+            }
+        } catch (SQLException e) {
+            manejarExcepcionSQL(e);
+        } finally {
+            try {
+                stmCheck.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return libre;
+    }
+    
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        PreparedStatement stmUpd = null;
+        Connection con;
+        boolean insertado=true;
+        
+        con = this.getConexion();
+
+        String consulta = "update usuario set id_usuario=?, clave=? where id_usuario=?";
+        String consulta2 = "update inversor set nombre=?, dni=?, direccion=?, telefono=? where id_usuario=?";
+        
+        try {
+            con.setAutoCommit(false);
+            
+            stmUpd=con.prepareStatement(consulta);
+            stmUpd.setString(1, i.getIdUsuario());
+            stmUpd.setString(2, pass);
+            stmUpd.setString(3, idviejo);
+            
+            stmUpd.executeUpdate();
+            
+            stmUpd=con.prepareStatement(consulta2);
+            stmUpd.setString(1, i.getNombre());
+            stmUpd.setString(2, i.getDni());
+            stmUpd.setString(3, i.getDireccion());
+            stmUpd.setString(4, i.getTelefono());
+            stmUpd.setString(5, i.getIdUsuario());
+            
+            stmUpd.executeUpdate();
+            
+            con.commit();
+            con.setAutoCommit(true);
+            
+        } 
+        catch (SQLException ex) {
+            insertado=false;
+            manejarExcepcionSQL(ex);
+            try{
+                con.rollback();
+            }
+            catch (SQLException rollEx){
+                manejarExcepcionSQL(rollEx);
+            }
+        } 
+        finally {
+            try {
+                stmUpd.close();
+            } 
+            catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return insertado;
+    }
+    
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        PreparedStatement stmUpd = null;
+        Connection con;
+        boolean insertado=true;
+        
+        con = this.getConexion();
+
+        String consulta = "update usuario set id_usuario=?, clave=? where id_usuario=?";
+        String consulta2 = "update empresa set nombrecomercial=?, cif=?, direccion=?, telefono=? where id_usuario=?";
+        
+        try {
+            con.setAutoCommit(false);
+            
+            stmUpd=con.prepareStatement(consulta);
+            stmUpd.setString(1, e.getIdUsuario());
+            stmUpd.setString(2, pass);
+            stmUpd.setString(3, idviejo);
+            
+            stmUpd.executeUpdate();
+            
+            stmUpd=con.prepareStatement(consulta2);
+            stmUpd.setString(1, e.getNombre());
+            stmUpd.setString(2, e.getCIF());
+            stmUpd.setString(3, e.getDireccion());
+            stmUpd.setString(4, e.getTelefono());
+            stmUpd.setString(5, e.getIdUsuario());
+            
+            stmUpd.executeUpdate();
+            
+            con.commit();
+            con.setAutoCommit(true);
+            
+        } 
+        catch (SQLException ex) {
+            insertado=false;
+            manejarExcepcionSQL(ex);
+            try{
+                con.rollback();
+            }
+            catch (SQLException rollEx){
+                manejarExcepcionSQL(rollEx);
+            }
+        } 
+        finally {
+            try {
+                stmUpd.close();
+            } 
+            catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        
+        return insertado;
     }
 }

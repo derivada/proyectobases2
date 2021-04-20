@@ -83,6 +83,10 @@ public class GestionUsuarios {
     public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa){
         fgui.iniciaModificarInversor(i,fa);
     }
+    
+    public void iniciaModificarEmpresa(Empresa e, FachadaAplicacion fa){
+        fgui.iniciaModificarEmpresa(e,fa);
+    }
 
     public boolean registroInversor(Inversor i) {
         return fbd.registroInversor(i);
@@ -164,5 +168,17 @@ public class GestionUsuarios {
 
     public void solicitarBaja(String idUsuario) {
         fbd.solicitarBaja(idUsuario);
+    }
+    
+    public boolean comprobarID(String id){
+        return fbd.comprobarID(id);
+    }
+    
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        return fbd.modificarInversor(i, pass, idviejo);
+    }
+    
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        return fbd.modificarEmpresa(e, pass, idviejo);
     }
 }

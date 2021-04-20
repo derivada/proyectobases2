@@ -97,6 +97,10 @@ public class FachadaAplicacion {
     public void menuModificarInversor(Inversor inversor){
         cu.iniciaModificarInversor(inversor,this);
     }
+    
+    public void menuModificarEmpresa(Empresa empresa){
+        cu.iniciaModificarEmpresa(empresa, this);
+    }
 
     public void salir() {
         System.out.println("Tiempo transcurrido: " + (Calendar.getInstance().getTimeInMillis() - fechaInicio) + " ms");
@@ -195,5 +199,17 @@ public class FachadaAplicacion {
 
     public void solicitarBaja(String idUsuario) {
         cu.solicitarBaja(idUsuario);
+    }
+    
+    public boolean comprobarID(String id){
+        return cu.comprobarID(id);
+    }
+    
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        return cu.modificarInversor(i, pass, idviejo);
+    }
+    
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        return cu.modificarEmpresa(e, pass, idviejo);
     }
 }

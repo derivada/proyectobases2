@@ -138,7 +138,7 @@
     </Component>
     <Component class="vista.componentes.Etiqueta" name="nombreLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nombre:"/>
+        <Property name="text" type="java.lang.String" value="Nombre comercial:"/>
       </Properties>
     </Component>
     <Component class="vista.componentes.TextBox" name="direccionTextBox">
@@ -148,7 +148,7 @@
     </Component>
     <Component class="vista.componentes.Etiqueta" name="dniLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="DNI:"/>
+        <Property name="text" type="java.lang.String" value="CIF:"/>
       </Properties>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="idLabel">

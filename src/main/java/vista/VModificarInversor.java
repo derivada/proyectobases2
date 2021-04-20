@@ -5,33 +5,30 @@
  */
 package vista;
 
+
 import aplicacion.FachadaAplicacion;
 import aplicacion.Inversor;
-import vista.componentes.FuentesGUI;
-import vista.componentes.OtrosComponentes;
+import aplicacion.Usuario;
+
 /**
  *
- * @author 34639
+ * @author Pablo M
  */
-public class VModificarUsuario extends javax.swing.JPanel {
+public class VModificarInversor extends javax.swing.JFrame {
+
     
     private final FachadaAplicacion fa;
     private final Inversor i;
+
     /**
-     * Creates new form VModificar
+     * Creates new form VModificarInversor
      */
-    public VModificarUsuario(Inversor i, FachadaAplicacion fa) {
+    public VModificarInversor(Inversor i, FachadaAplicacion fa) {
         this.fa=fa;
         this.i=i;
         initComponents();
         
-        //this.idTextBox.setText(i.getIdUsuario());
-        //this.nombreTextBox.setText(i.getNombre());
-        //this.telefonoTextBox.setText(i.getTelefono());
-        //this.clave.setText(i.getClave());
-        //this.claveConf.setText(i.getClave());
-        //this.dniTextBox.setText(i.getDni());
-        //this.direccionTextBox.setText(i.getDireccion());
+        this.actualizarCampos();
     }
 
     /**
@@ -43,6 +40,12 @@ public class VModificarUsuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        claveLabel = new vista.componentes.Etiqueta();
+        clave = new vista.componentes.PasswordField();
+        modificarBoton = new vista.componentes.Boton();
+        direccionLabel = new vista.componentes.Etiqueta();
+        claveConf = new vista.componentes.PasswordField();
+        claveConfLabel = new vista.componentes.Etiqueta();
         nombreTextBox = new vista.componentes.TextBox();
         telefonoLabel = new vista.componentes.Etiqueta();
         dniTextBox = new vista.componentes.TextBox();
@@ -52,12 +55,33 @@ public class VModificarUsuario extends javax.swing.JPanel {
         direccionTextBox = new vista.componentes.TextBox();
         dniLabel = new vista.componentes.Etiqueta();
         idLabel = new vista.componentes.Etiqueta();
-        claveLabel = new vista.componentes.Etiqueta();
-        clave = new vista.componentes.PasswordField();
-        modificarBoton = new vista.componentes.Boton();
-        direccionLabel = new vista.componentes.Etiqueta();
-        claveConf = new vista.componentes.PasswordField();
-        claveConfLabel = new vista.componentes.Etiqueta();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        claveLabel.setText("Clave:");
+
+        clave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                claveActionPerformed(evt);
+            }
+        });
+
+        modificarBoton.setText("Guardar modificaciones");
+        modificarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarBotoncancelarRegistroActionPerformed(evt);
+            }
+        });
+
+        direccionLabel.setText("Dirección:");
+
+        claveConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                claveConfActionPerformed(evt);
+            }
+        });
+
+        claveConfLabel.setText("Confirmación de la clave:");
 
         nombreTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,33 +121,8 @@ public class VModificarUsuario extends javax.swing.JPanel {
 
         idLabel.setText("ID de usuario:");
 
-        claveLabel.setText("Clave:");
-
-        clave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                claveActionPerformed(evt);
-            }
-        });
-
-        modificarBoton.setText("Guardar modificaciones");
-        modificarBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarBotoncancelarRegistroActionPerformed(evt);
-            }
-        });
-
-        direccionLabel.setText("Dirección:");
-
-        claveConf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                claveConfActionPerformed(evt);
-            }
-        });
-
-        claveConfLabel.setText("Confirmación de la clave:");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -194,9 +193,23 @@ public class VModificarUsuario extends javax.swing.JPanel {
                     .addComponent(telefonoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addGap(31, 31, 31))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claveActionPerformed
+
+    private void modificarBotoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotoncancelarRegistroActionPerformed
+        this.modificarInversor();
+    }//GEN-LAST:event_modificarBotoncancelarRegistroActionPerformed
+
+    private void claveConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveConfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claveConfActionPerformed
 
     private void nombreTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextBoxActionPerformed
         // TODO add your handling code here:
@@ -218,19 +231,6 @@ public class VModificarUsuario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_direccionTextBoxActionPerformed
 
-    private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_claveActionPerformed
-
-    private void modificarBotoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotoncancelarRegistroActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_modificarBotoncancelarRegistroActionPerformed
-
-    private void claveConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveConfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_claveConfActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.PasswordField clave;
@@ -249,4 +249,61 @@ public class VModificarUsuario extends javax.swing.JPanel {
     private vista.componentes.Etiqueta telefonoLabel;
     private vista.componentes.TextBox telefonoTextBox;
     // End of variables declaration//GEN-END:variables
+
+    
+    public void modificarInversor(){
+        Inversor inversor=new Inversor(this.idTextBox.getText(),this.nombreTextBox.getText(),this.dniTextBox.getText(),this.direccionTextBox.getText(),
+        this.telefonoTextBox.getText(),0.0f,false,false);
+        String pass;
+        boolean insertado=false;
+        
+        //comprobamos que los campos que no pueden estar vacios no esten vacios
+        if(this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()){
+            fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
+            return;
+        }
+        
+        if(this.idTextBox.getText().equals(i.getIdUsuario())){//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
+            if(this.clave.getText().equals(this.claveConf.getText())){
+                pass=this.clave.getText();
+                insertado=fa.modificarInversor(inversor, pass, i.getIdUsuario());
+            }
+            else{
+                fa.muestraExcepcion("¡Las contraseñas no coinciden!");
+            }
+        }
+        else{
+            if(fa.comprobarID(this.idTextBox.getText())){
+                if(this.clave.getText().equals(this.claveConf.getText())){
+                    pass=this.clave.getText();
+                    insertado=fa.modificarInversor(inversor, pass, i.getIdUsuario());
+                }
+                else{
+                    fa.muestraExcepcion("¡Las contraseñas no coinciden!");
+                }
+            }
+            else{
+                fa.muestraExcepcion("ID En Uso");
+            }
+        }
+        
+        if(insertado){
+            i.setIdUsuario(this.idTextBox.getText());
+            i.setNombre(this.nombreTextBox.getText());
+            i.setDireccion(this.direccionTextBox.getText());
+            i.setTelefono(this.telefonoTextBox.getText());
+            i.setDni(this.dniTextBox.getText());
+        }
+        else{
+            fa.muestraExcepcion("No se pudo modificar la base de datos.");
+        }
+    }
+    
+    private void actualizarCampos(){
+        this.idTextBox.setText(i.getIdUsuario());
+        this.nombreTextBox.setText(i.getNombre());
+        this.telefonoTextBox.setText(i.getTelefono());
+        this.dniTextBox.setText(i.getDni());
+        this.direccionTextBox.setText(i.getDireccion());
+    }
 }
