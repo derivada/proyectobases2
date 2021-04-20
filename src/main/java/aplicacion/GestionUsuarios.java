@@ -169,4 +169,8 @@ public class GestionUsuarios {
     public void solicitarBaja(String idUsuario) {
         fbd.solicitarBaja(idUsuario);
     }
+    
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return fbd.actualizarHistorial(u);
+    }
 }

@@ -2,6 +2,8 @@ package vista;
 
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
+import aplicacion.Historial;
+import java.util.List;
 import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
@@ -558,5 +560,14 @@ public class VEmpresa extends javax.swing.JFrame {
         tipoTextBox.setText("Empresa");
         disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
         precioParticipacionesTextBox.setText("0");
+        this.actualizarHistorial();
+    }
+    
+    public void actualizarHistorial(){
+        
+        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla1.getModel();
+        
+        List<Historial> historial = fa.actualizarHistorial(e);
+        m.setFilas(historial);
     }
 }

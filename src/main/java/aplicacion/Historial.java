@@ -15,14 +15,24 @@ public class Historial {
     private String comprador; 
     private Date fecha; 
     private Integer cantidad; 
-    private Float precio; 
+    private Float precio;
+    private String tipo;
 
-    public Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio) {
+    public Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio, String tipo) {
         this.empresa = empresa;
         this.comprador = comprador;
         this.fecha = fecha;
         this.cantidad = cantidad;
         this.precio = precio;
+        this.tipo = tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 
     public String getEmpresa() {

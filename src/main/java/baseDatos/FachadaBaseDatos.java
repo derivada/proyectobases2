@@ -14,6 +14,7 @@ public class FachadaBaseDatos {
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;
+    private DAOHistorial daoHistorial;
     private static final String nombreArchivo = "baseDatos.properties";
 
     public FachadaAplicacion getFachadaAplicacion() {
@@ -48,6 +49,7 @@ public class FachadaBaseDatos {
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
             daoParticipaciones = new DAOParticipaciones(conexion, fa);
+            daoHistorial = new DAOHistorial(conexion, fa);
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
                     + "\" realizada con éxito!");
         } catch (FileNotFoundException f) {
@@ -185,6 +187,10 @@ public class FachadaBaseDatos {
 
     public void solicitarBaja(String idUsuario) {
         daoUsuarios.solicitarBaja(idUsuario);
+    }
+    
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return daoHistorial.actualizarHistorial(u);
     }
 }
 

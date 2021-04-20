@@ -173,4 +173,8 @@ public class FachadaAplicacion {
     public void solicitarBaja(String idUsuario) {
         cu.solicitarBaja(idUsuario);
     }
+    
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return cu.actualizarHistorial(u);
+    }
 }
