@@ -15,6 +15,7 @@ public class Empresa extends Usuario {
     private String telefono;
     private Float saldo;
     private Float saldobloqueado;
+    private Integer participacionesbloqueadas; 
 
 
     public Empresa(String idUsuario, String nombre, String CIF, Float saldo, Float saldobloqueado, String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
@@ -78,6 +79,15 @@ public class Empresa extends Usuario {
     public void setSaldobloqueado(Float saldobloqueado) {
         this.saldobloqueado = saldobloqueado;
     }
+
+    public Integer getParticipacionesbloqueadas() {
+        return participacionesbloqueadas;
+    }
+
+    public void setParticipacionesbloqueadas(Integer participacionesbloqueadas) {
+        this.participacionesbloqueadas = participacionesbloqueadas;
+    }
+    
 
 
 }

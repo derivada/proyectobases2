@@ -73,7 +73,7 @@ Create table ofertaVenta
   empresa varchar(20) not null,
   fecha date not null,
   numParticipaciones integer not null,
-  precio integer not null,
+  precio float not null,
 
   primary key (usuario, fecha),
   
@@ -101,6 +101,7 @@ Create table emitirParticipaciones
 (
   empresa varchar(20) not null,
   fechaEmision date not null,
+  precio integer,
 
   primary key (fechaEmision, empresa),
   
@@ -109,13 +110,12 @@ Create table emitirParticipaciones
    on delete cascade on update cascade
 );
 
-
 Create table historial
 (
   empresa varchar(20) not null,
   comprador varchar(20) not null,
   fecha date not null primary key,
   cantidad integer not null,
-  precio double precision not null
+  precio integer not null
   
 );
