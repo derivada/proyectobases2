@@ -15,11 +15,25 @@ public class Inversor extends Usuario {
         this.telefono = telefono;
         this.saldo = saldo;
     }
+    
+    public Inversor(String idUsuario, String nombre, String dni, String direccion, String telefono, Float saldo, String clave, boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario, clave, solicitadobaja, autorizado);
+        this.nombre = nombre;
+        this.dni = dni;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.saldo = saldo;
+    }
 
 
     @Override
     public String getIdUsuario() {
         return super.getIdUsuario();
+    }
+    
+    @Override
+    public String getClave(){
+        return super.getClave();
     }
 
     public String getNombre() {

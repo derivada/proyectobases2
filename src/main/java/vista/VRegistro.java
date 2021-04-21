@@ -367,13 +367,9 @@ public class VRegistro extends javax.swing.JFrame {
             this.dispose();
         }
     }
-
-    //funcion para registrar un nuevo usuario en la BD. Comprueba que se hayan llenado los campos requeridos
-    //para el registro (los not null) antes de pasar al SQL para que la excepcion la gestione el Java sin tener
-    //que bajar a BD y fiarte de ella.
+    
     public void solicitarRegistro() {
-        Usuario u;
-        boolean usuario, inversor, empresa;
+        boolean inversor, empresa;
         //compruebo si estan vacios los campos que no pueden estar vacios
         if (this.IDReg.getText().isEmpty() || this.claveReg.getText().isEmpty() || this.nombreReg.getText().isEmpty() || this.CIFReg.getText().isEmpty()) {
             fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
@@ -381,38 +377,25 @@ public class VRegistro extends javax.swing.JFrame {
         }
 
         switch (this.tipoReg.getSelectedIndex()) {//switch segun el elemento seleccionado en el combobox
-
-            case 1: {
+            case 0: {
                 //si en el comboBox de selecion de tipo tiene el index 1, es que es inversor
                 Inversor i;
-                u = new Usuario(this.IDReg.getText(), this.claveReg.getText(), false, false);//creo un nuevo usuario
-                usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
-                if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
-                    fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
-                } else {//retorno true, por lo que se ha insertado el nuevo usuario
-                    //creo el inversor
-                    i = new Inversor(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), this.direccionReg.getText(), this.tlfoReg.getText(), 0.0f, false, false);
-                    inversor = fa.registroInversor(i);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
-                    if (inversor == false) {//si por alguna razon ignota esta el id en inversor pero no en usuario (literal imposible), lo decimos
-                        fa.muestraExcepcion("El ID estaba en uso en inversor.");//muestro excepcion
-                    }
+                //creo el inversor
+                i = new Inversor(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), this.direccionReg.getText(), this.tlfoReg.getText(), 0.0f, this.claveReg.getText(), false, false);
+                inversor = fa.registroInversor(i);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
+                if (inversor == false) {//si por alguna razon ignota esta el id en inversor pero no en usuario (literal imposible), lo decimos
+                    fa.muestraExcepcion("El ID estaba en uso.");//muestro excepcion
                 }
                 break;
             }
-            case 2: {
+            case 1: {
                 //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
                 Empresa e;
-                u = new Usuario(this.IDReg.getText(), this.claveReg.getText(), false, false);//creo un nuevo usuario
-                usuario = fa.registroUsuario(u);//la funcion registra un usuario en la BD, pero antes de ellos comprueba si hay alguno con el mismo ID. Si lo hay, retorna false y no inserta nada
-                if (usuario == false) {//retorno false, por tanto habia ya otro user con la misma id y NO se ha insertado nada
-                    fa.muestraExcepcion("El ID de usuario ya está en uso, no se puede realizar el registro.");//muestro excepcion
-                } else {//retorno true, por lo que se ha insertado el nuevo usuario
-                    //creo la empresa
-                    e = new Empresa(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), 0.0f, 0.0f, this.direccionReg.getText(), this.tlfoReg.getText(), false, false);
-                    empresa = fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
-                    if (empresa == false) {//si por alguna razon ignota esta el id en empresa pero no en usuario (literal imposible), lo decimos
-                        fa.muestraExcepcion("El ID estaba en uso en empresa.");//muestro excepcion
-                    }
+                //creo la empresa
+                e = new Empresa(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), 0.0f, 0.0f, this.direccionReg.getText(), this.tlfoReg.getText(), this.claveReg.getText(), false, false);
+                empresa = fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
+                if (empresa == false) {//si por alguna razon ignota esta el id en empresa pero no en usuario (literal imposible), lo decimos
+                    fa.muestraExcepcion("El ID estaba en uso.");//muestro excepcion
                 }
                 break;
             }

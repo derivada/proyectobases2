@@ -24,7 +24,8 @@ public class AnuncioBeneficios {
         this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
         this.importeparticipacion = importeparticipacion;
-        this.soicitadobaja=solicitadobaja; 
+        this.soicitadobaja=solicitadobaja;
+        this.numeroparticipaciones=numeroparticipaciones; 
     }
 
     public String getEmpresa() {
@@ -70,6 +71,14 @@ public class AnuncioBeneficios {
      public Object getImporteParticipacion() {
         // TODO
         return null;
+    }
+     
+        public Integer getNumeroparticipaciones() {
+        return numeroparticipaciones;
+    }
+
+    public void setNumeroparticipaciones(Integer numeroparticipaciones) {
+        this.numeroparticipaciones = numeroparticipaciones;
     }
 
    

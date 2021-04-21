@@ -112,40 +112,20 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="vista.componentes.TextBox" name="idTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="telefonoTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telefonoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.Etiqueta" name="claveLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clave:"/>
       </Properties>
     </Component>
-    <Component class="vista.componentes.Etiqueta" name="nombreLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Nombre Comercial:"/>
-      </Properties>
-    </Component>
     <Component class="vista.componentes.PasswordField" name="clave">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="claveActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="direccionTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="direccionTextBoxActionPerformed"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Boton" name="modificarBoton">
@@ -156,19 +136,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarBotoncancelarRegistroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.Etiqueta" name="dniLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="CIF:"/>
-      </Properties>
-    </Component>
     <Component class="vista.componentes.Etiqueta" name="direccionLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
-      </Properties>
-    </Component>
-    <Component class="vista.componentes.Etiqueta" name="idLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID de usuario:"/>
       </Properties>
     </Component>
     <Component class="vista.componentes.PasswordField" name="claveConf">
@@ -195,6 +165,36 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dniTextBoxActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="idTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="telefonoTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telefonoTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="nombreLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.TextBox" name="direccionTextBox">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="direccionTextBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="dniLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DNI:"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="idLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ID de usuario:"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

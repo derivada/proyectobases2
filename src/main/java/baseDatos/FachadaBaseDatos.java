@@ -5,12 +5,13 @@ import aplicacion.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class FachadaBaseDatos {
-    private aplicacion.FachadaAplicacion fa;
+    private final aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;
@@ -103,10 +104,6 @@ public class FachadaBaseDatos {
         return this.obtenerListaUsuarios().stream().map(u -> u.getIdUsuario()).collect(Collectors.toList());
     }
 
-    public boolean registroUsuario(Usuario u) {
-        return daoUsuarios.registroUsuario(u);
-    }
-
     public boolean registroInversor(Inversor i) {
         return daoUsuarios.registroInversor(i);
     }
@@ -164,7 +161,7 @@ public class FachadaBaseDatos {
     public int getPartPropEmpresa(Empresa e) {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
-    
+
     public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
         daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
     }
@@ -188,13 +185,50 @@ public class FachadaBaseDatos {
     public void solicitarBaja(String idUsuario) {
         daoUsuarios.solicitarBaja(idUsuario);
     }
-    
+
+      public int crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        return daoUsuarios.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    }
+
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        daoUsuarios.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return daoUsuarios.obtenerAnuncios(empresa);
+    }
+
+     public boolean solicitarBajaAnuncio(String empresa,Date fechaPago){
+        return daoUsuarios.solicitarBajaAnuncio(empresa, fechaPago);
+
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return daoUsuarios.obtenerAnunciosRegulador();
+    }
+
+     public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+     }
+
     public java.util.List<Historial> actualizarHistorial(Usuario u){
         return daoHistorial.actualizarHistorial(u);
     }
     
     public void insertarHistorial(Historial h){
         daoHistorial.insertaHistorial(h);
+  }
+
+    public boolean comprobarID(String id){
+        return daoUsuarios.comprobarID(id);
+    }
+
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        return daoUsuarios.modificarInversor(i, pass, idviejo);
+    }
+
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        return daoUsuarios.modificarEmpresa(e, pass, idviejo);
     }
 }
 

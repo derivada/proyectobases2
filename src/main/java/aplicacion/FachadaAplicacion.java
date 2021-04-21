@@ -3,6 +3,7 @@ package aplicacion;
 import java.util.ArrayList;
 
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -94,14 +95,18 @@ public class FachadaAplicacion {
         cu.iniciaRegulador(regulador, this);
     }
 
+    public void menuModificarInversor(Inversor inversor){
+        cu.iniciaModificarInversor(inversor,this);
+    }
+
+    public void menuModificarEmpresa(Empresa empresa){
+        cu.iniciaModificarEmpresa(empresa, this);
+    }
+
     public void salir() {
         System.out.println("Tiempo transcurrido: " + (Calendar.getInstance().getTimeInMillis() - fechaInicio) + " ms");
         System.out.println("Fin del programa...");
         System.exit(0);
-    }
-
-    public boolean registroUsuario(Usuario u) {
-        return cu.registroUsuario(u);
     }
 
     public boolean registroInversor(Inversor i) {
@@ -152,7 +157,7 @@ public class FachadaAplicacion {
         return cu.getOfertasVenta(empresa, precio);
     }
 
-    
+
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
@@ -173,7 +178,43 @@ public class FachadaAplicacion {
     public void solicitarBaja(String idUsuario) {
         cu.solicitarBaja(idUsuario);
     }
-    
+
+    public boolean comprobarID(String id){
+        return cu.comprobarID(id);
+    }
+
+    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+        return cu.modificarInversor(i, pass, idviejo);
+    }
+
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+        return cu.modificarEmpresa(e, pass, idviejo);
+    }
+
+     public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        cu.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    }
+
+      public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        cu.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return cu.obtenerAnuncios(empresa);
+    }
+
+    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+        cu.solicitarBajaAnuncio(empresa, fechaPago);
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return cu.obtenerAnunciosRegulador();
+    }
+
+      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         cu.bajaAnuncio(empresa, fecha, importe);
+     }
+
     public java.util.List<Historial> actualizarHistorial(Usuario u){
         return cu.actualizarHistorial(u);
     }

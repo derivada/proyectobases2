@@ -1,15 +1,22 @@
 package vista;
 
+import aplicacion.AnuncioBeneficios;
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
+
+import java.sql.Date;
+import java.time.format.DateTimeParseException;
+
 import aplicacion.Historial;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import vista.componentes.ColoresGUI;
+
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import vista.componentes.OtrosComponentes;
+import vista.modeloTablas.ModeloTablaBeneficios;
 import vista.modeloTablas.ModeloTablaMovimientos;
 
 public class VEmpresa extends javax.swing.JFrame {
@@ -32,6 +39,9 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         this.actualizarCampos();
         tipoTextBox.setText("Empresa");
+
+         ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
     }
 
     /**
@@ -73,8 +83,13 @@ public class VEmpresa extends javax.swing.JFrame {
         importeLabel = new vista.componentes.Etiqueta();
         beneficiosBoton = new vista.componentes.Boton();
         pagarBoton = new vista.componentes.Boton();
-        FechaTextBox = new vista.componentes.TextBox();
         FechaLabel = new vista.componentes.Etiqueta();
+        numParticipacionesLabel = new vista.componentes.Etiqueta();
+        numParticipacionesAnuncioTextBox = new vista.componentes.TextBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaAnuncios = new vista.componentes.Tabla();
+        bajaAnunciosboton = new vista.componentes.Boton();
+        FechaTextBox = new vista.componentes.EntradaFecha();
         modificarBoton = new vista.componentes.Boton();
         botonVolver1 = new vista.componentes.BotonVolver();
         bienvenidoLabel = new vista.componentes.Etiqueta();
@@ -158,11 +173,6 @@ public class VEmpresa extends javax.swing.JFrame {
 
         disponiblesLabel.setText("Número total de participaciones disponibles");
 
-        precioParticipacionesTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                precioParticipacionesTextBoxActionPerformed(evt);
-            }
-        });
         precioParticipacionesTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 precioParticipacionesTextBoxKeyTyped(evt);
@@ -241,13 +251,21 @@ public class VEmpresa extends javax.swing.JFrame {
         }
     });
 
-    FechaTextBox.addActionListener(new java.awt.event.ActionListener() {
+    FechaLabel.setText("Fecha de pago");
+
+    numParticipacionesLabel.setText("Numero de participaciones");
+
+    tablaAnuncios.setModel(new ModeloTablaBeneficios()
+
+    );
+    jScrollPane2.setViewportView(tablaAnuncios);
+
+    bajaAnunciosboton.setText("Solicitar baja de anuncio");
+    bajaAnunciosboton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            FechaTextBoxActionPerformed(evt);
+            bajaAnunciosbotonActionPerformed(evt);
         }
     });
-
-    FechaLabel.setText("Fecha de pago");
 
     javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
     tabs9.setLayout(tabs9Layout);
@@ -256,19 +274,26 @@ public class VEmpresa extends javax.swing.JFrame {
         .addGroup(tabs9Layout.createSequentialGroup()
             .addGap(47, 47, 47)
             .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(tabs9Layout.createSequentialGroup()
-                        .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(410, 410, 410)))
-                .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(tabs9Layout.createSequentialGroup()
-                    .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(48, 48, 48)
-                    .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(32, 32, 32))
+                .addGroup(tabs9Layout.createSequentialGroup()
+                    .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(tabs9Layout.createSequentialGroup()
+                            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(importeTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
+                            .addGap(48, 48, 48)
+                            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addContainerGap(60, Short.MAX_VALUE))))
     );
     tabs9Layout.setVerticalGroup(
         tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,13 +304,25 @@ public class VEmpresa extends javax.swing.JFrame {
             .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(13, 13, 13)
-            .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addComponent(FechaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
-            .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(23, 23, 23))
+            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tabs9Layout.createSequentialGroup()
+                    .addGap(31, 31, 31)
+                    .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tabs9Layout.createSequentialGroup()
+                    .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addGap(6, 6, 6)))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(26, 26, 26))
     );
 
     panelCompra.addTab("Anunciar beneficios", tabs9);
@@ -347,7 +384,7 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(50, 50, 50)
                     .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addContainerGap(51, Short.MAX_VALUE))
+            .addContainerGap(464, Short.MAX_VALUE))
     );
 
     OtrosComponentes.configurarTabbedPane(panelCompra);
@@ -374,15 +411,12 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
-        // TODO add your handling code here:
+        fa.menuModificarEmpresa(e);
     }//GEN-LAST:event_modificarBotonActionPerformed
-
-    private void FechaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FechaTextBoxActionPerformed
 
     private void pagarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBotonActionPerformed
         // TODO add your handling code here:
+        Pagar();
     }//GEN-LAST:event_pagarBotonActionPerformed
 
     private void beneficiosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosBotonActionPerformed
@@ -400,9 +434,79 @@ public class VEmpresa extends javax.swing.JFrame {
         this.emitirParticipaciones();
     }//GEN-LAST:event_participacionesBotonActionPerformed
 
-    private void precioParticipacionesTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioParticipacionesTextBoxActionPerformed
 
-    }//GEN-LAST:event_precioParticipacionesTextBoxActionPerformed
+    private void bajaAnunciosbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosbotonActionPerformed
+        // TODO add your handling code here:
+        solicitarBajaAnuncio();
+    }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
+
+
+      public void AnunciarBeneficios() {
+
+        float importe = 0.0f;
+        if(!importeTextBox.getText().isEmpty()){
+            try {
+            importe = Float.parseFloat(importeTextBox.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n" +
+                        "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+            if (importe <= 0.0) {
+                fa.muestraExcepcion("ERROR: El importe debe ser positivo!",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+        }
+
+        Date fecha = null;
+        try {
+            fecha = FechaTextBox.getFecha();
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n" +
+                    "Use el formato YYYY/MM/DD", DialogoInfo.NivelDeAdvertencia.ERROR);
+            return;
+        }
+        if (fecha.before(new Date(System.currentTimeMillis()))) {
+            fa.muestraExcepcion("ERROR: La fecha no está especificada en el futuro",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+            return;
+        }
+        int numero=0;
+        if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
+            try {
+                 numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n" +
+                        "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+            if (numero <= 0) {
+                fa.muestraExcepcion("ERROR: El numero de participaciones debe ser positivo",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+        }
+
+
+        fa.crearAnuncio(importe, this.e, fecha,numero);
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
+
+
+    }
+
+    public void solicitarBajaAnuncio(){
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila=tablaAnuncios.getSelectedRow();
+        AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
+        fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
+    }
+
+
 
     private void precioParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioParticipacionesTextBoxKeyTyped
         // TODO add your handling code here:
@@ -468,14 +572,58 @@ public class VEmpresa extends javax.swing.JFrame {
         }
     }
 
-    public void AnunciarBeneficios() {
+    public void Pagar(){
+        Float importe=0.0f;
+        if(!importeTextBox.getText().isEmpty()){
+           try {
+                importe = Float.parseFloat(importeTextBox.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n" +
+                        "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+            if (importe <= 0.0) {
+                fa.muestraExcepcion("ERROR: El importe debe ser positivo!",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+        }
+
+        int numero=0;
+        if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
+            try {
+                 numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n" +
+                        "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+            if (numero <= 0) {
+                fa.muestraExcepcion("ERROR: El numero de participaciones debe ser positivo",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                return;
+            }
+        }
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila=tablaAnuncios.getSelectedRow();
+        if(fila!=-1){
+           AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
+           fa.pagarBeneficios(importe,numero, this.e,aux);
+        }
+        else{
+           fa.pagarBeneficios(importe,numero, this.e,null);
+        }
 
     }
 
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Etiqueta FechaLabel;
-    private vista.componentes.TextBox FechaTextBox;
+    private vista.componentes.EntradaFecha FechaTextBox;
+    private vista.componentes.Boton bajaAnunciosboton;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Boton bajaParticipacionesBoton;
     private vista.componentes.Boton beneficiosBoton;
@@ -490,7 +638,10 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private vista.componentes.Boton modificarBoton;
+    private vista.componentes.TextBox numParticipacionesAnuncioTextBox;
+    private vista.componentes.Etiqueta numParticipacionesLabel;
     private vista.componentes.TextBox numeroParticipacionesTextBox;
     private vista.componentes.Boton pagarBoton;
     private javax.swing.JTabbedPane panelCompra;
@@ -501,6 +652,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
     private vista.componentes.Tabla tabla1;
+    private vista.componentes.Tabla tablaAnuncios;
     private vista.componentes.Tabs tabs10;
     private vista.componentes.Tabs tabs11;
     private vista.componentes.Tabs tabs9;
@@ -568,11 +720,11 @@ public class VEmpresa extends javax.swing.JFrame {
         precioParticipacionesTextBox.setText("0");
         this.actualizarHistorial();
     }
-    
+
     public void actualizarHistorial(){
-        
+
         ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla1.getModel();
-        
+
         List<Historial> historial = fa.actualizarHistorial(e);
         m.setFilas(historial);
     }
