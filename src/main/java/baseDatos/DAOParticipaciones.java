@@ -8,7 +8,12 @@ import vista.componentes.DialogoInfo;
 
 import java.sql.*;
 
+import vista.FachadaGui;
+import vista.VentanaConfirmacion;
+
 public class DAOParticipaciones extends AbstractDAO {
+
+    private static final float CONFIRMACION_LIMITE = 10.0f; // A partir de este x%, se pedirá confirmación para una compra
 
     public DAOParticipaciones(Connection conexion, aplicacion.FachadaAplicacion fa) {
         super.setConexion(conexion);
@@ -167,7 +172,7 @@ public class DAOParticipaciones extends AbstractDAO {
         String updateCartera = "update participacionesempresa "
                 + "set numparticipaciones=? "
                 + "where usuario=? AND empresa=?";
-        
+
         //añadir una participacionesAnteriores que cree la cartera si es que no esta creada, ya que el update si no esta creada no funciona
         String nuevaCartera = "insert into participacionesempresa(usuario, empresa, numparticipaciones) values(?,?,?);";
 
@@ -182,50 +187,50 @@ public class DAOParticipaciones extends AbstractDAO {
             while (rst.next()) {
                 antiguasPart = rst.getInt("numparticipaciones");
             }
-            
+
             stmNueva = con.prepareStatement(nuevaEmision);
             stmNueva.setString(1, e.getIdUsuario());
             stmNueva.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             stmNueva.setInt(3, emision);
             stmNueva.setFloat(4, precio);
-            
+
             stmNueva.executeUpdate();
-            
-            if(antiguasPart == 0){
+
+            if (antiguasPart == 0) {
                 stmCartera = con.prepareStatement(nuevaCartera);
                 stmCartera.setString(1, e.getIdUsuario());
                 stmCartera.setString(2, e.getIdUsuario());
                 stmCartera.setInt(3, 0);
-                
+
                 stmCartera.executeUpdate();
             }
-            
+
             stmUpdate = con.prepareStatement(updateCartera);
             stmUpdate.setInt(1, emision + antiguasPart);
             stmUpdate.setString(2, e.getIdUsuario());
             stmUpdate.setString(3, e.getIdUsuario());
-            
+
             stmUpdate.executeUpdate();
-            
+
             con.commit();
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
                 con.setAutoCommit(true);
-                if(stmAntiguas != null){
+                if (stmAntiguas != null) {
                     stmAntiguas.close();
                 }
-                
-                if(stmCartera != null){
+
+                if (stmCartera != null) {
                     stmCartera.close();
                 }
-                
-                if(stmUpdate != null){
+
+                if (stmUpdate != null) {
                     stmUpdate.close();
                 }
-                
-                if(stmNueva != null){
+
+                if (stmNueva != null) {
                     stmNueva.close();
                 }
             } catch (SQLException ex) {
@@ -347,11 +352,13 @@ public class DAOParticipaciones extends AbstractDAO {
 
         StringBuilder logOperacion = new StringBuilder();
 
-        if (comprador instanceof Inversor)
+        if (comprador instanceof Inversor) {
             saldoCompra = ((Inversor) comprador).getSaldo();
-        if (comprador instanceof Empresa)
+        }
+        if (comprador instanceof Empresa) {
             saldoCompra = ((Empresa) comprador).getSaldo();
-
+        }
+        boolean sePidioConfirmacion = false;
         try {
             con.setAutoCommit(false);
 
@@ -401,14 +408,14 @@ public class DAOParticipaciones extends AbstractDAO {
 
                     String nombreVendedor = rst.getString("usuario");
                     Usuario vendedor = fa.obtenerDatosEmpresa(new Usuario(nombreVendedor, false, true));
-                    if (vendedor == null)
+                    if (vendedor == null) {
                         vendedor = fa.obtenerDatosRegulador(new Usuario(nombreVendedor, false, true));
+                    }
 
                     // DEBUG: HASTA AQUÍ VA BIEN
                     participacionesCompradas += partCompradasIteraccion;
 
                     moverParticipaciones(comprador, vendedor, participacionesCompradas, empresa);
-
 
                     // Le damos su dinero al vendedor, el del comprador lo podemos restar al final fuera del bucle
                     modificarSaldo(vendedor, partCompradasIteraccion * precioIteracion);
@@ -421,26 +428,40 @@ public class DAOParticipaciones extends AbstractDAO {
                 }
             }
             modificarSaldo(comprador, (int) -precioAcumulado);
-            System.out.println(logOperacion);
+            //System.out.println(logOperacion);
             // TODO: Preguntar al comprador por confirmación si la modificación excede el x% de su saldo actual
+            float porcentajeGastado = (precioAcumulado / saldoCompra) * 100;
+            if (porcentajeGastado > CONFIRMACION_LIMITE) {
+                VentanaConfirmacion vc = new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
+                        + precioAcumulado + "$, el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo \n"
+                        + "\tDesea continuar?", "La compra de las participaciones se ha completado correctamente!",
+                        "La compra de las participaciones se ha cancelado correctamente...");
+                sePidioConfirmacion = true; // Hay que cerrar la transación en VentanaConfirmacion no aquí
+            }
 
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-            manejarExcepcionSQL(ex);
             try {
+                // Nunca se habrá pedido confirmación si hemos tenido una SQLException (ya que esto sucede antes)
                 con.rollback();
             } catch (SQLException ignored) {
                 System.out.println("Imposible cerrar cursores");
             }
+            manejarExcepcionSQL(ex);
         } finally {
             try {
-                con.commit();
-                con.setAutoCommit(true);
-                if (stmParticipaciones != null)
+                if (!sePidioConfirmacion) {
+                    con.commit();
+                    con.setAutoCommit(true);
+                }
+                if (stmParticipaciones != null) {
                     stmParticipaciones.close();
-                if (stmUpdate != null)
+                }
+                if (stmUpdate != null) {
                     stmUpdate.close();
-                if (stmEliminacion != null)
+                }
+                if (stmEliminacion != null) {
                     stmEliminacion.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -455,10 +476,9 @@ public class DAOParticipaciones extends AbstractDAO {
         con = this.getConexion();
 
         // Aquí el autocommit ya debería estar en false
-
-        String crearComprador = "INSERT INTO public.@(\n" +
-                "\tusuario, empresa, numparticipaciones)\n" +
-                "\tVALUES (?, ?, ?);";
+        String crearComprador = "INSERT INTO public.@(\n"
+                + "\tusuario, empresa, numparticipaciones)\n"
+                + "\tVALUES (?, ?, ?);";
         String sumarComprador = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
 
         String restarVendedor = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
@@ -503,14 +523,15 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.setString(2, comprador.getIdUsuario());
             stmUpdate.setString(3, empresa.getIdUsuario());
             stmUpdate.executeUpdate();
-            
-            
+
         } finally {
             try {
-                if (stmCreacion != null)
+                if (stmCreacion != null) {
                     stmCreacion.close();
-                if (stmUpdate != null)
+                }
+                if (stmUpdate != null) {
                     stmUpdate.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -525,7 +546,6 @@ public class DAOParticipaciones extends AbstractDAO {
         con = this.getConexion();
 
         // Aquí el autocommit ya debería estar en false
-
         String modificarSaldo = "update public.@ set saldo = ? where id_usuario=?";
         if (u instanceof Inversor) {
             modificarSaldo = modificarSaldo.replace("@", "inversor");
@@ -544,8 +564,9 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.executeUpdate();
         } finally {
             try {
-                if (stmUpdate != null)
+                if (stmUpdate != null) {
                     stmUpdate.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }

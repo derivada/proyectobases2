@@ -32,6 +32,7 @@ public class DialogoInfo extends JDialog {
         this.descripcion = descripcion;
         this.setModal(bloqueaInput);
         this.nivel = nivel;
+        this.setAlwaysOnTop(true);
         this.mostrar();
     }
 

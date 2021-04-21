@@ -3,7 +3,7 @@ package vista.modeloTablas;
 import aplicacion.OfertaVenta;
 
 import javax.swing.table.AbstractTableModel;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ModeloTablaCompra extends AbstractTableModel {
 
@@ -57,7 +57,7 @@ public class ModeloTablaCompra extends AbstractTableModel {
                 clase = java.lang.String.class;
                 break;
             case 2:
-                clase = Date.class;
+                clase = Timestamp.class;
                 break;
             case 3:
                 clase = java.lang.Integer.class;

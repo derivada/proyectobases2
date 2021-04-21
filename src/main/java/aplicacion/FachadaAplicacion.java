@@ -16,22 +16,35 @@ import java.util.Calendar;
  */
 public class FachadaAplicacion {
 
+    private static FachadaAplicacion _instance;
+
+    public static FachadaAplicacion getInstance() {
+        if (_instance == null) {
+            _instance = new FachadaAplicacion();
+        }
+        return _instance;
+    }
+
     FachadaGui fgui;
     FachadaBaseDatos fbd;
     GestionUsuarios cu;
     private final long fechaInicio;
 
-    public FachadaAplicacion() {
+    private FachadaAplicacion() {
         fechaInicio = Calendar.getInstance().getTimeInMillis();
-        fgui = new FachadaGui(this);
-        fbd = new FachadaBaseDatos(this);
+        fgui = FachadaGui.getInstance();
+        fbd = FachadaBaseDatos.getInstance();
         cu = new GestionUsuarios(fgui, fbd);
     }
 
     public void inicializarGUI() {
         fgui.iniciaVista(this);
     }
-
+    
+    public void conectarBaseDeDatos() {
+        fbd.conectar();
+    }
+    
     public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
         fgui.muestraExcepcion(padre, titulo, descripcion, nivel, bloqueaInput);
     }
@@ -96,11 +109,11 @@ public class FachadaAplicacion {
         cu.iniciaRegulador(regulador, this);
     }
 
-    public void menuModificarInversor(Inversor inversor){
-        cu.iniciaModificarInversor(inversor,this);
+    public void menuModificarInversor(Inversor inversor) {
+        cu.iniciaModificarInversor(inversor, this);
     }
 
-    public void menuModificarEmpresa(Empresa empresa){
+    public void menuModificarEmpresa(Empresa empresa) {
         cu.iniciaModificarEmpresa(empresa, this);
     }
 
@@ -158,17 +171,11 @@ public class FachadaAplicacion {
         return cu.getOfertasVenta(empresa, precio);
     }
 
-
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int numero, float precioMaximo) {
-        // TODO
-        System.out.println("Comprador: " + comprador.getIdUsuario()
-                + "\nVendedor: " + vendedor.getIdUsuario()
-                + "\nCantidad: " + numero
-                + "\nPrecio máximo: " + precioMaximo);
         cu.comprarParticipaciones(comprador, vendedor, numero, precioMaximo);
     }
 
@@ -180,47 +187,49 @@ public class FachadaAplicacion {
         cu.solicitarBaja(idUsuario);
     }
 
-    public boolean comprobarID(String id){
+    public boolean comprobarID(String id) {
         return cu.comprobarID(id);
     }
 
-    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+    public boolean modificarInversor(Inversor i, String pass, String idviejo) {
         return cu.modificarInversor(i, pass, idviejo);
     }
 
-    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo) {
         return cu.modificarEmpresa(e, pass, idviejo);
     }
 
-     public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
-        cu.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    public void crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+        cu.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 
-      public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
-        cu.pagarBeneficios(importe,participaciones, empresa,a);
+    public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
+        cu.pagarBeneficios(importe, participaciones, empresa, a);
     }
 
-    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {
         return cu.obtenerAnuncios(empresa);
     }
 
-    public void solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
+    public void solicitarBajaAnuncio(String empresa, Timestamp fechaPago) {
         cu.solicitarBajaAnuncio(empresa, fechaPago);
     }
 
-     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+    public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador() {
         return cu.obtenerAnunciosRegulador();
     }
 
-      public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
-         cu.bajaAnuncio(empresa, fecha, importe);
-     }
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
+        cu.bajaAnuncio(empresa, fecha, importe);
+    }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u){
+    public java.util.List<Historial> actualizarHistorial(Usuario u) {
         return cu.actualizarHistorial(u);
     }
-    
-    public void insertarHistorial(Historial h){
+
+    public void insertarHistorial(Historial h) {
         cu.insertarHistorial(h);
     }
+
+
 }

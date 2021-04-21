@@ -45,4 +45,8 @@ public class Boton extends JButton implements MouseListener {
             setBackground(ColoresGUI.getGUIColorPastel(ColoresGUI.Colores.AZUL));
     }
 
+    public void addActionListener() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -12,23 +12,30 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class FachadaBaseDatos {
-    private final aplicacion.FachadaAplicacion fa;
+
+    private static FachadaBaseDatos _instance;
+
+    private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;
     private DAOHistorial daoHistorial;
     private static final String nombreArchivo = "baseDatos.properties";
 
-    public FachadaAplicacion getFachadaAplicacion() {
-        return this.fa;
+    public static FachadaBaseDatos getInstance() {
+        if (_instance == null) {
+            _instance = new FachadaBaseDatos();
+        }
+        return _instance;
     }
 
-    public FachadaBaseDatos(aplicacion.FachadaAplicacion fa) {
-        this.fa = fa;
-        conectar();
+    private FachadaBaseDatos() {
+        // Bucle infinito!
+        //this.fa = FachadaAplicacion.getInstance();
     }
 
-    private void conectar() {
+    public void conectar() {
+        this.fa = FachadaAplicacion.getInstance();
         /*
          * Intenta conectarse a la base de datos
          */
@@ -44,10 +51,10 @@ public class FachadaBaseDatos {
 
             usuario.setProperty("user", configuracion.getProperty("usuario"));
             usuario.setProperty("password", configuracion.getProperty("clave"));
-            this.conexion = java.sql.DriverManager.getConnection("jdbc:" + gestor + "://" +
-                            configuracion.getProperty("servidor") + ":" +
-                            configuracion.getProperty("puerto") + "/" +
-                            configuracion.getProperty("baseDatos"),
+            this.conexion = java.sql.DriverManager.getConnection("jdbc:" + gestor + "://"
+                    + configuracion.getProperty("servidor") + ":"
+                    + configuracion.getProperty("puerto") + "/"
+                    + configuracion.getProperty("baseDatos"),
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
             daoParticipaciones = new DAOParticipaciones(conexion, fa);
@@ -113,7 +120,6 @@ public class FachadaBaseDatos {
         return daoUsuarios.registroEmpresa(e);
     }
 
-
     public void bajaParticipaciones(Empresa e, int baja) {
         daoParticipaciones.bajaParticipaciones(e, baja);
     }
@@ -138,7 +144,6 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerEmpresaBaja();
     }
 
-
     public void modificarEmpresa(String id_usuario, Empresa u) {
         daoUsuarios.modificarDatosEmpresa(id_usuario, u);
     }
@@ -146,8 +151,8 @@ public class FachadaBaseDatos {
     public void modificarInversor(String id_usuario, Inversor u) {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
-    
-    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio){
+
+    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio) {
         return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
 
@@ -163,7 +168,7 @@ public class FachadaBaseDatos {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax) {
         daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
     }
 
@@ -187,50 +192,52 @@ public class FachadaBaseDatos {
         daoUsuarios.solicitarBaja(idUsuario);
     }
 
-      public int crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
-        return daoUsuarios.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    public int crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+        return daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 
-    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
-        daoUsuarios.pagarBeneficios(importe,participaciones, empresa,a);
+    public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
+        daoUsuarios.pagarBeneficios(importe, participaciones, empresa, a);
     }
 
-     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {
         return daoUsuarios.obtenerAnuncios(empresa);
     }
 
-     public boolean solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
+    public boolean solicitarBajaAnuncio(String empresa, Timestamp fechaPago) {
         return daoUsuarios.solicitarBajaAnuncio(empresa, fechaPago);
 
     }
 
-     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+    public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador() {
         return daoUsuarios.obtenerAnunciosRegulador();
     }
 
-     public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
-         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
-     }
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
+        daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+    }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u){
+    public java.util.List<Historial> actualizarHistorial(Usuario u) {
         return daoHistorial.actualizarHistorial(u);
     }
-    
-    public void insertarHistorial(Historial h){
-        daoHistorial.insertaHistorial(h);
-  }
 
-    public boolean comprobarID(String id){
+    public void insertarHistorial(Historial h) {
+        daoHistorial.insertaHistorial(h);
+    }
+
+    public boolean comprobarID(String id) {
         return daoUsuarios.comprobarID(id);
     }
 
-    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+    public boolean modificarInversor(Inversor i, String pass, String idviejo) {
         return daoUsuarios.modificarInversor(i, pass, idviejo);
     }
 
-    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo) {
         return daoUsuarios.modificarEmpresa(e, pass, idviejo);
     }
+
+    public FachadaAplicacion  getFachadaAplicacion() {
+       return fa;
+    }
 }
-
-
