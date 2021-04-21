@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import baseDatos.FachadaBaseDatos;
 import java.sql.Date;
+import java.sql.Timestamp;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -203,7 +204,7 @@ public class FachadaAplicacion {
         return cu.obtenerAnuncios(empresa);
     }
 
-    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+    public void solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
         cu.solicitarBajaAnuncio(empresa, fechaPago);
     }
 
@@ -211,7 +212,7 @@ public class FachadaAplicacion {
         return cu.obtenerAnunciosRegulador();
     }
 
-      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+      public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
          cu.bajaAnuncio(empresa, fecha, importe);
      }
 

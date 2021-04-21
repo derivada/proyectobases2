@@ -12,6 +12,7 @@ package aplicacion;
 import vista.FachadaGui;
 import baseDatos.FachadaBaseDatos;
 import java.sql.Date;
+import java.sql.Timestamp;
 import vista.componentes.DialogoInfo;
 
 import java.util.ArrayList;
@@ -200,7 +201,7 @@ public class GestionUsuarios {
         return fbd.obtenerAnuncios(empresa);
     }
 
-    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+    public void solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
         boolean realizado=fbd.solicitarBajaAnuncio(empresa, fechaPago);
          if(realizado==false){
             fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio",DialogoInfo.NivelDeAdvertencia.ERROR);
@@ -211,7 +212,7 @@ public class GestionUsuarios {
         return fbd.obtenerAnunciosRegulador();
     }
 
-      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+      public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
          fbd.bajaAnuncio(empresa, fecha, importe);
      }
 

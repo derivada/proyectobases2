@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -198,7 +199,7 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerAnuncios(empresa);
     }
 
-     public boolean solicitarBajaAnuncio(String empresa,Date fechaPago){
+     public boolean solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
         return daoUsuarios.solicitarBajaAnuncio(empresa, fechaPago);
 
     }
@@ -207,7 +208,7 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerAnunciosRegulador();
     }
 
-     public void bajaAnuncio(String empresa,Date fecha,Float importe){
+     public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
          daoUsuarios.bajaAnuncio(empresa, fecha, importe);
      }
 

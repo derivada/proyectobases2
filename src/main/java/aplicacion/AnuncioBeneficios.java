@@ -18,14 +18,15 @@ public class AnuncioBeneficios {
     private Timestamp fechaAnuncio; 
     private Float importeparticipacion; 
     private boolean soicitadobaja; 
+    private int numeroparticipaciones;
 
-    public AnuncioBeneficios(String empresa, Timestamp fechaPago, Timestamp fechaAnuncio, Float importeparticipacion,boolean solicitadobaja) {
+    public AnuncioBeneficios(String empresa, Timestamp fechaPago, Timestamp fechaAnuncio, Float importeparticipacion,boolean solicitadobaja, int numeroParticipaciones) {
         this.empresa = empresa;
         this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
         this.importeparticipacion = importeparticipacion;
         this.soicitadobaja=solicitadobaja;
-        this.numeroparticipaciones=numeroparticipaciones; 
+        this.numeroparticipaciones = numeroParticipaciones;
     }
 
     public String getEmpresa() {

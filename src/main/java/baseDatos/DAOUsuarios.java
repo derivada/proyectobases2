@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -975,11 +976,12 @@ public class DAOUsuarios extends AbstractDAO {
             rstConsulta = stmConsulta.executeQuery();
             while (rstConsulta.next()) {
                 if (rstConsulta.getString("solicitadobaja").isEmpty()) {
-                    aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getDate("fechapago"),
-                            rstConsulta.getDate("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getInt("numeroparticipaciones"), false);
+                    //AnuncioBeneficios(String empresa, Timestamp fechaPago, Timestamp fechaAnuncio, Float importeparticipacion,boolean solicitadobaja, int numeroParticipaciones)
+                    aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getTimestamp("fechapago"),
+                            rstConsulta.getTimestamp("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), false, rstConsulta.getInt("numeroparticipaciones"));
                 } else {
-                    aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getDate("fechapago"),
-                            rstConsulta.getDate("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getInt("numeroparticipaciones"), rstConsulta.getBoolean("solicitadobaja"));
+                    aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getTimestamp("fechapago"),
+                            rstConsulta.getTimestamp("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getBoolean("solicitadobaja"), rstConsulta.getInt("numeroparticipaciones"));
                 }
 
                 resultado.add(aux);
@@ -1013,9 +1015,8 @@ public class DAOUsuarios extends AbstractDAO {
             stmConsulta = con.prepareStatement(consulta);
             rstConsulta = stmConsulta.executeQuery();
             while (rstConsulta.next()) {
-                aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getDate("fechapago"),
-                        rstConsulta.getDate("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"),
-                        rstConsulta.getInt("numeroparticipaciones"), rstConsulta.getBoolean("solicitadobaja"));
+                aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getTimestamp("fechapago"),
+                            rstConsulta.getTimestamp("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getBoolean("solicitadobaja"), rstConsulta.getInt("numeroparticipaciones"));
 
                 resultado.add(aux);
             }
@@ -1205,7 +1206,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     //Función para dar de baja un anuncio de la base de datos
-    public void bajaAnuncio(String empresa, Date fecha, Float importe) {
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
         Connection con;
         PreparedStatement stmResta = null;
         PreparedStatement stmSuma = null;
@@ -1235,7 +1236,7 @@ public class DAOUsuarios extends AbstractDAO {
             //Se elimina el anuncio
             stmBaja = con.prepareStatement(consulta3);
             stmBaja.setString(1, empresa);
-            stmBaja.setDate(2, fecha);
+            stmBaja.setTimestamp(2, fecha);
             stmBaja.executeUpdate();
 
         } catch (SQLException ex) {
@@ -1257,7 +1258,7 @@ public class DAOUsuarios extends AbstractDAO {
 
     }
 
-    public boolean solicitarBajaAnuncio(String empresa, Date fechaPago) {
+    public boolean solicitarBajaAnuncio(String empresa, Timestamp fechaPago) {
         Connection con;
         PreparedStatement stmAnuncio = null;
         String consulta = "update anunciobeneficios set solicitadobaja=true where empresa= ?  and fechapago= ? ";
@@ -1265,7 +1266,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmAnuncio = con.prepareStatement(consulta);
             stmAnuncio.setString(1, empresa);
-            stmAnuncio.setDate(2, fechaPago);
+            stmAnuncio.setTimestamp(2, fechaPago);
             stmAnuncio.executeUpdate();
 
         } catch (SQLException ex) {
@@ -1565,7 +1566,7 @@ public class DAOUsuarios extends AbstractDAO {
                 try {
                     stmEliminacion = con.prepareStatement(consulta10);
                     stmEliminacion.setString(1, e.getIdUsuario());
-                    stmEliminacion.setDate(2, anuncio.getFechaPago());
+                    stmEliminacion.setTimestamp(2, anuncio.getFechaPago());
                     stmEliminacion.executeUpdate();
 
                 } catch (SQLException ex) {
