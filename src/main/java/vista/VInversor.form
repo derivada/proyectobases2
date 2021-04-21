@@ -46,9 +46,9 @@
                   <Component id="modificarBoton" min="-2" pref="268" max="-2" attributes="0"/>
                   <Component id="bajaBoton" min="-2" pref="268" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="50" max="32767" attributes="0"/>
+              <EmptySpace pref="56" max="32767" attributes="0"/>
               <Component id="panelCompra" min="-2" pref="824" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -173,7 +173,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="63" max="32767" attributes="0"/>
+                      <EmptySpace pref="60" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -322,6 +322,12 @@
                       <Connection code="new ModeloTablaMovimientos()&#xd;&#xa;" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
+                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                      <TableColumnModel selectionModel="0"/>
+                    </Property>
+                    <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                      <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>

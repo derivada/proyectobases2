@@ -1,15 +1,16 @@
 package aplicacion;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OfertaVenta {
     private String vendedor;
     private String empresa;
-    private Date fecha;
+    private Timestamp fecha;
     private Integer numParticipaciones;
     private float precio;
 
-    public OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, float precio) {
+    public OfertaVenta(String usuario, String empresa, Timestamp fecha, Integer numParticipaciones, float precio) {
         this.vendedor = usuario;
         this.empresa = empresa;
         this.fecha = fecha;
@@ -33,11 +34,11 @@ public class OfertaVenta {
         this.empresa = empresa;
     }
 
-    public Date getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 

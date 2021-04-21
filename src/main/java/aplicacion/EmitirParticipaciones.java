@@ -5,6 +5,7 @@
  */
 package aplicacion;
 import java.sql.Date; 
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,15 +14,15 @@ import java.sql.Date;
 public class EmitirParticipaciones {
     private String empresa; 
     private Integer numeroparticipaciones; 
-    private Date fechaemision; 
+    private Timestamp fechaemision; 
 
-    public EmitirParticipaciones(String empresa, Date fechaemision) {
+    public EmitirParticipaciones(String empresa, Timestamp fechaemision) {
         this.empresa = empresa;
         this.fechaemision = fechaemision;
         this.numeroparticipaciones=null; 
     }
 
-    public EmitirParticipaciones(String empresa, Integer numeroparticipaciones, Date fechaemision) {
+    public EmitirParticipaciones(String empresa, Integer numeroparticipaciones, Timestamp fechaemision) {
         this.empresa = empresa;
         this.numeroparticipaciones = numeroparticipaciones;
         this.fechaemision = fechaemision;

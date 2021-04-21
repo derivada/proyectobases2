@@ -6,6 +6,7 @@
  */
 package aplicacion;
 import java.sql.Date; 
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,12 +14,12 @@ import java.sql.Date;
  */
 public class AnuncioBeneficios {
     private String empresa; 
-    private Date fechaPago; 
-    private Date fechaAnuncio; 
+    private Timestamp fechaPago; 
+    private Timestamp fechaAnuncio; 
     private Float importeparticipacion; 
     private boolean soicitadobaja; 
 
-    public AnuncioBeneficios(String empresa, Date fechaPago, Date fechaAnuncio, Float importeparticipacion,boolean solicitadobaja) {
+    public AnuncioBeneficios(String empresa, Timestamp fechaPago, Timestamp fechaAnuncio, Float importeparticipacion,boolean solicitadobaja) {
         this.empresa = empresa;
         this.fechaPago = fechaPago;
         this.fechaAnuncio = fechaAnuncio;
@@ -34,19 +35,19 @@ public class AnuncioBeneficios {
         this.empresa = empresa;
     }
 
-    public Date getFechaPago() {
+    public Timestamp getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(Date fechaPago) {
+    public void setFechaPago(Timestamp fechaPago) {
         this.fechaPago = fechaPago;
     }
 
-    public Date getFechaAnuncio() {
+    public Timestamp getFechaAnuncio() {
         return fechaAnuncio;
     }
 
-    public void setFechaAnuncio(Date fechaAnuncio) {
+    public void setFechaAnuncio(Timestamp fechaAnuncio) {
         this.fechaAnuncio = fechaAnuncio;
     }
 

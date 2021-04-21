@@ -171,7 +171,7 @@ public class DAOParticipaciones extends AbstractDAO {
         //añadir una participacionesAnteriores que cree la cartera si es que no esta creada, ya que el update si no esta creada no funciona
         String nuevaCartera = "insert into participacionesempresa(usuario, empresa, numparticipaciones) values(?,?,?);";
 
-        String nuevaEmision = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,now(),?, ?);";
+        String nuevaEmision = "insert into emitirparticipaciones(empresa, fechaemision, numeroparticipaciones, precio) values(?,?,?, ?);";
 
         try {
             con.setAutoCommit(false);
@@ -185,8 +185,9 @@ public class DAOParticipaciones extends AbstractDAO {
             
             stmNueva = con.prepareStatement(nuevaEmision);
             stmNueva.setString(1, e.getIdUsuario());
-            stmNueva.setInt(2, emision);
-            stmNueva.setFloat(3, precio);
+            stmNueva.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            stmNueva.setInt(3, emision);
+            stmNueva.setFloat(4, precio);
             
             stmNueva.executeUpdate();
             
@@ -272,7 +273,7 @@ public class DAOParticipaciones extends AbstractDAO {
             stmOferta = con.prepareStatement(consultaOferta);
             stmOferta.setString(1, u.getIdUsuario());
             stmOferta.setString(2, e.getIdUsuario());
-            stmOferta.setDate(3, new Date(System.currentTimeMillis()));
+            stmOferta.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             stmOferta.setInt(4, numero);
             stmOferta.setFloat(5, precioVenta);
             stmOferta.executeUpdate();

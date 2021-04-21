@@ -3,6 +3,8 @@ package vista;
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Historial;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
@@ -529,6 +531,8 @@ public class VEmpresa extends javax.swing.JFrame {
         float precio = Float.parseFloat(precioParticipacionesTextBox.getText());
 
         fa.emitirParticipaciones(e, emision, precio); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
+        
+        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), emision, precio, "Emision"));
 
         this.actualizarCampos();
 
@@ -549,6 +553,8 @@ public class VEmpresa extends javax.swing.JFrame {
 
         //aqui iria la consulta, cuando me apetezca la hago
         fa.bajaParticipaciones(e, bajaP);
+        
+        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), -bajaP, null, "Baja"));
 
         this.actualizarCampos();
 

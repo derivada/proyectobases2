@@ -2,7 +2,10 @@ package vista;
 
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
+import aplicacion.Historial;
 import aplicacion.Usuario;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -175,6 +178,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
         // 2. Crear oferta de venta
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
+        fa.insertarHistorial(new Historial(empresa.getIdUsuario(), empresa.getIdUsuario(), new Timestamp(System.currentTimeMillis()), numero, precioVenta, "Venta"));
         numeroVenta.setValue(0);
         numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
     }//GEN-LAST:event_crearOfertaVenta
