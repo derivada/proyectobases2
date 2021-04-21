@@ -1,121 +1,32 @@
-﻿Create table usuario
-(
-  id_usuario varchar(20) not null primary key,
-  clave varchar(10) not null,
-  autorizado boolean not null,
-  solicitadobaja boolean
-);
+﻿--regulador
+Insert into usuario (id_usuario, clave, autorizado) values ('Regulador', '123', TRUE);
 
-Create table inversor
-(
-  id_usuario varchar(20) not null primary key,
-  nombre varchar(60) not null,
-  saldo float not null,
-  dni varchar(9) not null,
-  direccion varchar(50),
-  telefono varchar(9),
-  foreign key (id_usuario) references usuario (id_usuario)
-   on delete cascade on update cascade
-);
+--insert de usuarios que seran inversores
+Insert into usuario (id_usuario, clave, autorizado) values ('Elena', '432', TRUE);
+Insert into usuario (id_usuario, clave, autorizado) values ('Fernando', '132', TRUE);
+Insert into usuario (id_usuario, clave, autorizado) values ('PabloD', '332', FALSE);
+
+--insert de usuarios que seran empresas
+Insert into usuario (id_usuario, clave, autorizado) values ('Lenovo', '478', TRUE);
+Insert into usuario (id_usuario, clave, autorizado) values ('HP', '778', TRUE);
+Insert into usuario (id_usuario, clave, autorizado) values ('Pepephone', '878', TRUE);
+Insert into usuario (id_usuario, clave, autorizado) values ('Pereiro', '477', FALSE);
 
 
-Create table empresa
-(
-  id_usuario varchar(20) not null primary key,
-  nombrecomercial varchar(60) not null,
-  cif varchar(9) not null,
-  saldo float,
-  saldobloqueado float,
-  direccion varchar(50),
-  telefono varchar(9),
-  foreign key (id_usuario) references usuario (id_usuario)
-   on delete cascade on update cascade
-);
+--inversores
+Insert into inversor(id_usuario, nombre, dni, direccion, Telefono, Saldo) values('Elena', 'Elena La mas Guapa', '33453214T', 'Santiago de Compostuela', '8877663', 15000);
+Insert into inversor(id_usuario, nombre, dni, direccion, Telefono, Saldo) values('Fernando', 'Fernando el mas fuelte', '34658224L', 'Santiago de Compostuela', '4879603', 10000);
+Insert into inversor(id_usuario, nombre, dni, direccion, Telefono, Saldo) values('PabloD', 'Pablo Diaz', '23463718W', 'Santiago de COompostuela', '8899063', 1000);
+--empresas
+Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Saldo) values('Lenovo', 'Lenovo Computers', '1111114T', 'Santiago de Compostuela', '8275663', 100000);
+Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Saldo) values('HP', 'HP tecnologies', '1739502D', 'Santiago de Compostuela', '9361738', 370000);
+Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Saldo) values('Pepephone', 'Los telefonos del pepe', '7483901C', 'Santiago de COompostuela', '8291023', 95080);
+Insert into empresa(id_usuario, nombrecomercial, cif, direccion, Telefono, Saldo) values('Pereiro', 'As mellores do mundo enteiro', '0172839S', 'Santiago de COompostuela', '7361291', 1000000);
 
-Create table regulador
-(
-  id_usuario varchar(20) not null primary key,
-  foreign key (id_usuario) references usuario (id_usuario)
-   on delete cascade on update cascade
-);
+--regulador
+Insert into regulador(id_usuario) values ('Regulador');
 
-Create table participacionesInversor
-(
-  usuario varchar(20) not null,
-  empresa varchar(20) not null,
-  numParticipaciones integer not null,
-
-  primary key (usuario, empresa),
-  
-  foreign key (usuario) references inversor (id_usuario)
-   on delete cascade on update cascade,
-  foreign key (empresa) references empresa (id_usuario)
-   on delete cascade on update cascade
-);
-
-Create table participacionesEmpresa
-(
-  usuario varchar(20) not null,
-  empresa varchar(20) not null,
-
-  primary key (usuario, empresa),
-  
-  numParticipaciones integer not null,
-  foreign key (usuario) references empresa (id_usuario)
-   on delete cascade on update cascade,
-  foreign key (empresa) references empresa (id_usuario)
-   on delete cascade on update cascade
-);
-
-Create table ofertaVenta
-(
-  usuario varchar(20) not null,
-  empresa varchar(20) not null,
-  fecha date not null,
-  numParticipaciones integer not null,
-  precio integer not null,
-
-  primary key (usuario, fecha),
-  
-  foreign key (usuario) references usuario (id_usuario)
-   on delete cascade on update cascade,
-  foreign key (empresa) references empresa (id_usuario)
-   on delete cascade on update cascade
-);
-
-Create table anuncioBeneficios
-(
-  empresa varchar(20) not null,
-  fechaPago date not null,
-  fechaAnuncio date,
-  importeParticipacion integer not null,
-  solicitadobaja boolean,
-
-  primary key (fechaPago, empresa),
-  
-  foreign key (empresa) references empresa (id_usuario)
-   on delete cascade on update cascade
-);
-
-Create table emitirParticipaciones
-(
-  empresa varchar(20) not null,
-  fechaEmision date not null,
-
-  primary key (fechaEmision, empresa),
-  
-  numeroParticipaciones integer not null,
-  foreign key (empresa) references empresa (id_usuario)
-   on delete cascade on update cascade
-);
-
-
-Create table historial
-(
-  empresa varchar(20) not null,
-  comprador varchar(20) not null,
-  fecha date not null primary key,
-  cantidad integer not null,
-  precio double precision not null
-  
-);
+Insert into historial(empresa, usuario, fecha, cantidad, precio, tipo) values('Lenovo', 'Lenovo', '2002-02-25', 300, 12, 'Emision');
+Insert into historial(empresa, usuario, fecha, cantidad, precio, tipo) values('Lenovo', 'Lenovo', '2002-03-25', 270, 11, 'Emision');
+Insert into historial(empresa, usuario, fecha, cantidad, precio, tipo) values('HP', 'Lenovo', '2002-04-25', 200, 15, 'Compra');
+Insert into historial(empresa, usuario, fecha, cantidad, precio, tipo) values('Lenovo', 'HP', '2002-05-25', 300, 12, 'Venta');

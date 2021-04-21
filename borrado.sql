@@ -1,4 +1,4 @@
-﻿drop table emitirparticipaciones;
+﻿drop table emitirParticipaciones;
 drop table anuncioBeneficios;
 drop table ofertaVenta;
 drop table participacionesEmpresa;

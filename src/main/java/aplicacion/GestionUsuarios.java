@@ -11,6 +11,7 @@ package aplicacion;
 
 import vista.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.componentes.DialogoInfo;
 
 import java.util.ArrayList;
@@ -79,11 +80,11 @@ public class GestionUsuarios {
     public void iniciaRegulador(Regulador r, FachadaAplicacion fa) {
         fgui.iniciaRegulador(r, fa);
     }
-    
+
     public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa){
         fgui.iniciaModificarInversor(i,fa);
     }
-    
+
     public void iniciaModificarEmpresa(Empresa e, FachadaAplicacion fa){
         fgui.iniciaModificarEmpresa(e,fa);
     }
@@ -100,7 +101,7 @@ public class GestionUsuarios {
         return fbd.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         fbd.emitirParticipaciones(e, emision, precio);
     }
 
@@ -139,7 +140,7 @@ public class GestionUsuarios {
         }
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio){
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio){
         return fbd.getOfertasVenta(empresa, precio);
     }
 
@@ -156,6 +157,10 @@ public class GestionUsuarios {
 
     }
 
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        fbd.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    }
+
     //TODO haría falta comprobar que el saldo es 0??
     public void bajaUsuario(Usuario u) {
         if(u instanceof Inversor){
@@ -169,15 +174,59 @@ public class GestionUsuarios {
     public void solicitarBaja(String idUsuario) {
         fbd.solicitarBaja(idUsuario);
     }
-    
+
+    public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        int aux= fbd.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+        if(aux==1){
+          fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
+                    DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        }
+        else if (aux==2){
+            fbd.getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+
+        }
+        else{
+            fbd.getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+        }
+    }
+
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        fbd.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return fbd.obtenerAnuncios(empresa);
+    }
+
+    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+        boolean realizado=fbd.solicitarBajaAnuncio(empresa, fechaPago);
+         if(realizado==false){
+            fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio",DialogoInfo.NivelDeAdvertencia.ERROR);
+        }
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return fbd.obtenerAnunciosRegulador();
+    }
+
+      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         fbd.bajaAnuncio(empresa, fecha, importe);
+     }
+
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return fbd.actualizarHistorial(u);
+    }
+
     public boolean comprobarID(String id){
         return fbd.comprobarID(id);
     }
-    
+
     public boolean modificarInversor(Inversor i, String pass, String idviejo){
         return fbd.modificarInversor(i, pass, idviejo);
     }
-    
+
     public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
         return fbd.modificarEmpresa(e, pass, idviejo);
     }

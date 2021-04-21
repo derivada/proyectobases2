@@ -1,24 +1,24 @@
 package vista.modeloTablas;
 
-import aplicacion.OfertaVenta;
+import aplicacion.Historial;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
 //TODO: Cambiar
 public class ModeloTablaMovimientos extends AbstractTableModel{
 
-    private java.util.List<OfertaVenta> ofertaVentas;
+    private java.util.List<Historial> historial;
 
     public ModeloTablaMovimientos() {
-        this.ofertaVentas = new java.util.ArrayList<OfertaVenta>();
+        this.historial = new java.util.ArrayList<Historial>();
     }
 
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     public int getRowCount() {
-        return ofertaVentas.size();
+        return historial.size();
     }
 
     @Override
@@ -27,18 +27,21 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
 
         switch (col) {
             case 0:
-                nombre = "Usuario";
+                nombre = "Tipo";
                 break;
             case 1:
-                nombre = "Empresa";
+                nombre = "Usuario";
                 break;
             case 2:
-                nombre = "Fecha";
+                nombre = "Empresa";
                 break;
             case 3:
-                nombre = "Numero de participaciones";
+                nombre = "Fecha";
                 break;
             case 4:
+                nombre = "Numero de participaciones";
+                break;
+            case 5:
                 nombre = "Precio";
 
 
@@ -52,16 +55,21 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
 
         switch (col) {
             case 0:
+                clase = java.lang.String.class;
+                break;
             case 1:
                 clase = java.lang.String.class;
                 break;
             case 2:
-                clase = Date.class;
+                clase = java.lang.String.class;
                 break;
             case 3:
-                clase = java.lang.Integer.class;
+                clase = Date.class;
                 break;
             case 4:
+                clase = java.lang.Double.class;
+                break;
+            case 5:
                 clase = java.lang.Double.class;
                 break;
         }
@@ -73,46 +81,49 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
 
         switch (col) {
             case 0:
-                resultado = ofertaVentas.get(row).getEmpresa();
+                resultado = historial.get(row).getTipo();
                 break;
             case 1:
-                resultado = ofertaVentas.get(row).getUsuario();
+                resultado = historial.get(row).getEmpresa();
                 break;
             case 2:
-                resultado = ofertaVentas.get(row).getFecha();
+                resultado = historial.get(row).getComprador();
                 break;
             case 3:
-                resultado = ofertaVentas.get(row).getNumParticipaciones();
+                resultado = historial.get(row).getFecha();
                 break;
             case 4:
-                resultado = ofertaVentas.get(row).getPrecio();
+                resultado = historial.get(row).getCantidad();
+                break;
+            case 5:
+                resultado = historial.get(row).getPrecio();
                 break;
 
         }
         return resultado;
     }
 
-    public void setFilas(java.util.List<OfertaVenta> ofertaVentas) {
-        this.ofertaVentas = ofertaVentas;
+    public void setFilas(java.util.List<Historial> historial) {
+        this.historial = historial;
         fireTableDataChanged();
     }
 
-    public void nuevaOferta(OfertaVenta b) {
-        this.ofertaVentas.add(b);
-        fireTableRowsInserted(this.ofertaVentas.size() - 1, this.ofertaVentas.size() - 1);
+    public void nuevaHistoria(Historial b) {
+        this.historial.add(b);
+        fireTableRowsInserted(this.historial.size() - 1, this.historial.size() - 1);
     }
 
     public void borrarOferta(int indice) {
-        this.ofertaVentas.remove(indice);
+        this.historial.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }
 
-    public java.util.List<OfertaVenta> getFilas() {
-        return this.ofertaVentas;
+    public java.util.List<Historial> getFilas() {
+        return this.historial;
     }
 
-    public OfertaVenta obtenerOfertas(int i) {
-        return this.ofertaVentas.get(i);
+    public Historial obtenerOfertas(int i) {
+        return this.historial.get(i);
     }
 
 }

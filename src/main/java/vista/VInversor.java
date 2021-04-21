@@ -2,7 +2,9 @@ package vista;
 
 import vista.componentes.FuentesGUI;
 import aplicacion.FachadaAplicacion;
+import aplicacion.Historial;
 import aplicacion.Inversor;
+import java.util.List;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaCompra;
 import vista.modeloTablas.ModeloTablaMovimientos;
@@ -353,6 +355,7 @@ public class VInversor extends javax.swing.JFrame {
         empresaTextBox.setText("");
         precioTextBox.setText("0");
         this.buscarOfertas();
+        this.actualizarHistorial();
     }
     
     public void buscarOfertas(){
@@ -383,6 +386,15 @@ public class VInversor extends javax.swing.JFrame {
         
         //si se tiene suficiente saldo, se efectua la transaccion, eliminando las ofertas de venta de la tabla de ofertas y metiendolas al historial como una sola operacion, ademas, se acutalizan las carteras tanto del comprador como del vendedor
         
+    }
+    
+    public void actualizarHistorial(){
+        
+        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla2.getModel();
+        
+        List<Historial> historial = fa.actualizarHistorial(i);
+        m.setFilas(historial);
+    
     }
 
 }

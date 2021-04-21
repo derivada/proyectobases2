@@ -6,15 +6,14 @@
 package aplicacion;
 
 /**
- *
  * @author migue
  */
-public class Regulador extends Usuario{
-    private Float saldo;
-    
-    public Regulador(String idUsuario,boolean solicitadobaja, boolean autorizado) {
-        super(idUsuario,solicitadobaja,autorizado);
-        this.saldo=(float)0.0;
+public class Regulador extends Usuario {
+    private float saldo;
+
+    public Regulador(String idUsuario, boolean solicitadobaja, boolean autorizado) {
+        super(idUsuario, solicitadobaja, autorizado);
+        this.saldo = (float) 0.0;
     }
 
     @Override
@@ -22,11 +21,11 @@ public class Regulador extends Usuario{
         return super.getIdUsuario();
     }
 
-    public Float getSaldo() {
+    public float getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Float saldo) {
+    public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
 }

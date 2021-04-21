@@ -20,6 +20,6 @@ public class Tabla extends JTable {
         this.setBackground(ColoresGUI.blanco);
         this.setForeground(ColoresGUI.texto);
         this.setBorder(BordesGUI.BordeTextBox);
-        
     }
+
 }

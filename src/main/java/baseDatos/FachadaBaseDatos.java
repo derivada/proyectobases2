@@ -5,6 +5,7 @@ import aplicacion.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public class FachadaBaseDatos {
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;
+    private DAOHistorial daoHistorial;
     private static final String nombreArchivo = "baseDatos.properties";
 
     public FachadaAplicacion getFachadaAplicacion() {
@@ -48,6 +50,7 @@ public class FachadaBaseDatos {
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
             daoParticipaciones = new DAOParticipaciones(conexion, fa);
+            daoHistorial = new DAOHistorial(conexion, fa);
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
                     + "\" realizada con éxito!");
         } catch (FileNotFoundException f) {
@@ -143,7 +146,7 @@ public class FachadaBaseDatos {
         daoUsuarios.modificarDatosInversor(id_usuario, u);
     }
     
-    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, int precio){
+    public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio){
         return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
 
@@ -159,7 +162,11 @@ public class FachadaBaseDatos {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
+        daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    }
+
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         daoParticipaciones.emitirParticipaciones(e, emision, precio);
     }
 
@@ -178,15 +185,44 @@ public class FachadaBaseDatos {
     public void solicitarBaja(String idUsuario) {
         daoUsuarios.solicitarBaja(idUsuario);
     }
-    
+
+      public int crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        return daoUsuarios.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    }
+
+    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        daoUsuarios.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return daoUsuarios.obtenerAnuncios(empresa);
+    }
+
+     public boolean solicitarBajaAnuncio(String empresa,Date fechaPago){
+        return daoUsuarios.solicitarBajaAnuncio(empresa, fechaPago);
+
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return daoUsuarios.obtenerAnunciosRegulador();
+    }
+
+     public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+     }
+
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return daoHistorial.actualizarHistorial(u);
+    }
+
     public boolean comprobarID(String id){
         return daoUsuarios.comprobarID(id);
     }
-    
+
     public boolean modificarInversor(Inversor i, String pass, String idviejo){
         return daoUsuarios.modificarInversor(i, pass, idviejo);
     }
-    
+
     public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
         return daoUsuarios.modificarEmpresa(e, pass, idviejo);
     }

@@ -3,6 +3,7 @@ package aplicacion;
 import java.util.ArrayList;
 
 import baseDatos.FachadaBaseDatos;
+import java.sql.Date;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
@@ -93,11 +94,11 @@ public class FachadaAplicacion {
     public void menuRegulador(Regulador regulador) {
         cu.iniciaRegulador(regulador, this);
     }
-    
+
     public void menuModificarInversor(Inversor inversor){
         cu.iniciaModificarInversor(inversor,this);
     }
-    
+
     public void menuModificarEmpresa(Empresa empresa){
         cu.iniciaModificarEmpresa(empresa, this);
     }
@@ -128,7 +129,7 @@ public class FachadaAplicacion {
         return cu.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, int precio) {
+    public void emitirParticipaciones(Empresa e, int emision, float precio) {
         cu.emitirParticipaciones(e, emision, precio);
     }
 
@@ -152,34 +153,10 @@ public class FachadaAplicacion {
         return cu.obtenerUsuarioBaja();
     }
 
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, int precio) {
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio) {
         return cu.getOfertasVenta(empresa, precio);
     }
 
-    public void _tests() {
-        StringBuilder log = new StringBuilder();
-        for (Usuario u : fbd.obtenerListaUsuarios()) {
-            Usuario temp = fbd.obtenerDatosEmpresa(u);
-            if (temp == null) {
-                temp = fbd.obtenerDatosInversor(u);
-            }
-            if (temp == null) {
-                temp = fbd.obtenerDatosRegulador(u);
-            }
-            u = temp;
-            if (u == null) {
-                continue;
-            }
-            int part = fbd.getParticipacionesTotales(u);
-            log.append("Usuario: " + u.getIdUsuario() + " Tipo: "
-                    + u.getClass().getSimpleName() + " Participaciones totales: " + part + "\n");
-        }
-        Usuario elena = fbd.validarUsuario("Elena", "432");
-        Usuario HP = fbd.validarUsuario("HP", "778");
-        int partHP = fbd.getParticipacionesEmpresa(elena, (Empresa) HP);
-        log.append("Elena tiene " + partHP + " participaciones de HP\n");
-        this.muestraExcepcion(log.toString(), DialogoInfo.NivelDeAdvertencia.INFORMACION);
-    }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
@@ -191,6 +168,7 @@ public class FachadaAplicacion {
                 + "\nVendedor: " + vendedor.getIdUsuario()
                 + "\nCantidad: " + numero
                 + "\nPrecio máximo: " + precioMaximo);
+        cu.comprarParticipaciones(comprador, vendedor, numero, precioMaximo);
     }
 
     public void bajaUsuario(Usuario u) {
@@ -200,16 +178,44 @@ public class FachadaAplicacion {
     public void solicitarBaja(String idUsuario) {
         cu.solicitarBaja(idUsuario);
     }
-    
+
     public boolean comprobarID(String id){
         return cu.comprobarID(id);
     }
-    
+
     public boolean modificarInversor(Inversor i, String pass, String idviejo){
         return cu.modificarInversor(i, pass, idviejo);
     }
-    
+
     public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
         return cu.modificarEmpresa(e, pass, idviejo);
+    }
+
+     public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
+        cu.crearAnuncio(importe, e, fecha,numeroParticipaciones);
+    }
+
+      public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
+        cu.pagarBeneficios(importe,participaciones, empresa,a);
+    }
+
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+        return cu.obtenerAnuncios(empresa);
+    }
+
+    public void solicitarBajaAnuncio(String empresa,Date fechaPago){
+        cu.solicitarBajaAnuncio(empresa, fechaPago);
+    }
+
+     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+        return cu.obtenerAnunciosRegulador();
+    }
+
+      public void bajaAnuncio(String empresa,Date fecha,Float importe){
+         cu.bajaAnuncio(empresa, fecha, importe);
+     }
+
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return cu.actualizarHistorial(u);
     }
 }

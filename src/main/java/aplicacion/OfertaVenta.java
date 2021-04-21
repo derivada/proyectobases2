@@ -3,26 +3,26 @@ package aplicacion;
 import java.sql.Date;
 
 public class OfertaVenta {
-    private String usuario;
+    private String vendedor;
     private String empresa;
     private Date fecha;
     private Integer numParticipaciones;
-    private Double precio;
+    private float precio;
 
-    public OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio) {
-        this.usuario = usuario;
+    public OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, float precio) {
+        this.vendedor = usuario;
         this.empresa = empresa;
         this.fecha = fecha;
         this.numParticipaciones = numParticipaciones;
         this.precio = precio;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getVendedor() {
+        return vendedor;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
     }
 
     public String getEmpresa() {
@@ -49,11 +49,11 @@ public class OfertaVenta {
         this.numParticipaciones = numParticipaciones;
     }
 
-    public Double getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 }

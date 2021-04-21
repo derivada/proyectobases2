@@ -13,11 +13,16 @@ public class Empresa extends Usuario {
     private String CIF;
     private String direccion;
     private String telefono;
-    private Float saldo;
-    private Float saldobloqueado;
 
 
-    public Empresa(String idUsuario, String nombre, String CIF, Float saldo, Float saldobloqueado, String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
+    private Integer participacionesbloqueadas; 
+
+    private float saldo;
+    private float saldobloqueado;
+
+
+
+    public Empresa(String idUsuario, String nombre, String CIF, float saldo, float saldobloqueado, String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
         super(idUsuario, solicitadobaja, autorizado);
         this.nombre = nombre;
         this.CIF = CIF;
@@ -79,21 +84,30 @@ public class Empresa extends Usuario {
         this.telefono = telefono;
     }
 
-    public Float getSaldo() {
+    public float getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Float saldo) {
+    public void setSaldo(int saldo) {
         this.saldo = saldo;
     }
 
-    public Float getSaldobloqueado() {
+    public float getSaldobloqueado() {
         return saldobloqueado;
     }
 
-    public void setSaldobloqueado(Float saldobloqueado) {
+    public void setSaldobloqueado(float saldobloqueado) {
         this.saldobloqueado = saldobloqueado;
     }
+
+    public Integer getParticipacionesbloqueadas() {
+        return participacionesbloqueadas;
+    }
+
+    public void setParticipacionesbloqueadas(Integer participacionesbloqueadas) {
+        this.participacionesbloqueadas = participacionesbloqueadas;
+    }
+    
 
 
 }
