@@ -214,6 +214,10 @@ public class FachadaBaseDatos {
     public java.util.List<Historial> actualizarHistorial(Usuario u){
         return daoHistorial.actualizarHistorial(u);
     }
+    
+    public void insertarHistorial(Historial h){
+        daoHistorial.insertaHistorial(h);
+  }
 
     public boolean comprobarID(String id){
         return daoUsuarios.comprobarID(id);

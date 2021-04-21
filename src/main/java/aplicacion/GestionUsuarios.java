@@ -218,6 +218,10 @@ public class GestionUsuarios {
     public java.util.List<Historial> actualizarHistorial(Usuario u){
         return fbd.actualizarHistorial(u);
     }
+    
+    public void insertarHistorial(Historial h){
+        fbd.insertarHistorial(h);
+   }
 
     public boolean comprobarID(String id){
         return fbd.comprobarID(id);

@@ -852,8 +852,8 @@ public class DAOUsuarios extends AbstractDAO {
 
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
-                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getDate("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"));
-
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"));
+                
                 resultado.add(v);
 
             }

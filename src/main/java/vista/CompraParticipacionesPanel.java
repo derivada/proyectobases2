@@ -2,8 +2,11 @@ package vista;
 
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
+import aplicacion.Historial;
 import aplicacion.OfertaVenta;
 import aplicacion.Usuario;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -197,6 +200,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         }
         fa.comprarParticipaciones(comprador, vendedor, cantidad.getValue(), precioMaximo);
         actualizarOfertas();
+        fa.insertarHistorial(new Historial(comprador.getIdUsuario(), vendedor.getIdUsuario(), new Timestamp(System.currentTimeMillis()), cantidad.getValue(), precioMaximo, "Compra"));
     }//GEN-LAST:event_comprarParticipaciones
 
     private void evtCambiarEntrada(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evtCambiarEntrada

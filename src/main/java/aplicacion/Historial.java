@@ -5,6 +5,7 @@
  */
 package aplicacion;
 import java.sql.Date; 
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,12 +14,12 @@ import java.sql.Date;
 public class Historial {
     private String empresa; 
     private String comprador; 
-    private Date fecha; 
+    private Timestamp fecha; 
     private Integer cantidad; 
     private Float precio;
     private String tipo;
 
-    public Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio, String tipo) {
+    public Historial(String empresa, String comprador, Timestamp fecha, Integer cantidad, Float precio, String tipo) {
         this.empresa = empresa;
         this.comprador = comprador;
         this.fecha = fecha;
@@ -51,11 +52,11 @@ public class Historial {
         this.comprador = comprador;
     }
 
-    public Date getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 

@@ -218,4 +218,8 @@ public class FachadaAplicacion {
     public java.util.List<Historial> actualizarHistorial(Usuario u){
         return cu.actualizarHistorial(u);
     }
+    
+    public void insertarHistorial(Historial h){
+        cu.insertarHistorial(h);
+    }
 }

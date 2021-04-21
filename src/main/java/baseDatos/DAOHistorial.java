@@ -43,7 +43,7 @@ public class DAOHistorial extends AbstractDAO {
             rst = stmHistorial.executeQuery();
             while (rst.next()) {
                 //Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio, String tipo)
-                historialActual = new Historial(rst.getString("empresa"), rst.getString("usuario"), rst.getDate("fecha"), rst.getInt("cantidad"), rst.getFloat("precio"), rst.getString("tipo"));
+                historialActual = new Historial(rst.getString("empresa"), rst.getString("usuario"), rst.getTimestamp("fecha"), rst.getInt("cantidad"), rst.getFloat("precio"), rst.getString("tipo"));
                 resultado.add(historialActual);
             }
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -80,7 +80,7 @@ public class DAOHistorial extends AbstractDAO {
             
             stmHistorial.setString(1, h.getEmpresa());
             stmHistorial.setString(2, h.getComprador()); //cambiar a getUsuario
-            stmHistorial.setDate(3, h.getFecha());
+            stmHistorial.setTimestamp(3, h.getFecha());
             stmHistorial.setInt(4, h.getCantidad());
             stmHistorial.setFloat(5, h.getPrecio());
             stmHistorial.setString(6, h.getTipo());
