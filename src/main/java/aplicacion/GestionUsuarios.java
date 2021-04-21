@@ -210,4 +210,8 @@ public class GestionUsuarios {
       public void bajaAnuncio(String empresa,Date fecha,Float importe){
          fbd.bajaAnuncio(empresa, fecha, importe);
      }
+
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return fbd.actualizarHistorial(u);
+    }
 }

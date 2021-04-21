@@ -7,6 +7,8 @@ import aplicacion.FachadaAplicacion;
 import java.sql.Date;
 import java.time.format.DateTimeParseException;
 
+import aplicacion.Historial;
+import java.util.List;
 import vista.componentes.ColoresGUI;
 
 import vista.componentes.DialogoInfo;
@@ -34,8 +36,8 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         this.actualizarCampos();
         tipoTextBox.setText("Empresa");
-        
-         ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel(); 
+
+         ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
     }
 
@@ -533,7 +535,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
     private void pagarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBotonActionPerformed
         // TODO add your handling code here:
-        Pagar(); 
+        Pagar();
     }//GEN-LAST:event_pagarBotonActionPerformed
 
     private void beneficiosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosBotonActionPerformed
@@ -554,12 +556,12 @@ public class VEmpresa extends javax.swing.JFrame {
 
     private void bajaAnunciosbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosbotonActionPerformed
         // TODO add your handling code here:
-        solicitarBajaAnuncio(); 
+        solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
 
-    
+
       public void AnunciarBeneficios() {
-        
+
         float importe = 0.0f;
         if(!importeTextBox.getText().isEmpty()){
             try {
@@ -576,7 +578,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 return;
             }
         }
-        
+
         Date fecha = null;
         try {
             fecha = entradaFecha.getFecha();
@@ -591,7 +593,7 @@ public class VEmpresa extends javax.swing.JFrame {
                     DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
-        int numero=0; 
+        int numero=0;
         if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
             try {
                  numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
@@ -607,23 +609,23 @@ public class VEmpresa extends javax.swing.JFrame {
                 return;
             }
         }
-        
-        
+
+
         fa.crearAnuncio(importe, this.e, fecha,numero);
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel(); 
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-        
-        
+
+
     }
-    
+
     public void solicitarBajaAnuncio(){
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel(); 
-        int fila=tablaAnuncios.getSelectedRow(); 
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila=tablaAnuncios.getSelectedRow();
         AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
-        
-        
-        
+
+
+
 
     private void precioParticipacionesTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioParticipacionesTextBoxActionPerformed
 
@@ -697,9 +699,9 @@ public class VEmpresa extends javax.swing.JFrame {
 
 
     }
-    
+
     public void Pagar(){
-        Float importe=0.0f; 
+        Float importe=0.0f;
         if(!importeTextBox.getText().isEmpty()){
            try {
                 importe = Float.parseFloat(importeTextBox.getText());
@@ -713,10 +715,10 @@ public class VEmpresa extends javax.swing.JFrame {
                 fa.muestraExcepcion("ERROR: El importe debe ser positivo!",
                         DialogoInfo.NivelDeAdvertencia.ERROR);
                 return;
-            } 
+            }
         }
-        
-        int numero=0; 
+
+        int numero=0;
         if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
             try {
                  numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
@@ -732,16 +734,16 @@ public class VEmpresa extends javax.swing.JFrame {
                 return;
             }
         }
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel(); 
-        int fila=tablaAnuncios.getSelectedRow(); 
+        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila=tablaAnuncios.getSelectedRow();
         if(fila!=-1){
            AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
-           fa.pagarBeneficios(importe,numero, this.e,aux); 
+           fa.pagarBeneficios(importe,numero, this.e,aux);
         }
         else{
-           fa.pagarBeneficios(importe,numero, this.e,null); 
+           fa.pagarBeneficios(importe,numero, this.e,null);
         }
-        
+
     }
 
 
@@ -840,5 +842,14 @@ public class VEmpresa extends javax.swing.JFrame {
         tipoTextBox.setText("Empresa");
         disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
         precioParticipacionesTextBox.setText("0");
+        this.actualizarHistorial();
+    }
+
+    public void actualizarHistorial(){
+
+        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla1.getModel();
+
+        List<Historial> historial = fa.actualizarHistorial(e);
+        m.setFilas(historial);
     }
 }

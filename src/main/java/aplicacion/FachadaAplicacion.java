@@ -198,4 +198,8 @@ public class FachadaAplicacion {
       public void bajaAnuncio(String empresa,Date fecha,Float importe){
          cu.bajaAnuncio(empresa, fecha, importe);
      }
+
+    public java.util.List<Historial> actualizarHistorial(Usuario u){
+        return cu.actualizarHistorial(u);
+    }
 }

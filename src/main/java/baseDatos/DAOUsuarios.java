@@ -112,7 +112,7 @@ public class DAOUsuarios extends AbstractDAO {
     private java.util.List<Usuario> _obtenerListaUsuarios(String tipo) {
         // Método interno llamado desde obtenrListaUsuarios() obtenerListaEmpresas() obtenerListaInversores()
         // y obtenerListaReguladores() que maneja las consultas generales
-        java.util.List<Usuario> resultado = new java.util.ArrayList<Usuario>();
+        java.util.List<Usuario> resultado = new java.util.ArrayList<>();
         Usuario usuarioActual;
         Connection con;
         PreparedStatement stmCatalogo = null;
