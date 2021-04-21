@@ -15,6 +15,7 @@ public class FachadaBaseDatos {
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;
+    private DAOHistorial daoHistorial;
     private static final String nombreArchivo = "baseDatos.properties";
 
     public FachadaAplicacion getFachadaAplicacion() {

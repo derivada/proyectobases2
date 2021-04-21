@@ -390,7 +390,7 @@ public class VInversor extends javax.swing.JFrame {
     
     public void actualizarHistorial(){
         
-        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla1.getModel();
+        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla2.getModel();
         
         List<Historial> historial = fa.actualizarHistorial(i);
         m.setFilas(historial);
