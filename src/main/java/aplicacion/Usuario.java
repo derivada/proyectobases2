@@ -6,7 +6,7 @@ public class Usuario {
     private boolean autorizado;
     private boolean solicitadobaja;
 
-    public Usuario(String idUsuario, String clave,  boolean autorizado, boolean solicitadobaja) {
+    public Usuario(String idUsuario, String clave, boolean autorizado, boolean solicitadobaja) {
         this.idUsuario = idUsuario;
         this.clave = clave;
         this.autorizado = autorizado;
@@ -51,5 +51,4 @@ public class Usuario {
     public void setAutorizado(boolean autorizado) {
         this.autorizado = autorizado;
     }
-
 }

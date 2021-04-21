@@ -231,14 +231,14 @@
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="participacionesLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="totalTextBox" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
-                          <Component id="participacionesTextBox" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
+                          <Component id="disponiblesLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="numeroParticipacionesTextBox" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
+                          <Component id="disponibles" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="39" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="bajaParticipacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
-                          <Component id="precioParticipaciones" min="-2" pref="308" max="-2" attributes="0"/>
+                          <Component id="precioParticipacionesTextBox" min="-2" pref="308" max="-2" attributes="0"/>
                           <Component id="participacionesLabel1" min="-2" max="-2" attributes="0"/>
                           <Component id="participacionesBoton" min="-2" pref="308" max="-2" attributes="0"/>
                       </Group>
@@ -256,19 +256,19 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="participacionesTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                          <Component id="precioParticipaciones" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="numeroParticipacionesTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="precioParticipacionesTextBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="disponiblesLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="totalTextBox" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
                           <Component id="participacionesBoton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="disponibles" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bajaParticipacionesBoton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="328" max="32767" attributes="0"/>
+                      <EmptySpace pref="330" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -279,9 +279,10 @@
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero de participaciones"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.TextBox" name="totalTextBox">
-            </Component>
-            <Component class="vista.componentes.TextBox" name="participacionesTextBox">
+            <Component class="vista.componentes.TextBox" name="numeroParticipacionesTextBox">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="numeroParticipacionesTextBoxKeyTyped"/>
+              </Events>
             </Component>
             <Component class="vista.componentes.Boton" name="participacionesBoton">
               <Properties>
@@ -291,12 +292,16 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="participacionesBotonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="vista.componentes.Etiqueta" name="totalLabel">
+            <Component class="vista.componentes.Etiqueta" name="disponiblesLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero total de participaciones disponibles"/>
               </Properties>
             </Component>
-            <Component class="vista.componentes.TextBox" name="precioParticipaciones">
+            <Component class="vista.componentes.TextBox" name="precioParticipacionesTextBox">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="precioParticipacionesTextBoxActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="precioParticipacionesTextBoxKeyTyped"/>
+              </Events>
             </Component>
             <Component class="vista.componentes.Etiqueta" name="participacionesLabel1">
               <Properties>
@@ -310,6 +315,14 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bajaParticipacionesBotonActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="vista.componentes.Etiqueta" name="disponibles">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="disponibles.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
