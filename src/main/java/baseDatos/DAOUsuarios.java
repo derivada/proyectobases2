@@ -1614,54 +1614,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
     }
-
-    public void pagarBeneficiosAnuncio(AnuncioBeneficios anuncio) {
-        Connection con;
-        PreparedStatement stmRestarDinero = null;
-        PreparedStatement stmRestarParticipaciones = null;
-        PreparedStatement stmPagar1 = null;
-        PreparedStatement stmPagar2 = null;
-        String consulta1 = "update empresa set saldobloqueado=saldobloqueado - ? where id_usuario= ? ";
-
-        String consulta2 = "update participacionesempresa set numparticipaciones=numparticipaciones- ? "
-                + "where usuario= ?  and empresa= ? ";
-
-        con = this.getConexion();
-        try {
-            /*Primero se restas las participaciones y el dinero de la emprea.
-              En caso de que un anuncio sea solo de importe, como el anuncio almacenaría
-              un 0 en participaciones, se va a restas 0 en participaciones de la
-              empresa, por lo que se ejecutan siempre las dos instrucciones de resta*/
-
-            con.setAutoCommit(false);
-            //Primero se resta el dinero del saldo bloqueado de la empresa
-            stmRestarDinero = con.prepareStatement(consulta1);
-            stmRestarDinero.setFloat(1, anuncio.getImporteparticipacion());
-            stmRestarDinero.setString(2, anuncio.getEmpresa());
-            //Ahora se restan las participaciones
-            stmRestarParticipaciones = con.prepareStatement(consulta2);
-            stmRestarParticipaciones.setInt(1, anuncio.getNumeroparticipaciones());
-            stmRestarParticipaciones.setString(2, anuncio.getEmpresa());
-            stmRestarParticipaciones.setString(3, anuncio.getEmpresa());
-
-            //Ahora se suma a los inversores o empresas que tengan las participaciones
-            con.commit();
-        } catch (SQLException ex) {
-            manejarExcepcionSQL(ex);
-        } finally {
-            try {
-                con.setAutoCommit(true);
-                stmPagar1.close();
-                if (stmPagar2 != null) {
-                    stmPagar2.close();
-                }
-
-            } catch (SQLException ex) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-    }
-
+    
     public boolean comprobarID(String id){
         boolean libre = false;
         PreparedStatement stmCheck = null;
