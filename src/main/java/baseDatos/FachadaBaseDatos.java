@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class FachadaBaseDatos {
-    private aplicacion.FachadaAplicacion fa;
+    private final aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOParticipaciones daoParticipaciones;

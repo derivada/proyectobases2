@@ -18,8 +18,8 @@ public class DialogoInfo extends JDialog {
     private static final Image IMAGEN_INFORMACION;
     private static final Image IMAGEN_ERROR_BASEDATOS;
 
-    private NivelDeAdvertencia nivel;
-    private String descripcion;
+    private final NivelDeAdvertencia nivel;
+    private final String descripcion;
 
     // Crea un dialógo (popup)
     public DialogoInfo(JFrame owner, String titulo, String descripcion, NivelDeAdvertencia nivel, boolean bloqueaInput) {

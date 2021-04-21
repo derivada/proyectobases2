@@ -11,9 +11,9 @@ import java.sql.Date;
  * @author Usuario
  */
 public class EmitirParticipaciones {
-    private String empresa; 
-    private Integer numeroparticipaciones; 
-    private Date fechaemision; 
+    private final String empresa;
+    private final Integer numeroparticipaciones;
+    private final Date fechaemision;
 
     public EmitirParticipaciones(String empresa, Date fechaemision) {
         this.empresa = empresa;

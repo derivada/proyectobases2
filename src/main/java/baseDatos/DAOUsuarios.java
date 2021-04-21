@@ -311,7 +311,7 @@ public class DAOUsuarios extends AbstractDAO {
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, i.getIdUsuario());
                 stmIns.setString(2, i.getNombre());
-                stmIns.setDouble(3, (double) i.getSaldo());
+                stmIns.setDouble(3, i.getSaldo());
                 stmIns.setString(4, i.getDni());
                 if (i.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
                     stmIns.setString(5, null);
@@ -398,8 +398,8 @@ public class DAOUsuarios extends AbstractDAO {
                 stmIns.setString(1, e.getIdUsuario());
                 stmIns.setString(2, e.getNombre());
                 stmIns.setString(3, e.getCIF());
-                stmIns.setDouble(4, (double) e.getSaldo());
-                stmIns.setDouble(5, (double) e.getSaldobloqueado());
+                stmIns.setDouble(4, e.getSaldo());
+                stmIns.setDouble(5, e.getSaldobloqueado());
                 if (e.getDireccion().isEmpty()) { //si el campo estaba vacio, coloco null (puede ser interesante para coalesces y funciones que buscan null)
                     stmIns.setString(6, null);
                 } else {
@@ -761,7 +761,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmEmpresas.executeUpdate();
 
             stmEmpresas = con.prepareStatement(consulta2);
-            Usuario u = (Usuario) e;
+            Usuario u = e;
             stmEmpresas.setString(1, u.getIdUsuario());
             stmEmpresas.setString(2, u.getClave());
             stmEmpresas.setString(3, id_usuario);
