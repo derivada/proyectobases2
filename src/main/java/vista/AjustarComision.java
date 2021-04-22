@@ -2,14 +2,16 @@ package vista;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
+
 import javax.swing.JFrame;
+
 import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
 
 /**
- * Ventana emergente (DIALOG) para ver y/o modificar la comisión en las 
+ * Ventana emergente (DIALOG) para ver y/o modificar la comisión en las
  * operaciones de compra/venta fijada por el regulador
  */
 
@@ -18,15 +20,16 @@ public class AjustarComision extends javax.swing.JDialog {
     // Solo cogemos la antigua al abrir la ventana y ponemos la nueva al 
     // cerrarla por el botón de confirmar, no hay actualizaciones dinámicas
     private float antiguaComision, nuevaComision = -1.0f;
-    private Regulador regulador;
+    private final Regulador regulador;
 
     public AjustarComision(JFrame owner, Regulador regulador) {
         super(owner, true);
         this.regulador = regulador;
+        this.antiguaComision = FachadaAplicacion.getInstance().obtenerComision(regulador);
         initComponents();
-        this.setVisible(true);
         this.setTitle("Modificación de comisión");
         this.setIconImage(ImagenesGUI.getImage("database.png", 32));
+        this.setVisible(true);
     }
 
     /**
@@ -44,13 +47,13 @@ public class AjustarComision extends javax.swing.JDialog {
         botonAplicar = new vista.componentes.Boton();
         botonCerrar = new vista.componentes.Boton();
         nuevaComisionTextBox = new vista.componentes.TextBox();
+        porcentajeLabel = new vista.componentes.Etiqueta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         titulo.setText("Fijar comisión");
 
-        comisionActual.setText("Comisión actual: " + String.format("%.2f", FachadaAplicacion.getInstance().obtenerComision(regulador)).replace(',', '.') + "%"
-        );
+        comisionActual.setText("Comisión actual: ");
 
         fijarComisionLabel.setText("Fijar nueva comisión: ");
 
@@ -68,6 +71,7 @@ public class AjustarComision extends javax.swing.JDialog {
             }
         });
 
+        nuevaComisionTextBox.setColumns(2);
         nuevaComisionTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevaComisionTextBoxActionPerformed(evt);
@@ -79,78 +83,70 @@ public class AjustarComision extends javax.swing.JDialog {
             }
         });
 
+        porcentajeLabel.setText("%");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comisionActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(212, 212, 212))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(fijarComisionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nuevaComisionTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(botonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(botonAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(comisionActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(212, 212, 212))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(fijarComisionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(nuevaComisionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(porcentajeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(comisionActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fijarComisionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nuevaComisionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(comisionActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(fijarComisionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nuevaComisionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(porcentajeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(72, 72, 72)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(botonAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(botonCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         titulo.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
-            FuentesGUI.Size.GRANDE));
-    nuevaComisionTextBox.setText(String.format("%.2f", this.antiguaComision).replace(',', '.'));
+                FuentesGUI.Size.GRANDE));
+        comisionActual.setText("Comisión actual: " + getComisionString(antiguaComision));
+        nuevaComisionTextBox.setText(String.format("%d", (int) (antiguaComision * 100)));
 
-    pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAplicarActionPerformed
-        float temp = -1.0f;
-        try {
-            temp = Float.parseFloat(nuevaComisionTextBox.getText());
-            if (temp >= 0.0f && temp < 1.0f) {
-                nuevaComision = temp;
-                nuevaComisionTextBox.setBackground(ColoresGUI.blanco);
-            } else {
-                nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                nuevaComision = -1.0f;
-            }
-        } catch (NumberFormatException e) {
-            nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-            nuevaComision = -1.0f;
-        }
-        if (nuevaComision >= 0.0f && nuevaComision < 1.0f) {
+        if (validarEntradaComision()) {
             FachadaAplicacion.getInstance().modificarComision(regulador, nuevaComision);
-            FachadaAplicacion.getInstance().muestraExcepcion("Se ha configurado la comisión a " + 
-                    String.format("%.2f", nuevaComision).replace(',', '.') + "% con éxito!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            FachadaAplicacion.getInstance().muestraExcepcion("Se ha configurado la comisión al " + getComisionString(nuevaComision),
+                    DialogoInfo.NivelDeAdvertencia.INFORMACION);
             nuevaComisionTextBox.setBackground(ColoresGUI.blanco);
             this.dispose();
         } else {
             nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
             nuevaComision = -1.0f;
-            FachadaAplicacion.getInstance().muestraExcepcion("La nueva comisión introducida no es válida", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaAplicacion.getInstance().muestraExcepcion("La nueva comisión introducida no es válida!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
         }
     }//GEN-LAST:event_botonAplicarActionPerformed
 
@@ -159,31 +155,23 @@ public class AjustarComision extends javax.swing.JDialog {
     }//GEN-LAST:event_botonCerrarActionPerformed
 
     private void nuevaComisionTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaComisionTextBoxActionPerformed
-         // Validar entrada correcta
-        float temp = -1.0f;
-        try {
-            temp = Float.parseFloat(nuevaComisionTextBox.getText());
-            if (temp >= 0.0f && temp < 1.0f) {
-                nuevaComision = temp;
-                nuevaComisionTextBox.setBackground(ColoresGUI.blanco);
-            } else {
-                nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                nuevaComision = -1.0f;
-            }
-        } catch (NumberFormatException e) {
-            nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-            nuevaComision = -1.0f;
-        }
+        // Validar entrada correcta
+        validarEntradaComision();
     }//GEN-LAST:event_nuevaComisionTextBoxActionPerformed
 
     private void nuevaComisionTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nuevaComisionTextBoxKeyTyped
         // Validar entrada correcta
-        float temp = -1.0f;
+        validarEntradaComision();
+    }//GEN-LAST:event_nuevaComisionTextBoxKeyTyped
+
+    private boolean validarEntradaComision() {
+        int temp = -1;
         try {
-            temp = Float.parseFloat(nuevaComisionTextBox.getText());
-            if (temp >= 0.0f && temp < 1.0f) {
-                nuevaComision = temp;
+            temp = Integer.parseInt(nuevaComisionTextBox.getText());
+            if (temp >= 0 && temp < 100) {
+                nuevaComision = (float) temp / 100;
                 nuevaComisionTextBox.setBackground(ColoresGUI.blanco);
+                return true;
             } else {
                 nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
                 nuevaComision = -1.0f;
@@ -192,8 +180,13 @@ public class AjustarComision extends javax.swing.JDialog {
             nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
             nuevaComision = -1.0f;
         }
-    }//GEN-LAST:event_nuevaComisionTextBoxKeyTyped
+        return false;
+    }
 
+    private String getComisionString(float comision) {
+        return String.format("%d", (int) (comision * 100)) + "% (" +
+                String.format("%.2f", comision).replace(",", ".") + ")";
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton botonAplicar;
@@ -201,6 +194,7 @@ public class AjustarComision extends javax.swing.JDialog {
     private vista.componentes.Etiqueta comisionActual;
     private vista.componentes.Etiqueta fijarComisionLabel;
     private vista.componentes.TextBox nuevaComisionTextBox;
+    private vista.componentes.Etiqueta porcentajeLabel;
     private vista.componentes.Etiqueta titulo;
     // End of variables declaration//GEN-END:variables
 }
