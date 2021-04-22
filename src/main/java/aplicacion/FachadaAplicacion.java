@@ -231,5 +231,13 @@ public class FachadaAplicacion {
         cu.insertarHistorial(h);
     }
 
-
+        
+    public float obtenerComision(Regulador r) {
+        return cu.obtenerComision(r);
+    }
+    
+    public void modificarComision(Regulador r, float comision){
+        cu.modificarComision(r, comision);
+    }
+    
 }

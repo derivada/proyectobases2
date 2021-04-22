@@ -36,6 +36,7 @@
                   </Group>
                   <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                   <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="761" max="-2" attributes="0"/>
@@ -58,10 +59,12 @@
                       <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="tipoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="saldoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -373,6 +376,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Boton" name="botonModificarComision">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar comisi&#xf3;n"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonModificarComisionActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

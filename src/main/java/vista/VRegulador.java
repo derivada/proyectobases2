@@ -82,6 +82,7 @@ public class VRegulador extends javax.swing.JFrame {
         saldoTextBox = new vista.componentes.TextBox();
         botonVolver1 = new vista.componentes.BotonVolver();
         bienvenidoLabel = new vista.componentes.Etiqueta();
+        botonModificarComision = new vista.componentes.Boton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -241,6 +242,13 @@ public class VRegulador extends javax.swing.JFrame {
         bienvenidoLabel.setText("Bienvenid@, " +r.getIdUsuario());
         bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
 
+        botonModificarComision.setText("Modificar comisión");
+        botonModificarComision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarComisionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -256,7 +264,8 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                     .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
@@ -276,10 +285,12 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(114, 114, 114)
+                        .addGap(18, 18, 18)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -334,6 +345,10 @@ public class VRegulador extends javax.swing.JFrame {
         darBajaAnuncio(); 
     }//GEN-LAST:event_bajaAnunciosBotonActionPerformed
 
+    private void botonModificarComisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarComisionActionPerformed
+        new AjustarComision(this, r);
+    }//GEN-LAST:event_botonModificarComisionActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton altaBoton;
     private vista.componentes.Tabla anunciosTabla;
@@ -341,6 +356,7 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Boton bajaAnunciosBoton;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Etiqueta bienvenidoLabel;
+    private vista.componentes.Boton botonModificarComision;
     private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.TextBox idTextBox;
     private javax.swing.JScrollPane jScrollPane1;

@@ -240,4 +240,12 @@ public class FachadaBaseDatos {
     public FachadaAplicacion  getFachadaAplicacion() {
        return fa;
     }
+    
+    public float obtenerComision(Regulador r) {
+        return daoUsuarios.obtenerComision(r);
+    }
+    
+    public void modificarComision(Regulador r, float comision){
+        daoUsuarios.modificarComision(r, comision);
+    }
 }

@@ -235,4 +235,14 @@ public class GestionUsuarios {
     public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
         return fbd.modificarEmpresa(e, pass, idviejo);
     }
+    
+        
+    public float obtenerComision(Regulador r) {
+        return fbd.obtenerComision(r);
+    }
+    
+    public void modificarComision(Regulador r, float comision){
+        fbd.modificarComision(r, comision);
+    }
+    
 }

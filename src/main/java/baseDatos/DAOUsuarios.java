@@ -328,22 +328,18 @@ public class DAOUsuarios extends AbstractDAO {
 
                 con.commit();
                 con.setAutoCommit(true);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 manejarExcepcionSQL(e);
-                try{
-                    insertado=true;//para que no salga el mensajito de error
+                try {
+                    insertado = true;//para que no salga el mensajito de error
                     con.rollback();
-                }
-                catch (SQLException rollEx){
+                } catch (SQLException rollEx) {
                     manejarExcepcionSQL(rollEx);
                 }
-            }
-            finally {
+            } finally {
                 try {
                     stmIns.close();
-                }
-                catch (SQLException e) {
+                } catch (SQLException e) {
                     System.out.println("Imposible cerrar cursores");
                 }
             }
@@ -415,22 +411,18 @@ public class DAOUsuarios extends AbstractDAO {
 
                 con.commit();
                 con.setAutoCommit(true);
-            }
-            catch (SQLException ex) {
+            } catch (SQLException ex) {
                 manejarExcepcionSQL(ex);
-                try{
-                    insertado=true;//para que no se imprima el mensajito
+                try {
+                    insertado = true;//para que no se imprima el mensajito
                     con.rollback();
-                }
-                catch(SQLException rollEx){
+                } catch (SQLException rollEx) {
                     manejarExcepcionSQL(rollEx);
                 }
-            }
-            finally {
+            } finally {
                 try {
                     stmIns.close();
-                }
-                catch (SQLException ex) {
+                } catch (SQLException ex) {
                     System.out.println("Imposible cerrar cursores");
                 }
             }
@@ -854,7 +846,7 @@ public class DAOUsuarios extends AbstractDAO {
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
                 OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"));
-                
+
                 resultado.add(v);
 
             }
@@ -1016,7 +1008,7 @@ public class DAOUsuarios extends AbstractDAO {
             rstConsulta = stmConsulta.executeQuery();
             while (rstConsulta.next()) {
                 aux = new AnuncioBeneficios(rstConsulta.getString("empresa"), rstConsulta.getTimestamp("fechapago"),
-                            rstConsulta.getTimestamp("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getBoolean("solicitadobaja"), rstConsulta.getInt("numeroparticipaciones"));
+                        rstConsulta.getTimestamp("fechaanuncio"), rstConsulta.getFloat("importeparticipacion"), rstConsulta.getBoolean("solicitadobaja"), rstConsulta.getInt("numeroparticipaciones"));
 
                 resultado.add(aux);
             }
@@ -1614,8 +1606,8 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
     }
-    
-    public boolean comprobarID(String id){
+
+    public boolean comprobarID(String id) {
         boolean libre = false;
         PreparedStatement stmCheck = null;
         ResultSet rst;
@@ -1645,10 +1637,10 @@ public class DAOUsuarios extends AbstractDAO {
         return libre;
     }
 
-    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+    public boolean modificarInversor(Inversor i, String pass, String idviejo) {
         PreparedStatement stmUpd = null;
         Connection con;
-        boolean insertado=true;
+        boolean insertado = true;
 
         con = this.getConexion();
 
@@ -1658,14 +1650,14 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             con.setAutoCommit(false);
 
-            stmUpd=con.prepareStatement(consulta);
+            stmUpd = con.prepareStatement(consulta);
             stmUpd.setString(1, i.getIdUsuario());
             stmUpd.setString(2, pass);
             stmUpd.setString(3, idviejo);
 
             stmUpd.executeUpdate();
 
-            stmUpd=con.prepareStatement(consulta2);
+            stmUpd = con.prepareStatement(consulta2);
             stmUpd.setString(1, i.getNombre());
             stmUpd.setString(2, i.getDni());
             stmUpd.setString(3, i.getDireccion());
@@ -1677,22 +1669,18 @@ public class DAOUsuarios extends AbstractDAO {
             con.commit();
             con.setAutoCommit(true);
 
-        }
-        catch (SQLException ex) {
-            insertado=false;
+        } catch (SQLException ex) {
+            insertado = false;
             manejarExcepcionSQL(ex);
-            try{
+            try {
                 con.rollback();
-            }
-            catch (SQLException rollEx){
+            } catch (SQLException rollEx) {
                 manejarExcepcionSQL(rollEx);
             }
-        }
-        finally {
+        } finally {
             try {
                 stmUpd.close();
-            }
-            catch (SQLException ex) {
+            } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
@@ -1700,10 +1688,10 @@ public class DAOUsuarios extends AbstractDAO {
         return insertado;
     }
 
-    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo) {
         PreparedStatement stmUpd = null;
         Connection con;
-        boolean insertado=true;
+        boolean insertado = true;
 
         con = this.getConexion();
 
@@ -1713,14 +1701,14 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             con.setAutoCommit(false);
 
-            stmUpd=con.prepareStatement(consulta);
+            stmUpd = con.prepareStatement(consulta);
             stmUpd.setString(1, e.getIdUsuario());
             stmUpd.setString(2, pass);
             stmUpd.setString(3, idviejo);
 
             stmUpd.executeUpdate();
 
-            stmUpd=con.prepareStatement(consulta2);
+            stmUpd = con.prepareStatement(consulta2);
             stmUpd.setString(1, e.getNombre());
             stmUpd.setString(2, e.getCIF());
             stmUpd.setString(3, e.getDireccion());
@@ -1732,26 +1720,72 @@ public class DAOUsuarios extends AbstractDAO {
             con.commit();
             con.setAutoCommit(true);
 
-        }
-        catch (SQLException ex) {
-            insertado=false;
+        } catch (SQLException ex) {
+            insertado = false;
             manejarExcepcionSQL(ex);
-            try{
+            try {
                 con.rollback();
-            }
-            catch (SQLException rollEx){
+            } catch (SQLException rollEx) {
                 manejarExcepcionSQL(rollEx);
             }
-        }
-        finally {
+        } finally {
             try {
                 stmUpd.close();
-            }
-            catch (SQLException ex) {
+            } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
 
         return insertado;
+    }
+
+    public float obtenerComision(Regulador r) {
+        PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        float resultado = 0.0f;
+
+        con = this.getConexion();
+
+        String consultaComision = "select comision from regulador where id_usuario = ?";
+
+        try {
+            stm = con.prepareStatement(consultaComision);
+            stm.setString(1, r.getIdUsuario());
+            rst = stm.executeQuery();
+            while (rst.next()) {
+                resultado = rst.getFloat("comision");
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+
+    public void modificarComision(Regulador r, float comision) {
+        PreparedStatement stmUpd = null;
+        Connection con;
+        con = this.getConexion();
+        String consultaUpdate = "update regulador set comision=? where id_usuario=?";
+        try {
+            stmUpd = con.prepareStatement(consultaUpdate);
+            stmUpd.setFloat(1, comision);
+            stmUpd.setString(2, r.getIdUsuario());
+            stmUpd.executeUpdate();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmUpd.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
 }
