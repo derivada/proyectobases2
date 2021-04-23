@@ -1,27 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
-
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Empresa;
 
-/**
- *
- * @author Pablo M
- */
 public class VModificarEmpresa extends javax.swing.JFrame {
 
     
     
     private final FachadaAplicacion fa;
     private final Empresa e;
-    /**
-     * Creates new form VModificarEmpresa
-     */
+
     public VModificarEmpresa(Empresa e, FachadaAplicacion fa) {
         this.fa=fa;
         this.e=e;
@@ -199,19 +187,15 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_idTextBoxActionPerformed
 
     private void telefonoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_telefonoTextBoxActionPerformed
 
     private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_claveActionPerformed
 
     private void direccionTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_direccionTextBoxActionPerformed
 
     private void modificarBotoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotoncancelarRegistroActionPerformed
@@ -219,15 +203,12 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarBotoncancelarRegistroActionPerformed
 
     private void claveConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveConfActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_claveConfActionPerformed
 
     private void nombreTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_nombreTextBoxActionPerformed
 
     private void dniTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_dniTextBoxActionPerformed
 
 

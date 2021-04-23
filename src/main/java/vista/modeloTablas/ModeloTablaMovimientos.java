@@ -4,7 +4,7 @@ import aplicacion.Historial;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
-//TODO: Cambiar
+
 public class ModeloTablaMovimientos extends AbstractTableModel{
 
     private java.util.List<Historial> historial;

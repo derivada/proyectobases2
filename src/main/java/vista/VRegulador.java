@@ -8,7 +8,6 @@ import vista.modeloTablas.ModeloTablaBaja;
 import vista.modeloTablas.ModeloTablaBeneficios;
 import vista.modeloTablas.ModeloTablaTransacciones;
 
-
 public class VRegulador extends javax.swing.JFrame {
     private final FachadaAplicacion fa;
     private final Regulador r;
@@ -320,15 +319,12 @@ public class VRegulador extends javax.swing.JFrame {
     }//GEN-LAST:event_altaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_idTextBoxActionPerformed
 
     private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
@@ -341,8 +337,7 @@ public class VRegulador extends javax.swing.JFrame {
     }//GEN-LAST:event_bajaBotonActionPerformed
 
     private void bajaAnunciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosBotonActionPerformed
-        // TODO add your handling code here:
-        darBajaAnuncio(); 
+        darBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosBotonActionPerformed
 
     private void botonModificarComisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarComisionActionPerformed

@@ -11,10 +11,6 @@ import javax.swing.*;
 
 public class VRegistro extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Registro
-     */
-
     aplicacion.FachadaAplicacion fa;
 
     public VRegistro(aplicacion.FachadaAplicacion fa) {
@@ -265,53 +261,41 @@ public class VRegistro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void solicitarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarRegistroActionPerformed
-        // TODO add your handling code here:
         this.solicitarRegistro();
     }//GEN-LAST:event_solicitarRegistroActionPerformed
 
     private void botoncancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2cancelarRegistroActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_boton2cancelarRegistroActionPerformed
 
     private void ingresoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresoUsuarioActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_ingresoUsuarioActionPerformed
 
     private void nombreRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_nombreRegActionPerformed
 
     private void CIFRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CIFRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_CIFRegActionPerformed
 
     private void botonAceptarIngresocancelarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarIngresocancelarRegistroActionPerformed
-        // TODO add your handling code here:
         this.validarUsuario();
     }//GEN-LAST:event_botonAceptarIngresocancelarRegistroActionPerformed
 
     private void IDRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_IDRegActionPerformed
 
     private void tlfoRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tlfoRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_tlfoRegActionPerformed
 
     private void direccionRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_direccionRegActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void ingresoClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresoClaveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_ingresoClaveActionPerformed
 
     private void claveRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveRegActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_claveRegActionPerformed
 
 

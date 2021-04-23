@@ -1,9 +1,7 @@
 package vista.componentes;
 
 import javax.swing.*;
-import javax.swing.plaf.TabbedPaneUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.*;
 
 public class OtrosComponentes {
 

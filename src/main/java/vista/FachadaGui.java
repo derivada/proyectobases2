@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class FachadaGui {
 
+    // Singleton
     private static FachadaGui _instance;
 
     public static FachadaGui getInstance() {
@@ -44,9 +45,9 @@ public class FachadaGui {
         ventanaActiva = vr;
     }
 
-    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
-
-        DialogoInfo dialogoExcepcion = new DialogoInfo(padre, titulo, descripcion, nivel, bloqueaInput);
+    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel,
+                                 boolean bloqueaInput) {
+        new DialogoInfo(padre, titulo, descripcion, nivel, bloqueaInput);
     }
 
     public void iniciaInversores(Inversor i, FachadaAplicacion fa) {
@@ -70,11 +71,12 @@ public class FachadaGui {
     public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa) {
         vmi = new VModificarInversor(i, fa);
         vmi.setVisible(true);
+        ventanaActiva = vmi;
     }
 
     public void iniciaModificarEmpresa(Empresa e, FachadaAplicacion fa) {
         vme = new VModificarEmpresa(e, fa);
         vme.setVisible(true);
+        ventanaActiva = vme;
     }
-
 }

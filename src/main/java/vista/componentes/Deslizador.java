@@ -2,7 +2,6 @@ package vista.componentes;
 
 import javax.swing.*;
 
-
 public class Deslizador extends JSlider {
     public Deslizador(){
         // No usar, requerido por Netbeans

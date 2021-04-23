@@ -208,7 +208,6 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_evtCambiarEntrada
 
     private void cantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cantidadStateChanged
-        // TODO add your handling code here:
         this.numeroLabel.setText(Integer.toString(cantidad.getValue()));
     }//GEN-LAST:event_cantidadStateChanged
 

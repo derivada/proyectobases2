@@ -1,13 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aplicacion;
-
-/**
- * @author migue
- */
 
 import vista.FachadaGui;
 import baseDatos.FachadaBaseDatos;
@@ -162,7 +153,6 @@ public class GestionUsuarios {
         fbd.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
     }
 
-    //TODO haría falta comprobar que el saldo es 0??
     public void bajaUsuario(Usuario u) {
         if(u instanceof Inversor){
             fbd.eliminarInversor(u.getIdUsuario());

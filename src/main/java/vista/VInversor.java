@@ -8,7 +8,6 @@ import java.util.List;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaCompra;
 import vista.modeloTablas.ModeloTablaMovimientos;
-import vista.modeloTablas.ModeloTablaVenta;
 
 public class VInversor extends javax.swing.JFrame {
 
@@ -275,15 +274,12 @@ public class VInversor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_idTextBoxActionPerformed
 
     private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
@@ -292,16 +288,13 @@ public class VInversor extends javax.swing.JFrame {
 
 
     private void compraBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraBotonActionPerformed
-        // TODO add your handling code here:
         this.compraParticipaciones();
     }//GEN-LAST:event_compraBotonActionPerformed
 
     private void empresaTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_empresaTextBoxActionPerformed
 
     private void precioTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_precioTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
@@ -309,12 +302,10 @@ public class VInversor extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void empresaTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empresaTextBoxKeyPressed
-        // TODO add your handling code here:
         this.buscarOfertas();
     }//GEN-LAST:event_empresaTextBoxKeyPressed
 
     private void precioTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioTextBoxKeyPressed
-        // TODO add your handling code here:
         this.buscarOfertas();
     }//GEN-LAST:event_precioTextBoxKeyPressed
 

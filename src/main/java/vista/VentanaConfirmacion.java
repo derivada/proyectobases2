@@ -115,7 +115,6 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        // TODO add your handling code here:
         this.aceptar = true;
         formWindowClosing(null);
         dispose();
@@ -123,13 +122,11 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        // TODO add your handling code here:
         formWindowClosing(null);
         dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
         try {
             if (aceptar) {
                 con.commit();

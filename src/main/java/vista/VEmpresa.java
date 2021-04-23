@@ -32,10 +32,7 @@ public class VEmpresa extends javax.swing.JFrame {
         this.e = e;
         initComponents();
         idTextBox.setText(e.getIdUsuario());
-        // TODO: Esto debería hacerse con un nuevo acceso, no debería estar
-        // guardado permanentemente aquí claveTextBox.setText(e.getClave());
-        // También hay un problema importante aquí. El saldo no es parte de la entidad Empresa, deberíamos
-        // añadirlo??
+
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         this.actualizarCampos();
         tipoTextBox.setText("Empresa");
@@ -399,15 +396,12 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_bajaBotonActionPerformed
 
     private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_idTextBoxActionPerformed
 
     private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
@@ -415,28 +409,23 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarBotonActionPerformed
 
     private void pagarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBotonActionPerformed
-        // TODO add your handling code here:
         Pagar();
     }//GEN-LAST:event_pagarBotonActionPerformed
 
     private void beneficiosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosBotonActionPerformed
-        // TODO add your handling code here:
         AnunciarBeneficios();
     }//GEN-LAST:event_beneficiosBotonActionPerformed
 
     private void bajaParticipacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaParticipacionesBotonActionPerformed
-        // TODO add your handling code here:
         this.eliminarParticipaciones();
     }//GEN-LAST:event_bajaParticipacionesBotonActionPerformed
 
     private void participacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesBotonActionPerformed
-        // TODO add your handling code here:
         this.emitirParticipaciones();
     }//GEN-LAST:event_participacionesBotonActionPerformed
 
 
     private void bajaAnunciosbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosbotonActionPerformed
-        // TODO add your handling code here:
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
 
@@ -509,7 +498,6 @@ public class VEmpresa extends javax.swing.JFrame {
 
 
     private void precioParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioParticipacionesTextBoxKeyTyped
-        // TODO add your handling code here:
         try {
             validarInput(false, true);
         } catch (Exception ignored) {
@@ -518,7 +506,6 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_precioParticipacionesTextBoxKeyTyped
 
     private void numeroParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroParticipacionesTextBoxKeyTyped
-        // TODO add your handling code here:
         try {
             validarInput(true, false);
         } catch (Exception ignored) {

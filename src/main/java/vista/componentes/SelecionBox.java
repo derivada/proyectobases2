@@ -1,11 +1,8 @@
 package vista.componentes;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Collection;
-import java.util.List;
 
 public class SelecionBox<E> extends JComboBox<E> implements MouseListener {
 

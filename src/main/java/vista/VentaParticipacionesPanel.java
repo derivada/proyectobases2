@@ -190,7 +190,6 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_empresaVentaActionPerformed
 
     private void numeroVentaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numeroVentaStateChanged
-        // TODO add your handling code here:
         numeroLabel.setText(Integer.toString(numeroVenta.getValue()));
     }//GEN-LAST:event_numeroVentaStateChanged
 
