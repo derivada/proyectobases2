@@ -1,4 +1,5 @@
-﻿drop table emitirParticipaciones;
+﻿drop table historial;
+drop table emitirParticipaciones;
 drop table anuncioBeneficios;
 drop table ofertaVenta;
 drop table participacionesEmpresa;
@@ -7,4 +8,3 @@ drop table regulador;
 drop table empresa;
 drop table inversor;
 drop table usuario;
-drop table historial;
