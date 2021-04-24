@@ -498,7 +498,7 @@ public class DAOParticipaciones extends AbstractDAO {
                 + "\tVALUES (?, ?, ?);";
         String sumarComprador = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
 
-        String restarVendedor = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
+        //String restarVendedor = "update public.@ set numparticipaciones = ? where usuario=? AND empresa=? ";
 
         // Encontramos la tabla para el update en las cartera del comprador
         if (comprador instanceof Inversor) {
@@ -509,11 +509,11 @@ public class DAOParticipaciones extends AbstractDAO {
             sumarComprador = sumarComprador.replace("@", "participacionesEmpresa");
         }
 
-        if (vendedor instanceof Inversor) {
-            restarVendedor = restarVendedor.replace("@", "participacionesInversor");
-        } else {
-            restarVendedor = restarVendedor.replace("@", "participacionesEmpresa");
-        }
+//        if (vendedor instanceof Inversor) {
+//            restarVendedor = restarVendedor.replace("@", "participacionesInversor");
+//        } else {
+//            restarVendedor = restarVendedor.replace("@", "participacionesEmpresa");
+//        }
 
         try {
             int participacionesPreviasComprador = this.getParticipacionesEmpresa(comprador, empresa);
@@ -535,11 +535,11 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.executeUpdate();
 
             // Restar en la cartera del vendedor
-            stmUpdate = con.prepareStatement(restarVendedor);
-            stmUpdate.setInt(1, participacionesPreviasVendedor - cantidad);
-            stmUpdate.setString(2, comprador.getIdUsuario());
-            stmUpdate.setString(3, empresa.getIdUsuario());
-            stmUpdate.executeUpdate();
+//            stmUpdate = con.prepareStatement(restarVendedor);
+//            stmUpdate.setInt(1, participacionesPreviasVendedor - cantidad);
+//            stmUpdate.setString(2, comprador.getIdUsuario());
+//            stmUpdate.setString(3, empresa.getIdUsuario());
+//            stmUpdate.executeUpdate();
 
         } finally {
             try {
