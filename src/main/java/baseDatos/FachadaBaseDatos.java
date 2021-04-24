@@ -163,6 +163,10 @@ public class FachadaBaseDatos {
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return daoParticipaciones.getParticipacionesEmpresa(u, e);
     }
+    
+    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+        return daoParticipaciones.getParticipacionesEmpresa2(u, e);
+    }
 
     public int getPartPropEmpresa(Empresa e) {
         return daoParticipaciones.getPartPropEmpresa(e);

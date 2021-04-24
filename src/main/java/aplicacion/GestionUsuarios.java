@@ -139,6 +139,10 @@ public class GestionUsuarios {
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return fbd.getParticipacionesEmpresa(u, e);
     }
+    
+    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+        return fbd.getParticipacionesEmpresa2(u, e);
+    }
 
     public int getParticipacionesTotales(Usuario u) {
         return fbd.getParticipacionesTotales(u);

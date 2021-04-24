@@ -31,6 +31,8 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         nombresOtrosUsuarios = new String[lista.size()];
         nombresOtrosUsuarios = lista.toArray(nombresOtrosUsuarios);
         initComponents();
+        
+        
     }
 
     /**
@@ -133,7 +135,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         );
 
         try{
-            numeroVenta.setMaximum(fa.getParticipacionesEmpresa(
+            numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(
                 u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0),
                     false, false))));
     }catch(Exception ignored){
@@ -169,7 +171,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         }
 
         int numero = numeroVenta.getValue();
-        int participacionesDisponibles = fa.getParticipacionesEmpresa(u, empresa);
+        int participacionesDisponibles = fa.getParticipacionesEmpresa2(u, empresa);
         if (participacionesDisponibles < numero) {
             fa.muestraExcepcion("El usuario no posee suficientes participaciones!\n" +
                     "Número actual de participaciones de " + empresa.getIdUsuario() + ": " + participacionesDisponibles);
@@ -180,13 +182,13 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
         fa.insertarHistorial(new Historial(empresa.getIdUsuario(), empresa.getIdUsuario(), new Timestamp(System.currentTimeMillis()), numero, precioVenta, "Venta"));
         numeroVenta.setValue(0);
-        numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
     }//GEN-LAST:event_crearOfertaVenta
 
     private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
         // Actualizar slider
         numeroVenta.setValue(0);
-        numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u,  fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
     }//GEN-LAST:event_empresaVentaActionPerformed
 
     private void numeroVentaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numeroVentaStateChanged

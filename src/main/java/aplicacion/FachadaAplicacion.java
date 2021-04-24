@@ -138,6 +138,10 @@ public class FachadaAplicacion {
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return cu.getParticipacionesEmpresa(u, e);
     }
+    
+    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+        return cu.getParticipacionesEmpresa2(u, e);
+    }
 
     public int getPartPropEmpresa(Empresa e) {
         return cu.getPartPropEmpresa(e);

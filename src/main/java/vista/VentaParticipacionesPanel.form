@@ -121,7 +121,7 @@
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="numeroVentaStateChanged"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    numeroVenta.setMaximum(fa.getParticipacionesEmpresa(&#xa;    u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0), &#xa;    false, false))));&#xa;}catch(Exception ignored){&#xa;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(&#xa;    u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0), &#xa;    false, false))));&#xa;}catch(Exception ignored){&#xa;&#xa;}"/>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.componentes.Deslizador(0, 0)"/>
       </AuxValues>
     </Component>
