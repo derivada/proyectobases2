@@ -22,7 +22,7 @@ import vista.modeloTablas.ModeloTablaMovimientos;
 public class VEmpresa extends javax.swing.JFrame {
 
     private final FachadaAplicacion fa;
-    private final Empresa e;
+    private Empresa e;
 
     private float precioParticipaciones = -1.0f;
     private int numeroParticipaciones = -1;
@@ -71,8 +71,6 @@ public class VEmpresa extends javax.swing.JFrame {
         numeroParticipacionesTextBox = new vista.componentes.TextBox();
         participacionesBoton = new vista.componentes.Boton();
         disponiblesLabel = new vista.componentes.Etiqueta();
-        precioParticipacionesTextBox = new vista.componentes.TextBox();
-        participacionesLabel1 = new vista.componentes.Etiqueta();
         bajaParticipacionesBoton = new vista.componentes.Boton();
         disponibles = new vista.componentes.Etiqueta();
         tabs9 = new vista.componentes.Tabs();
@@ -170,14 +168,6 @@ public class VEmpresa extends javax.swing.JFrame {
 
         disponiblesLabel.setText("Número total de participaciones disponibles");
 
-        precioParticipacionesTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                precioParticipacionesTextBoxKeyTyped(evt);
-            }
-        });
-
-        participacionesLabel1.setText("Precio");
-
         bajaParticipacionesBoton.setText("Eliminar Participaciones");
         bajaParticipacionesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,11 +190,9 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
             .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(precioParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(participacionesLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(99, 99, 99))
     );
@@ -212,22 +200,20 @@ public class VEmpresa extends javax.swing.JFrame {
         tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(tabs10Layout.createSequentialGroup()
             .addGap(50, 50, 50)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(participacionesLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(precioParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tabs10Layout.createSequentialGroup()
+                    .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(31, 31, 31)
-            .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
-            .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(330, Short.MAX_VALUE))
+            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tabs10Layout.createSequentialGroup()
+                    .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(414, Short.MAX_VALUE))
     );
 
     panelCompra.addTab("Ofertar participaciones", tabs10);
@@ -497,23 +483,15 @@ public class VEmpresa extends javax.swing.JFrame {
 
 
 
-    private void precioParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioParticipacionesTextBoxKeyTyped
-        try {
-            validarInput(false, true);
-        } catch (Exception ignored) {
-
-        }
-    }//GEN-LAST:event_precioParticipacionesTextBoxKeyTyped
-
     private void numeroParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroParticipacionesTextBoxKeyTyped
         try {
-            validarInput(true, false);
+            validarInput(true);
         } catch (Exception ignored) {
 
         }
     }//GEN-LAST:event_numeroParticipacionesTextBoxKeyTyped
 
-    private void validarInput(boolean numero, boolean precio) throws Exception {
+    private void validarInput(boolean numero) throws Exception {
         // Valida el precio y número de participaciones a ofertar, tira Exception
         // con el mensaje correcto si alguna de las 2 falla
         StringBuilder errores = new StringBuilder();
@@ -535,24 +513,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 errores.append("El número de participaciones no es un válido!\n");
             }
         }
-        if (precio) {
-            float temp = -1.0f;
-            try {
-                temp = Float.parseFloat(precioParticipacionesTextBox.getText());
-                if (temp > 0.0f) {
-                    precioParticipaciones = temp;
-                    precioParticipacionesTextBox.setBackground(ColoresGUI.blanco);
-                } else {
-                    precioParticipacionesTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                    precioParticipaciones = -1.0f;
-                    errores.append("El precio de las participaciones debe ser positivo!\n");
-                }
-            } catch (NumberFormatException e) {
-                precioParticipacionesTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                precioParticipaciones = -1.0f;
-                errores.append("El precio de las participaciones no es un válido!\n");
-            }
-        }
+
 
         if (errores.length() > 0) {
             throw new Exception(errores.toString());
@@ -634,8 +595,6 @@ public class VEmpresa extends javax.swing.JFrame {
     private javax.swing.JTabbedPane panelCompra;
     private vista.componentes.Boton participacionesBoton;
     private vista.componentes.Etiqueta participacionesLabel;
-    private vista.componentes.Etiqueta participacionesLabel1;
-    private vista.componentes.TextBox precioParticipacionesTextBox;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
     private vista.componentes.Tabla tabla1;
@@ -658,7 +617,7 @@ public class VEmpresa extends javax.swing.JFrame {
         //la tabla de esta empresa en su cartera y sumarlas ahi, es decir no creamos un objeto participaciones
         //cada vez que se añaden, si no que se suman a esa tabla que tiene como PK a esta empresa, y como PKp a esta empresa de nuevo
         try {
-            validarInput(true, true);
+            validarInput(true);
         } catch (Exception e) {
             fa.muestraExcepcion(e.getMessage(), DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
@@ -667,11 +626,9 @@ public class VEmpresa extends javax.swing.JFrame {
 
         int emision = Integer.parseInt(participaciones);
 
-        float precio = Float.parseFloat(precioParticipacionesTextBox.getText());
-
-        fa.emitirParticipaciones(e, emision, precio); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
+        fa.emitirParticipaciones(e, emision); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
         
-        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), emision, precio, "Emision"));
+        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), emision, null, "Emision"));
 
         this.actualizarCampos();
 
@@ -682,7 +639,7 @@ public class VEmpresa extends javax.swing.JFrame {
         //en este caso, la empresa solicita eliminar ciertas participaciones de su cartera
         //la cuestion seria saber cuales estan vendidas y cuales no, de manera que elimine unicamente aquellas que no estan vendidas, y si no hay suficientes pues elimine las que hay sin vender
         try {
-            validarInput(true, false); // solo validar el número
+            validarInput(true); // solo validar el número
         } catch (Exception e) {
             fa.muestraExcepcion(e.getMessage(), DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
@@ -696,15 +653,14 @@ public class VEmpresa extends javax.swing.JFrame {
         fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), -bajaP, null, "Baja"));
 
         this.actualizarCampos();
-
     }
 
     public void actualizarCampos() {
+        e = fa.obtenerDatosEmpresa(e);
         idTextBox.setText(e.getIdUsuario());
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
         disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
-        precioParticipacionesTextBox.setText("0");
         this.actualizarHistorial();
     }
 

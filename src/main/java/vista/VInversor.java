@@ -12,7 +12,7 @@ import vista.modeloTablas.ModeloTablaMovimientos;
 public class VInversor extends javax.swing.JFrame {
 
     private final FachadaAplicacion fa;
-    private final Inversor i;
+    private Inversor i;
 
     public VInversor(Inversor i, FachadaAplicacion fa) {
         this.i = i;
@@ -388,4 +388,11 @@ public class VInversor extends javax.swing.JFrame {
     
     }
 
+    public void actualizarCampos() {
+        i = fa.obtenerDatosInversor(i);
+        idTextBox.setText(i.getIdUsuario());
+        saldoTextBox.setText(String.valueOf(i.getSaldo()));
+        tipoTextBox.setText("Inversor");
+        this.actualizarHistorial();
+    }
 }

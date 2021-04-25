@@ -143,8 +143,8 @@ public class FachadaAplicacion {
         return cu.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, float precio) {
-        cu.emitirParticipaciones(e, emision, precio);
+    public void emitirParticipaciones(Empresa e, int emision) {
+        cu.emitirParticipaciones(e, emision);
     }
 
     public void bajaParticipaciones(Empresa e, int baja) {

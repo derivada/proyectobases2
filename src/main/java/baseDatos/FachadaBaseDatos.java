@@ -172,8 +172,8 @@ public class FachadaBaseDatos {
         daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, float precio) {
-        daoParticipaciones.emitirParticipaciones(e, emision, precio);
+    public void emitirParticipaciones(Empresa e, int emision) {
+        daoParticipaciones.emitirParticipaciones(e, emision);
     }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {

@@ -93,8 +93,8 @@ public class GestionUsuarios {
         return fbd.getPartPropEmpresa(e);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, float precio) {
-        fbd.emitirParticipaciones(e, emision, precio);
+    public void emitirParticipaciones(Empresa e, int emision) {
+        fbd.emitirParticipaciones(e, emision);
     }
 
     public void bajaParticipaciones(Empresa e, int baja) {

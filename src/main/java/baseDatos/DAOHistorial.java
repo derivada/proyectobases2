@@ -82,7 +82,7 @@ public class DAOHistorial extends AbstractDAO {
             stmHistorial.setString(2, h.getComprador()); //cambiar a getUsuario
             stmHistorial.setTimestamp(3, h.getFecha());
             stmHistorial.setInt(4, h.getCantidad());
-            stmHistorial.setFloat(5, h.getPrecio());
+            stmHistorial.setFloat(5, h.getPrecio() != null ? h.getPrecio() : 0);
             stmHistorial.setString(6, h.getTipo());
 
             stmHistorial.executeUpdate();
