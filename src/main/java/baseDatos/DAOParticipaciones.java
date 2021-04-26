@@ -1,9 +1,6 @@
 package baseDatos;
 
-import aplicacion.Empresa;
-import aplicacion.Inversor;
-import aplicacion.Regulador;
-import aplicacion.Usuario;
+import aplicacion.*;
 import vista.componentes.DialogoInfo;
 
 import java.sql.*;
@@ -129,38 +126,46 @@ public class DAOParticipaciones extends AbstractDAO {
         return getParticipacionesTotales(e);
     }
 
-    public void bajaParticipaciones(Empresa e, int baja) {
+    public void bajaParticipaciones(Empresa e, int cantidad) {
         int antiguasPart = getPartPropEmpresa(e);
         PreparedStatement stmUpdate = null;
         ResultSet rst;
         Connection con;
-
+        boolean done = false;
         con = this.getConexion();
         String consulta = "update participacionesempresa "
                 + "set numparticipaciones=? "
                 + "where usuario=? AND empresa=?";
 
         try {
+            con.setAutoCommit(false);
             stmUpdate = con.prepareStatement(consulta);
-            stmUpdate.setInt(1, antiguasPart - baja);
+            stmUpdate.setInt(1, antiguasPart - cantidad);
             stmUpdate.setString(2, e.getIdUsuario());
             stmUpdate.setString(3, e.getIdUsuario());
             stmUpdate.executeUpdate();
+            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                    new Timestamp(System.currentTimeMillis()), cantidad, null, EntradaHistorial.TipoEntradaHistorial.BAJA));
+            done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
+                if (done)
+                    con.commit();
+                else
+                    con.rollback();
                 if (stmUpdate != null) {
                     stmUpdate.close();
                 }
+                con.setAutoCommit(true);
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-
     }
 
-    public void emitirParticipaciones(Empresa e, int emision) {
+    public void emitirParticipaciones(Empresa e, int cantidad) {
         int antiguasPart = 0;
         PreparedStatement stmAntiguas = null;
         PreparedStatement stmUpdate = null;
@@ -197,7 +202,7 @@ public class DAOParticipaciones extends AbstractDAO {
             stmNueva = con.prepareStatement(nuevaEmision);
             stmNueva.setString(1, e.getIdUsuario());
             stmNueva.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-            stmNueva.setInt(3, emision);
+            stmNueva.setInt(3, cantidad);
 
             stmNueva.executeUpdate();
 
@@ -211,11 +216,15 @@ public class DAOParticipaciones extends AbstractDAO {
             }
 
             stmUpdate = con.prepareStatement(updateCartera);
-            stmUpdate.setInt(1, emision + antiguasPart);
+            stmUpdate.setInt(1, cantidad + antiguasPart);
             stmUpdate.setString(2, e.getIdUsuario());
             stmUpdate.setString(3, e.getIdUsuario());
 
             stmUpdate.executeUpdate();
+
+            // e emite acciones de e
+            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis())
+                    , cantidad, null, EntradaHistorial.TipoEntradaHistorial.EMISION));
 
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -311,6 +320,10 @@ public class DAOParticipaciones extends AbstractDAO {
             String part = numero == 1 ? "1 participación " : (numero + " participaciones ");
             muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "
                     + part + "de " + e.getIdUsuario() + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+
+            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), u.getIdUsuario(), new Timestamp(System.currentTimeMillis())
+                    , numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
+
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
@@ -439,16 +452,15 @@ public class DAOParticipaciones extends AbstractDAO {
             // Pedir confirmación si el dinero gastado es grande
             float porcentajeGastado = (precioAcumulado / saldoCompra) * 100;
             if (porcentajeGastado > CONFIRMACION_LIMITE) {
-                VentanaConfirmacion vc;
                 if (participacionesCompradas == cantidad) {
                     // Se pudieron comprar todas, pero se gasto mucho dinero
-                    vc = new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
+                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
                             + precioAcumulado + "$, el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo \n"
                             + "\tDesea continuar?", "La compra de las participaciones se ha completado correctamente!",
                             "La compra de las participaciones se ha cancelado correctamente...");
                 } else {
                     // No se pudieron comprar todas, se gastó tod0 el dinero además
-                    vc = new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
+                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
                             + precioAcumulado + "$, el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo y solo se pudieron comprar " +
                             participacionesCompradas + " de las " + cantidad + " pedidas...\n"
                             + "\tDesea continuar?", "La compra de las participaciones se ha completado correctamente!",
@@ -456,6 +468,8 @@ public class DAOParticipaciones extends AbstractDAO {
                 }
                 sePidioConfirmacion = true; // Hay que cerrar la transación en VentanaConfirmacion no aquí
             }
+            fa.insertarHistorial(new EntradaHistorial(empresa.getIdUsuario(), comprador.getIdUsuario(),
+                    new Timestamp(System.currentTimeMillis()), cantidad, precioMax, EntradaHistorial.TipoEntradaHistorial.COMPRA));
             done = true;
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);

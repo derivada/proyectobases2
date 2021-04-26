@@ -175,8 +175,8 @@ public class FachadaAplicacion {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int numero, float precioMaximo) {
-        cu.comprarParticipaciones(comprador, vendedor, numero, precioMaximo);
+    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int numero, float precioMaximo) {
+        cu.comprarParticipaciones(comprador, empresa, numero, precioMaximo);
     }
 
     public void bajaUsuario(Usuario u) {
@@ -223,15 +223,14 @@ public class FachadaAplicacion {
         cu.bajaAnuncio(empresa, fecha, importe);
     }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u) {
+    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
         return cu.actualizarHistorial(u);
     }
 
-    public void insertarHistorial(Historial h) {
+    public void insertarHistorial(EntradaHistorial h) {
         cu.insertarHistorial(h);
     }
 
-        
     public float obtenerComision(Regulador r) {
         return cu.obtenerComision(r);
     }

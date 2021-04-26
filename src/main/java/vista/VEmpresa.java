@@ -7,8 +7,8 @@ import aplicacion.FachadaAplicacion;
 import java.sql.Date;
 import java.time.format.DateTimeParseException;
 
-import aplicacion.Historial;
-import java.sql.Date;
+import aplicacion.EntradaHistorial;
+
 import java.sql.Timestamp;
 import java.util.List;
 import vista.componentes.ColoresGUI;
@@ -627,8 +627,6 @@ public class VEmpresa extends javax.swing.JFrame {
         int emision = Integer.parseInt(participaciones);
 
         fa.emitirParticipaciones(e, emision); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
-        
-        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), emision, null, "Emision"));
 
         this.actualizarCampos();
 
@@ -650,7 +648,6 @@ public class VEmpresa extends javax.swing.JFrame {
         //aqui iria la consulta, cuando me apetezca la hago
         fa.bajaParticipaciones(e, bajaP);
         
-        fa.insertarHistorial(new Historial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()), -bajaP, null, "Baja"));
 
         this.actualizarCampos();
     }
@@ -668,7 +665,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
         ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla1.getModel();
 
-        List<Historial> historial = fa.actualizarHistorial(e);
+        List<EntradaHistorial> historial = fa.actualizarHistorial(e);
         m.setFilas(historial);
     }
 }

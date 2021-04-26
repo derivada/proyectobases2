@@ -5,7 +5,7 @@
  */
 package baseDatos;
 
-import aplicacion.Historial;
+import aplicacion.EntradaHistorial;
 import aplicacion.Usuario;
 
 import java.sql.Connection;
@@ -23,10 +23,10 @@ public class DAOHistorial extends AbstractDAO {
         super.setFachadaAplicacion(fa);
     }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u) {
+    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
 
-        java.util.List<Historial> resultado = new java.util.ArrayList<>();
-        Historial historialActual;
+        java.util.List<EntradaHistorial> resultado = new java.util.ArrayList<>();
+        EntradaHistorial historialActual;
 
         PreparedStatement stmHistorial = null;
         ResultSet rst;
@@ -43,7 +43,10 @@ public class DAOHistorial extends AbstractDAO {
             rst = stmHistorial.executeQuery();
             while (rst.next()) {
                 //Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio, String tipo)
-                historialActual = new Historial(rst.getString("empresa"), rst.getString("usuario"), rst.getTimestamp("fecha"), rst.getInt("cantidad"), rst.getFloat("precio"), rst.getString("tipo"));
+                historialActual = new EntradaHistorial(rst.getString("empresa"),
+                        rst.getString("usuario"), rst.getTimestamp("fecha"),
+                        rst.getInt("cantidad"), rst.getFloat("precio"),
+                        rst.getString("tipo"));
                 resultado.add(historialActual);
             }
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -64,9 +67,7 @@ public class DAOHistorial extends AbstractDAO {
     //para insertar una nueva entrada al historial debemos pasarle un objetoHistorial creado, con los usuarios, la fecha, la cantidad el precio y el tipo, este ultimo de manera manual
 
     //por ejemplo cuando se hace la emision, hacer new historial(lenovo, lenovo, currentMilis, cantidad, precio, emision);
-    public void insertaHistorial(Historial h) {
-
-
+    public void insertaHistorial(EntradaHistorial h) {
         PreparedStatement stmHistorial = null;
         Connection con;
 
@@ -83,11 +84,11 @@ public class DAOHistorial extends AbstractDAO {
             stmHistorial.setTimestamp(3, h.getFecha());
             stmHistorial.setInt(4, h.getCantidad());
             stmHistorial.setFloat(5, h.getPrecio() != null ? h.getPrecio() : 0);
-            stmHistorial.setString(6, h.getTipo());
+            stmHistorial.setString(6, h.getTipo().toString());
 
             stmHistorial.executeUpdate();
 
-        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+        } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
             try {
@@ -98,5 +99,4 @@ public class DAOHistorial extends AbstractDAO {
             }
         }
     }
-
 }

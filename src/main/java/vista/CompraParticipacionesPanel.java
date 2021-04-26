@@ -2,11 +2,8 @@ package vista;
 
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
-import aplicacion.Historial;
 import aplicacion.OfertaVenta;
 import aplicacion.Usuario;
-
-import java.sql.Timestamp;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +25,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
     private Usuario comprador;
     private FachadaAplicacion fa;
     private String[] nombresOtrosUsuarios;
-    private Empresa vendedor = null;
+    private Empresa empresa = null;
     private float precioMaximo = -1.0f;
 
     public CompraParticipacionesPanel() {
@@ -201,7 +198,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-        fa.comprarParticipaciones(comprador, vendedor, cantidad.getValue(), precioMaximo);
+        fa.comprarParticipaciones(comprador, empresa, cantidad.getValue(), precioMaximo);
         actualizarOfertas();
         JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
         if (ventanaPadre instanceof VEmpresa) {
@@ -211,7 +208,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
             VInversor vi = (VInversor) ventanaPadre;
             vi.actualizarCampos();
         }
-        fa.insertarHistorial(new Historial(vendedor.getIdUsuario(), comprador.getIdUsuario(), new Timestamp(System.currentTimeMillis()), cantidad.getValue(), precioMaximo, "Compra"));
+
     }//GEN-LAST:event_comprarParticipaciones
 
     private void evtCambiarEntrada(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evtCambiarEntrada
@@ -263,7 +260,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         if (seleccionEmpresa.getSelectedItem() == null) {
             return;
         }
-        vendedor = fa.obtenerDatosEmpresa(new Usuario((String) seleccionEmpresa.getSelectedItem(), false, false));
+        empresa = fa.obtenerDatosEmpresa(new Usuario((String) seleccionEmpresa.getSelectedItem(), false, false));
 
         try {
             int precio;
@@ -273,7 +270,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
                 precio = (int) precioMaximo;
             }
 
-            List<OfertaVenta> ofertasDisponibles = fa.getOfertasVenta(vendedor.getIdUsuario(), precio);
+            List<OfertaVenta> ofertasDisponibles = fa.getOfertasVenta(empresa.getIdUsuario(), precio);
             m.setFilas(ofertasDisponibles);
             // actualizar valor máximo del deslizador
             int totalDisponibles = 0;

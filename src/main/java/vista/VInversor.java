@@ -2,7 +2,7 @@ package vista;
 
 import vista.componentes.FuentesGUI;
 import aplicacion.FachadaAplicacion;
-import aplicacion.Historial;
+import aplicacion.EntradaHistorial;
 import aplicacion.Inversor;
 import java.util.List;
 import vista.componentes.OtrosComponentes;
@@ -383,7 +383,7 @@ public class VInversor extends javax.swing.JFrame {
         
         ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla2.getModel();
         
-        List<Historial> historial = fa.actualizarHistorial(i);
+        List<EntradaHistorial> historial = fa.actualizarHistorial(i);
         m.setFilas(historial);
     
     }

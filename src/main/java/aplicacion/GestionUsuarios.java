@@ -149,8 +149,8 @@ public class GestionUsuarios {
 
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax){
-        fbd.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax){
+        fbd.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
     }
 
     public void bajaUsuario(Usuario u) {
@@ -206,11 +206,11 @@ public class GestionUsuarios {
          fbd.bajaAnuncio(empresa, fecha, importe);
      }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u){
+    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u){
         return fbd.actualizarHistorial(u);
     }
     
-    public void insertarHistorial(Historial h){
+    public void insertarHistorial(EntradaHistorial h){
         fbd.insertarHistorial(h);
    }
 
