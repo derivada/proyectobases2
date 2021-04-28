@@ -40,7 +40,6 @@ public class VEmpresa extends javax.swing.JFrame {
          ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
         
-        int a=fa.getParticipacionesEmpresa2(e, e); 
         
         
     }

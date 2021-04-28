@@ -12,7 +12,7 @@ Create table inversor
 (
   id_usuario varchar(20) not null,
   nombre varchar(60) not null,
-  saldo float not null,
+  saldo float not null default 0,
   dni varchar(9) not null,
   direccion varchar(50),
   telefono varchar(9),
@@ -29,9 +29,9 @@ Create table empresa
   id_usuario varchar(20) not null,
   nombrecomercial varchar(60) not null,
   cif varchar(9) not null,
-  saldo float,
-  saldobloqueado float,
-  participacionesbloqueadas integer, 
+  saldo float default 0,
+  saldobloqueado float default 0,
+  participacionesbloqueadas integer default 0, 
   direccion varchar(50),
   telefono varchar(9),
   
@@ -44,8 +44,8 @@ Create table empresa
 Create table regulador
 (
   id_usuario varchar(20) not null,
-  comision float,
-  saldo float,
+  comision float ,
+  saldo float default 0,
 
   primary key (id_usuario),
 

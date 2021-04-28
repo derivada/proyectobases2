@@ -1146,33 +1146,12 @@ public class DAOUsuarios extends AbstractDAO {
         String consulta6 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where usuario= ? and empresa= ? ";
         
-        String consultaCheck="update empresa set saldobloqueado=0,participacionesbloqueadas=0 where id_usuario = ? and saldobloqueado is null "
-                + "and participacionesbloqueadas is null";
         
-        PreparedStatement stmCheck=null; 
         
         
         
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        
-        //Solución a que el saldo bloqueado y participaciones bloqueadas pueden ser null 
-        con=this.getConexion(); 
-         try {
-                stmCheck=con.prepareStatement(consultaCheck); 
-                stmCheck.setString(1,e.getIdUsuario());
-                stmCheck.executeUpdate(); 
-
-                    
-                } catch (SQLException ex) {
-                    manejarExcepcionSQL(ex);
-                } finally {
-                    try {
-                        stmCheck.close();
-                    }
-                        
-                    catch (SQLException ex) {
-                        System.out.println("Imposible cerrar cursores");
-                    }
+           
 
         //Diferenciamos 3 casos
         //El primer es pagar únicamente con participaciones
@@ -1334,7 +1313,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
         }
-    }
+    
     //Función para dar de baja un anuncio de la base de datos
     
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {

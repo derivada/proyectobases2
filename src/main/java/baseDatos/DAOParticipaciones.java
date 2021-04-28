@@ -232,13 +232,13 @@ public class DAOParticipaciones extends AbstractDAO {
                     stmAnuncios = con.prepareStatement(consulta2); 
                     stmAnuncios.setString(1, e.getIdUsuario());
                     rstAnuncios=stmAnuncios.executeQuery(); 
-                    if(rst.next()){
-                        while(rstAnuncios.next()){
+                    while(rstAnuncios.next()){
+                        
                         numero=rstAnuncios.getInt("p"); 
                         importe=rstAnuncios.getFloat("i"); 
                         saldo=rstAnuncios.getFloat("s"); 
                         
-                        }
+                        
 
                         //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
                         //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
@@ -519,7 +519,7 @@ public class DAOParticipaciones extends AbstractDAO {
         }
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
+    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax,float comision,Usuario reg) {
         // Actualizar datos
 
         if (comprador == null || comprador instanceof Regulador) {
@@ -542,6 +542,9 @@ public class DAOParticipaciones extends AbstractDAO {
         ResultSet rst;
         Connection con;
         boolean done = false;
+        
+        
+         
         con = this.getConexion();
 
         // Lista ordenada por precio de las mejores ofertas
@@ -570,8 +573,9 @@ public class DAOParticipaciones extends AbstractDAO {
             // Mientras queden suficientes ofertas && no hallamos comprado todas las que necesitamos && quede dinero
             while (rst.next() && participacionesCompradas < cantidad && !dineroAgotado) {
                 // Numero de participaciones disponibles en la oferta actual y precio en la oferta actual
+                
                 participacionesIteracion = rst.getInt("numparticipaciones");
-                precioIteracion = rst.getFloat("precio");
+                precioIteracion = rst.getFloat("precio")+(comision*rst.getFloat("precio"));
 
                 // El mínimo de las que hay y las que faltan por comprar
                 int partCompradasIteraccion = Math.min(participacionesIteracion, cantidad - participacionesCompradas);
@@ -614,10 +618,15 @@ public class DAOParticipaciones extends AbstractDAO {
                 darParticipaciones(comprador, participacionesCompradas, empresa);
 
                 // Le damos su dinero al vendedor, el del comprador lo podemos restar al final fuera del bucle
-                modificarSaldo(vendedor, partCompradasIteraccion * precioIteracion);
+                modificarSaldo(vendedor, partCompradasIteraccion * (precioIteracion-rst.getFloat("precio")*comision));
+                
+                // Hay que añadirle el saldo de la comision al regulador en su saldo 
+                
+                modificarSaldo(reg,rst.getFloat("precio")*comision); 
+                
             }
 
-            modificarSaldo(comprador, (int) -precioAcumulado);
+            modificarSaldo(comprador,  -precioAcumulado);
 
             // Pedir confirmación si el dinero gastado es grande
             float porcentajeGastado = (precioAcumulado / saldoCompra) * 100;
@@ -731,8 +740,11 @@ public class DAOParticipaciones extends AbstractDAO {
         String modificarSaldo = "update public.@ set saldo = saldo + ? where id_usuario=?";
         if (u instanceof Inversor) {
             modificarSaldo = modificarSaldo.replace("@", "inversor");
-        } else {
+        } else if(u instanceof Empresa) {
             modificarSaldo = modificarSaldo.replace("@", "empresa");
+        }
+        else{
+            modificarSaldo = modificarSaldo.replace("@", "regulador");
         }
 
         // Encontramos la tabla para el update en las cartera del comprador
