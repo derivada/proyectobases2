@@ -82,10 +82,10 @@ public class ModeloTablaHistorial extends AbstractTableModel{
                 resultado = historial.get(row).getTipo().toString();
                 break;
             case 1:
-                resultado = historial.get(row).getEmpresa();
+                resultado = historial.get(row).getComprador();
                 break;
             case 2:
-                resultado = historial.get(row).getComprador();
+                resultado = historial.get(row).getEmpresa();
                 break;
             case 3:
                 resultado = historial.get(row).getFecha();

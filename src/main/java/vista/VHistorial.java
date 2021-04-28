@@ -6,6 +6,8 @@ import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import vista.componentes.FuentesGUI;
@@ -44,7 +46,7 @@ public class VHistorial extends javax.swing.JDialog {
         this.setTitle("Historial de transicciones");
         this.setIconImage(ImagenesGUI.getImage("database.png", 64));
         this.setModal(false);
-        
+
         if (u instanceof Regulador) {
             this.regulador = true;
         }
@@ -66,9 +68,12 @@ public class VHistorial extends javax.swing.JDialog {
         for (TipoEntradaHistorial tipo : tipos) {
             tiposSeleccionables.add(tipo.toString());
         }
-        
+
         initComponents();
-        
+        actualizarTabla();
+        this.deslizadorCantidad.setValue(0);
+        this.deslizadorPrecio.setValue(0);
+
         this.setVisible(true);
     }
 
@@ -76,6 +81,8 @@ public class VHistorial extends javax.swing.JDialog {
         // Actualiza la lista del historial
         String tipoActual = (String) elegirTipo.getSelectedItem();
         Usuario usuarioActual = new Usuario((String) elegirUsuario.getSelectedItem(), false, true);
+        final int precioMaxActual = deslizadorPrecio.getValue();
+        final int cantidadMaxActual = deslizadorCantidad.getValue();
 
         if (regulador) {
             if (((String) elegirUsuario.getSelectedItem()).equals("Ver todos")) {
@@ -88,12 +95,43 @@ public class VHistorial extends javax.swing.JDialog {
         }
 
         // Filtrar
+        // 1. Por tipo
         if (tipoActual != null && (!tipoActual.equals("Ver todos"))) {
             entradasActuales.removeIf(e -> e.getTipo().toString() != tipoActual);
         }
 
+        // Recalcular máximos de los sliders (ANTES DEL FILTRO POR ELLOS)
+        // 2. Por precio máximo
+        this.deslizadorPrecio.setMaximum(getPrecioMaxActual());
+        entradasActuales.removeIf(e -> e.getPrecio() < precioMaxActual);
+
+        this.deslizadorCantidad.setMaximum(getCantidadMaxActual());
+        // 3. Por cantidad máxima
+        entradasActuales.removeIf(e -> e.getCantidad() < cantidadMaxActual);
+
         ModeloTablaHistorial m = (ModeloTablaHistorial) tablaHistorial.getModel();
         m.setFilas(entradasActuales);
+
+    }
+
+    private int getCantidadMaxActual() {
+        int cantidadMax = 0;
+        for (EntradaHistorial e : entradasActuales) {
+            if (e.getCantidad() > cantidadMax) {
+                cantidadMax = e.getCantidad();
+            }
+        }
+        return cantidadMax;
+    }
+
+    private int getPrecioMaxActual() {
+        int precioMax = 0;
+        for (EntradaHistorial e : entradasActuales) {
+            if (Math.ceil(e.getPrecio()) > precioMax) {
+                precioMax = (int) Math.ceil(e.getPrecio());
+            }
+        }
+        return precioMax;
     }
 
     /**
@@ -113,6 +151,12 @@ public class VHistorial extends javax.swing.JDialog {
         etiqueta1 = new vista.componentes.Etiqueta();
         elegirTipo = new vista.componentes.SelecionBox(tiposSeleccionables.toArray());
         botonVolver = new vista.componentes.Boton();
+        labelPrecio = new vista.componentes.Etiqueta();
+        deslizadorPrecio = new vista.componentes.Deslizador();
+        deslizadorCantidad = new vista.componentes.Deslizador();
+        cantidadMaximaLabel = new vista.componentes.Etiqueta();
+        precioLabel = new vista.componentes.Etiqueta();
+        cantidadLabel = new vista.componentes.Etiqueta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -146,6 +190,38 @@ public class VHistorial extends javax.swing.JDialog {
             }
         });
 
+        labelPrecio.setText("Precio máximo");
+
+        deslizadorPrecio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                deslizadorPrecioStateChanged(evt);
+            }
+        });
+        deslizadorPrecio.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                deslizadorPrecioPropertyChange(evt);
+            }
+        });
+
+        deslizadorCantidad.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                deslizadorCantidadStateChanged(evt);
+            }
+        });
+        deslizadorCantidad.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                deslizadorCantidadPropertyChange(evt);
+            }
+        });
+
+        cantidadMaximaLabel.setText("Cantidad máxima");
+
+        precioLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        precioLabel.setText("0");
+
+        cantidadLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        cantidadLabel.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,17 +231,19 @@ public class VHistorial extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(elegirTipo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(elegirUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(102, 102, 102))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(etiqueta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(etiqueta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(elegirUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(elegirTipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(deslizadorPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                            .addComponent(cantidadMaximaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deslizadorCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(precioLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cantidadLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40))
                     .addGroup(layout.createSequentialGroup()
@@ -182,12 +260,24 @@ public class VHistorial extends javax.swing.JDialog {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(elegirUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
                         .addComponent(etiqueta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(elegirTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(labelPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deslizadorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(precioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(cantidadMaximaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deslizadorCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cantidadLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
@@ -205,27 +295,46 @@ public class VHistorial extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void elegirUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elegirUsuarioActionPerformed
-        // TODO add your handling code here:
         actualizarTabla();
     }//GEN-LAST:event_elegirUsuarioActionPerformed
 
     private void elegirTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elegirTipoActionPerformed
-        // TODO add your handling code here:
         actualizarTabla();
     }//GEN-LAST:event_elegirTipoActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_botonVolverActionPerformed
+
+    private void deslizadorPrecioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_deslizadorPrecioPropertyChange
+    }//GEN-LAST:event_deslizadorPrecioPropertyChange
+
+    private void deslizadorCantidadPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_deslizadorCantidadPropertyChange
+    }//GEN-LAST:event_deslizadorCantidadPropertyChange
+
+    private void deslizadorPrecioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_deslizadorPrecioStateChanged
+        actualizarTabla();
+        this.precioLabel.setText(Integer.toString(deslizadorPrecio.getValue()));
+    }//GEN-LAST:event_deslizadorPrecioStateChanged
+
+    private void deslizadorCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_deslizadorCantidadStateChanged
+        actualizarTabla();
+        this.cantidadLabel.setText(Integer.toString(deslizadorCantidad.getValue()));
+    }//GEN-LAST:event_deslizadorCantidadStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton botonVolver;
+    private vista.componentes.Etiqueta cantidadLabel;
+    private vista.componentes.Etiqueta cantidadMaximaLabel;
+    private vista.componentes.Deslizador deslizadorCantidad;
+    private vista.componentes.Deslizador deslizadorPrecio;
     private vista.componentes.SelecionBox elegirTipo;
     private vista.componentes.SelecionBox elegirUsuario;
     private vista.componentes.Etiqueta etiqueta1;
     private javax.swing.JScrollPane jScrollPane4;
+    private vista.componentes.Etiqueta labelPrecio;
+    private vista.componentes.Etiqueta precioLabel;
     private vista.componentes.Tabla tablaHistorial;
     private vista.componentes.Etiqueta titulo;
     private vista.componentes.Etiqueta usuarioLabel;

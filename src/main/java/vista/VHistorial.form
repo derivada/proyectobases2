@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
@@ -28,22 +28,21 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="elegirTipo" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="elegirUsuario" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="etiqueta1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonVolver" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelPrecio" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="elegirUsuario" max="32767" attributes="0"/>
+                              <Component id="elegirTipo" alignment="0" max="32767" attributes="0"/>
+                              <Component id="deslizadorPrecio" alignment="0" pref="221" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="etiqueta1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="botonVolver" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="142" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="cantidadMaximaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="deslizadorCantidad" alignment="0" min="-2" pref="221" max="-2" attributes="0"/>
+                          <Component id="precioLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="cantidadLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="735" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
@@ -65,12 +64,24 @@
                   <Component id="jScrollPane4" min="-2" pref="551" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="elegirUsuario" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="etiqueta1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="elegirTipo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="labelPrecio" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deslizadorPrecio" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="precioLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="cantidadMaximaLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deslizadorCantidad" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cantidadLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="botonVolver" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -143,6 +154,40 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonVolverActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="labelPrecio">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Precio m&#xe1;ximo"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Deslizador" name="deslizadorPrecio">
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="deslizadorPrecioStateChanged"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="deslizadorPrecioPropertyChange"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Deslizador" name="deslizadorCantidad">
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="deslizadorCantidadStateChanged"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="deslizadorCantidadPropertyChange"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="cantidadMaximaLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cantidad m&#xe1;xima"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="precioLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="cantidadLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
