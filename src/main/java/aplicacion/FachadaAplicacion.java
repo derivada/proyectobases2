@@ -223,8 +223,11 @@ public class FachadaAplicacion {
         cu.bajaAnuncio(empresa, fecha, importe);
     }
 
-    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
-        return cu.actualizarHistorial(u);
+    public java.util.List<EntradaHistorial> obtenerHistorial() {
+        return cu.obtenerHistorial();
+    }
+    public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
+        return cu.obtenerHistorial(u);
     }
 
     public void insertarHistorial(EntradaHistorial h) {

@@ -216,9 +216,12 @@ public class FachadaBaseDatos {
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
     }
-
-    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
-        return daoHistorial.actualizarHistorial(u);
+    
+    public java.util.List<EntradaHistorial> obtenerHistorial() {
+        return daoHistorial.obtenerHistorial();
+    }
+    public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
+        return daoHistorial.obtenerHistorial(u);
     }
 
     public void insertarHistorial(EntradaHistorial h) {

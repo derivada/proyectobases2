@@ -206,8 +206,11 @@ public class GestionUsuarios {
          fbd.bajaAnuncio(empresa, fecha, importe);
      }
 
-    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u){
-        return fbd.actualizarHistorial(u);
+    public java.util.List<EntradaHistorial> obtenerHistorial() {
+        return fbd.obtenerHistorial();
+    }
+    public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
+        return fbd.obtenerHistorial(u);
     }
     
     public void insertarHistorial(EntradaHistorial h){

@@ -7,7 +7,7 @@ import aplicacion.Inversor;
 import java.util.List;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaCompra;
-import vista.modeloTablas.ModeloTablaMovimientos;
+import vista.modeloTablas.ModeloTablaHistorial;
 
 public class VInversor extends javax.swing.JFrame {
 
@@ -56,6 +56,7 @@ public class VInversor extends javax.swing.JFrame {
         modificarBoton = new vista.componentes.Boton();
         bienvenidoLabel = new vista.componentes.Etiqueta();
         botonVolver1 = new vista.componentes.BotonVolver();
+        abrirHistorial = new vista.componentes.Boton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,7 +179,7 @@ public class VInversor extends javax.swing.JFrame {
         panelCompra.addTab("Compra", compraParticipacionesPanel1);
         panelCompra.addTab("Venta", ventaPanel);
 
-        tabla2.setModel(new ModeloTablaMovimientos()
+        tabla2.setModel(new vista.modeloTablas.ModeloTablaHistorial()
         );
         tabla2.setToolTipText("");
         jScrollPane4.setViewportView(tabla2);
@@ -212,6 +213,13 @@ public class VInversor extends javax.swing.JFrame {
         bienvenidoLabel.setText("Bienvenid@, " +i.getIdUsuario());
         bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
 
+        abrirHistorial.setText("Historial");
+        abrirHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirHistorialActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,12 +237,13 @@ public class VInversor extends javax.swing.JFrame {
                             .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(160, 160, 160)))
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(173, 173, 173)))
                     .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(abrirHistorial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(149, 149, 149))
         );
@@ -262,7 +271,9 @@ public class VInversor extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
-                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
@@ -309,8 +320,14 @@ public class VInversor extends javax.swing.JFrame {
         this.buscarOfertas();
     }//GEN-LAST:event_precioTextBoxKeyPressed
 
+    private void abrirHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirHistorialActionPerformed
+        // TODO add your handling code here:
+        new VHistorial(i);
+    }//GEN-LAST:event_abrirHistorialActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vista.componentes.Boton abrirHistorial;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.BotonVolver botonVolver1;
@@ -381,9 +398,9 @@ public class VInversor extends javax.swing.JFrame {
     
     public void actualizarHistorial(){
         
-        ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla2.getModel();
+        ModeloTablaHistorial m = (ModeloTablaHistorial) tabla2.getModel();
         
-        List<EntradaHistorial> historial = fa.actualizarHistorial(i);
+        List<EntradaHistorial> historial = fa.obtenerHistorial(i);
         m.setFilas(historial);
     
     }

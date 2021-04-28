@@ -5,11 +5,11 @@ import aplicacion.EntradaHistorial;
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
 
-public class ModeloTablaMovimientos extends AbstractTableModel{
+public class ModeloTablaHistorial extends AbstractTableModel{
 
     private java.util.List<EntradaHistorial> historial;
 
-    public ModeloTablaMovimientos() {
+    public ModeloTablaHistorial() {
         this.historial = new java.util.ArrayList<>();
     }
 

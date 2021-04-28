@@ -178,7 +178,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
         // 2. Crear oferta de venta
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
-        fa.actualizarHistorial(u);
+        fa.obtenerHistorial(u);
         numeroVenta.setValue(0);
         numeroVenta.setMaximum(fa.getParticipacionesEmpresa(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
     }//GEN-LAST:event_crearOfertaVenta

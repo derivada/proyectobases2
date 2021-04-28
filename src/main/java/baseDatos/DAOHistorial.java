@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 /**
  * @author migue
@@ -22,8 +23,51 @@ public class DAOHistorial extends AbstractDAO {
         super.setConexion(conexion);
         super.setFachadaAplicacion(fa);
     }
+    
+    // Sin ningún filtro
+    public java.util.List<EntradaHistorial> obtenerHistorial() {
 
-    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
+        java.util.List<EntradaHistorial> resultado = new java.util.ArrayList<>();
+        EntradaHistorial historialActual;
+
+        PreparedStatement stmHistorial = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consultaHistorial = "select * "
+                + "from historial ";
+        
+        try {
+            stmHistorial = con.prepareStatement(consultaHistorial);
+            rst = stmHistorial.executeQuery();
+            while (rst.next()) {
+                //Historial(String empresa, String comprador, Date fecha, Integer cantidad, Float precio, String tipo)
+                historialActual = new EntradaHistorial(rst.getString("empresa"),
+                        rst.getString("usuario"), rst.getTimestamp("fecha"),
+                        rst.getInt("cantidad"), rst.getFloat("precio"),
+                        rst.getString("tipo"));
+                resultado.add(historialActual);
+            }
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stmHistorial != null) {
+                    stmHistorial.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+    
+    // Con filtro de usuario, para más filtros hacerlo fuera del DAO, no se violarán
+    // las restricciones de negocio
+    public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
 
         java.util.List<EntradaHistorial> resultado = new java.util.ArrayList<>();
         EntradaHistorial historialActual;
@@ -53,8 +97,9 @@ public class DAOHistorial extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (stmHistorial != null)
+                if (stmHistorial != null) {
                     stmHistorial.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -63,9 +108,8 @@ public class DAOHistorial extends AbstractDAO {
         return resultado;
     }
 
-
+  
     //para insertar una nueva entrada al historial debemos pasarle un objetoHistorial creado, con los usuarios, la fecha, la cantidad el precio y el tipo, este ultimo de manera manual
-
     //por ejemplo cuando se hace la emision, hacer new historial(lenovo, lenovo, currentMilis, cantidad, precio, emision);
     public void insertaHistorial(EntradaHistorial h) {
         PreparedStatement stmHistorial = null;
@@ -92,8 +136,9 @@ public class DAOHistorial extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (stmHistorial != null)
+                if (stmHistorial != null) {
                     stmHistorial.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }

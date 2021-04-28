@@ -25,16 +25,18 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                      <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="idTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="idTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                   <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
                   <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -66,7 +68,10 @@
                       <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
+                          <Component id="abrirHistorial" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jTabbedPane1" min="-2" pref="645" max="-2" attributes="0"/>
               </Group>
@@ -383,6 +388,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonModificarComisionActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="vista.componentes.Boton" name="abrirHistorial">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Historial"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abrirHistorialActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
