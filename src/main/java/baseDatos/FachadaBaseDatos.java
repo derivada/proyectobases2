@@ -172,12 +172,12 @@ public class FachadaBaseDatos {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa vendedor, int cantidad, float precioMax) {
-        daoParticipaciones.comprarParticipaciones(comprador, vendedor, cantidad, precioMax);
+    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
+        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
     }
 
-    public void emitirParticipaciones(Empresa e, int emision, float precio) {
-        daoParticipaciones.emitirParticipaciones(e, emision, precio);
+    public void emitirParticipaciones(Empresa e, int emision) {
+        daoParticipaciones.emitirParticipaciones(e, emision);
     }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
@@ -221,11 +221,11 @@ public class FachadaBaseDatos {
         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
     }
 
-    public java.util.List<Historial> actualizarHistorial(Usuario u) {
+    public java.util.List<EntradaHistorial> actualizarHistorial(Usuario u) {
         return daoHistorial.actualizarHistorial(u);
     }
 
-    public void insertarHistorial(Historial h) {
+    public void insertarHistorial(EntradaHistorial h) {
         daoHistorial.insertaHistorial(h);
     }
 

@@ -1,16 +1,16 @@
 package vista.modeloTablas;
 
-import aplicacion.Historial;
+import aplicacion.EntradaHistorial;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
 
 public class ModeloTablaMovimientos extends AbstractTableModel{
 
-    private java.util.List<Historial> historial;
+    private java.util.List<EntradaHistorial> historial;
 
     public ModeloTablaMovimientos() {
-        this.historial = new java.util.ArrayList<Historial>();
+        this.historial = new java.util.ArrayList<>();
     }
 
     public int getColumnCount() {
@@ -43,8 +43,6 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
                 break;
             case 5:
                 nombre = "Precio";
-
-
         }
         return nombre;
     }
@@ -81,7 +79,7 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
 
         switch (col) {
             case 0:
-                resultado = historial.get(row).getTipo();
+                resultado = historial.get(row).getTipo().toString();
                 break;
             case 1:
                 resultado = historial.get(row).getEmpresa();
@@ -103,26 +101,26 @@ public class ModeloTablaMovimientos extends AbstractTableModel{
         return resultado;
     }
 
-    public void setFilas(java.util.List<Historial> historial) {
+    public void setFilas(java.util.List<EntradaHistorial> historial) {
         this.historial = historial;
         fireTableDataChanged();
     }
 
-    public void nuevaHistoria(Historial b) {
+    public void insertarEntrada(EntradaHistorial b) {
         this.historial.add(b);
         fireTableRowsInserted(this.historial.size() - 1, this.historial.size() - 1);
     }
 
-    public void borrarOferta(int indice) {
+    public void borrarEntrada(int indice) {
         this.historial.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }
 
-    public java.util.List<Historial> getFilas() {
+    public java.util.List<EntradaHistorial> getFilas() {
         return this.historial;
     }
 
-    public Historial obtenerOfertas(int i) {
+    public EntradaHistorial obtenerEntrada(int i) {
         return this.historial.get(i);
     }
 

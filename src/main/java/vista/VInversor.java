@@ -2,7 +2,7 @@ package vista;
 
 import vista.componentes.FuentesGUI;
 import aplicacion.FachadaAplicacion;
-import aplicacion.Historial;
+import aplicacion.EntradaHistorial;
 import aplicacion.Inversor;
 import java.util.List;
 import vista.componentes.OtrosComponentes;
@@ -12,7 +12,7 @@ import vista.modeloTablas.ModeloTablaMovimientos;
 public class VInversor extends javax.swing.JFrame {
 
     private final FachadaAplicacion fa;
-    private final Inversor i;
+    private Inversor i;
 
     public VInversor(Inversor i, FachadaAplicacion fa) {
         this.i = i;
@@ -383,9 +383,16 @@ public class VInversor extends javax.swing.JFrame {
         
         ModeloTablaMovimientos m = (ModeloTablaMovimientos) tabla2.getModel();
         
-        List<Historial> historial = fa.actualizarHistorial(i);
+        List<EntradaHistorial> historial = fa.actualizarHistorial(i);
         m.setFilas(historial);
     
     }
 
+    public void actualizarCampos() {
+        i = fa.obtenerDatosInversor(i);
+        idTextBox.setText(i.getIdUsuario());
+        saldoTextBox.setText(String.valueOf(i.getSaldo()));
+        tipoTextBox.setText("Inversor");
+        this.actualizarHistorial();
+    }
 }
