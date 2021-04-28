@@ -163,13 +163,11 @@
     <Component class="vista.componentes.Deslizador" name="deslizadorPrecio">
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="deslizadorPrecioStateChanged"/>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="deslizadorPrecioPropertyChange"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Deslizador" name="deslizadorCantidad">
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="deslizadorCantidadStateChanged"/>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="deslizadorCantidadPropertyChange"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="cantidadMaximaLabel">

@@ -5,11 +5,12 @@ import aplicacion.EntradaHistorial.TipoEntradaHistorial;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.table.JTableHeader;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
 import vista.modeloTablas.ModeloTablaHistorial;
@@ -19,7 +20,6 @@ import vista.modeloTablas.ModeloTablaHistorial;
  * Accesible desde VEmpresa, VInversor y VRegulador, pero con más permisos desde
  * VRegulador
  *
- * @author Pablo
  */
 public class VHistorial extends javax.swing.JDialog {
 
@@ -74,7 +74,47 @@ public class VHistorial extends javax.swing.JDialog {
         this.deslizadorCantidad.setValue(0);
         this.deslizadorPrecio.setValue(0);
 
+        // Configurar sorts
+        tablaOrdenable();
+
+        // Sort default
+        ModeloTablaHistorial m = (ModeloTablaHistorial) tablaHistorial.getModel();
+        m.ordenarPor(3);
+
         this.setVisible(true);
+
+    }
+
+    private void tablaOrdenable() {
+        JTableHeader header = tablaHistorial.getTableHeader();
+        header.addMouseListener(new java.awt.event.MouseListener() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ordenarTablaPorColumna(evt);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+    }
+
+    private void ordenarTablaPorColumna(MouseEvent evt) {
+        Point point = evt.getPoint();
+        int col = tablaHistorial.columnAtPoint(point);
+        ModeloTablaHistorial m = (ModeloTablaHistorial) tablaHistorial.getModel();
+        m.ordenarPor(col);
     }
 
     private void actualizarTabla() {
@@ -197,20 +237,10 @@ public class VHistorial extends javax.swing.JDialog {
                 deslizadorPrecioStateChanged(evt);
             }
         });
-        deslizadorPrecio.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                deslizadorPrecioPropertyChange(evt);
-            }
-        });
 
         deslizadorCantidad.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 deslizadorCantidadStateChanged(evt);
-            }
-        });
-        deslizadorCantidad.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                deslizadorCantidadPropertyChange(evt);
             }
         });
 
@@ -305,12 +335,6 @@ public class VHistorial extends javax.swing.JDialog {
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonVolverActionPerformed
-
-    private void deslizadorPrecioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_deslizadorPrecioPropertyChange
-    }//GEN-LAST:event_deslizadorPrecioPropertyChange
-
-    private void deslizadorCantidadPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_deslizadorCantidadPropertyChange
-    }//GEN-LAST:event_deslizadorCantidadPropertyChange
 
     private void deslizadorPrecioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_deslizadorPrecioStateChanged
         actualizarTabla();
