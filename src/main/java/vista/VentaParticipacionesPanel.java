@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import vista.componentes.FuentesGUI;
 
 public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
@@ -52,6 +53,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         empresaVenta = new vista.componentes.SelecionBox<String>(nombresOtrosUsuarios);
         numeroVenta = new vista.componentes.Deslizador(0, 0);
         numeroLabel = new vista.componentes.Etiqueta();
+        titulo = new vista.componentes.Etiqueta();
 
         precioVentaTextBox.setName("precioVentaTextBox"); // NOI18N
 
@@ -89,6 +91,9 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         numeroLabel.setText("0");
         numeroLabel.setName("numeroLabel"); // NOI18N
 
+        titulo.setText("Venta de participaciones");
+        titulo.setName("titulo"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,11 +112,17 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
                     .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numeroVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(20, 20, 20)
+                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,7 +135,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
                     .addComponent(numeroVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -141,7 +152,9 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     }catch(Exception ignored){
 
     }
-    }// </editor-fold>//GEN-END:initComponents
+    titulo.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+        FuentesGUI.Size.GRANDE));
+}// </editor-fold>//GEN-END:initComponents
 
     private void crearOfertaVenta(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearOfertaVenta
 
@@ -204,6 +217,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     private vista.componentes.Etiqueta numeroVentaLabel;
     private vista.componentes.Etiqueta precioVentaLabel;
     private vista.componentes.TextBox precioVentaTextBox;
+    private vista.componentes.Etiqueta titulo;
     private vista.componentes.Boton ventaBoton;
     // End of variables declaration//GEN-END:variables
 }

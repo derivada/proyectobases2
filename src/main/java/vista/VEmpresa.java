@@ -7,17 +7,11 @@ import aplicacion.FachadaAplicacion;
 import java.sql.Date;
 import java.time.format.DateTimeParseException;
 
-import aplicacion.EntradaHistorial;
-
-import java.sql.Timestamp;
-import java.util.List;
 import vista.componentes.ColoresGUI;
-
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import vista.componentes.OtrosComponentes;
 import vista.modeloTablas.ModeloTablaBeneficios;
-import vista.modeloTablas.ModeloTablaHistorial;
 
 public class VEmpresa extends javax.swing.JFrame {
 
@@ -37,11 +31,9 @@ public class VEmpresa extends javax.swing.JFrame {
         this.actualizarCampos();
         tipoTextBox.setText("Empresa");
 
-         ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-        
-        
-        
+
     }
 
     /**
@@ -64,9 +56,6 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoTextBox = new vista.componentes.TextBox();
         saldoLabel = new vista.componentes.Etiqueta();
         panelCompra = new javax.swing.JTabbedPane();
-        tabs11 = new vista.componentes.Tabs();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla1 = new vista.componentes.Tabla();
         compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(e, fa);
         ventaPanel = new vista.VentaParticipacionesPanel(e, fa);
         tabs10 = new vista.componentes.Tabs();
@@ -129,29 +118,6 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoLabel.setText("Saldo");
 
         panelCompra.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        tabla1.setModel(new vista.modeloTablas.ModeloTablaHistorial()
-        );
-        jScrollPane1.setViewportView(tabla1);
-
-        javax.swing.GroupLayout tabs11Layout = new javax.swing.GroupLayout(tabs11);
-        tabs11.setLayout(tabs11Layout);
-        tabs11Layout.setHorizontalGroup(
-            tabs11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs11Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        tabs11Layout.setVerticalGroup(
-            tabs11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs11Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-
-        panelCompra.addTab("Lista de movimientos", tabs11);
         panelCompra.addTab("Compra", compraParticipacionesPanel1);
         panelCompra.addTab("Venta", ventaPanel);
 
@@ -430,17 +396,16 @@ public class VEmpresa extends javax.swing.JFrame {
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
 
-
-      public void AnunciarBeneficios() {
+    public void AnunciarBeneficios() {
 
         float importe = 0.0f;
-        if(!importeTextBox.getText().isEmpty()){
+        if (!importeTextBox.getText().isEmpty()) {
             try {
-            importe = Float.parseFloat(importeTextBox.getText());
+                importe = Float.parseFloat(importeTextBox.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n" +
-                        "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
+                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n"
+                        + "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
                 return;
             }
             if (importe <= 0.0) {
@@ -455,8 +420,8 @@ public class VEmpresa extends javax.swing.JFrame {
             fecha = FechaTextBox.getFecha();
         } catch (DateTimeParseException e) {
             e.printStackTrace();
-            fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n" +
-                    "Use el formato YYYY/MM/DD", DialogoInfo.NivelDeAdvertencia.ERROR);
+            fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n"
+                    + "Use el formato YYYY/MM/DD", DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
         if (fecha.before(new Date(System.currentTimeMillis()))) {
@@ -464,14 +429,14 @@ public class VEmpresa extends javax.swing.JFrame {
                     DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
-        int numero=0;
-        if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
+        int numero = 0;
+        if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
             try {
-                 numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+                numero = Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
             } catch (DateTimeParseException e) {
                 e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n" +
-                        "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
+                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n"
+                        + "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
                 return;
             }
             if (numero <= 0) {
@@ -481,21 +446,18 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         }
 
-
-        fa.crearAnuncio(importe, this.e, fecha,numero);
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
+        fa.crearAnuncio(importe, this.e, fecha, numero);
+        ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
 
-
     }
 
-    public void solicitarBajaAnuncio(){
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
-        int fila=tablaAnuncios.getSelectedRow();
-        AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
+    public void solicitarBajaAnuncio() {
+        ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila = tablaAnuncios.getSelectedRow();
+        AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
     }
-
 
 
     private void numeroParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroParticipacionesTextBoxKeyTyped
@@ -534,21 +496,20 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         }
 
-
         if (errores.length() > 0) {
             throw new Exception(errores.toString());
         }
     }
 
-    public void Pagar(){
-        Float importe=0.0f;
-        if(!importeTextBox.getText().isEmpty()){
-           try {
+    public void Pagar() {
+        Float importe = 0.0f;
+        if (!importeTextBox.getText().isEmpty()) {
+            try {
                 importe = Float.parseFloat(importeTextBox.getText());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n" +
-                        "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
+                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n"
+                        + "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
                 return;
             }
             if (importe <= 0.0) {
@@ -558,14 +519,14 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         }
 
-        int numero=0;
-        if(!numParticipacionesAnuncioTextBox.getText().isEmpty()){
+        int numero = 0;
+        if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
             try {
-                 numero= Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+                numero = Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
             } catch (DateTimeParseException e) {
                 e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n" +
-                        "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
+                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n"
+                        + "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
                 return;
             }
             if (numero <= 0) {
@@ -574,18 +535,16 @@ public class VEmpresa extends javax.swing.JFrame {
                 return;
             }
         }
-        ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) tablaAnuncios.getModel();
-        int fila=tablaAnuncios.getSelectedRow();
-        if(fila!=-1){
-           AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
-           fa.pagarBeneficios(importe,numero, this.e,aux);
-        }
-        else{
-           fa.pagarBeneficios(importe,numero, this.e,null);
+        ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
+        int fila = tablaAnuncios.getSelectedRow();
+        if (fila != -1) {
+            AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
+            fa.pagarBeneficios(importe, numero, this.e, aux);
+        } else {
+            fa.pagarBeneficios(importe, numero, this.e, null);
         }
 
     }
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -606,7 +565,6 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox idTextBox;
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private vista.componentes.Boton modificarBoton;
     private vista.componentes.TextBox numParticipacionesAnuncioTextBox;
@@ -618,10 +576,8 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta participacionesLabel;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.TextBox saldoTextBox;
-    private vista.componentes.Tabla tabla1;
     private vista.componentes.Tabla tablaAnuncios;
     private vista.componentes.Tabs tabs10;
-    private vista.componentes.Tabs tabs11;
     private vista.componentes.Tabs tabs9;
     private vista.componentes.TextBox textBox1;
     private vista.componentes.Etiqueta tipoLabel;
@@ -668,7 +624,6 @@ public class VEmpresa extends javax.swing.JFrame {
 
         //aqui iria la consulta, cuando me apetezca la hago
         fa.bajaParticipaciones(e, bajaP);
-        
 
         this.actualizarCampos();
     }
@@ -679,14 +634,5 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoTextBox.setText(String.valueOf(e.getSaldo()));
         tipoTextBox.setText("Empresa");
         disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
-        this.actualizarHistorial();
-    }
-
-    public void actualizarHistorial(){
-
-        ModeloTablaHistorial m = (ModeloTablaHistorial) tabla1.getModel();
-
-        List<EntradaHistorial> historial = fa.obtenerHistorial(e);
-        m.setFilas(historial);
     }
 }
