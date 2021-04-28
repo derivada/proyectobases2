@@ -173,7 +173,10 @@ public class FachadaBaseDatos {
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
-        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
+        
+        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax,
+                daoUsuarios.obtenerComision(daoUsuarios.obtenerListaReguladores().get(0).getIdUsuario()),
+                daoUsuarios.obtenerListaReguladores().get(0));
     }
 
     public void emitirParticipaciones(Empresa e, int emision) {
