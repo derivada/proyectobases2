@@ -245,7 +245,7 @@ public class FachadaBaseDatos {
        return fa;
     }
     
-    public float obtenerComision(Regulador r) {
+    public float obtenerComision(String r) {
         return daoUsuarios.obtenerComision(r);
     }
     

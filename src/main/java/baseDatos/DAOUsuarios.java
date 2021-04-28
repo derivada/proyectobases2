@@ -878,9 +878,7 @@ public class DAOUsuarios extends AbstractDAO {
         ResultSet rst;
         Connection con;
         
-        PreparedStatement stmReg = null; 
-        ResultSet rstReg; 
-        float comision = 0.f; 
+        
 
         con = this.getConexion();
 
@@ -892,7 +890,7 @@ public class DAOUsuarios extends AbstractDAO {
         //Para obtener la comisión y guardarlo en las ofertas de venta
         //Problema, podría colarse el dato y aparecer en la VEmpresa. 
         
-        String consulta2= "select * from regulador"; 
+        
 
         try {
             stm = con.prepareStatement(consulta);
@@ -901,12 +899,8 @@ public class DAOUsuarios extends AbstractDAO {
             stm.setFloat(2, precioMaximoPart);
             rst = stm.executeQuery();
             
-            stmReg = con.prepareStatement(consulta2); 
-            rstReg = stmReg.executeQuery(); 
-            while(rstReg.next()){
-                comision=rst.getFloat("comision"); 
-            }
-
+            
+            float comision= this.obtenerComision(this.obtenerListaReguladores().get(0).getIdUsuario()); 
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
                 OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"),comision);
@@ -922,9 +916,7 @@ public class DAOUsuarios extends AbstractDAO {
                 if (stm != null) {
                     stm.close();
                 }
-                if(stmReg!=null){
-                    stmReg.close(); 
-                }
+                
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -1910,7 +1902,7 @@ public class DAOUsuarios extends AbstractDAO {
         return done;
     }
 
-    public float obtenerComision(Regulador r) {
+    public float obtenerComision(String r) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -1922,7 +1914,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consultaComision);
-            stm.setString(1, r.getIdUsuario());
+            stm.setString(1, r);
             rst = stm.executeQuery();
             while (rst.next()) {
                 resultado = rst.getFloat("comision");

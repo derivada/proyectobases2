@@ -231,7 +231,7 @@ public class GestionUsuarios {
     }
     
         
-    public float obtenerComision(Regulador r) {
+    public float obtenerComision(String r) {
         return fbd.obtenerComision(r);
     }
     
