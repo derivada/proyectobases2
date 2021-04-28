@@ -1,4 +1,7 @@
-﻿--regulador como usuario
+﻿
+
+--inversores
+--regulador como usuario
 Insert into usuario (id_usuario, clave, autorizado) values ('Regulador', '123', TRUE);
 
 --regulador como regulador
@@ -43,7 +46,6 @@ Insert into participacionesinversor(usuario,empresa, numparticipaciones) values 
 Insert into participacionesinversor(usuario,empresa, numparticipaciones) values ('Elena','Pepephone',10);
 Insert into participacionesinversor(usuario,empresa, numparticipaciones) values ('Fernando','Pereiro',20);
 Insert into participacionesinversor(usuario,empresa, numparticipaciones) values ('Miguel','Lenovo',15);
-
 
 
 

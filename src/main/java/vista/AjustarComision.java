@@ -25,7 +25,7 @@ public class AjustarComision extends javax.swing.JDialog {
     public AjustarComision(JFrame owner, Regulador regulador) {
         super(owner, true);
         this.regulador = regulador;
-        this.antiguaComision = FachadaAplicacion.getInstance().obtenerComision(regulador);
+        this.antiguaComision = FachadaAplicacion.getInstance().obtenerComision(regulador.getIdUsuario());
         initComponents();
         this.setTitle("Modificación de comisión");
         this.setIconImage(ImagenesGUI.getImage("database.png", 32));

@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 
 public class DAOUsuarios extends AbstractDAO {
@@ -253,7 +254,11 @@ public class DAOUsuarios extends AbstractDAO {
             stmCatalogo.setString(1, user.getIdUsuario());
             rsUsuarios = stmCatalogo.executeQuery();
             while (rsUsuarios.next()) {
-                resultado = new Regulador(rsUsuarios.getString("id_usuario"), user.isSolicitadobaja(), user.isAutorizado());
+               
+                    resultado = new Regulador(rsUsuarios.getString("id_usuario"), user.isSolicitadobaja(), user.isAutorizado(),
+                                                rsUsuarios.getFloat("saldo"),rsUsuarios.getFloat("comision"));
+              
+                
             }
         } catch (SQLException e) {
             manejarExcepcionSQL(e);
@@ -872,6 +877,8 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
+        
+        
 
         con = this.getConexion();
 
@@ -879,6 +886,11 @@ public class DAOUsuarios extends AbstractDAO {
                 + "from ofertaVenta "
                 + "where empresa like ? AND "
                 + "precio <= ?"; // cambiado >= por <= (queremos las que cuesten menos o igual que el precio maximo dado
+        
+        //Para obtener la comisión y guardarlo en las ofertas de venta
+        //Problema, podría colarse el dato y aparecer en la VEmpresa. 
+        
+        
 
         try {
             stm = con.prepareStatement(consulta);
@@ -886,10 +898,12 @@ public class DAOUsuarios extends AbstractDAO {
             stm.setString(1, empresa);
             stm.setFloat(2, precioMaximoPart);
             rst = stm.executeQuery();
-
+            
+            
+            float comision= this.obtenerComision(this.obtenerListaReguladores().get(0).getIdUsuario()); 
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
-                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"));
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"),comision);
 
                 resultado.add(v);
 
@@ -902,6 +916,7 @@ public class DAOUsuarios extends AbstractDAO {
                 if (stm != null) {
                     stm.close();
                 }
+                
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -1117,12 +1132,12 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmBloquearParticipaciones2 = null;
         int resultado = 1;
         boolean done = false;
-        String consulta1 = "Insert into anunciobeneficios  (empresa,fechapago,numeroparticipaciones,solicitadobaja) values (?,?,?,false)";
+        String consulta1 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,numeroparticipaciones,solicitadobaja) values (?,?,?,?,false)";
 
-        String consulta2 = "Insert into anunciobeneficios  (empresa,fechapago,importeparticipacion,solicitadobaja) values (?,?,?,false)";
+        String consulta2 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,solicitadobaja) values (?,?,?,?,false)";
 
-        String consulta3 = "Insert into anunciobeneficios  (empresa,fechapago,importeparticipacion,numeroparticipaciones,solicitadobaja) "
-                + "values (?,?,?,?,false)";
+        String consulta3 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,numeroparticipaciones,solicitadobaja) "
+                + "values (?,?,?,?,?,false)";
 
         String consulta4 = "update empresa set saldobloqueado=saldobloqueado + ? ,saldo=saldo - ? where id_usuario= ? ";
 
@@ -1130,6 +1145,13 @@ public class DAOUsuarios extends AbstractDAO {
 
         String consulta6 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where usuario= ? and empresa= ? ";
+        
+        
+        
+        
+        
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+           
 
         //Diferenciamos 3 casos
         //El primer es pagar únicamente con participaciones
@@ -1143,7 +1165,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar1 = con.prepareStatement(consulta1);
                     stmAnunciar1.setString(1, e.getIdUsuario());
                     stmAnunciar1.setDate(2, fecha);
-                    stmAnunciar1.setInt(3, numeroParticipaciones);
+                    stmAnunciar1.setTimestamp(3, timestamp);
+                    stmAnunciar1.setInt(4, numeroParticipaciones);
                     stmAnunciar1.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
@@ -1154,7 +1177,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
                     stmBloquearParticipaciones2.setInt(1, numeroParticipaciones);
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
-                    stmBloquearParticipaciones2.setString(3, e.getDireccion());
+                    stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
 
                     done = true;
@@ -1192,7 +1215,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar2 = con.prepareStatement(consulta2);
                     stmAnunciar2.setString(1, e.getIdUsuario());
                     stmAnunciar2.setDate(2, fecha);
-                    stmAnunciar2.setFloat(3, importe);
+                    stmAnunciar2.setTimestamp(3, timestamp);
+                    stmAnunciar2.setFloat(4, importe);
                     stmAnunciar2.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
@@ -1236,8 +1260,9 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar3 = con.prepareStatement(consulta3);
                     stmAnunciar3.setString(1, e.getIdUsuario());
                     stmAnunciar3.setDate(2, fecha);
-                    stmAnunciar3.setFloat(3, importe);
-                    stmAnunciar3.setInt(4, numeroParticipaciones);
+                    stmAnunciar3.setTimestamp(3, timestamp);
+                    stmAnunciar3.setFloat(4, importe);
+                    stmAnunciar3.setInt(5, numeroParticipaciones);
                     stmAnunciar3.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
@@ -1254,7 +1279,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
                     stmBloquearParticipaciones2.setInt(1, numeroParticipaciones);
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
-                    stmBloquearParticipaciones2.setString(3, e.getDireccion());
+                    stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
 
                     done = true;
@@ -1279,7 +1304,7 @@ public class DAOUsuarios extends AbstractDAO {
                         if (stmBloquearParticipaciones2 != null) {
                             stmBloquearParticipaciones2.close();
                         }
-                        con.setAutoCommit(true);
+                        //con.setAutoCommit(true);
                     } catch (SQLException ex) {
                         System.out.println("Imposible cerrar cursores");
                     }
@@ -1287,9 +1312,10 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
         return resultado;
-    }
-
+        }
+    
     //Función para dar de baja un anuncio de la base de datos
+    
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
         Connection con;
         PreparedStatement stmResta = null;
@@ -1855,7 +1881,7 @@ public class DAOUsuarios extends AbstractDAO {
         return done;
     }
 
-    public float obtenerComision(Regulador r) {
+    public float obtenerComision(String r) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -1867,7 +1893,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consultaComision);
-            stm.setString(1, r.getIdUsuario());
+            stm.setString(1, r);
             rst = stm.executeQuery();
             while (rst.next()) {
                 resultado = rst.getFloat("comision");

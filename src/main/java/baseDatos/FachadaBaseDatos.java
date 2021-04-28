@@ -163,13 +163,20 @@ public class FachadaBaseDatos {
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return daoParticipaciones.getParticipacionesEmpresa(u, e);
     }
+    
+    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+        return daoParticipaciones.getParticipacionesEmpresa2(u, e);
+    }
 
     public int getPartPropEmpresa(Empresa e) {
         return daoParticipaciones.getPartPropEmpresa(e);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
-        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
+        
+        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax,
+                daoUsuarios.obtenerComision(daoUsuarios.obtenerListaReguladores().get(0).getIdUsuario()),
+                daoUsuarios.obtenerListaReguladores().get(0));
     }
 
     public void emitirParticipaciones(Empresa e, int emision) {
@@ -244,7 +251,7 @@ public class FachadaBaseDatos {
        return fa;
     }
     
-    public float obtenerComision(Regulador r) {
+    public float obtenerComision(String r) {
         return daoUsuarios.obtenerComision(r);
     }
     

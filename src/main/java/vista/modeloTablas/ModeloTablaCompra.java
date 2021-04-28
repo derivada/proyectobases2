@@ -1,9 +1,11 @@
 package vista.modeloTablas;
 
 import aplicacion.OfertaVenta;
+import aplicacion.Regulador; 
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Timestamp;
+
 
 public class ModeloTablaCompra extends AbstractTableModel {
 
@@ -69,6 +71,8 @@ public class ModeloTablaCompra extends AbstractTableModel {
         return clase;
     }
 
+    
+    @Override
     public Object getValueAt(int row, int col) {
         Object resultado = null;
 
@@ -86,12 +90,18 @@ public class ModeloTablaCompra extends AbstractTableModel {
                 resultado = ofertaVentas.get(row).getNumParticipaciones();
                 break;
             case 4:
-                resultado = ofertaVentas.get(row).getPrecio();
+                resultado = ofertaVentas.get(row).getPrecio() + ofertaVentas.get(row).getPrecio()*ofertaVentas.get(row).getComision();
                 break;
 
         }
         return resultado;
     }
+
+    
+     
+
+    
+    
 
     public void setFilas(java.util.List<OfertaVenta> ofertaVentas) {
         this.ofertaVentas = ofertaVentas;
