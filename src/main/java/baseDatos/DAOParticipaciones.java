@@ -192,6 +192,9 @@ public class DAOParticipaciones extends AbstractDAO {
         PreparedStatement stmCheck = null;
         ResultSet rst;
         
+        PreparedStatement stmComprobacion= null; 
+        ResultSet rstComprobacion; 
+        
         PreparedStatement stmAnuncios= null; 
         ResultSet rstAnuncios; 
         int numero = 0; 
@@ -232,34 +235,37 @@ public class DAOParticipaciones extends AbstractDAO {
                     stmAnuncios = con.prepareStatement(consulta2); 
                     stmAnuncios.setString(1, e.getIdUsuario());
                     rstAnuncios=stmAnuncios.executeQuery(); 
-                    while(rstAnuncios.next()){
+                    if(rst.next()){
+                        while(rstAnuncios.next()){
                         numero=rstAnuncios.getInt("p"); 
                         importe=rstAnuncios.getFloat("i"); 
                         saldo=rstAnuncios.getFloat("s"); 
                         
+                        }
+
+                        //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
+                        //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
+
+
+                        int newresult=result; 
+                        boolean afrontar=false; 
+                        while(afrontar==false){
+                            if(newresult==0){ //No podría vender ninguna 
+                                afrontar=true; 
+                            }
+                            if((newresult+this.participacionesVendidas(e.getIdUsuario()))*numero<result 
+                                    && ((newresult+this.participacionesVendidas(e.getIdUsuario()))*importe<saldo)){
+                                afrontar=true; 
+                            }
+                            else{
+                                newresult--; 
+                            }
+
+
+                        }
+                        return newresult; 
                     }
                     
-                    //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
-                    //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
-                    
-                    
-                    int newresult=result; 
-                    boolean afrontar=false; 
-                    while(afrontar==false){
-                        if(newresult==0){ //No podría vender ninguna 
-                            afrontar=true; 
-                        }
-                        if((newresult+this.participacionesVendidas(e.getIdUsuario()))*numero<result 
-                                && ((newresult+this.participacionesVendidas(e.getIdUsuario()))*importe<saldo)){
-                            afrontar=true; 
-                        }
-                        else{
-                            newresult--; 
-                        }
-                        
-                        
-                    }
-                    return newresult; 
                     
                     
                 } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
