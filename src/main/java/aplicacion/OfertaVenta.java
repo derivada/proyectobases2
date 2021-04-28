@@ -8,13 +8,15 @@ public class OfertaVenta {
     private Timestamp fecha;
     private Integer numParticipaciones;
     private float precio;
+    private float comision; 
 
-    public OfertaVenta(String usuario, String empresa, Timestamp fecha, Integer numParticipaciones, float precio) {
+    public OfertaVenta(String usuario, String empresa, Timestamp fecha, Integer numParticipaciones, float precio,float comision) {
         this.vendedor = usuario;
         this.empresa = empresa;
         this.fecha = fecha;
         this.numParticipaciones = numParticipaciones;
         this.precio = precio;
+        this.comision=comision; 
     }
 
     public String getVendedor() {
@@ -56,4 +58,14 @@ public class OfertaVenta {
     public void setPrecio(float precio) {
         this.precio = precio;
     }
+
+    public float getComision() {
+        return comision;
+    }
+
+    public void setComision(float comision) {
+        this.comision = comision;
+    }
+    
+    
 }

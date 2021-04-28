@@ -122,6 +122,176 @@ public class DAOParticipaciones extends AbstractDAO {
         return result;
     }
 
+    
+    
+     /**
+     * Obtiene el número de participaciones vendidas de la empresa  
+     *
+     * @param empesa Nombre de la empresa 
+     * @return El número de participaciones vendidas 
+     */
+    private  int participacionesVendidas(String empresa) {
+
+        PreparedStatement stmConsulta = null;
+        ResultSet rstResultado;
+        Connection con;
+        int resultado = 0;
+        String consulta = "select sum(numparticipaciones)"
+                + "from ( "
+                + "    select pi.* "
+                + "    from participacionesinversor as pi "
+                + "    where  pi.empresa= ? "
+                + "    union "
+                + "    select pe.* "
+                + "    from participacionesempresa as pe "
+                + "    where  pe.empresa= ?) as resultado "
+                + "where resultado.usuario!= ? ";
+        con = this.getConexion();
+        try {
+            stmConsulta = con.prepareStatement(consulta);
+            stmConsulta.setString(1, empresa);
+            stmConsulta.setString(2, empresa);
+            stmConsulta.setString(3, empresa);
+            rstResultado = stmConsulta.executeQuery();
+            while (rstResultado.next()) {
+                resultado = rstResultado.getInt("sum");
+            }
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+
+        } finally {
+            try {
+                stmConsulta.close();
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+    
+    /**
+     * Obtiene el número de participaciones del usuario de una empresa
+     * Tiene en cuenta los anuncios para calcular el máximo de participaciones
+     * que puede vender 
+     *
+     * @param u Inversor o Empresa que tiene las participaciones
+     * @param e Empresa a las que están asociadas esas participaciones
+     * @return El número de participaciones de u en e
+     */
+    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+        if (u == null || u instanceof Regulador) {
+            return 0;
+        }
+
+        int result = 0;
+        PreparedStatement stmCheck = null;
+        ResultSet rst;
+        
+        PreparedStatement stmComprobacion= null; 
+        ResultSet rstComprobacion; 
+        
+        PreparedStatement stmAnuncios= null; 
+        ResultSet rstAnuncios; 
+        int numero = 0; 
+        float importe = 0.f; 
+        float saldo = 0.f; 
+        
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "select numparticipaciones as result "
+                + "from @ "
+                + "where usuario = ? AND empresa = ? ";
+        String consulta2="select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i " +
+                            "from empresa as e inner join anunciobeneficios as a " +
+                            "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) " +
+                            "group by saldo"; 
+
+        // Meter la tabla en la que se mirará
+        if (u instanceof Inversor) {
+            consulta = consulta.replace("@", "participacionesInversor");
+        }
+        if (u instanceof Empresa) {
+            consulta = consulta.replace("@", "participacionesEmpresa");
+            
+        }
+
+        try {
+            stmCheck = con.prepareStatement(consulta);
+            stmCheck.setString(1, u.getIdUsuario());
+            stmCheck.setString(2, e.getIdUsuario());
+            rst = stmCheck.executeQuery();
+            while (rst.next()) {
+                result = rst.getInt("result");
+            }
+            if(u instanceof Empresa){
+                try {
+                    stmAnuncios = con.prepareStatement(consulta2); 
+                    stmAnuncios.setString(1, e.getIdUsuario());
+                    rstAnuncios=stmAnuncios.executeQuery(); 
+                    if(rst.next()){
+                        while(rstAnuncios.next()){
+                        numero=rstAnuncios.getInt("p"); 
+                        importe=rstAnuncios.getFloat("i"); 
+                        saldo=rstAnuncios.getFloat("s"); 
+                        
+                        }
+
+                        //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
+                        //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
+
+
+                        int newresult=result; 
+                        boolean afrontar=false; 
+                        while(afrontar==false){
+                            if(newresult==0){ //No podría vender ninguna 
+                                afrontar=true; 
+                            }
+                            if((newresult+this.participacionesVendidas(e.getIdUsuario()))*numero<result 
+                                    && ((newresult+this.participacionesVendidas(e.getIdUsuario()))*importe<saldo)){
+                                afrontar=true; 
+                            }
+                            else{
+                                newresult--; 
+                            }
+
+
+                        }
+                        return newresult; 
+                    }
+                    
+                    
+                    
+                } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                    manejarExcepcionSQL(ex);
+                } finally {
+                    try {
+                        stmAnuncios.close();
+                        
+                    } catch (SQLException ex) {
+                        System.out.println("Imposible cerrar cursores");
+                    }
+                }
+            }
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                stmCheck.close();
+                if(stmAnuncios!=null){
+                    stmAnuncios.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return result;
+    }
+    
+
     public int getPartPropEmpresa(Empresa e) {
         return getParticipacionesTotales(e);
     }
