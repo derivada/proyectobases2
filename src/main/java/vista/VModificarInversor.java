@@ -1,20 +1,21 @@
 package vista;
 
-
 import aplicacion.FachadaAplicacion;
 import aplicacion.Inversor;
+import vista.componentes.ImagenesGUI;
 
 public class VModificarInversor extends javax.swing.JFrame {
 
-    
     private final FachadaAplicacion fa;
     private final Inversor i;
 
     public VModificarInversor(Inversor i, FachadaAplicacion fa) {
-        this.fa=fa;
-        this.i=i;
+        this.fa = fa;
+        this.i = i;
+        this.setTitle("Panel de modificación de inversor - " + i.getIdUsuario());
+        this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
-        
+
         this.actualizarCampos();
     }
 
@@ -230,56 +231,50 @@ public class VModificarInversor extends javax.swing.JFrame {
     private vista.componentes.TextBox telefonoTextBox;
     // End of variables declaration//GEN-END:variables
 
-    
-    public void modificarInversor(){
-        Inversor inversor=new Inversor(this.idTextBox.getText(),this.nombreTextBox.getText(),this.dniTextBox.getText(),this.direccionTextBox.getText(),
-        this.telefonoTextBox.getText(),0.0f,false,false);
+    public void modificarInversor() {
+        Inversor inversor = new Inversor(this.idTextBox.getText(), this.nombreTextBox.getText(), this.dniTextBox.getText(), this.direccionTextBox.getText(),
+                this.telefonoTextBox.getText(), 0.0f, false, false);
         String pass;
-        boolean insertado=false;
-        
+        boolean insertado = false;
+
         //comprobamos que los campos que no pueden estar vacios no esten vacios
-        if(this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()){
+        if (this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()) {
             fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
             return;
         }
-        
-        if(this.idTextBox.getText().equals(i.getIdUsuario())){//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
-            if(this.clave.getText().equals(this.claveConf.getText())){
-                pass=this.clave.getText();
-                insertado=fa.modificarInversor(inversor, pass, i.getIdUsuario());
-            }
-            else{
+
+        if (this.idTextBox.getText().equals(i.getIdUsuario())) {//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
+            if (this.clave.getText().equals(this.claveConf.getText())) {
+                pass = this.clave.getText();
+                insertado = fa.modificarInversor(inversor, pass, i.getIdUsuario());
+            } else {
                 fa.muestraExcepcion("¡Las contraseñas no coinciden!");
             }
-        }
-        else{
-            if(fa.comprobarID(this.idTextBox.getText())){
-                if(this.clave.getText().equals(this.claveConf.getText())){
-                    pass=this.clave.getText();
-                    insertado=fa.modificarInversor(inversor, pass, i.getIdUsuario());
-                }
-                else{
+        } else {
+            if (fa.comprobarID(this.idTextBox.getText())) {
+                if (this.clave.getText().equals(this.claveConf.getText())) {
+                    pass = this.clave.getText();
+                    insertado = fa.modificarInversor(inversor, pass, i.getIdUsuario());
+                } else {
                     fa.muestraExcepcion("¡Las contraseñas no coinciden!");
                 }
-            }
-            else{
+            } else {
                 fa.muestraExcepcion("ID En Uso");
             }
         }
-        
-        if(insertado){
+
+        if (insertado) {
             i.setIdUsuario(this.idTextBox.getText());
             i.setNombre(this.nombreTextBox.getText());
             i.setDireccion(this.direccionTextBox.getText());
             i.setTelefono(this.telefonoTextBox.getText());
             i.setDni(this.dniTextBox.getText());
-        }
-        else{
+        } else {
             fa.muestraExcepcion("No se pudo modificar la base de datos.");
         }
     }
-    
-    private void actualizarCampos(){
+
+    private void actualizarCampos() {
         this.idTextBox.setText(i.getIdUsuario());
         this.nombreTextBox.setText(i.getNombre());
         this.telefonoTextBox.setText(i.getTelefono());

@@ -10,22 +10,25 @@ import java.time.format.DateTimeParseException;
 import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
+import vista.componentes.ImagenesGUI;
 import vista.componentes.Utils;
 import vista.modeloTablas.ModeloTablaBeneficios;
 
 public class VEmpresa extends javax.swing.JFrame {
-
+    
     private final FachadaAplicacion fa;
     private Empresa e;
-
+    
     private float precioParticipaciones = -1.0f;
     private int numeroParticipaciones = -1;
-
+    
     public VEmpresa(Empresa e, FachadaAplicacion fa) {
         this.fa = fa;
         this.e = e;
+        this.setTitle("Gestión de empresa - " + e.getIdUsuario());
+        this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
-
+        
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
     }
@@ -281,7 +284,7 @@ public class VEmpresa extends javax.swing.JFrame {
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGap(83, 83, 83)
+            .addGap(36, 36, 36)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -297,7 +300,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
             .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(56, 56, 56))
     );
@@ -329,17 +332,17 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(464, Short.MAX_VALUE))
+            .addContainerGap(40, Short.MAX_VALUE))
     );
 
     Utils.configurarTabbedPane(panelCompra);
     botonVolver1.configurar(fa, this, false);
-    bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
-    idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+    bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.CURSIVA, FuentesGUI.Size.GRANDE));
+    idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
         FuentesGUI.Size.GRANDE));
-tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     FuentesGUI.Size.GRANDE));
-    saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+    saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
         FuentesGUI.Size.GRANDE));
 
 pack();
@@ -368,14 +371,14 @@ pack();
     private void participacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesBotonActionPerformed
         this.emitirParticipaciones();
     }//GEN-LAST:event_participacionesBotonActionPerformed
-
+    
 
     private void bajaAnunciosbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosbotonActionPerformed
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
-
+    
     public void AnunciarBeneficios() {
-
+        
         float importe = 0.0f;
         if (!importeTextBox.getText().isEmpty()) {
             try {
@@ -392,7 +395,7 @@ pack();
                 return;
             }
         }
-
+        
         Date fecha = null;
         try {
             fecha = FechaTextBox.getFecha();
@@ -423,26 +426,26 @@ pack();
                 return;
             }
         }
-
+        
         fa.crearAnuncio(importe, this.e, fecha, numero);
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-
+        
     }
-
+    
     public void solicitarBajaAnuncio() {
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         int fila = tablaAnuncios.getSelectedRow();
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
     }
-
+    
 
     private void numeroParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroParticipacionesTextBoxKeyTyped
         try {
             validarInput(true);
         } catch (Exception ignored) {
-
+            
         }
     }//GEN-LAST:event_numeroParticipacionesTextBoxKeyTyped
 
@@ -450,7 +453,7 @@ pack();
         // TODO add your handling code here:
         new VHistorial(e);
     }//GEN-LAST:event_abrirHistorialActionPerformed
-
+    
     private void validarInput(boolean numero) throws Exception {
         // Valida el precio y número de participaciones a ofertar, tira Exception
         // con el mensaje correcto si alguna de las 2 falla
@@ -473,12 +476,12 @@ pack();
                 errores.append("El número de participaciones no es un válido!\n");
             }
         }
-
+        
         if (errores.length() > 0) {
             throw new Exception(errores.toString());
         }
     }
-
+    
     public void Pagar() {
         Float importe = 0.0f;
         if (!importeTextBox.getText().isEmpty()) {
@@ -496,7 +499,7 @@ pack();
                 return;
             }
         }
-
+        
         int numero = 0;
         if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
             try {
@@ -521,7 +524,7 @@ pack();
         } else {
             fa.pagarBeneficios(importe, numero, this.e, null);
         }
-
+        
     }
 
 
@@ -578,15 +581,15 @@ pack();
             return;
         }
         String participaciones = numeroParticipacionesTextBox.getText();
-
+        
         int emision = Integer.parseInt(participaciones);
-
+        
         fa.emitirParticipaciones(e, emision); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
 
         this.actualizarCampos();
-
+        
     }
-
+    
     public void eliminarParticipaciones() {
 
         //en este caso, la empresa solicita eliminar ciertas participaciones de su cartera
@@ -597,15 +600,15 @@ pack();
             fa.muestraExcepcion(e.getMessage(), DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-
+        
         int bajaP = Integer.parseInt(numeroParticipacionesTextBox.getText());
 
         //aqui iria la consulta, cuando me apetezca la hago
         fa.bajaParticipaciones(e, bajaP);
-
+        
         this.actualizarCampos();
     }
-
+    
     public void actualizarCampos() {
         e = fa.obtenerDatosEmpresa(e);
         saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));

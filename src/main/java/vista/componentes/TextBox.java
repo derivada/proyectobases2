@@ -1,12 +1,8 @@
 package vista.componentes;
 
-import aplicacion.FachadaAplicacion;
-import org.w3c.dom.Text;
-
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 

@@ -2,19 +2,20 @@ package vista;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Empresa;
+import vista.componentes.ImagenesGUI;
 
 public class VModificarEmpresa extends javax.swing.JFrame {
 
-    
-    
     private final FachadaAplicacion fa;
     private final Empresa e;
 
     public VModificarEmpresa(Empresa e, FachadaAplicacion fa) {
-        this.fa=fa;
-        this.e=e;
+        this.fa = fa;
+        this.e = e;
+        this.setTitle("Panel de modificación de empresa - " + e.getIdUsuario());
+        this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
-        
+
         this.actualizarCampos();
     }
 
@@ -151,36 +152,34 @@ public class VModificarEmpresa extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(claveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(dniLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dniTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nombreTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dniLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dniTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(claveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(claveConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(claveConfLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(99, 99, 99)))
+                        .addGap(80, 80, 80)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(telefonoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(direccionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(direccionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(telefonoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(36, 36, 36)
                 .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -230,55 +229,50 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     private vista.componentes.TextBox telefonoTextBox;
     // End of variables declaration//GEN-END:variables
 
-    public void modificarEmpresa(){
-        Empresa empresa=new Empresa(this.idTextBox.getText(),this.nombreTextBox.getText(),this.dniTextBox.getText(),0.0f,0.0f,this.direccionTextBox.getText(),
-        this.telefonoTextBox.getText(),false,false);
+    public void modificarEmpresa() {
+        Empresa empresa = new Empresa(this.idTextBox.getText(), this.nombreTextBox.getText(), this.dniTextBox.getText(), 0.0f, 0.0f, this.direccionTextBox.getText(),
+                this.telefonoTextBox.getText(), false, false);
         String pass;
-        boolean insertado=false;
-        
+        boolean insertado = false;
+
         //comprobamos que los campos que no pueden estar vacios no esten vacios
-        if(this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()){
+        if (this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()) {
             fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
             return;
         }
-        
-        if(this.idTextBox.getText().equals(e.getIdUsuario())){//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
-            if(this.clave.getText().equals(this.claveConf.getText())){
-                pass=this.clave.getText();
-                insertado=fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
-            }
-            else{
+
+        if (this.idTextBox.getText().equals(e.getIdUsuario())) {//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
+            if (this.clave.getText().equals(this.claveConf.getText())) {
+                pass = this.clave.getText();
+                insertado = fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
+            } else {
                 fa.muestraExcepcion("¡Las contraseñas no coinciden!");
             }
-        }
-        else{
-            if(fa.comprobarID(this.idTextBox.getText())){
-                if(this.clave.getText().equals(this.claveConf.getText())){
-                    pass=this.clave.getText();
-                    insertado=fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
-                }
-                else{
+        } else {
+            if (fa.comprobarID(this.idTextBox.getText())) {
+                if (this.clave.getText().equals(this.claveConf.getText())) {
+                    pass = this.clave.getText();
+                    insertado = fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
+                } else {
                     fa.muestraExcepcion("¡Las contraseñas no coinciden!");
                 }
-            }
-            else{
+            } else {
                 fa.muestraExcepcion("ID En Uso");
             }
         }
-        
-        if(insertado){
+
+        if (insertado) {
             e.setIdUsuario(this.idTextBox.getText());
             e.setNombre(this.nombreTextBox.getText());
             e.setDireccion(this.direccionTextBox.getText());
             e.setTelefono(this.telefonoTextBox.getText());
             e.setCIF(this.dniTextBox.getText());
-        }
-        else{
+        } else {
             fa.muestraExcepcion("No se pudo modificar la base de datos.");
         }
     }
-    
-    private void actualizarCampos(){
+
+    private void actualizarCampos() {
         this.idTextBox.setText(e.getIdUsuario());
         this.nombreTextBox.setText(e.getNombre());
         this.telefonoTextBox.setText(e.getTelefono());

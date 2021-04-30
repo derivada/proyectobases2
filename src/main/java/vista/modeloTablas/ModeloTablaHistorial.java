@@ -4,6 +4,7 @@ import aplicacion.EntradaHistorial;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
+import vista.componentes.Utils;
 
 public class ModeloTablaHistorial extends AbstractTableModel {
 
@@ -69,10 +70,10 @@ public class ModeloTablaHistorial extends AbstractTableModel {
                 clase = Date.class;
                 break;
             case 4:
-                clase = java.lang.Double.class;
+                clase = java.lang.Integer.class;
                 break;
             case 5:
-                clase = java.lang.Double.class;
+                clase = java.lang.String.class;
                 break;
         }
         return clase;
@@ -98,9 +99,8 @@ public class ModeloTablaHistorial extends AbstractTableModel {
                 resultado = historial.get(row).getCantidad();
                 break;
             case 5:
-                resultado = historial.get(row).getPrecio();
+                resultado = Utils.displayCurrency(historial.get(row).getPrecio());
                 break;
-
         }
         return resultado;
     }

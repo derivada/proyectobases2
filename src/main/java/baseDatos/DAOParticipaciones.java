@@ -7,6 +7,7 @@ import java.sql.*;
 
 import vista.FachadaGui;
 import vista.VentanaConfirmacion;
+import vista.componentes.Utils;
 
 public class DAOParticipaciones extends AbstractDAO {
 
@@ -122,7 +123,6 @@ public class DAOParticipaciones extends AbstractDAO {
         return result;
     }
 
-
     /**
      * Obtiene el número de participaciones vendidas de la empresa
      *
@@ -171,9 +171,9 @@ public class DAOParticipaciones extends AbstractDAO {
     }
 
     /**
-     * Obtiene el número de participaciones del usuario de una empresa
-     * Tiene en cuenta los anuncios para calcular el máximo de participaciones
-     * que puede vender
+     * Obtiene el número de participaciones del usuario de una empresa Tiene en
+     * cuenta los anuncios para calcular el máximo de participaciones que puede
+     * vender
      *
      * @param u Inversor o Empresa que tiene las participaciones
      * @param e Empresa a las que están asociadas esas participaciones
@@ -204,10 +204,10 @@ public class DAOParticipaciones extends AbstractDAO {
         String consulta = "select numparticipaciones as result "
                 + "from @ "
                 + "where usuario = ? AND empresa = ? ";
-        String consulta2 = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i " +
-                "from empresa as e inner join anunciobeneficios as a " +
-                "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) " +
-                "group by saldo";
+        String consulta2 = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
+                + "from empresa as e inner join anunciobeneficios as a "
+                + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
+                + "group by saldo";
 
         // Meter la tabla en la que se mirará
         if (u instanceof Inversor) {
@@ -237,11 +237,8 @@ public class DAOParticipaciones extends AbstractDAO {
                         importe = rstAnuncios.getFloat("i");
                         saldo = rstAnuncios.getFloat("s");
 
-
                         //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
                         //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
-
-
                         int newresult = result;
                         boolean afrontar = false;
                         while (afrontar == false) {
@@ -255,11 +252,9 @@ public class DAOParticipaciones extends AbstractDAO {
                                 newresult--;
                             }
 
-
                         }
                         return newresult;
                     }
-
 
                 } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
                     manejarExcepcionSQL(ex);
@@ -286,7 +281,6 @@ public class DAOParticipaciones extends AbstractDAO {
         }
         return result;
     }
-
 
     public int getPartPropEmpresa(Empresa e) {
         return getParticipacionesTotales(e);
@@ -317,10 +311,11 @@ public class DAOParticipaciones extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (done)
+                if (done) {
                     con.commit();
-                else
+                } else {
                     con.rollback();
+                }
                 if (stmUpdate != null) {
                     stmUpdate.close();
                 }
@@ -389,18 +384,19 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate.executeUpdate();
 
             // e emite acciones de e
-            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis())
-                    , cantidad, null, EntradaHistorial.TipoEntradaHistorial.EMISION));
+            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
+                     cantidad, null, EntradaHistorial.TipoEntradaHistorial.EMISION));
 
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (done)
+                if (done) {
                     con.commit();
-                else
+                } else {
                     con.rollback();
+                }
 
                 if (stmAntiguas != null) {
                     stmAntiguas.close();
@@ -487,18 +483,19 @@ public class DAOParticipaciones extends AbstractDAO {
             muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "
                     + part + "de " + e.getIdUsuario() + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
-            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), u.getIdUsuario(), new Timestamp(System.currentTimeMillis())
-                    , numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
+            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), u.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
+                     numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
 
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (done)
+                if (done) {
                     con.commit();
-                else
+                } else {
                     con.rollback();
+                }
                 if (stmOferta != null) {
                     stmOferta.close();
                 }
@@ -516,7 +513,7 @@ public class DAOParticipaciones extends AbstractDAO {
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax,
-                                       float comision, Usuario regulador) {
+            float comision, Usuario regulador) {
         // Actualizar datos
 
         if (comprador == null || comprador instanceof Regulador) {
@@ -525,10 +522,12 @@ public class DAOParticipaciones extends AbstractDAO {
         }
 
         // Actualizar datos por si son incorrectos al llamar al método
-        if (comprador instanceof Inversor)
+        if (comprador instanceof Inversor) {
             comprador = fa.obtenerDatosInversor(comprador);
-        if (comprador instanceof Empresa)
+        }
+        if (comprador instanceof Empresa) {
             comprador = fa.obtenerDatosEmpresa(comprador);
+        }
 
         empresa = fa.obtenerDatosEmpresa(empresa);
 
@@ -540,13 +539,12 @@ public class DAOParticipaciones extends AbstractDAO {
         Connection con;
         boolean done = false;
 
-
         con = this.getConexion();
 
         // Lista ordenada por precio de las mejores ofertas
-        String listaMejoresOfertas = "select * from ofertaventa \n" +
-                "where empresa = ? \n" +
-                "order by precio asc, fecha asc";
+        String listaMejoresOfertas = "select * from ofertaventa \n"
+                + "where empresa = ? \n"
+                + "order by precio asc, fecha asc";
 
         String eliminacionOferta = "delete from ofertaVenta where usuario = ? AND fecha = ?";
 
@@ -606,8 +604,9 @@ public class DAOParticipaciones extends AbstractDAO {
 
                 String nombreVendedor = rst.getString("usuario");
                 Usuario vendedor = fa.obtenerDatosInversor(new Usuario(nombreVendedor, false, true));
-                if (vendedor == null)
+                if (vendedor == null) {
                     vendedor = fa.obtenerDatosEmpresa(new Usuario(nombreVendedor, false, true));
+                }
 
                 participacionesCompradas += partCompradasIteraccion;
 
@@ -628,15 +627,15 @@ public class DAOParticipaciones extends AbstractDAO {
                 if (participacionesCompradas == cantidad) {
                     // Se pudieron comprar todas, pero se gasto mucho dinero
                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
-                            + precioAcumulado + "$, el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo \n"
-                            + "\tDesea continuar?", "La compra de las participaciones se ha completado correctamente!",
+                            + Utils.displayCurrency(precioAcumulado) + ", el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo \n"
+                            + "Desea continuar?", "La compra de las participaciones se ha completado correctamente!",
                             "La compra de las participaciones se ha cancelado correctamente...");
                 } else {
                     // No se pudieron comprar todas, se gastó tod0 el dinero además
                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
-                            + precioAcumulado + "$, el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo y solo se pudieron comprar " +
-                            participacionesCompradas + " de las " + cantidad + " pedidas...\n"
-                            + "\tDesea continuar?", "La compra de las participaciones se ha completado correctamente!",
+                            + Utils.displayCurrency(precioAcumulado) + ", el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo y solo se pudieron comprar "
+                            + participacionesCompradas + " de las " + cantidad + " pedidas...\n"
+                            + "Desea continuar?", "La compra de las participaciones se ha completado correctamente!",
                             "La compra de las participaciones se ha cancelado correctamente...");
                 }
                 sePidioConfirmacion = true; // Hay que cerrar la transación en VentanaConfirmacion no aquí
@@ -650,10 +649,11 @@ public class DAOParticipaciones extends AbstractDAO {
             // Cerrar stms y confirmar la transación si no se pidió confirmación manual
             try {
                 if (!sePidioConfirmacion) {
-                    if (done)
+                    if (done) {
                         con.commit();
-                    else
+                    } else {
                         con.rollback();
+                    }
                     con.setAutoCommit(true);
                 }
                 if (stmParticipaciones != null) {

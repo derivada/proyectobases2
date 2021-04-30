@@ -4,6 +4,7 @@ import aplicacion.OfertaVenta;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
+import vista.componentes.Utils;
 
 public class ModeloTablaTransacciones extends AbstractTableModel{
 
@@ -62,7 +63,7 @@ public class ModeloTablaTransacciones extends AbstractTableModel{
                 clase = java.lang.Integer.class;
                 break;
             case 4:
-                clase = java.lang.Double.class;
+                clase = java.lang.String.class;
                 break;
         }
         return clase;
@@ -85,7 +86,7 @@ public class ModeloTablaTransacciones extends AbstractTableModel{
                 resultado = ofertaVentas.get(row).getNumParticipaciones();
                 break;
             case 4:
-                resultado = ofertaVentas.get(row).getPrecio();
+                resultado = Utils.displayCurrency(ofertaVentas.get(row).getPrecio());
                 break;
 
         }

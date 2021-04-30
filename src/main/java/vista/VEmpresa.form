@@ -32,7 +32,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
@@ -51,7 +51,7 @@
                   <Component id="tipoTextBox" min="-2" max="-2" attributes="0"/>
                   <Component id="saldoTextBox" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
               <Component id="panelCompra" min="-2" pref="807" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
           </Group>
@@ -88,7 +88,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="464" max="32767" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -420,7 +420,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.CURSIVA, FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
     </Component>
     <Component class="vista.componentes.Boton" name="abrirHistorial">
@@ -438,7 +438,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,&#xa;FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="tipoTextBox">
@@ -446,7 +446,7 @@
         <Property name="text" type="java.lang.String" value="Empresa"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,&#xa;FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="saldoTextBox">
@@ -456,7 +456,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,&#xa;FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
     </Component>
   </SubComponents>

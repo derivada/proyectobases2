@@ -4,8 +4,9 @@ import aplicacion.AnuncioBeneficios;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
+import vista.componentes.Utils;
 
-public class ModeloTablaBeneficios extends AbstractTableModel{
+public class ModeloTablaBeneficios extends AbstractTableModel {
 
     private java.util.List<AnuncioBeneficios> beneficios;
 
@@ -39,8 +40,8 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
                 nombre = "Importe por participacion";
                 break;
             case 4:
-                nombre = "Numero de participaciones"; 
-                break; 
+                nombre = "Numero de participaciones";
+                break;
         }
         return nombre;
     }
@@ -61,11 +62,11 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
                 break;
 
             case 3:
-                clase = java.lang.Double.class;
+                clase = java.lang.String.class;
                 break;
-            case 4: 
-                clase = java.lang.Integer.class; 
-                break; 
+            case 4:
+                clase = java.lang.Integer.class;
+                break;
         }
         return clase;
     }
@@ -84,10 +85,10 @@ public class ModeloTablaBeneficios extends AbstractTableModel{
                 resultado = beneficios.get(row).getFechaAnuncio();
                 break;
             case 3:
-                resultado = beneficios.get(row).getImporteparticipacion();
+                resultado = Utils.displayCurrency(beneficios.get(row).getImporteparticipacion());
                 break;
-            case 4: 
-                resultado = beneficios.get(row).getNumeroparticipaciones(); 
+            case 4:
+                resultado = beneficios.get(row).getNumeroparticipaciones();
 
         }
         return resultado;

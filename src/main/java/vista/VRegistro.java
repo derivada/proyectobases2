@@ -4,16 +4,11 @@ import aplicacion.Empresa;
 import aplicacion.Inversor;
 import aplicacion.Regulador;
 import aplicacion.Usuario;
-import org.w3c.dom.Text;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
-import vista.componentes.TextBox;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class VRegistro extends javax.swing.JFrame {
 
@@ -21,11 +16,11 @@ public class VRegistro extends javax.swing.JFrame {
 
     public VRegistro(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
+        this.setTitle("Iniciar sesión");
+        this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
         configureComponentes();
         setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        this.setIconImage(ImagenesGUI.getImage("database.png", 128));
-        this.setTitle("Mercado de Valores - Iniciar sesión");
         this.setValidators();
     }
 
@@ -33,7 +28,9 @@ public class VRegistro extends javax.swing.JFrame {
         // Validación del registro
         tlfoReg.setValidator(s -> {
             if (s.length() == 0) // admitimos nulos
+            {
                 return true;
+            }
             try {
                 Integer.parseInt(s);
                 return s.length() == 9; // debe ser un entero de 9 cifras si no es nulo
@@ -358,8 +355,9 @@ public class VRegistro extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Valida el usuario a partir de los datos del formulario de ingreso.
-     * Abre el menú correspondiente a su tipo y cierra esta ventana si la validación es correcta
+     * Valida el usuario a partir de los datos del formulario de ingreso. Abre
+     * el menú correspondiente a su tipo y cierra esta ventana si la validación
+     * es correcta
      */
     public void login() {
 
@@ -425,14 +423,16 @@ public class VRegistro extends javax.swing.JFrame {
                 break;
         }
 
-        if (inversor)
+        if (inversor) {
             fa.muestraExcepcion("Se ha enviado la solicitud de registro del inversor "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
-        else if (empresa)
+        } else if (empresa) {
             fa.muestraExcepcion("Se ha enviado la solicitud de registro de la empresa "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
-        else // Solo falla aquí si el ID estaba mal
+        } else // Solo falla aquí si el ID estaba mal
+        {
             fa.muestraExcepcion("El ID \"" + IDReg.getText() + "\" ya está en uso!");
+        }
 
     }
 }
