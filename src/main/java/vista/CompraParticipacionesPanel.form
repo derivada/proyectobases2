@@ -183,7 +183,9 @@
         <Property name="name" type="java.lang.String" value="precioMaximoTextBox" noResource="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="precioMaximoTextBoxActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="precioMaximoTextBoxKeyTyped"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="precioMaximoTextBoxKeyPressed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="precioMaximoTextBoxKeyReleased"/>
       </Events>
     </Component>
     <Component class="vista.componentes.Etiqueta" name="monedaLabel">

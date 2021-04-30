@@ -47,7 +47,7 @@ public class TextBox extends JTextField {
             this.setBackground(ColoresGUI.blanco);
             return true;
         } else {
-            this.setBackground(ColoresGUI.getGUIColorClaro(ColoresGUI.Colores.ROJO));
+            this.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
             return false;
         }
     }
