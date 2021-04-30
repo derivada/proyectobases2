@@ -1,41 +1,63 @@
 package vista.componentes;
 
-import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import aplicacion.FachadaAplicacion;
+import org.w3c.dom.Text;
 
-public class TextBox extends JTextField implements MouseListener {
-    public TextBox(){
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class TextBox extends JTextField {
+
+    private Predicate<String> validator = null;
+
+    public TextBox() {
         super();
         this.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.NORMAL));
         this.setForeground(ColoresGUI.texto);
         this.setBackground(ColoresGUI.blanco);
         this.setBorder(BordesGUI.BordeTextBox);
-        this.addMouseListener(this);
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validateInput();
+            }
+        });
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
+    public void setValidator(Predicate<String> validator) {
+        this.validator = validator;
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
+    public boolean validateInput() {
+        if (validator == null || validator.test(this.getText())) {
+            this.setBackground(ColoresGUI.blanco);
+            return true;
+        } else {
+            this.setBackground(ColoresGUI.getGUIColorClaro(ColoresGUI.Colores.ROJO));
+            return false;
+        }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    public static boolean validateSet(List<TextBox> campos) {
+        boolean failed = false;
+        for (TextBox t : campos) {
+            if (!t.validateInput())
+                failed = true;
+        }
+        return !failed;
     }
 }

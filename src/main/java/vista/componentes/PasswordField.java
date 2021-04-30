@@ -1,10 +1,15 @@
 package vista.componentes;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.function.Predicate;
 
-public class PasswordField extends JPasswordField implements MouseListener {
+public class PasswordField extends JPasswordField {
+
+    private Predicate<String> validator = null;
 
     public PasswordField(){
         super();
@@ -12,31 +17,36 @@ public class PasswordField extends JPasswordField implements MouseListener {
         this.setForeground(ColoresGUI.texto);
         this.setBackground(ColoresGUI.blanco);
         this.setBorder(BordesGUI.BordePasswordField);
-        this.addMouseListener(this);
-    }
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                validateInput();
+            }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                validateInput();
+            }
 
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validateInput();
+            }
+        });
 
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    public void setValidator(Predicate<String> validator) {
+        this.validator = validator;
+    }
 
+    public boolean validateInput() {
+        if (validator == null || validator.test(this.getText())) {
+            this.setBackground(ColoresGUI.blanco);
+            return true;
+        } else {
+            this.setBackground(ColoresGUI.getGUIColorClaro(ColoresGUI.Colores.ROJO));
+            return false;
+        }
     }
 }

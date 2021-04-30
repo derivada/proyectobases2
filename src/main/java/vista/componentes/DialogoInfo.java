@@ -45,7 +45,7 @@ public class DialogoInfo extends JDialog {
             case INFORMACION:
                 if (IMAGEN_INFORMACION != null) {
                     this.setIconImage(IMAGEN_INFORMACION);
-                    descIcono = new Etiqueta("Información!");
+                    descIcono = new Etiqueta("Información");
                     descIcono.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA, FuentesGUI.Size.ENORME));
                     descIcono.setForeground(ColoresGUI.getGUIColor(ColoresGUI.Colores.AZUL));
                 }
@@ -53,7 +53,7 @@ public class DialogoInfo extends JDialog {
             case ADVERTENCIA:
                 if (IMAGEN_ADVERTENCIA != null) {
                     this.setIconImage(IMAGEN_ADVERTENCIA);
-                    descIcono = new Etiqueta("Advertencia!");
+                    descIcono = new Etiqueta("Advertencia");
                     descIcono.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA, FuentesGUI.Size.ENORME));
                     descIcono.setForeground(ColoresGUI.getGUIColorOscuro(ColoresGUI.Colores.AMARILLO));
                 }
