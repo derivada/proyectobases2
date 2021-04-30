@@ -197,8 +197,11 @@ public class GestionUsuarios {
 
     public void solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
         boolean realizado=fbd.solicitarBajaAnuncio(empresa, fechaPago);
-         if(realizado==false){
+        if(realizado==false){
             fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio",DialogoInfo.NivelDeAdvertencia.ERROR);
+        }
+        else{
+            fbd.getFachadaAplicacion().muestraExcepcion("Baja solicitada correctamente",DialogoInfo.NivelDeAdvertencia.INFORMACION);
         }
     }
 
