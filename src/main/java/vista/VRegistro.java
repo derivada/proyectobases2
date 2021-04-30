@@ -42,14 +42,15 @@ public class VRegistro extends javax.swing.JFrame {
         nombreReg.setValidator(s -> s.length() > 2 && s.length() <= 60); // minimo 3, maximo 60
         direccionReg.setValidator(s -> s.length() <= 50); // 50 como mucho, adminitimos nulos
         CIFReg.setValidator(s -> s.length() == 9); // debe ser 9, no admitimos nulos
-        // TODO
-        // Refinar esto más adelante, debería haber un validador general de contraseñas
-        // con requisitos más elaborados
-        claveReg.setValidator(s -> s.length() > 2 && s.length() <= 10);
+
+        // El validador de contraseñas ya está construido en su clase, solo especificamos
+        // si queremos el fuerte (reglas de contraseñas para el registro) o débil (solo poner
+        // en rojo si la contraseña es demasiado larga o corta en magnitudes de SQL)
+        claveReg.setValidationLevel(true);
+        ingresoClave.setValidationLevel(false);
 
         // Validadores del login
         ingresoUsuario.setValidator(s -> s.length() > 2 && s.length() <= 60); // minimo 3, maximo 60
-        ingresoClave.setValidator(s -> s.length() > 2 && s.length() <= 10);
     }
 
     private void configureComponentes() {
@@ -361,7 +362,7 @@ public class VRegistro extends javax.swing.JFrame {
      */
     public void login() {
 
-        if (!ingresoUsuario.validateInput() | !ingresoClave.validateInput()) {
+        if (!ingresoUsuario.validateInput() | !ingresoClave.isValidated()) {
             fa.muestraExcepcion("Alguno de los campos de entrada no es correcto!",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
@@ -408,9 +409,12 @@ public class VRegistro extends javax.swing.JFrame {
         boolean inversor = false, empresa = false;
 
         if (!IDReg.validateInput() | !direccionReg.validateInput() | !CIFReg.validateInput()
-                | !nombreReg.validateInput() | !claveReg.validateInput() | !tlfoReg.validateInput()) {
-            fa.muestraExcepcion("Alguno de los campos del registro no es correcto!",
-                    DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                | !nombreReg.validateInput() | !claveReg.isValidated() | !tlfoReg.validateInput()) {
+            String log = "Alguno de los campos del registro no es correcto!\n\n";
+            if (!claveReg.isValidated()) {
+                log = log + claveReg.getValidationError();
+            }
+            fa.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
