@@ -2,6 +2,7 @@ package baseDatos;
 
 import aplicacion.AnuncioBeneficios;
 import aplicacion.Empresa;
+import aplicacion.EntradaHistorial;
 import aplicacion.Inversor;
 import aplicacion.OfertaVenta;
 import aplicacion.Regulador;
@@ -1179,7 +1180,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
-
+                    fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                    new Timestamp(System.currentTimeMillis()), numeroParticipaciones, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
@@ -1224,6 +1226,9 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquear.setFloat(2, importe);
                     stmBloquear.setString(3, e.getIdUsuario());
                     stmBloquear.executeUpdate();
+                    
+                    fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                    new Timestamp(System.currentTimeMillis()), null,importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
@@ -1281,7 +1286,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
-
+                    fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                    new Timestamp(System.currentTimeMillis()), numeroParticipaciones, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
@@ -1350,7 +1356,9 @@ public class DAOUsuarios extends AbstractDAO {
             stmBaja.setString(1, empresa);
             stmBaja.setTimestamp(2, fecha);
             stmBaja.executeUpdate();
-
+            
+            fa.insertarHistorial(new EntradaHistorial(empresa, empresa,
+                    new Timestamp(System.currentTimeMillis()), null, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
             done = true;
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
