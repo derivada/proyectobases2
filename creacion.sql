@@ -1,7 +1,9 @@
-﻿Create table usuario
+﻿Create extension pgcrypto; -- Extensión usada para el cifrado de contraseñas
+
+Create table usuario
 (
   id_usuario varchar(20) not null,
-  clave varchar(10) not null,
+  clave varchar(72) not null,
   autorizado boolean not null,
   solicitadobaja boolean,
 

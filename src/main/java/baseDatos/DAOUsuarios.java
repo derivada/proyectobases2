@@ -43,7 +43,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmUsuario = con.prepareStatement("select id_usuario, autorizado, solicitadobaja "
                     + "from usuario "
-                    + "where id_usuario = ? and clave = ?");
+                    + "where id_usuario = ? and clave = crypt(?, clave)");
             stmUsuario.setString(1, idUsuario);
             stmUsuario.setString(2, clave);
             rsUsuario = stmUsuario.executeQuery();
@@ -309,7 +309,7 @@ public class DAOUsuarios extends AbstractDAO {
             try {
                 con.setAutoCommit(false);
 
-                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
+                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?, crypt(?, gen_salt('bf', 4)),?,?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, i.getIdUsuario());
                 stmIns.setString(2, i.getClave());
@@ -769,7 +769,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         String consulta2 = "update usuario "
                 + "set id_usuario = ?,"
-                + " clave = ?"
+                + " clave = crypt(?, gen_salt('bf', 4)),"
                 + " where id_usuario = ?";
 
         try {
@@ -830,7 +830,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         String consulta2 = "update usuario "
                 + "set id_usuario = ?,"
-                + " clave = ?"
+                + " clave = crypt(?, gen_salt('bf', 4)),"
                 + " where id_usuario = ?";
 
         try {
@@ -1780,7 +1780,7 @@ public class DAOUsuarios extends AbstractDAO {
         boolean done = false;
         con = this.getConexion();
 
-        String consulta = "update usuario set id_usuario=?, clave=? where id_usuario=?";
+        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)), where id_usuario=?";
         String consulta2 = "update inversor set nombre=?, dni=?, direccion=?, telefono=? where id_usuario=?";
 
         try {
@@ -1833,7 +1833,7 @@ public class DAOUsuarios extends AbstractDAO {
         boolean done = false;
         con = this.getConexion();
 
-        String consulta = "update usuario set id_usuario=?, clave=? where id_usuario=?";
+        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)), where id_usuario=?";
         String consulta2 = "update empresa set nombrecomercial=?, cif=?, direccion=?, telefono=? where id_usuario=?";
 
         try {

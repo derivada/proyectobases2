@@ -376,16 +376,31 @@ public class VRegistro extends javax.swing.JFrame {
         // (No hace falta comprobar si es nulo antes de hacer instanceof)
         if (user instanceof Inversor) {
             fa.menuInversor((Inversor) user);
-            System.out.println("Usuario encontrado, es inversor");
+            borrarCampos(true, true);
             this.dispose();
         } else if (user instanceof Empresa) {
             fa.menuEmpresa((Empresa) user);
-            System.out.println("Usuario encontrado, es empresa");
+            borrarCampos(true, true);
             this.dispose();
         } else if (user instanceof Regulador) {
             fa.menuRegulador((Regulador) user);
-            System.out.println("Usuario encontrado, es regulador");
+            borrarCampos(true, true);
             this.dispose();
+        }
+    }
+
+    private void borrarCampos(boolean login, boolean registro) {
+        if (login) {
+            ingresoUsuario.setText("");
+            ingresoClave.setText("");
+        }
+        if (registro) {
+            nombreReg.setText("");
+            IDReg.setText("");
+            claveReg.setText("");
+            direccionReg.setText("");
+            tlfoReg.setText("");
+            CIFReg.setText("");
         }
     }
 
@@ -424,9 +439,11 @@ public class VRegistro extends javax.swing.JFrame {
         }
 
         if (inversor) {
+            borrarCampos(false, true);
             fa.muestraExcepcion("Se ha enviado la solicitud de registro del inversor "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else if (empresa) {
+            borrarCampos(false, true);
             fa.muestraExcepcion("Se ha enviado la solicitud de registro de la empresa "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else // Solo falla aquí si el ID estaba mal
