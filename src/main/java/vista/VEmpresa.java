@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException;
 import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
-import vista.componentes.OtrosComponentes;
+import vista.componentes.Utils;
 import vista.modeloTablas.ModeloTablaBeneficios;
 
 public class VEmpresa extends javax.swing.JFrame {
@@ -25,15 +25,9 @@ public class VEmpresa extends javax.swing.JFrame {
         this.fa = fa;
         this.e = e;
         initComponents();
-        idTextBox.setText(e.getIdUsuario());
-
-        saldoTextBox.setText(String.valueOf(e.getSaldo()));
-        this.actualizarCampos();
-        tipoTextBox.setText("Empresa");
 
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-
     }
 
     /**
@@ -49,11 +43,8 @@ public class VEmpresa extends javax.swing.JFrame {
         etiqueta1 = new vista.componentes.Etiqueta();
         buttonGroup1 = new javax.swing.ButtonGroup();
         bajaBoton = new vista.componentes.Boton();
-        idTextBox = new vista.componentes.TextBox();
-        tipoTextBox = new vista.componentes.TextBox();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
-        saldoTextBox = new vista.componentes.TextBox();
         saldoLabel = new vista.componentes.Etiqueta();
         panelCompra = new javax.swing.JTabbedPane();
         compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(e, fa);
@@ -81,6 +72,9 @@ public class VEmpresa extends javax.swing.JFrame {
         botonVolver1 = new vista.componentes.BotonVolver();
         bienvenidoLabel = new vista.componentes.Etiqueta();
         abrirHistorial = new vista.componentes.Boton();
+        idTextBox = new vista.componentes.Etiqueta();
+        tipoTextBox = new vista.componentes.Etiqueta();
+        saldoTextBox = new vista.componentes.Etiqueta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,31 +85,11 @@ public class VEmpresa extends javax.swing.JFrame {
             }
         });
 
-        idTextBox.setEditable(false);
-        idTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTextBoxActionPerformed(evt);
-            }
-        });
-
-        tipoTextBox.setEditable(false);
-        tipoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoTextBoxActionPerformed(evt);
-            }
-        });
-
         tipoLabel.setText("Tipo:");
 
         usuarioLabel.setText("Usuario:");
 
-        saldoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saldoTextBoxActionPerformed(evt);
-            }
-        });
-
-        saldoLabel.setText("Saldo");
+        saldoLabel.setText("Saldo:");
 
         panelCompra.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelCompra.addTab("Compra", compraParticipacionesPanel1);
@@ -296,26 +270,33 @@ public class VEmpresa extends javax.swing.JFrame {
         }
     });
 
+    idTextBox.setText(e.getIdUsuario());
+
+    tipoTextBox.setText("Empresa");
+
+    saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addGap(83, 83, 83)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(bajaBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                .addComponent(modificarBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modificarBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
             .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(56, 56, 56))
@@ -331,45 +312,42 @@ public class VEmpresa extends javax.swing.JFrame {
                     .addGap(18, 18, 18)
                     .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
-                    .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
-                    .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(43, 43, 43)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
+                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(36, 36, 36)
+                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(36, 36, 36)
                     .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(50, 50, 50)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addContainerGap(464, Short.MAX_VALUE))
     );
 
-    OtrosComponentes.configurarTabbedPane(panelCompra);
+    Utils.configurarTabbedPane(panelCompra);
     botonVolver1.configurar(fa, this, false);
     bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
+    idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+        FuentesGUI.Size.GRANDE));
+tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+    FuentesGUI.Size.GRANDE));
+    saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+        FuentesGUI.Size.GRANDE));
 
-    pack();
-    }// </editor-fold>//GEN-END:initComponents
+pack();
+}// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         fa.solicitarBaja(e.getIdUsuario());
     }//GEN-LAST:event_bajaBotonActionPerformed
-
-    private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-    }//GEN-LAST:event_idTextBoxActionPerformed
-
-    private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-    }//GEN-LAST:event_tipoTextBoxActionPerformed
-
-    private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-    }//GEN-LAST:event_saldoTextBoxActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
         fa.menuModificarEmpresa(e);
@@ -562,7 +540,7 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta disponibles;
     private vista.componentes.Etiqueta disponiblesLabel;
     private vista.componentes.Etiqueta etiqueta1;
-    private vista.componentes.TextBox idTextBox;
+    private vista.componentes.Etiqueta idTextBox;
     private vista.componentes.Etiqueta importeLabel;
     private vista.componentes.TextBox importeTextBox;
     private javax.swing.JScrollPane jScrollPane2;
@@ -575,13 +553,13 @@ public class VEmpresa extends javax.swing.JFrame {
     private vista.componentes.Boton participacionesBoton;
     private vista.componentes.Etiqueta participacionesLabel;
     private vista.componentes.Etiqueta saldoLabel;
-    private vista.componentes.TextBox saldoTextBox;
+    private vista.componentes.Etiqueta saldoTextBox;
     private vista.componentes.Tabla tablaAnuncios;
     private vista.componentes.Tabs tabs10;
     private vista.componentes.Tabs tabs9;
     private vista.componentes.TextBox textBox1;
     private vista.componentes.Etiqueta tipoLabel;
-    private vista.componentes.TextBox tipoTextBox;
+    private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.VentaParticipacionesPanel ventaPanel;
     // End of variables declaration//GEN-END:variables
@@ -630,9 +608,7 @@ public class VEmpresa extends javax.swing.JFrame {
 
     public void actualizarCampos() {
         e = fa.obtenerDatosEmpresa(e);
-        idTextBox.setText(e.getIdUsuario());
-        saldoTextBox.setText(String.valueOf(e.getSaldo()));
-        tipoTextBox.setText("Empresa");
+        saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
         disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
     }
 }

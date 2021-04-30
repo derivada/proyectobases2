@@ -33,21 +33,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="idTextBox" pref="268" max="32767" attributes="0"/>
-                  <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
-                  <Component id="saldoTextBox" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="bajaBoton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="modificarBoton" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="24" max="32767" attributes="0"/>
+                          <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="idTextBox" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoTextBox" min="-2" max="-2" attributes="0"/>
+                  <Component id="saldoTextBox" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="54" max="32767" attributes="0"/>
               <Component id="panelCompra" min="-2" pref="807" max="-2" attributes="0"/>
@@ -66,20 +68,20 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="usuarioLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="idTextBox" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="idTextBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="tipoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="bajaBoton" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoTextBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="saldoTextBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="bajaBoton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="modificarBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="saldoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
                           <Component id="abrirHistorial" min="-2" max="-2" attributes="0"/>
@@ -100,22 +102,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bajaBotonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="vista.componentes.TextBox" name="idTextBox">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="tipoTextBox">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.Etiqueta" name="tipoLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tipo:"/>
@@ -126,14 +112,9 @@
         <Property name="text" type="java.lang.String" value="Usuario:"/>
       </Properties>
     </Component>
-    <Component class="vista.componentes.TextBox" name="saldoTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saldoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.Etiqueta" name="saldoLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Saldo"/>
+        <Property name="text" type="java.lang.String" value="Saldo:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="panelCompra">
@@ -143,7 +124,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="OtrosComponentes.configurarTabbedPane(panelCompra);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Utils.configurarTabbedPane(panelCompra);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -449,6 +430,34 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abrirHistorialActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="idTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="e.getIdUsuario()" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="tipoTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Empresa"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="saldoTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Utils.displayCurrency(e.getSaldo())" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

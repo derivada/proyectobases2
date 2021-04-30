@@ -3,7 +3,7 @@ package vista;
 import vista.componentes.FuentesGUI;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Inversor;
-import vista.componentes.OtrosComponentes;
+import vista.componentes.Utils;
 
 public class VInversor extends javax.swing.JFrame {
 
@@ -14,7 +14,6 @@ public class VInversor extends javax.swing.JFrame {
         this.i = i;
         this.fa = fa;
         initComponents();
-        this.huecos();
     }
 
     /**
@@ -26,10 +25,7 @@ public class VInversor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        saldoTextBox = new vista.componentes.TextBox();
-        idTextBox = new vista.componentes.TextBox();
         saldoLabel = new vista.componentes.Etiqueta();
-        tipoTextBox = new vista.componentes.TextBox();
         bajaBoton = new vista.componentes.Boton();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
@@ -40,29 +36,13 @@ public class VInversor extends javax.swing.JFrame {
         bienvenidoLabel = new vista.componentes.Etiqueta();
         botonVolver1 = new vista.componentes.BotonVolver();
         abrirHistorial = new vista.componentes.Boton();
+        saldoTextBox = new vista.componentes.Etiqueta();
+        tipoTextBox = new vista.componentes.Etiqueta();
+        idTextBox = new vista.componentes.Etiqueta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        saldoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saldoTextBoxActionPerformed(evt);
-            }
-        });
-
-        idTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTextBoxActionPerformed(evt);
-            }
-        });
-
-        saldoLabel.setText("Saldo");
-
-        tipoTextBox.setEditable(false);
-        tipoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoTextBoxActionPerformed(evt);
-            }
-        });
+        saldoLabel.setText("Saldo:");
 
         bajaBoton.setText("Solicitud de baja");
         bajaBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +51,7 @@ public class VInversor extends javax.swing.JFrame {
             }
         });
 
-        tipoLabel.setText("Tipo");
+        tipoLabel.setText("Tipo:");
 
         usuarioLabel.setText("Usuario:");
 
@@ -95,6 +75,12 @@ public class VInversor extends javax.swing.JFrame {
             }
         });
 
+        saldoTextBox.setText(Utils.displayCurrency(i.getSaldo()));
+
+        tipoTextBox.setText("Inversor");
+
+        idTextBox.setText(i.getIdUsuario());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,22 +88,20 @@ public class VInversor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
-                            .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(173, 173, 173)))
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(abrirHistorial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(173, 173, 173))
+                        .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(abrirHistorial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(149, 149, 149))
@@ -129,23 +113,23 @@ public class VInversor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
+                        .addGap(18, 18, 18)
                         .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
+                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -153,20 +137,17 @@ public class VInversor extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
         );
 
-        OtrosComponentes.configurarTabbedPane(panelCompra);
+        Utils.configurarTabbedPane(panelCompra);
         botonVolver1.configurar(fa, this, false);
+        saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+            FuentesGUI.Size.GRANDE));
+    tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+        FuentesGUI.Size.GRANDE));
+idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+    FuentesGUI.Size.GRANDE));
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-    }//GEN-LAST:event_saldoTextBoxActionPerformed
-
-    private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-    }//GEN-LAST:event_idTextBoxActionPerformed
-
-    private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-    }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         fa.solicitarBaja(i.getIdUsuario());
@@ -189,28 +170,20 @@ public class VInversor extends javax.swing.JFrame {
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.BotonVolver botonVolver1;
     private vista.CompraParticipacionesPanel compraParticipacionesPanel1;
-    private vista.componentes.TextBox idTextBox;
+    private vista.componentes.Etiqueta idTextBox;
     private vista.componentes.Boton modificarBoton;
     private javax.swing.JTabbedPane panelCompra;
     private vista.componentes.Etiqueta saldoLabel;
-    private vista.componentes.TextBox saldoTextBox;
+    private vista.componentes.Etiqueta saldoTextBox;
     private vista.componentes.Etiqueta tipoLabel;
-    private vista.componentes.TextBox tipoTextBox;
+    private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.VentaParticipacionesPanel ventaPanel;
     // End of variables declaration//GEN-END:variables
 
-    public void huecos() {
-        idTextBox.setText(i.getIdUsuario());
-        // (Ver VEmpresa) claveTextBox.setText(i.getClave());
-        saldoTextBox.setText(String.valueOf(i.getSaldo()));
-        tipoTextBox.setText("Inversor");
-    }
 
     public void actualizarCampos() {
         i = fa.obtenerDatosInversor(i);
-        idTextBox.setText(i.getIdUsuario());
-        saldoTextBox.setText(String.valueOf(i.getSaldo()));
-        tipoTextBox.setText("Inversor");
+        saldoTextBox.setText(Utils.displayCurrency(i.getSaldo()));
     }
 }

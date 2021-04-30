@@ -1,18 +1,21 @@
 package vista.componentes;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-public class OtrosComponentes {
+public class Utils {
 
     /*
-     * En esta clase "estática" se recogen configuraciones rápidas para otros componentes que no son subclases, debido
-     * a que son de poco uso o a que se consideró demasiado tarde hacer un diseño completo
+     * En esta clase "estática" se recogen otros métodos usados por la GUI que no fueron recogidos en ninguna
+     * otra clase
      */
 
-    private OtrosComponentes(){}
+    private Utils() {
+    }
 
-    public static void configurarTabbedPane(JTabbedPane panel){
+    public static void configurarTabbedPane(JTabbedPane panel) {
         panel.setForeground(ColoresGUI.texto);
         panel.setBackground(ColoresGUI.fondo);
         panel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
@@ -27,5 +30,9 @@ public class OtrosComponentes {
                 darkShadow = ColoresGUI.getGUIColorExtraOscuro(ColoresGUI.Colores.AZUL);
             }
         });
+    }
+
+    public static String displayCurrency(float cantidad) {
+        return NumberFormat.getCurrencyInstance(Locale.GERMAN).format(cantidad).replace('¤', '$');
     }
 }

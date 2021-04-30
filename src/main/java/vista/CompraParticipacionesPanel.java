@@ -26,11 +26,32 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
     private FachadaAplicacion fa;
     private String[] nombresOtrosUsuarios;
     private Empresa empresa = null;
-    private float precioMaximo = -1.0f;
 
     public CompraParticipacionesPanel() {
         // No usar, requerido por NetBeans
         initComponents();
+        precioMaximoTextBox.setText("1.00");
+        this.setValidators();
+    }
+
+    private void setValidators() {
+        precioMaximoTextBox.setValidator(s -> {
+            if (s.length() == 0)
+                return true; // (sin límite)
+            try {
+                return Float.parseFloat(s) > 0.0f;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+    }
+
+    private float getPrecioMaximo() {
+        if (precioMaximoTextBox.validateInput())
+            return precioMaximoTextBox.getText().length() > 0 ? Float.parseFloat(
+                    precioMaximoTextBox.getText()) : Float.MAX_VALUE;
+        else
+            return 0.0f;
     }
 
     public CompraParticipacionesPanel(Usuario comprador, FachadaAplicacion fa) {
@@ -118,19 +139,6 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         numeroLabel.setName("numeroLabel"); // NOI18N
 
         precioMaximoTextBox.setName("precioMaximoTextBox"); // NOI18N
-        precioMaximoTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                precioMaximoTextBoxKeyTyped(evt);
-            }
-
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                precioMaximoTextBoxKeyPressed(evt);
-            }
-
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                precioMaximoTextBoxKeyReleased(evt);
-            }
-        });
 
         monedaLabel.setText("$");
         monedaLabel.setName("monedaLabel"); // NOI18N
@@ -201,12 +209,13 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-        if (precioMaximo <= 0.0f) {
+        if (!precioMaximoTextBox.validateInput()) {
             fa.muestraExcepcion("Por favor, especifique el precio máximo a pagar por participación!",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-        fa.comprarParticipaciones(comprador, empresa, cantidad.getValue(), precioMaximo);
+
+        fa.comprarParticipaciones(comprador, empresa, cantidad.getValue(), getPrecioMaximo());
         actualizarOfertas();
         JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
         if (ventanaPadre instanceof VEmpresa) {
@@ -220,7 +229,6 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_comprarParticipaciones
 
     private void evtCambiarEntrada(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evtCambiarEntrada
-
         actualizarOfertas();
     }//GEN-LAST:event_evtCambiarEntrada
 
@@ -228,35 +236,6 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         this.numeroLabel.setText(Integer.toString(cantidad.getValue()));
     }//GEN-LAST:event_cantidadStateChanged
 
-    private void precioMaximoTextBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioMaximoTextBoxKeyPressed
-        validarPrecioMaximo();
-    }//GEN-LAST:event_precioMaximoTextBoxKeyPressed
-
-    private void precioMaximoTextBoxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioMaximoTextBoxKeyReleased
-        validarPrecioMaximo();
-    }//GEN-LAST:event_precioMaximoTextBoxKeyReleased
-
-    private void precioMaximoTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioMaximoTextBoxKeyTyped
-        validarPrecioMaximo();
-    }//GEN-LAST:event_precioMaximoTextBoxKeyTyped
-
-    private void validarPrecioMaximo() {
-        float temp = -1.0f;
-        try {
-            temp = Float.parseFloat(precioMaximoTextBox.getText());
-            if (temp >= 0.0f) {
-                precioMaximo = temp;
-                precioMaximoTextBox.setBackground(ColoresGUI.blanco);
-            } else {
-                precioMaximoTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                precioMaximo = -1.0f;
-            }
-        } catch (NumberFormatException e) {
-            precioMaximoTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-            precioMaximo = -1.0f;
-        }
-        actualizarOfertas();
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton botonComprar;
@@ -281,25 +260,13 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         empresa = fa.obtenerDatosEmpresa(new Usuario((String) seleccionEmpresa.getSelectedItem(), false, false));
 
         try {
-            int precio;
-            if (precioMaximo < 0.0f) {
-                precio = Integer.MAX_VALUE; // Para poder encontrar nuevas ofertas aunque sea 0 
-            } else {
-                precio = (int) precioMaximo;
-            }
-
-            List<OfertaVenta> ofertasDisponibles = fa.getOfertasVenta(empresa.getIdUsuario(), precio);
+            List<OfertaVenta> ofertasDisponibles = fa.getOfertasVenta(empresa.getIdUsuario(), getPrecioMaximo());
             m.setFilas(ofertasDisponibles);
             // actualizar valor máximo del deslizador
             int totalDisponibles = 0;
             double precioMaximoOfertas = 0.0f;
-            Iterator<OfertaVenta> it = ofertasDisponibles.iterator();
             // Borrar las ofertas donde el comprador es el propio usuario
-            while (it.hasNext()) {
-                OfertaVenta o = it.next();
-                if (o.getVendedor().equals(comprador.getIdUsuario()))
-                    it.remove();
-            }
+            ofertasDisponibles.removeIf(o -> o.getVendedor().equals(comprador.getIdUsuario()));
 
             for (OfertaVenta e : ofertasDisponibles) {
                 totalDisponibles += e.getNumParticipaciones();

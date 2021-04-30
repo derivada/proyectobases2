@@ -2,13 +2,14 @@ package vista;
 
 import aplicacion.*;
 import vista.componentes.FuentesGUI;
-import vista.componentes.OtrosComponentes;
+import vista.componentes.Utils;
 import vista.modeloTablas.ModeloTablaAlta;
 import vista.modeloTablas.ModeloTablaBaja;
 import vista.modeloTablas.ModeloTablaBeneficios;
 import vista.modeloTablas.ModeloTablaTransacciones;
 
 public class VRegulador extends javax.swing.JFrame {
+
     private final FachadaAplicacion fa;
     private final Regulador r;
 
@@ -16,11 +17,7 @@ public class VRegulador extends javax.swing.JFrame {
         this.r = r;
         this.fa = fa;
         initComponents();
-        idTextBox.setText(r.getIdUsuario());
-        // (Ver clase VEmpresas) claveTextBox.setText(r.getClave());
-        saldoTextBox.setText(String.valueOf(r.getSaldo()));
-        tipoTextBox.setText("Regulador");
-
+        
         //Modelo tabla Alta
         ModeloTablaAlta mTAlta = new ModeloTablaAlta();
         tabla1.setModel(mTAlta);
@@ -41,10 +38,9 @@ public class VRegulador extends javax.swing.JFrame {
         } else {
             bajaBoton.setEnabled(false);
         }
-        
-        ModeloTablaBeneficios tablaAnuncios=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
+
+        ModeloTablaBeneficios tablaAnuncios = (ModeloTablaBeneficios) anunciosTabla.getModel();
         tablaAnuncios.setFilas(fa.obtenerAnunciosRegulador());
-        
     }
 
     /**
@@ -74,15 +70,15 @@ public class VRegulador extends javax.swing.JFrame {
         anunciosTabla = new vista.componentes.Tabla();
         bajaAnunciosBoton = new vista.componentes.Boton();
         saldoLabel = new vista.componentes.Etiqueta();
-        idTextBox = new vista.componentes.TextBox();
-        tipoTextBox = new vista.componentes.TextBox();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
-        saldoTextBox = new vista.componentes.TextBox();
         botonVolver1 = new vista.componentes.BotonVolver();
         bienvenidoLabel = new vista.componentes.Etiqueta();
         botonModificarComision = new vista.componentes.Boton();
         abrirHistorial = new vista.componentes.Boton();
+        saldoTextBox = new vista.componentes.Etiqueta();
+        tipoTextBox = new vista.componentes.Etiqueta();
+        idTextBox = new vista.componentes.Etiqueta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -215,29 +211,9 @@ public class VRegulador extends javax.swing.JFrame {
 
         saldoLabel.setText("Saldo");
 
-        idTextBox.setEditable(false);
-        idTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTextBoxActionPerformed(evt);
-            }
-        });
-
-        tipoTextBox.setEditable(false);
-        tipoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoTextBoxActionPerformed(evt);
-            }
-        });
-
         tipoLabel.setText("Tipo:");
 
         usuarioLabel.setText("Usuario:");
-
-        saldoTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saldoTextBoxActionPerformed(evt);
-            }
-        });
 
         bienvenidoLabel.setText("Bienvenid@, " +r.getIdUsuario());
         bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL, FuentesGUI.Size.GRANDE));
@@ -256,6 +232,12 @@ public class VRegulador extends javax.swing.JFrame {
             }
         });
 
+        saldoTextBox.setText(Utils.displayCurrency(r.getSaldo()));
+
+        tipoTextBox.setText("Regulador");
+
+        idTextBox.setText(r.getIdUsuario());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,17 +246,17 @@ public class VRegulador extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(73, 73, 73)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
@@ -293,12 +275,12 @@ public class VRegulador extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
                         .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,10 +290,16 @@ public class VRegulador extends javax.swing.JFrame {
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
-        OtrosComponentes.configurarTabbedPane(jTabbedPane1);
+        Utils.configurarTabbedPane(jTabbedPane1);
         botonVolver1.configurar(fa, this, false);
+        saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+            FuentesGUI.Size.GRANDE));
+    tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+        FuentesGUI.Size.GRANDE));
+idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+    FuentesGUI.Size.GRANDE));
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
@@ -329,15 +317,6 @@ public class VRegulador extends javax.swing.JFrame {
 
         modelo.setFilas(fa.obtenerUsuariosPorAutorizacion());
     }//GEN-LAST:event_altaBotonActionPerformed
-
-    private void idTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextBoxActionPerformed
-    }//GEN-LAST:event_idTextBoxActionPerformed
-
-    private void saldoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldoTextBoxActionPerformed
-    }//GEN-LAST:event_saldoTextBoxActionPerformed
-
-    private void tipoTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoTextBoxActionPerformed
-    }//GEN-LAST:event_tipoTextBoxActionPerformed
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
@@ -370,14 +349,14 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Etiqueta bienvenidoLabel;
     private vista.componentes.Boton botonModificarComision;
     private vista.componentes.BotonVolver botonVolver1;
-    private vista.componentes.TextBox idTextBox;
+    private vista.componentes.Etiqueta idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private vista.componentes.Etiqueta saldoLabel;
-    private vista.componentes.TextBox saldoTextBox;
+    private vista.componentes.Etiqueta saldoTextBox;
     private vista.componentes.Tabla tabla1;
     private vista.componentes.Tabla tabla2;
     private vista.componentes.Tabla tabla3;
@@ -385,23 +364,20 @@ public class VRegulador extends javax.swing.JFrame {
     private vista.componentes.Tabs tabs6;
     private vista.componentes.Tabs tabs7;
     private vista.componentes.Etiqueta tipoLabel;
-    private vista.componentes.TextBox tipoTextBox;
+    private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Boton transferenciaBoton;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
 
-public void darBajaAnuncio(){
-    ModeloTablaBeneficios tabla=(ModeloTablaBeneficios) anunciosTabla.getModel(); 
-    int fila=anunciosTabla.getSelectedRow(); 
-    AnuncioBeneficios aux=tabla.obtenerBeneficios(fila);
-    fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion());
-    //Se actualiza la tabla 
-    tabla.setFilas(fa.obtenerAnunciosRegulador());
-        if(tabla.getRowCount()>0){
-            anunciosTabla.setRowSelectionInterval(0,0);
+    public void darBajaAnuncio() {
+        ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) anunciosTabla.getModel();
+        int fila = anunciosTabla.getSelectedRow();
+        AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
+        fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion());
+        //Se actualiza la tabla 
+        tabla.setFilas(fa.obtenerAnunciosRegulador());
+        if (tabla.getRowCount() > 0) {
+            anunciosTabla.setRowSelectionInterval(0, 0);
         }
-    
-    
-    
-}
+    }
 }

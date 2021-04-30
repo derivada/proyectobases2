@@ -27,18 +27,18 @@
               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="tipoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="saldoTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="idTextBox" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                       <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
                   <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
+                  <Component id="saldoTextBox" max="32767" attributes="0"/>
+                  <Component id="tipoTextBox" max="32767" attributes="0"/>
+                  <Component id="idTextBox" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="761" max="-2" attributes="0"/>
@@ -60,12 +60,12 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="tipoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="tipoTextBox" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="saldoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="saldoTextBox" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <Component id="saldoTextBox" min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -83,7 +83,7 @@
   <SubComponents>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="OtrosComponentes.configurarTabbedPane(jTabbedPane1);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Utils.configurarTabbedPane(jTabbedPane1);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -336,22 +336,6 @@
         <Property name="text" type="java.lang.String" value="Saldo"/>
       </Properties>
     </Component>
-    <Component class="vista.componentes.TextBox" name="idTextBox">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idTextBoxActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="tipoTextBox">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoTextBoxActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="vista.componentes.Etiqueta" name="tipoLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tipo:"/>
@@ -361,11 +345,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Usuario:"/>
       </Properties>
-    </Component>
-    <Component class="vista.componentes.TextBox" name="saldoTextBox">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saldoTextBoxActionPerformed"/>
-      </Events>
     </Component>
     <Component class="vista.componentes.BotonVolver" name="botonVolver1">
       <AuxValues>
@@ -397,6 +376,34 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abrirHistorialActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="saldoTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Utils.displayCurrency(r.getSaldo())" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="tipoTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Regulador"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Etiqueta" name="idTextBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="r.getIdUsuario()" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
