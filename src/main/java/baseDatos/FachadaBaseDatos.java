@@ -206,7 +206,7 @@ public class FachadaBaseDatos {
         daoUsuarios.solicitarBaja(idUsuario);
     }
 
-    public int crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+    public int crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         return daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 

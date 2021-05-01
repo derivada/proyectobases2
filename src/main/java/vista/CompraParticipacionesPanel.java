@@ -228,7 +228,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
         if (ventanaPadre instanceof VEmpresa) {
             VEmpresa ve = (VEmpresa) ventanaPadre;
-            ve.actualizarCampos();
+            ve.actualizarDatos();
         } else if (ventanaPadre instanceof VInversor) {
             VInversor vi = (VInversor) ventanaPadre;
             vi.actualizarCampos();

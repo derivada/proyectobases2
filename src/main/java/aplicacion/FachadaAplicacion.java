@@ -1,14 +1,13 @@
 package aplicacion;
 
-import java.util.ArrayList;
-
 import baseDatos.FachadaBaseDatos;
-import java.sql.Date;
-import java.sql.Timestamp;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -211,7 +210,7 @@ public class FachadaAplicacion {
         return cu.modificarEmpresa(e, pass, idviejo);
     }
 
-    public void crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+    public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         cu.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 

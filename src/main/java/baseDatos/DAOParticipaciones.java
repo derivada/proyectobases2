@@ -9,6 +9,7 @@ import vista.FachadaGui;
 import vista.VentanaConfirmacion;
 import vista.componentes.Utils;
 
+import javax.xml.transform.Result;
 
 public class DAOParticipaciones extends AbstractDAO {
 
@@ -162,8 +163,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
         } finally {
             try {
-                if (stmConsulta != null)
-                    stmConsulta.close();
+                stmConsulta.close();
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -262,8 +262,7 @@ public class DAOParticipaciones extends AbstractDAO {
                     manejarExcepcionSQL(ex);
                 } finally {
                     try {
-                        if (stmAnuncios != null)
-                            stmAnuncios.close();
+                        stmAnuncios.close();
 
                     } catch (SQLException ex) {
                         System.out.println("Imposible cerrar cursores");
@@ -274,8 +273,7 @@ public class DAOParticipaciones extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (stmCheck != null)
-                    stmCheck.close();
+                stmCheck.close();
                 if (stmAnuncios != null) {
                     stmAnuncios.close();
                 }
@@ -291,7 +289,7 @@ public class DAOParticipaciones extends AbstractDAO {
     }
 
     public void bajaParticipaciones(Empresa e, int cantidad) {
-        int antiguasPart = getPartPropEmpresa(e);
+        int antiguasPart = getParticipacionesEmpresa(e, e.getIdUsuario());
         PreparedStatement stmUpdate = null;
         ResultSet rst;
         Connection con;
@@ -559,9 +557,8 @@ public class DAOParticipaciones extends AbstractDAO {
                     con.commit();
                 else
                     con.rollback();
-
-                if (stmSelecion != null) {
-                    stmSelecion.close();
+                if (stmBorrado != null) {
+                    stmBorrado.close();
                 }
                 if (stmBorrado != null) {
                     stmBorrado.close();
