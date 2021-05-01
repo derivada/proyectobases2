@@ -1024,6 +1024,7 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmBloquear = null;
         PreparedStatement stmBloquearParticipaciones1 = null;
         PreparedStatement stmBloquearParticipaciones2 = null;
+        
         int resultado = 1;
         boolean done = false;
         String consulta1 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,numeroparticipaciones,solicitadobaja) values (?,?,?,?,false)";
@@ -1039,6 +1040,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         String consulta6 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where usuario= ? and empresa= ? ";
+        
+        
 
         Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
 
@@ -1111,8 +1114,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar2.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
-                    stmBloquear.setFloat(1, importe);
-                    stmBloquear.setFloat(2, importe);
+                    stmBloquear.setFloat(1, importe*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(2, importe*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquear.setString(3, e.getIdUsuario());
                     stmBloquear.executeUpdate();
 
@@ -1161,8 +1164,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar3.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
-                    stmBloquear.setFloat(1, importe);
-                    stmBloquear.setFloat(2, importe);
+                    stmBloquear.setFloat(1, importe*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(2, importe*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquear.setString(3, e.getIdUsuario());
                     stmBloquear.executeUpdate();
 
@@ -1232,12 +1235,12 @@ public class DAOUsuarios extends AbstractDAO {
             con.setAutoCommit(false);
             //Se resta de saldobloqueado
             stmResta = con.prepareStatement(consulta1);
-            stmResta.setFloat(1, importe);
+            stmResta.setFloat(1, importe*this.participacionesVendidas(empresa));
             stmResta.setString(2, empresa);
             stmResta.executeUpdate();
             //Se suma a saldo
             stmSuma = con.prepareStatement(consulta2);
-            stmSuma.setFloat(1, importe);
+            stmSuma.setFloat(1, importe*this.participacionesVendidas(empresa));
             stmSuma.setString(2, empresa);
             stmSuma.executeUpdate();
 
