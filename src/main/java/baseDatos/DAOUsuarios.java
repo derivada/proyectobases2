@@ -925,6 +925,58 @@ public class DAOUsuarios extends AbstractDAO {
 
         return resultado;
     }
+    
+     public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+        
+        
+
+        con = this.getConexion();
+
+        String consulta = "select * "
+                + "from ofertaVenta "
+                + "where usuario like ? "; 
+                
+        
+        
+        
+
+        try {
+            stm = con.prepareStatement(consulta);
+            usuario = "%" + usuario + "%";
+            stm.setString(1, usuario);
+            
+            rst = stm.executeQuery();
+            
+            
+            float comision= this.obtenerComision(this.obtenerListaReguladores().get(0).getIdUsuario()); 
+            while (rst.next()) {
+                //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
+                OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"),comision);
+                resultado.add(v);
+
+            }
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+                
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return resultado;
+    }
+     
+    
 
     public void eliminarInversor(String idUsuario) {
         PreparedStatement stm = null;

@@ -135,6 +135,10 @@ public class GestionUsuarios {
     public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio){
         return fbd.getOfertasVenta(empresa, precio);
     }
+    
+      public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        return fbd.getOfertasVentaPropias(usuario);
+    }
 
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return fbd.getParticipacionesEmpresa(u, e);
@@ -151,6 +155,10 @@ public class GestionUsuarios {
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
 
+    }
+    
+     public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
+        fbd.bajaOfertaVenta(usuario, fecha, precio, participaciones);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax){

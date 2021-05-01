@@ -174,9 +174,17 @@ public class FachadaAplicacion {
     public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio) {
         return cu.getOfertasVenta(empresa, precio);
     }
+    
+      public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        return cu.getOfertasVentaPropias(usuario);
+    }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
+    }
+    
+     public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
+        fbd.bajaOfertaVenta(usuario, fecha, precio, participaciones);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int numero, float precioMaximo) {

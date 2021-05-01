@@ -4,6 +4,8 @@ import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
 import aplicacion.EntradaHistorial;
 import aplicacion.Usuario;
+import aplicacion.OfertaVenta; 
+import vista.modeloTablas.ModeloTablaVenta; 
 
 import java.sql.Timestamp;
 
@@ -35,6 +37,10 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         nombresOtrosUsuarios = lista.toArray(nombresOtrosUsuarios);
         initComponents();
         setValidators();
+        
+        ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel(); 
+        tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
+        
     }
 
     private void setValidators() {
@@ -65,6 +71,9 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         numeroVenta = new vista.componentes.Deslizador(0, 0);
         numeroLabel = new vista.componentes.Etiqueta();
         titulo = new vista.componentes.Etiqueta();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaVenta = new vista.componentes.Tabla();
+        bajaVentaBoton = new vista.componentes.Boton();
 
         precioVentaTextBox.setName("precioVentaTextBox"); // NOI18N
 
@@ -105,28 +114,50 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         titulo.setText("Venta de participaciones");
         titulo.setName("titulo"); // NOI18N
 
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        tablaVenta.setModel(new vista.modeloTablas.ModeloTablaVenta());
+        tablaVenta.setName("tablaVenta"); // NOI18N
+        jScrollPane1.setViewportView(tablaVenta);
+
+        bajaVentaBoton.setText("Dar de baja oferta de venta");
+        bajaVentaBoton.setName("bajaVentaBoton"); // NOI18N
+        bajaVentaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaVentaBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .addComponent(empresaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(77, 77, 77)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numeroVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bajaVentaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(precioVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(precioVentaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(empresaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(77, 77, 77)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(numeroVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numeroVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(36, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,14 +178,18 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(numeroLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(precioVentaTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ventaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(empresaVentaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(empresaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bajaVentaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         try{
@@ -202,6 +237,8 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         fa.obtenerHistorial(u);
         numeroVenta.setValue(0);
         numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
+        tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }//GEN-LAST:event_crearOfertaVenta
 
     private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
@@ -214,15 +251,28 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         numeroLabel.setText(Integer.toString(numeroVenta.getValue()));
     }//GEN-LAST:event_numeroVentaStateChanged
 
+    private void bajaVentaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaVentaBotonActionPerformed
+        // TODO add your handling code here:
+        ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel(); 
+        int fila=tablaVenta.getSelectedRow(); 
+        OfertaVenta oferta= tabla.obtenerOfertas(fila); 
+        fa.bajaOfertaVenta(oferta.getVendedor(), oferta.getFecha(), oferta.getPrecio(), oferta.getNumParticipaciones());
+        tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
+        
+    }//GEN-LAST:event_bajaVentaBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vista.componentes.Boton bajaVentaBoton;
     private vista.componentes.SelecionBox empresaVenta;
     private vista.componentes.Etiqueta empresaVentaLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private vista.componentes.Etiqueta numeroLabel;
     private vista.componentes.Deslizador numeroVenta;
     private vista.componentes.Etiqueta numeroVentaLabel;
     private vista.componentes.Etiqueta precioVentaLabel;
     private vista.componentes.TextBox precioVentaTextBox;
+    private vista.componentes.Tabla tablaVenta;
     private vista.componentes.Etiqueta titulo;
     private vista.componentes.Boton ventaBoton;
     // End of variables declaration//GEN-END:variables

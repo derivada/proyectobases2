@@ -511,6 +511,45 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
     }
+    
+     public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
+         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
+        PreparedStatement stm = null;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta =" delete from ofertaVenta "
+                + "where usuario like ? "
+                + "and fecha = ? "
+                + "and precio = ? "
+                + "and numparticipaciones = ? "; 
+
+        try {
+            stm = con.prepareStatement(consulta);
+            usuario = "%" + usuario + "%";
+            stm.setString(1, usuario);
+            stm.setTimestamp(2, fecha);
+            stm.setFloat(3, precio);
+            stm.setInt(4, participaciones);
+            stm.executeUpdate();
+            
+            muestraExcepcion("Se ha dado de baja la oferta de venta:\n\n" , DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            
+
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+                
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax,
             float comision, Usuario regulador) {
