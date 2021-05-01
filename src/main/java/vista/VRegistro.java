@@ -38,8 +38,8 @@ public class VRegistro extends javax.swing.JFrame {
                 return false;
             }
         });
-        IDReg.setValidator(s -> s.length() > 2 && s.length() <= 20); // minimo 3, maximo 20
-        nombreReg.setValidator(s -> s.length() > 2 && s.length() <= 60); // minimo 3, maximo 60
+        IDReg.setValidator(s -> s.length() > 1 && s.length() <= 20); // minimo 2, maximo 20
+        nombreReg.setValidator(s -> s.length() > 1 && s.length() <= 60); // minimo 2, maximo 60
         direccionReg.setValidator(s -> s.length() <= 50); // 50 como mucho, adminitimos nulos
         CIFReg.setValidator(s -> s.length() == 9); // debe ser 9, no admitimos nulos
 
@@ -50,7 +50,7 @@ public class VRegistro extends javax.swing.JFrame {
         ingresoClave.setValidationLevel(false);
 
         // Validadores del login
-        ingresoUsuario.setValidator(s -> s.length() > 2 && s.length() <= 60); // minimo 3, maximo 60
+        ingresoUsuario.setValidator(s -> s.length() > 1 && s.length() <= 60); // minimo 2, maximo 60
     }
 
     private void configureComponentes() {

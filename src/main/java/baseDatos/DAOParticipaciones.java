@@ -9,6 +9,7 @@ import vista.FachadaGui;
 import vista.VentanaConfirmacion;
 import vista.componentes.Utils;
 
+
 public class DAOParticipaciones extends AbstractDAO {
 
     private static final float CONFIRMACION_LIMITE = 10.0f; // A partir de este x%, se pedirá confirmación para una compra
@@ -77,7 +78,7 @@ public class DAOParticipaciones extends AbstractDAO {
      * @param e Empresa a las que están asociadas esas participaciones
      * @return El número de participaciones de u en e
      */
-    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
+    public int getParticipacionesEmpresa(Usuario u, String e) {
         if (u == null || u instanceof Regulador) {
             return 0;
         }
@@ -104,7 +105,7 @@ public class DAOParticipaciones extends AbstractDAO {
         try {
             stmCheck = con.prepareStatement(consulta);
             stmCheck.setString(1, u.getIdUsuario());
-            stmCheck.setString(2, e.getIdUsuario());
+            stmCheck.setString(2, e);
             rst = stmCheck.executeQuery();
             while (rst.next()) {
                 result = rst.getInt("result");
@@ -126,7 +127,7 @@ public class DAOParticipaciones extends AbstractDAO {
     /**
      * Obtiene el número de participaciones vendidas de la empresa
      *
-     * @param empesa Nombre de la empresa
+     * @param empresa Nombre de la empresa
      * @return El número de participaciones vendidas
      */
     private int participacionesVendidas(String empresa) {
@@ -161,7 +162,8 @@ public class DAOParticipaciones extends AbstractDAO {
 
         } finally {
             try {
-                stmConsulta.close();
+                if (stmConsulta != null)
+                    stmConsulta.close();
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -260,7 +262,8 @@ public class DAOParticipaciones extends AbstractDAO {
                     manejarExcepcionSQL(ex);
                 } finally {
                     try {
-                        stmAnuncios.close();
+                        if (stmAnuncios != null)
+                            stmAnuncios.close();
 
                     } catch (SQLException ex) {
                         System.out.println("Imposible cerrar cursores");
@@ -271,7 +274,8 @@ public class DAOParticipaciones extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                stmCheck.close();
+                if (stmCheck != null)
+                    stmCheck.close();
                 if (stmAnuncios != null) {
                     stmAnuncios.close();
                 }
@@ -385,7 +389,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
             // e emite acciones de e
             fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
-                     cantidad, null, EntradaHistorial.TipoEntradaHistorial.EMISION));
+                    cantidad, null, EntradaHistorial.TipoEntradaHistorial.EMISION));
 
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -421,7 +425,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
     }
 
-    public void crearOfertaVenta(Usuario u, Empresa e, int numero, float precioVenta) {
+    public void crearOfertaVenta(Usuario u, String e, int numero, float precioVenta) {
         if (u == null || u instanceof Regulador) {
             manejarExcepcion(new Exception("El usuario no puede crear ofertas de venta!"));
             return;
@@ -458,7 +462,7 @@ public class DAOParticipaciones extends AbstractDAO {
             // 1. CREAR OFERTA DE VENTA
             stmOferta = con.prepareStatement(consultaOferta);
             stmOferta.setString(1, u.getIdUsuario());
-            stmOferta.setString(2, e.getIdUsuario());
+            stmOferta.setString(2, e);
             stmOferta.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             stmOferta.setInt(4, numero);
             stmOferta.setFloat(5, precioVenta);
@@ -469,22 +473,22 @@ public class DAOParticipaciones extends AbstractDAO {
             stmSustracion = con.prepareStatement(consultaSustracion);
             stmSustracion.setInt(1, nuevaCantidad);
             stmSustracion.setString(2, u.getIdUsuario());
-            stmSustracion.setString(3, e.getIdUsuario());
+            stmSustracion.setString(3, e);
             stmSustracion.executeUpdate();
 
             if (nuevaCantidad == 0) {
                 // 3. ELIMINAR LA TUPLA YA QUE NO QUEDAN PARTICIPACIONES
                 stmEliminacion = con.prepareStatement(consultaEliminacion);
                 stmEliminacion.setString(1, u.getIdUsuario());
-                stmEliminacion.setString(2, e.getIdUsuario());
+                stmEliminacion.setString(2, e);
                 stmEliminacion.executeUpdate();
             }
             String part = numero == 1 ? "1 participación " : (numero + " participaciones ");
             muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "
-                    + part + "de " + e.getIdUsuario() + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+                    + part + "de " + e + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
-            fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), u.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
-                     numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
+            fa.insertarHistorial(new EntradaHistorial(e, u.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
+                    numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
 
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
@@ -511,45 +515,66 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
     }
-    
-     public void bajaOfertaVenta(String usuario,Timestamp fecha){
-         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
-        PreparedStatement stm = null;
+
+    public void bajaOfertaVenta(Usuario usuario, Timestamp fecha) {
+        java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
+        PreparedStatement stmSelecion = null, stmBorrado = null;
+        ResultSet rst;
         Connection con;
-
+        boolean done = false;
         con = this.getConexion();
-
-        String consulta =" delete from ofertaVenta "
-                + "where usuario like ? "
-                + "and fecha = ? "; 
+        int cantidad = 0;
+        String empresa = "";
+        String seleccion = " select * from ofertaVenta where usuario = ? and fecha = ?";
+        String borrado = " delete from ofertaVenta "
+                + "where usuario = ? "
+                + "and fecha = ? ";
 
         try {
-            stm = con.prepareStatement(consulta);
-            usuario = "%" + usuario + "%";
-            stm.setString(1, usuario);
-            stm.setTimestamp(2, fecha);
-            
-            stm.executeUpdate();
-            
-            muestraExcepcion("Se ha dado de baja la oferta de venta:\n\n" , DialogoInfo.NivelDeAdvertencia.INFORMACION);
-            
+            con.setAutoCommit(false);
+            stmSelecion = con.prepareStatement(seleccion);
+            stmSelecion.setString(1, usuario.getIdUsuario());
+            stmSelecion.setTimestamp(2, fecha);
+            rst = stmSelecion.executeQuery();
+
+            while (rst.next()) {
+                cantidad = rst.getInt("numparticipaciones");
+                empresa = rst.getString("empresa");
+            }
+
+            stmBorrado = con.prepareStatement(borrado);
+            stmBorrado.setString(1, usuario.getIdUsuario());
+            stmBorrado.setTimestamp(2, fecha);
+            stmBorrado.executeUpdate();
+
+            darParticipaciones(usuario, cantidad, empresa);
+            muestraExcepcion("Se ha dado de baja la oferta de venta:\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            done = true;
 
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                if (stm != null) {
-                    stm.close();
+                if (done)
+                    con.commit();
+                else
+                    con.rollback();
+
+                if (stmSelecion != null) {
+                    stmSelecion.close();
                 }
-                
+                if (stmBorrado != null) {
+                    stmBorrado.close();
+                }
+                con.setAutoCommit(true);
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-     }
+    }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax,
-            float comision, Usuario regulador) {
+    public void comprarParticipaciones(Usuario comprador, String empresa, int cantidad, float precioMax,
+                                       float comision, Usuario regulador) {
         // Actualizar datos
 
         if (comprador == null || comprador instanceof Regulador) {
@@ -564,8 +589,6 @@ public class DAOParticipaciones extends AbstractDAO {
         if (comprador instanceof Empresa) {
             comprador = fa.obtenerDatosEmpresa(comprador);
         }
-
-        empresa = fa.obtenerDatosEmpresa(empresa);
 
         boolean dineroAgotado = false;
         int participacionesIteracion = 0, participacionesCompradas = 0;
@@ -597,7 +620,7 @@ public class DAOParticipaciones extends AbstractDAO {
         try {
             con.setAutoCommit(false);
             stmParticipaciones = con.prepareStatement(listaMejoresOfertas);
-            stmParticipaciones.setString(1, empresa.getIdUsuario());
+            stmParticipaciones.setString(1, empresa);
             rst = stmParticipaciones.executeQuery();
 
             // Mientras queden suficientes ofertas && no hallamos comprado todas las que necesitamos && quede dinero
@@ -676,7 +699,7 @@ public class DAOParticipaciones extends AbstractDAO {
                 }
                 sePidioConfirmacion = true; // Hay que cerrar la transación en VentanaConfirmacion no aquí
             }
-            fa.insertarHistorial(new EntradaHistorial(empresa.getIdUsuario(), comprador.getIdUsuario(),
+            fa.insertarHistorial(new EntradaHistorial(empresa, comprador.getIdUsuario(),
                     new Timestamp(System.currentTimeMillis()), cantidad, precioMax, EntradaHistorial.TipoEntradaHistorial.COMPRA));
             done = true;
         } catch (SQLException ex) {
@@ -707,7 +730,7 @@ public class DAOParticipaciones extends AbstractDAO {
         }
     }
 
-    private void darParticipaciones(Usuario destino, int cantidad, Empresa empresa) throws SQLException {
+    private void darParticipaciones(Usuario destino, int cantidad, String empresa) throws SQLException {
         // Mover las participaciones de la carte de vendedor a la de comprador
         PreparedStatement stmCreacion = null, stmUpdate = null;
         ResultSet rst = null;
@@ -735,7 +758,7 @@ public class DAOParticipaciones extends AbstractDAO {
                 // Crear tabla de participaciones en la cartera del comprador
                 stmCreacion = con.prepareStatement(crearComprador);
                 stmCreacion.setString(1, destino.getIdUsuario());
-                stmCreacion.setString(2, empresa.getIdUsuario());
+                stmCreacion.setString(2, empresa);
                 stmCreacion.setInt(3, 0);
                 stmCreacion.executeUpdate();
             }
@@ -743,7 +766,7 @@ public class DAOParticipaciones extends AbstractDAO {
             stmUpdate = con.prepareStatement(sumarComprador);
             stmUpdate.setInt(1, participacionesPreviasComprador + cantidad);
             stmUpdate.setString(2, destino.getIdUsuario());
-            stmUpdate.setString(3, empresa.getIdUsuario());
+            stmUpdate.setString(3, empresa);
             stmUpdate.executeUpdate();
         } finally {
             try {
