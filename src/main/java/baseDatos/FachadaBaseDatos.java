@@ -155,13 +155,17 @@ public class FachadaBaseDatos {
     public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio) {
         return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
+    
+     public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        return daoUsuarios.getOfertasVentaPropias(usuario);
+    }
 
     public int getParticipacionesTotales(Usuario u) {
         return daoParticipaciones.getParticipacionesTotales(u);
     }
 
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
-        return daoParticipaciones.getParticipacionesEmpresa(u, e);
+        return daoParticipaciones.getParticipacionesEmpresa(u, e.getIdUsuario());
     }
     
     public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
@@ -174,7 +178,7 @@ public class FachadaBaseDatos {
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
         
-        daoParticipaciones.comprarParticipaciones(comprador, empresa, cantidad, precioMax,
+        daoParticipaciones.comprarParticipaciones(comprador, empresa.getIdUsuario(), cantidad, precioMax,
                 daoUsuarios.obtenerComision(daoUsuarios.obtenerListaReguladores().get(0).getIdUsuario()),
                 daoUsuarios.obtenerListaReguladores().get(0));
     }
@@ -184,7 +188,10 @@ public class FachadaBaseDatos {
     }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
-        daoParticipaciones.crearOfertaVenta(u, empresa, numero, precioVenta);
+        daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta);
+    }
+    public void bajaOfertaVenta(Usuario usuario,Timestamp fecha){
+        daoParticipaciones.bajaOfertaVenta(usuario, fecha);
     }
 
     public void eliminarInversor(String idUsuario) {
@@ -199,7 +206,7 @@ public class FachadaBaseDatos {
         daoUsuarios.solicitarBaja(idUsuario);
     }
 
-    public int crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+    public int crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         return daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 

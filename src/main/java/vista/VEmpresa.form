@@ -215,9 +215,6 @@
               </Properties>
             </Component>
             <Component class="vista.componentes.TextBox" name="numeroParticipacionesTextBox">
-              <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="numeroParticipacionesTextBoxKeyTyped"/>
-              </Events>
             </Component>
             <Component class="vista.componentes.Boton" name="participacionesBoton">
               <Properties>

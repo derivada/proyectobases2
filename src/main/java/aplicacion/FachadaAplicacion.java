@@ -1,14 +1,13 @@
 package aplicacion;
 
-import java.util.ArrayList;
-
 import baseDatos.FachadaBaseDatos;
-import java.sql.Date;
-import java.sql.Timestamp;
 import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -174,9 +173,17 @@ public class FachadaAplicacion {
     public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio) {
         return cu.getOfertasVenta(empresa, precio);
     }
+    
+      public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        return cu.getOfertasVentaPropias(usuario);
+    }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
+    }
+    
+     public void bajaOfertaVenta(Usuario usuario,Timestamp fecha){
+        fbd.bajaOfertaVenta(usuario, fecha);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int numero, float precioMaximo) {
@@ -203,7 +210,7 @@ public class FachadaAplicacion {
         return cu.modificarEmpresa(e, pass, idviejo);
     }
 
-    public void crearAnuncio(Float importe, Empresa e, Date fecha, Integer numeroParticipaciones) {
+    public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         cu.crearAnuncio(importe, e, fecha, numeroParticipaciones);
     }
 

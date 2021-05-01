@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package baseDatos;
 
 import aplicacion.EntradaHistorial;
@@ -12,11 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
-/**
- * @author migue
- */
 public class DAOHistorial extends AbstractDAO {
 
     public DAOHistorial(Connection conexion, aplicacion.FachadaAplicacion fa) {
@@ -93,8 +84,8 @@ public class DAOHistorial extends AbstractDAO {
                         rst.getString("tipo"));
                 resultado.add(historialActual);
             }
-        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
-            manejarExcepcionSQL(ex);
+        } catch (SQLException e) {
+            manejarExcepcionSQL(e);
         } finally {
             try {
                 if (stmHistorial != null) {
