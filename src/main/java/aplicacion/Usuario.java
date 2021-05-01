@@ -11,6 +11,7 @@ public class Usuario {
         this.clave = clave;
         this.autorizado = autorizado;
         this.solicitadobaja = solicitadobaja;
+        
     }
 
     public Usuario(String idUsuario, boolean solicitadobaja, boolean autorizado) {
@@ -19,6 +20,13 @@ public class Usuario {
         this.solicitadobaja = solicitadobaja;
         this.autorizado = autorizado;
     }
+
+    @Override
+    public String toString() {
+        return idUsuario;
+    }
+    
+    
 
     public String getIdUsuario() {
         return idUsuario;

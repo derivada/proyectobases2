@@ -349,7 +349,12 @@ pack();
 }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        fa.solicitarBaja(e.getIdUsuario());
+        if(fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa")==0){
+            fa.solicitarBaja(e.getIdUsuario());
+            fa.muestraExcepcion("La solicitud se ha realizado con éxito");
+        } else {
+            fa.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
+        }
     }//GEN-LAST:event_bajaBotonActionPerformed
 
     private void modificarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBotonActionPerformed
