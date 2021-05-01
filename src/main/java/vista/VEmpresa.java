@@ -411,8 +411,12 @@ public class VEmpresa extends javax.swing.JFrame {
         }
 
         float importe = importeTextBox.getText().isEmpty() ? 0.0f : Float.parseFloat(importeTextBox.getText());
-        int numero = numeroParticipacionesTextBox.getText().isEmpty() ? 0 :
-                Integer.parseInt(numeroParticipacionesTextBox.getText());
+        int numero= 0; 
+        if(!numeroParticipacionesTextBox.getText().isEmpty()){
+            numero= Integer.parseInt(numeroParticipacionesTextBox.getText()); 
+        }
+        
+        
 
         if (FechaTextBox.getFecha() == null) {
             fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n"
