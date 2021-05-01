@@ -190,8 +190,8 @@ public class FachadaBaseDatos {
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         daoParticipaciones.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
-    public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
-        daoParticipaciones.bajaOfertaVenta(usuario, fecha, precio, participaciones);
+    public void bajaOfertaVenta(String usuario,Timestamp fecha){
+        daoParticipaciones.bajaOfertaVenta(usuario, fecha);
     }
 
     public void eliminarInversor(String idUsuario) {

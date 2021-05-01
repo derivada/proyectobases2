@@ -512,7 +512,7 @@ public class DAOParticipaciones extends AbstractDAO {
         }
     }
     
-     public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
+     public void bajaOfertaVenta(String usuario,Timestamp fecha){
          java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
         PreparedStatement stm = null;
         Connection con;
@@ -521,17 +521,14 @@ public class DAOParticipaciones extends AbstractDAO {
 
         String consulta =" delete from ofertaVenta "
                 + "where usuario like ? "
-                + "and fecha = ? "
-                + "and precio = ? "
-                + "and numparticipaciones = ? "; 
+                + "and fecha = ? "; 
 
         try {
             stm = con.prepareStatement(consulta);
             usuario = "%" + usuario + "%";
             stm.setString(1, usuario);
             stm.setTimestamp(2, fecha);
-            stm.setFloat(3, precio);
-            stm.setInt(4, participaciones);
+            
             stm.executeUpdate();
             
             muestraExcepcion("Se ha dado de baja la oferta de venta:\n\n" , DialogoInfo.NivelDeAdvertencia.INFORMACION);

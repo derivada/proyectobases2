@@ -256,7 +256,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel(); 
         int fila=tablaVenta.getSelectedRow(); 
         OfertaVenta oferta= tabla.obtenerOfertas(fila); 
-        fa.bajaOfertaVenta(oferta.getVendedor(), oferta.getFecha(), oferta.getPrecio(), oferta.getNumParticipaciones());
+        fa.bajaOfertaVenta(oferta.getVendedor(), oferta.getFecha());
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
         
     }//GEN-LAST:event_bajaVentaBotonActionPerformed

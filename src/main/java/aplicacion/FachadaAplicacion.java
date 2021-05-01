@@ -183,8 +183,8 @@ public class FachadaAplicacion {
         cu.crearOfertaVenta(u, empresa, numero, precioVenta);
     }
     
-     public void bajaOfertaVenta(String usuario,Timestamp fecha,Float precio, Integer participaciones){
-        fbd.bajaOfertaVenta(usuario, fecha, precio, participaciones);
+     public void bajaOfertaVenta(String usuario,Timestamp fecha){
+        fbd.bajaOfertaVenta(usuario, fecha);
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int numero, float precioMaximo) {
