@@ -4,10 +4,10 @@ import aplicacion.AnuncioBeneficios;
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.format.DateTimeParseException;
 
-import vista.componentes.ColoresGUI;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
@@ -15,22 +15,54 @@ import vista.componentes.Utils;
 import vista.modeloTablas.ModeloTablaBeneficios;
 
 public class VEmpresa extends javax.swing.JFrame {
-    
+
     private final FachadaAplicacion fa;
     private Empresa e;
-    
+
     private float precioParticipaciones = -1.0f;
     private int numeroParticipaciones = -1;
-    
+
     public VEmpresa(Empresa e, FachadaAplicacion fa) {
         this.fa = fa;
         this.e = e;
         this.setTitle("Gestión de empresa - " + e.getIdUsuario());
         this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
-        
+
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
+        setValidators();
+    }
+
+    private void setValidators() {
+        numeroParticipacionesTextBox.setValidator(s -> {
+            if (s.isEmpty()) return true;
+            try {
+                return Integer.parseInt(s) > 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+
+        importeTextBox.setValidator(s -> {
+            if (s.isEmpty()) return true;
+            try {
+                return Float.parseFloat(s) > 0.0f;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+
+        // Comprueba que la fecha está en el futuroLen
+        FechaTextBox.setValidator(timestamp -> timestamp.after(Timestamp.from(Instant.now())));
+        numParticipacionesAnuncioTextBox.setValidator(s -> {
+            if (s.isEmpty()) return true;
+            try {
+                return Integer.parseInt(s) > 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
     }
 
     /**
@@ -100,12 +132,6 @@ public class VEmpresa extends javax.swing.JFrame {
 
         participacionesLabel.setText("Número de participaciones");
 
-        numeroParticipacionesTextBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                numeroParticipacionesTextBoxKeyTyped(evt);
-            }
-        });
-
         participacionesBoton.setText("Ofertar participaciones");
         participacionesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,229 +150,229 @@ public class VEmpresa extends javax.swing.JFrame {
 
         disponibles.setText("0");
         disponibles.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
-            FuentesGUI.Size.GRANDE));
+                FuentesGUI.Size.GRANDE));
 
-    javax.swing.GroupLayout tabs10Layout = new javax.swing.GroupLayout(tabs10);
-    tabs10.setLayout(tabs10Layout);
-    tabs10Layout.setHorizontalGroup(
-        tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
-            .addGap(48, 48, 48)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(99, 99, 99))
-    );
-    tabs10Layout.setVerticalGroup(
-        tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(tabs10Layout.createSequentialGroup()
-            .addGap(50, 50, 50)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tabs10Layout.createSequentialGroup()
-                    .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(31, 31, 31)
-            .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tabs10Layout.createSequentialGroup()
-                    .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(414, Short.MAX_VALUE))
-    );
+        javax.swing.GroupLayout tabs10Layout = new javax.swing.GroupLayout(tabs10);
+        tabs10.setLayout(tabs10Layout);
+        tabs10Layout.setHorizontalGroup(
+                tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs10Layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(99, 99, 99))
+        );
+        tabs10Layout.setVerticalGroup(
+                tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(tabs10Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(tabs10Layout.createSequentialGroup()
+                                                .addComponent(participacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(numeroParticipacionesTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(participacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addGroup(tabs10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(tabs10Layout.createSequentialGroup()
+                                                .addComponent(disponiblesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(bajaParticipacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(414, Short.MAX_VALUE))
+        );
 
-    panelCompra.addTab("Ofertar participaciones", tabs10);
+        panelCompra.addTab("Ofertar participaciones", tabs10);
 
-    importeLabel.setText("Importe por participación");
+        importeLabel.setText("Importe por participación");
 
-    beneficiosBoton.setText("Anunciar beneficios");
-    beneficiosBoton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            beneficiosBotonActionPerformed(evt);
-        }
-    });
+        beneficiosBoton.setText("Anunciar beneficios");
+        beneficiosBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beneficiosBotonActionPerformed(evt);
+            }
+        });
 
-    pagarBoton.setText("Pagar");
-    pagarBoton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            pagarBotonActionPerformed(evt);
-        }
-    });
+        pagarBoton.setText("Pagar");
+        pagarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarBotonActionPerformed(evt);
+            }
+        });
 
-    FechaLabel.setText("Fecha de pago");
+        FechaLabel.setText("Fecha de pago");
 
-    numParticipacionesLabel.setText("Numero de participaciones");
+        numParticipacionesLabel.setText("Numero de participaciones");
 
-    tablaAnuncios.setModel(new ModeloTablaBeneficios()
+        tablaAnuncios.setModel(new ModeloTablaBeneficios()
 
-    );
-    jScrollPane2.setViewportView(tablaAnuncios);
+        );
+        jScrollPane2.setViewportView(tablaAnuncios);
 
-    bajaAnunciosboton.setText("Solicitar baja de anuncio");
-    bajaAnunciosboton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bajaAnunciosbotonActionPerformed(evt);
-        }
-    });
+        bajaAnunciosboton.setText("Solicitar baja de anuncio");
+        bajaAnunciosboton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bajaAnunciosbotonActionPerformed(evt);
+            }
+        });
 
-    javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
-    tabs9.setLayout(tabs9Layout);
-    tabs9Layout.setHorizontalGroup(
-        tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(tabs9Layout.createSequentialGroup()
-            .addGap(47, 47, 47)
-            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tabs9Layout.createSequentialGroup()
-                    .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(32, 32, 32))
-                .addGroup(tabs9Layout.createSequentialGroup()
-                    .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout tabs9Layout = new javax.swing.GroupLayout(tabs9);
+        tabs9.setLayout(tabs9Layout);
+        tabs9Layout.setHorizontalGroup(
+                tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(tabs9Layout.createSequentialGroup()
-                            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(importeTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
-                            .addGap(48, 48, 48)
-                            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(60, Short.MAX_VALUE))))
-    );
-    tabs9Layout.setVerticalGroup(
-        tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
-            .addGap(43, 43, 43)
-            .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tabs9Layout.createSequentialGroup()
-                    .addGap(31, 31, 31)
-                    .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(tabs9Layout.createSequentialGroup()
-                    .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addGap(6, 6, 6)))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-            .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(26, 26, 26))
-    );
+                                .addGap(47, 47, 47)
+                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(tabs9Layout.createSequentialGroup()
+                                                .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32))
+                                        .addGroup(tabs9Layout.createSequentialGroup()
+                                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(tabs9Layout.createSequentialGroup()
+                                                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                        .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(importeTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
+                                                                .addGap(48, 48, 48)
+                                                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addContainerGap(60, Short.MAX_VALUE))))
+        );
+        tabs9Layout.setVerticalGroup(
+                tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(importeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(importeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(tabs9Layout.createSequentialGroup()
+                                                .addGap(31, 31, 31)
+                                                .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabs9Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(tabs9Layout.createSequentialGroup()
+                                                .addComponent(FechaTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                                                .addGap(6, 6, 6)))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                                .addGroup(tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(pagarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bajaAnunciosboton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26))
+        );
 
-    panelCompra.addTab("Anunciar beneficios", tabs9);
+        panelCompra.addTab("Anunciar beneficios", tabs9);
 
-    modificarBoton.setText("Modificar usuario");
-    modificarBoton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            modificarBotonActionPerformed(evt);
-        }
-    });
+        modificarBoton.setText("Modificar usuario");
+        modificarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarBotonActionPerformed(evt);
+            }
+        });
 
-    bienvenidoLabel.setText("Bienvenid@, " +e.getIdUsuario());
+        bienvenidoLabel.setText("Bienvenid@, " + e.getIdUsuario());
 
-    abrirHistorial.setText("Historial");
-    abrirHistorial.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            abrirHistorialActionPerformed(evt);
-        }
-    });
+        abrirHistorial.setText("Historial");
+        abrirHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirHistorialActionPerformed(evt);
+            }
+        });
 
-    idTextBox.setText(e.getIdUsuario());
+        idTextBox.setText(e.getIdUsuario());
 
-    tipoTextBox.setText("Empresa");
+        tipoTextBox.setText("Empresa");
 
-    saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
+        saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(36, 36, 36)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modificarBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-            .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(56, 56, 56))
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(43, 43, 43)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(panelCompra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(36, 36, 36)
-                    .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(36, 36, 36)
-                    .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(40, Short.MAX_VALUE))
-    );
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(bajaBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(modificarBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56))
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(panelCompra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(36, 36, 36)
+                                                .addComponent(bajaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(36, 36, 36)
+                                                .addComponent(modificarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(40, Short.MAX_VALUE))
+        );
 
-    Utils.configurarTabbedPane(panelCompra);
-    botonVolver1.configurar(fa, this, false);
-    bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.CURSIVA, FuentesGUI.Size.GRANDE));
-    idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
-        FuentesGUI.Size.GRANDE));
-tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
-    FuentesGUI.Size.GRANDE));
-    saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
-        FuentesGUI.Size.GRANDE));
+        Utils.configurarTabbedPane(panelCompra);
+        botonVolver1.configurar(fa, this, false);
+        bienvenidoLabel.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.CURSIVA, FuentesGUI.Size.GRANDE));
+        idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
+                FuentesGUI.Size.GRANDE));
+        tipoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
+                FuentesGUI.Size.GRANDE));
+        saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
+                FuentesGUI.Size.GRANDE));
 
-pack();
-}// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         if(fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa")==0){
@@ -376,117 +402,59 @@ pack();
     private void participacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participacionesBotonActionPerformed
         this.emitirParticipaciones();
     }//GEN-LAST:event_participacionesBotonActionPerformed
-    
+
 
     private void bajaAnunciosbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaAnunciosbotonActionPerformed
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
-    
+
     public void AnunciarBeneficios() {
-        
-        float importe = 0.0f;
-        if (!importeTextBox.getText().isEmpty()) {
-            try {
-                importe = Float.parseFloat(importeTextBox.getText());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n"
-                        + "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-            if (importe <= 0.0) {
-                fa.muestraExcepcion("ERROR: El importe debe ser positivo!",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
+
+        if (!importeTextBox.validateInput() | !numParticipacionesAnuncioTextBox.validateInput()) {
+            fa.muestraExcepcion("No se han introducido correctamente los datos!");
+            return;
+        }
+
+        float importe = importeTextBox.getText().isEmpty() ? 0.0f : Float.parseFloat(importeTextBox.getText());
+        int numero= 0; 
+        if(!numeroParticipacionesTextBox.getText().isEmpty()){
+            numero= Integer.parseInt(numeroParticipacionesTextBox.getText()); 
         }
         
-        Date fecha = null;
-        try {
-            fecha = FechaTextBox.getFecha();
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
+        
+
+        if (FechaTextBox.getFecha() == null) {
             fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n"
                     + "Use el formato YYYY/MM/DD", DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
-        if (fecha.before(new Date(System.currentTimeMillis()))) {
+
+        if (!FechaTextBox.validateInput()) {
             fa.muestraExcepcion("ERROR: La fecha no está especificada en el futuro",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
-        int numero = 0;
-        if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
-            try {
-                numero = Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
-            } catch (DateTimeParseException e) {
-                e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n"
-                        + "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-            if (numero <= 0) {
-                fa.muestraExcepcion("ERROR: El numero de participaciones debe ser positivo",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-        }
-        
+
+        Timestamp fecha = FechaTextBox.getFecha();
+
         fa.crearAnuncio(importe, this.e, fecha, numero);
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-        
+
     }
-    
+
     public void solicitarBajaAnuncio() {
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         int fila = tablaAnuncios.getSelectedRow();
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
     }
-    
 
-    private void numeroParticipacionesTextBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroParticipacionesTextBoxKeyTyped
-        try {
-            validarInput(true);
-        } catch (Exception ignored) {
-            
-        }
-    }//GEN-LAST:event_numeroParticipacionesTextBoxKeyTyped
 
     private void abrirHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirHistorialActionPerformed
-        // TODO add your handling code here:
         new VHistorial(e);
     }//GEN-LAST:event_abrirHistorialActionPerformed
-    
-    private void validarInput(boolean numero) throws Exception {
-        // Valida el precio y número de participaciones a ofertar, tira Exception
-        // con el mensaje correcto si alguna de las 2 falla
-        StringBuilder errores = new StringBuilder();
-        if (numero) {
-            int temp = -1;
-            try {
-                temp = Integer.parseInt(numeroParticipacionesTextBox.getText());
-                if (temp > 0.0f) {
-                    numeroParticipaciones = temp;
-                    numeroParticipacionesTextBox.setBackground(ColoresGUI.blanco);
-                } else {
-                    numeroParticipacionesTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                    numeroParticipaciones = -1;
-                    errores.append("El número de participaciones debe ser positivo!\n");
-                }
-            } catch (NumberFormatException e) {
-                numeroParticipacionesTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
-                numeroParticipaciones = -1;
-                errores.append("El número de participaciones no es un válido!\n");
-            }
-        }
-        
-        if (errores.length() > 0) {
-            throw new Exception(errores.toString());
-        }
-    }
-    
+
     public void Pagar() {
         Float importe = 0.0f;
         if (!importeTextBox.getText().isEmpty()) {
@@ -504,7 +472,7 @@ pack();
                 return;
             }
         }
-        
+
         int numero = 0;
         if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
             try {
@@ -529,7 +497,7 @@ pack();
         } else {
             fa.pagarBeneficios(importe, numero, this.e, null);
         }
-        
+
     }
 
 
@@ -579,44 +547,46 @@ pack();
         //esta cartera puede tener participacioens de otras empresas asi que debemos identificar
         //la tabla de esta empresa en su cartera y sumarlas ahi, es decir no creamos un objeto participaciones
         //cada vez que se añaden, si no que se suman a esa tabla que tiene como PK a esta empresa, y como PKp a esta empresa de nuevo
-        try {
-            validarInput(true);
-        } catch (Exception e) {
-            fa.muestraExcepcion(e.getMessage(), DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+
+        if (!numeroParticipacionesTextBox.validateInput()) {
+            fa.muestraExcepcion("El número de participaciones no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-        String participaciones = numeroParticipacionesTextBox.getText();
-        
-        int emision = Integer.parseInt(participaciones);
-        
-        fa.emitirParticipaciones(e, emision); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
 
-        this.actualizarCampos();
-        
+        int cantidad = Integer.parseInt(numeroParticipacionesTextBox.getText());
+        if (cantidad == 0)
+            return;
+
+        fa.emitirParticipaciones(e, cantidad); //hay que meter las participaciones con el precio a la tabla de oferta venta para que ya se genere automatico
+        this.actualizarDatos();
     }
-    
+
     public void eliminarParticipaciones() {
 
         //en este caso, la empresa solicita eliminar ciertas participaciones de su cartera
         //la cuestion seria saber cuales estan vendidas y cuales no, de manera que elimine unicamente aquellas que no estan vendidas, y si no hay suficientes pues elimine las que hay sin vender
-        try {
-            validarInput(true); // solo validar el número
-        } catch (Exception e) {
-            fa.muestraExcepcion(e.getMessage(), DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+        if (!numeroParticipacionesTextBox.validateInput()) {
+            fa.muestraExcepcion("El número de participaciones no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
-        
-        int bajaP = Integer.parseInt(numeroParticipacionesTextBox.getText());
+        int cantidad = Integer.parseInt(numeroParticipacionesTextBox.getText());
 
-        //aqui iria la consulta, cuando me apetezca la hago
-        fa.bajaParticipaciones(e, bajaP);
-        
-        this.actualizarCampos();
+        if (cantidad > this.numeroParticipaciones) {
+            fa.muestraExcepcion("No se poseen tantas participaciones!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            return;
+        }
+        if (cantidad == 0)
+            return;
+
+        fa.bajaParticipaciones(e, cantidad);
+
+        this.actualizarDatos();
     }
-    
-    public void actualizarCampos() {
+
+    public void actualizarDatos() {
         e = fa.obtenerDatosEmpresa(e);
         saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
-        disponibles.setText(String.valueOf(fa.getPartPropEmpresa(e)));
+        numeroParticipaciones = fa.getParticipacionesEmpresa(e, e);
+        disponibles.setText(String.valueOf(numeroParticipaciones));
     }
 }

@@ -4,9 +4,10 @@ import aplicacion.OfertaVenta;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
+
 import vista.componentes.Utils;
 
-public class ModeloTablaVenta extends AbstractTableModel{
+public class ModeloTablaVenta extends AbstractTableModel {
 
 
     private java.util.List<OfertaVenta> ofertaVentas;
@@ -116,8 +117,4 @@ public class ModeloTablaVenta extends AbstractTableModel{
     public OfertaVenta obtenerOfertas(int i) {
         return this.ofertaVentas.get(i);
     }
-
-
-
-
 }

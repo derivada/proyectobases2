@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestionUsuarios {
+
     FachadaGui fgui;
     FachadaBaseDatos fbd;
-
 
     public GestionUsuarios(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fgui = fgui;
@@ -30,7 +30,7 @@ public class GestionUsuarios {
             return null;
         }
         // El usuario está registrado, intentar validarlo
-        return  fbd.validarUsuario(nombre, clave);
+        return fbd.validarUsuario(nombre, clave);
     }
 
     public java.util.List<Usuario> obtenerListaUsuarios() {
@@ -73,12 +73,12 @@ public class GestionUsuarios {
         fgui.iniciaRegulador(r, fa);
     }
 
-    public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa){
-        fgui.iniciaModificarInversor(i,fa);
+    public void iniciaModificarInversor(Inversor i, FachadaAplicacion fa) {
+        fgui.iniciaModificarInversor(i, fa);
     }
 
-    public void iniciaModificarEmpresa(Empresa e, FachadaAplicacion fa){
-        fgui.iniciaModificarEmpresa(e,fa);
+    public void iniciaModificarEmpresa(Empresa e, FachadaAplicacion fa) {
+        fgui.iniciaModificarEmpresa(e, fa);
     }
 
     public boolean registroInversor(Inversor i) {
@@ -123,7 +123,6 @@ public class GestionUsuarios {
         return resultado;
     }
 
-
     public void modificarUsuario(String id_usuario, Usuario u) {
         if (u instanceof Inversor) {
             fbd.modificarInversor(id_usuario, (Inversor) u);
@@ -131,15 +130,19 @@ public class GestionUsuarios {
             fbd.modificarEmpresa(id_usuario, (Empresa) u);
         }
     }
-    
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio){
+
+    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio) {
         return fbd.getOfertasVenta(empresa, precio);
+    }
+
+    public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+        return fbd.getOfertasVentaPropias(usuario);
     }
 
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return fbd.getParticipacionesEmpresa(u, e);
     }
-    
+
     public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
         return fbd.getParticipacionesEmpresa2(u, e);
     }
@@ -153,7 +156,11 @@ public class GestionUsuarios {
 
     }
 
-    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax){
+    public void bajaOfertaVenta(Usuario usuario, Timestamp fecha) {
+        fbd.bajaOfertaVenta(usuario, fecha);
+    }
+
+    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
         fbd.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
     }
 
@@ -170,81 +177,78 @@ public class GestionUsuarios {
         fbd.solicitarBaja(idUsuario);
     }
 
-    public void crearAnuncio(Float importe, Empresa e,Date fecha,Integer numeroParticipaciones){
-        int aux= fbd.crearAnuncio(importe, e, fecha,numeroParticipaciones);
-        if(aux==1){
-          fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
+    public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
+        int aux = fbd.crearAnuncio(importe, e, fecha, numeroParticipaciones);
+        if (aux == 1) {
+            fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
                     DialogoInfo.NivelDeAdvertencia.INFORMACION);
-        }
-        else if (aux==2){
+        } else if (aux == 2) {
             fbd.getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
 
-        }
-        else{
+        } else {
             fbd.getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
         }
     }
 
-    public void pagarBeneficios(Float importe,Integer participaciones,Empresa empresa,AnuncioBeneficios a){
-        fbd.pagarBeneficios(importe,participaciones, empresa,a);
+    public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
+        fbd.pagarBeneficios(importe, participaciones, empresa, a);
     }
 
-    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa){
+    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {
         return fbd.obtenerAnuncios(empresa);
     }
 
-    public void solicitarBajaAnuncio(String empresa,Timestamp fechaPago){
-        boolean realizado=fbd.solicitarBajaAnuncio(empresa, fechaPago);
-        if(realizado==false){
-            fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio",DialogoInfo.NivelDeAdvertencia.ERROR);
-        }
-        else{
-            fbd.getFachadaAplicacion().muestraExcepcion("Baja solicitada correctamente",DialogoInfo.NivelDeAdvertencia.INFORMACION);
+    public void solicitarBajaAnuncio(String empresa, Timestamp fechaPago) {
+        boolean realizado = fbd.solicitarBajaAnuncio(empresa, fechaPago);
+        if (realizado == false) {
+            fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio", DialogoInfo.NivelDeAdvertencia.ERROR);
+        } else {
+            fbd.getFachadaAplicacion().muestraExcepcion("Baja solicitada correctamente", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         }
     }
 
-     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador(){
+    public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador() {
         return fbd.obtenerAnunciosRegulador();
     }
 
-      public void bajaAnuncio(String empresa,Timestamp fecha,Float importe){
-         fbd.bajaAnuncio(empresa, fecha, importe);
-     }
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
+        fbd.bajaAnuncio(empresa, fecha, importe);
+    }
 
     public java.util.List<EntradaHistorial> obtenerHistorial() {
         return fbd.obtenerHistorial();
     }
+
     public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
         return fbd.obtenerHistorial(u);
     }
-    
-    public void insertarHistorial(EntradaHistorial h){
-        fbd.insertarHistorial(h);
-   }
 
-    public boolean comprobarID(String id){
+    public void insertarHistorial(EntradaHistorial h) {
+        fbd.insertarHistorial(h);
+    }
+
+    public boolean comprobarID(String id) {
         return fbd.comprobarID(id);
     }
 
-    public boolean modificarInversor(Inversor i, String pass, String idviejo){
+    public boolean modificarInversor(Inversor i, String pass, String idviejo) {
         return fbd.modificarInversor(i, pass, idviejo);
     }
 
-    public boolean modificarEmpresa(Empresa e, String pass, String idviejo){
+    public boolean modificarEmpresa(Empresa e, String pass, String idviejo) {
         return fbd.modificarEmpresa(e, pass, idviejo);
     }
-    
-        
+
     public float obtenerComision(String r) {
         return fbd.obtenerComision(r);
     }
-    
-    public void modificarComision(Regulador r, float comision){
+
+    public void modificarComision(Regulador r, float comision) {
         fbd.modificarComision(r, comision);
     }
-    
+
     public void modificarSaldo(String id, float saldo, String tipo) {
         if(tipo.equals("Inversor")){
             fbd.modificarSaldoInversor(id, saldo);
