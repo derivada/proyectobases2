@@ -194,12 +194,12 @@ public class FachadaBaseDatos {
         daoParticipaciones.bajaOfertaVenta(usuario, fecha);
     }
 
-    public void eliminarInversor(String idUsuario) {
-        daoUsuarios.eliminarInversor(idUsuario);
+    public void eliminarInversor(String idUsuario, float saldo) {
+        daoUsuarios.eliminarInversor(idUsuario, saldo);
     }
 
-    public void eliminarEmpresa(String idUsuario) {
-        daoUsuarios.eliminarEmpresa(idUsuario);
+    public void eliminarEmpresa(String idUsuario, float saldo) {
+        daoUsuarios.eliminarEmpresa(idUsuario, saldo);
     }
 
     public void solicitarBaja(String idUsuario) {
@@ -254,7 +254,7 @@ public class FachadaBaseDatos {
         return daoUsuarios.modificarEmpresa(e, pass, idviejo);
     }
 
-    public FachadaAplicacion  getFachadaAplicacion() {
+    public FachadaAplicacion getFachadaAplicacion() {
        return fa;
     }
     
@@ -264,5 +264,29 @@ public class FachadaBaseDatos {
     
     public void modificarComision(Regulador r, float comision){
         daoUsuarios.modificarComision(r, comision);
+    }
+    
+    public float obtenerSaldoInversor(Usuario u) {
+        return daoUsuarios.obtenerSaldoInversor(u);
+    }
+
+    public float obtenerSaldoEmpresa(Usuario u) {
+         return daoUsuarios.obtenerSaldoEmpresa(u);
+    }
+
+    public void modificarSaldoInversor(String idUsuario, float saldo) {
+        daoUsuarios.modificarSaldoInversor(idUsuario, saldo);
+    }
+
+    public void modificarSaldoEmpresa(String idUsuario, float saldo) {
+        daoUsuarios.modificarSaldoEmpresa(idUsuario, saldo);
+    }
+
+    public int getNumeroParticipacionesInversor(String idUsuario) {
+        return daoUsuarios.getNumeroParticipacionesInversor(idUsuario);
+    }
+
+    public int getNumeroParticipacionesEmpresa(String idUsuario) {
+        return daoUsuarios.getNumeroParticipacionesEmpresa(idUsuario);
     }
 }

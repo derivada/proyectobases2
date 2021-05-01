@@ -164,12 +164,12 @@ public class GestionUsuarios {
         fbd.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
     }
 
-    public void bajaUsuario(Usuario u) {
-        if (u instanceof Inversor) {
-            fbd.eliminarInversor(u.getIdUsuario());
+    public void bajaUsuario(Usuario u, float saldo) {
+        if(u instanceof Inversor){
+            fbd.eliminarInversor(u.getIdUsuario(), saldo);
 
-        } else {
-            fbd.eliminarEmpresa(u.getIdUsuario());
+        } else{
+            fbd.eliminarEmpresa(u.getIdUsuario(), saldo);
         }
     }
 
@@ -249,4 +249,34 @@ public class GestionUsuarios {
         fbd.modificarComision(r, comision);
     }
 
+    public void modificarSaldo(String id, float saldo, String tipo) {
+        if(tipo.equals("Inversor")){
+            fbd.modificarSaldoInversor(id, saldo);
+        } else if(tipo.equals("Empresa")){
+            fbd.modificarSaldoEmpresa(id, saldo);
+        }
+    }
+
+    public Float obtenerSaldo(Usuario u, String tipo) {
+        float resultado = (float) 0.0;
+        if(tipo.equals("Inversor")){
+            resultado = fbd.obtenerSaldoInversor(u);
+        } else if(tipo.equals("Empresa")) {
+            resultado = fbd.obtenerSaldoEmpresa(u);
+        }
+        
+        return resultado;
+    }
+
+    public int getNumeroParticipaciones(String idUsuario, String tipo) {
+        int resultado = 0;
+        if(tipo.equals("Inversor")){
+            resultado = fbd.getNumeroParticipacionesInversor(idUsuario);
+        } else if(tipo.equals("Empresa")) {
+            resultado = fbd.getNumeroParticipacionesEmpresa(idUsuario);
+        }
+        
+        return resultado;
+    }
+    
 }

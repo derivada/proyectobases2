@@ -25,20 +25,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
-                      <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="saldoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="usuarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="24" max="32767" attributes="0"/>
+                          <Component id="abrirHistorial" min="-2" pref="136" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
+                      <Component id="saldoTextBox" max="32767" attributes="0"/>
+                      <Component id="tipoTextBox" max="32767" attributes="0"/>
+                      <Component id="idTextBox" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="bienvenidoLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
-                  <Component id="saldoTextBox" max="32767" attributes="0"/>
-                  <Component id="tipoTextBox" max="32767" attributes="0"/>
-                  <Component id="idTextBox" max="32767" attributes="0"/>
+                  <Component id="boton1" min="-2" pref="199" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="761" max="-2" attributes="0"/>
@@ -67,6 +70,8 @@
                       <Component id="saldoTextBox" min="-2" pref="42" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="botonModificarComision" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="boton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="botonVolver1" min="-2" max="-2" attributes="0"/>
@@ -404,6 +409,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,&#xa;FuentesGUI.Size.GRANDE));"/>
       </AuxValues>
+    </Component>
+    <Component class="vista.componentes.Boton" name="boton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar saldos"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

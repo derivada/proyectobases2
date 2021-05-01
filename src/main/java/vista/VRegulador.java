@@ -1,6 +1,8 @@
 package vista;
 
 import aplicacion.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import vista.componentes.FuentesGUI;
 import vista.componentes.ImagenesGUI;
 import vista.componentes.Utils;
@@ -25,25 +27,41 @@ public class VRegulador extends javax.swing.JFrame {
         ModeloTablaAlta mTAlta = new ModeloTablaAlta();
         tabla1.setModel(mTAlta);
         mTAlta.setFilas(fa.obtenerUsuariosPorAutorizacion());
-        if (mTAlta.getRowCount() > 0) {
-            tabla1.setRowSelectionInterval(0, 0);
-            altaBoton.setEnabled(true);
-        } else {
-            altaBoton.setEnabled(false);
-        }
-
+        
+        //Modelo Tabla Baja
         ModeloTablaBaja mTBaja = new ModeloTablaBaja();
         tabla2.setModel(mTBaja);
         mTBaja.setFilas(fa.obtenerUsuariosBaja());
-        if (mTBaja.getRowCount() > 0) {
-            tabla2.setRowSelectionInterval(0, 0);
-            bajaBoton.setEnabled(true);
-        } else {
-            bajaBoton.setEnabled(false);
-        }
+        tabla2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                try {
+                    ModeloTablaBaja mtp = (ModeloTablaBaja) tabla2.getModel();
 
+                    Usuario u = mtp.obtenerUsuario(tabla2.getSelectedRow());
+
+                    int numeroParticipaciones = 0;
+
+                    if (u instanceof Inversor) {
+                        numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Inversor");
+                    } else {
+                        numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Empresa");
+                    }
+
+                    if (numeroParticipaciones != 0) {
+                        bajaBoton.setEnabled(false);
+                    } else if(numeroParticipaciones == 0){
+                        bajaBoton.setEnabled(true);
+                    }
+                }catch(ArrayIndexOutOfBoundsException e){
+                    bajaBoton.setEnabled(false);                    
+                }
+
+            }
+        });
+        
         ModeloTablaBeneficios tablaAnuncios = (ModeloTablaBeneficios) anunciosTabla.getModel();
         tablaAnuncios.setFilas(fa.obtenerAnunciosRegulador());
+        
     }
 
     /**
@@ -82,6 +100,7 @@ public class VRegulador extends javax.swing.JFrame {
         saldoTextBox = new vista.componentes.Etiqueta();
         tipoTextBox = new vista.componentes.Etiqueta();
         idTextBox = new vista.componentes.Etiqueta();
+        boton1 = new vista.componentes.Boton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -241,25 +260,34 @@ public class VRegulador extends javax.swing.JFrame {
 
         idTextBox.setText(r.getIdUsuario());
 
+        boton1.setText("Modificar saldos");
+        boton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                            .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bienvenidoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saldoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tipoTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(idTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(boton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(64, 64, 64)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
@@ -285,6 +313,8 @@ public class VRegulador extends javax.swing.JFrame {
                         .addComponent(saldoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(botonModificarComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(boton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,7 +337,8 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
         ModeloTablaAlta modelo = (ModeloTablaAlta) tabla1.getModel();
-        Usuario u = modelo.obtenerUsuario(tabla1.getSelectedRow());
+        Usuario u = modelo.obtenerUsuario(tabla1.getSelectedRow());  
+        
         if (u instanceof Inversor) {
             Inversor us = (Inversor) u;
             us.setAutorizado(true);
@@ -317,6 +348,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
         }
 
         fa.autorizarUsuarios(u.getIdUsuario());
+        
 
         modelo.setFilas(fa.obtenerUsuariosPorAutorizacion());
     }//GEN-LAST:event_altaBotonActionPerformed
@@ -324,8 +356,19 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
         Usuario u = modelo.obtenerUsuario(tabla2.getSelectedRow());
+        float saldo = 0.0f;
+        
+        if (u instanceof Inversor) {
+            Inversor us = (Inversor) u;
+            us.setAutorizado(true);
+            saldo = us.getSaldo();
+        } else {
+            Empresa us = (Empresa) u;
+            us.setAutorizado(true);
+            saldo = us.getSaldo();
+        }
 
-        fa.bajaUsuario(u);
+        fa.bajaUsuario(u, saldo);
 
         modelo.setFilas(fa.obtenerUsuariosBaja());
     }//GEN-LAST:event_bajaBotonActionPerformed
@@ -342,6 +385,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
         new VHistorial(r);
     }//GEN-LAST:event_abrirHistorialActionPerformed
 
+    private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
+        new ModificarSaldo(this, fa);
+    }//GEN-LAST:event_boton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton abrirHistorial;
     private vista.componentes.Boton altaBoton;
@@ -350,6 +397,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private vista.componentes.Boton bajaAnunciosBoton;
     private vista.componentes.Boton bajaBoton;
     private vista.componentes.Etiqueta bienvenidoLabel;
+    private vista.componentes.Boton boton1;
     private vista.componentes.Boton botonModificarComision;
     private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.Etiqueta idTextBox;

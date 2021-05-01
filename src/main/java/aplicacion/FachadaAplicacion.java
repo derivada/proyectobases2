@@ -161,6 +161,10 @@ public class FachadaAplicacion {
     public void autorizarUsuarios(String idUsuario) {
         cu.autorizarUsuario(idUsuario);
     }
+    
+    public int getNumeroParticipaciones(String idUsuario, String tipo) {
+        return cu.getNumeroParticipaciones(idUsuario, tipo);
+    }
 
     public void modificarUsuario(String id_usuario, Usuario u) {
         cu.modificarUsuario(id_usuario, u);
@@ -190,8 +194,8 @@ public class FachadaAplicacion {
         cu.comprarParticipaciones(comprador, empresa, numero, precioMaximo);
     }
 
-    public void bajaUsuario(Usuario u) {
-        cu.bajaUsuario(u);
+    public void bajaUsuario(Usuario u, float saldo) {
+        cu.bajaUsuario(u, saldo);
     }
 
     public void solicitarBaja(String idUsuario) {
@@ -245,8 +249,6 @@ public class FachadaAplicacion {
         cu.insertarHistorial(h);
     }
 
-
-        
     public float obtenerComision(String r) {
 
         return cu.obtenerComision(r);
@@ -256,4 +258,11 @@ public class FachadaAplicacion {
         cu.modificarComision(r, comision);
     }
     
+    public void modificarSaldo(String id, float saldo, String tipo) {
+        cu.modificarSaldo(id, saldo, tipo);
+    }
+
+    public Float obtenerSaldo(Usuario u, String tipo) {
+        return cu.obtenerSaldo(u, tipo);
+    }
 }

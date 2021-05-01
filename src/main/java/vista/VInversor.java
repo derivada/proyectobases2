@@ -152,7 +152,13 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        fa.solicitarBaja(i.getIdUsuario());
+        if(fa.getNumeroParticipaciones(i.getIdUsuario(), "Inversor")==0){
+            fa.solicitarBaja(i.getIdUsuario());
+            fa.muestraExcepcion("La solicitud se ha realizado con éxito");
+        } else {
+            fa.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
+        }
+        
     }//GEN-LAST:event_bajaBotonActionPerformed
 
 

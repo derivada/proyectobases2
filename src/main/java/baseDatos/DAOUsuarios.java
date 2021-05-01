@@ -17,6 +17,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
+import vista.FachadaGui;
+import vista.VentanaConfirmacion;
+import vista.componentes.Utils;
 
 public class DAOUsuarios extends AbstractDAO {
 
@@ -591,6 +594,7 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta);
             stm.setString(1, id_usuario);
             stm.executeUpdate();
+            
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -817,7 +821,7 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    public void eliminarInversor(String idUsuario) {
+    public void eliminarInversor(String idUsuario, float saldo) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -839,6 +843,11 @@ public class DAOUsuarios extends AbstractDAO {
             stm.executeUpdate();
 
             done = true;
+            
+            if(saldo != 0.0f){
+                new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
+                "La baja se ha cancelado correctamente...");
+            }
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -859,7 +868,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public void eliminarEmpresa(String idUsuario) {
+    public void eliminarEmpresa(String idUsuario, float saldo) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -879,8 +888,15 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta2);
             stm.setString(1, idUsuario);
             stm.executeUpdate();
-
+            
             done = true;
+            
+            if(saldo != 0.0f){
+                new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
+                "La baja se ha cancelado correctamente...");
+            }
+
+            
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -1838,5 +1854,179 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+    
+        public float obtenerSaldoInversor(Usuario u) {
+        PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        float resultado = 0.0f;
+
+        con = this.getConexion();
+
+        String consulta = "select saldo from inversor where id_usuario = ?";
+
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, u.getIdUsuario());
+            rst = stm.executeQuery();
+            if (rst.next()) {
+                resultado = rst.getFloat("saldo");
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+
+    public float obtenerSaldoEmpresa(Usuario u) {
+         PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        float resultado = 0.0f;
+
+        con = this.getConexion();
+
+        String consulta = "select saldo from empresa where id_usuario = ?";
+
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, u.getIdUsuario());
+            rst = stm.executeQuery();
+            if (rst.next()) {
+                resultado = rst.getFloat("saldo");
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    
+    public void modificarSaldoInversor(String idUsuario, float saldo) {
+        PreparedStatement stmUpd = null;
+        Connection con;
+        con = this.getConexion();
+        String consultaUpdate = "update inversor set saldo=? where id_usuario=?";
+        try {
+            stmUpd = con.prepareStatement(consultaUpdate);
+            stmUpd.setFloat(1, saldo);
+            stmUpd.setString(2, idUsuario);
+            stmUpd.executeUpdate();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stmUpd != null) {
+                    stmUpd.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    public void modificarSaldoEmpresa(String idUsuario, float saldo) {
+                PreparedStatement stmUpd = null;
+        Connection con;
+        con = this.getConexion();
+        String consultaUpdate = "update empresa set saldo=? where id_usuario=?";
+        try {
+            stmUpd = con.prepareStatement(consultaUpdate);
+            stmUpd.setFloat(1, saldo);
+            stmUpd.setString(2, idUsuario);
+            stmUpd.executeUpdate();
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stmUpd != null) {
+                    stmUpd.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    public int getNumeroParticipacionesInversor(String idUsuario) {
+        PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        int resultado = 0;
+
+        con = this.getConexion();
+
+        String consultaComision = "select sum(numparticipaciones) as num\n" +
+                                "from participacionesinversor\n" +
+                                "where usuario = ?";
+
+        try {
+            stm = con.prepareStatement(consultaComision);
+            stm.setString(1, idUsuario);
+            rst = stm.executeQuery();
+            if (rst.next()) {
+                resultado = rst.getInt("num");
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+
+    int getNumeroParticipacionesEmpresa(String idUsuario) {
+        PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        int resultado = 0;
+
+        con = this.getConexion();
+
+        String consultaComision = "select sum(numparticipaciones) as num\n" +
+                                "from participacionesempresa\n" +
+                                "where usuario = ?";
+
+        try {
+            stm = con.prepareStatement(consultaComision);
+            stm.setString(1, idUsuario);
+            rst = stm.executeQuery();
+            if (rst.next()) {
+                resultado = rst.getInt("num");
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
     }
 }
