@@ -1595,7 +1595,10 @@ public class DAOUsuarios extends AbstractDAO {
                 stmSuma2E.setString(2, e.getIdUsuario());
                 stmSuma2E.setString(3, e.getIdUsuario());
                 stmSuma2E.executeUpdate();
-
+                
+                fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                            new Timestamp(System.currentTimeMillis()), participaciones*this.participacionesVendidas(e.getIdUsuario()), 
+                            importe*this.participacionesVendidas(e.getIdUsuario()), EntradaHistorial.TipoEntradaHistorial.PAGO));
                 muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
             } else {
@@ -1619,7 +1622,10 @@ public class DAOUsuarios extends AbstractDAO {
                 stmSuma2E.setString(2, e.getIdUsuario());
                 stmSuma2E.setString(3, e.getIdUsuario());
                 stmSuma2E.executeUpdate();
-
+                fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
+                            new Timestamp(System.currentTimeMillis()),
+                            anuncio.getNumeroparticipaciones()*this.participacionesVendidas(e.getIdUsuario()),
+                            anuncio.getImporteparticipacion()*this.participacionesVendidas(e.getIdUsuario()), EntradaHistorial.TipoEntradaHistorial.PAGO));
                 muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
             }
 

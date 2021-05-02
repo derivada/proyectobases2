@@ -82,7 +82,7 @@ public class EntradaHistorial {
     }
 
     public enum TipoEntradaHistorial {
-        COMPRA, VENTA, EMISION, BENEFICIOS, BAJA;
+        COMPRA, VENTA, EMISION, BENEFICIOS, BAJA, PAGO;
 
         @Override
         public String toString() {
@@ -97,6 +97,9 @@ public class EntradaHistorial {
                     return "Beneficios";
                 case BAJA:
                     return "Baja";
+                case PAGO: 
+                    return "Pago"; 
+                    
                 default:
                     throw new IllegalArgumentException();
             }
