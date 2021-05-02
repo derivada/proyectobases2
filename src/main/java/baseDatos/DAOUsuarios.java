@@ -1076,12 +1076,12 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar1.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
-                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones);
+                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones1.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones1.executeUpdate();
 
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
-                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones);
+                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
@@ -1114,7 +1114,7 @@ public class DAOUsuarios extends AbstractDAO {
             }
         } //Segundo caso, solo importe
         else if (numeroParticipaciones == 0 && importe >= 0) {
-            if ((importe * participacionesVendidas(e.getIdUsuario())) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
+            if (importe*this.participacionesVendidas(e.getIdUsuario()) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
                 resultado = 2;
             } else {
                 con = this.getConexion();
@@ -1184,12 +1184,12 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquear.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
-                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones);
+                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones1.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones1.executeUpdate();
 
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
-                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones);
+                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
@@ -1397,7 +1397,7 @@ public class DAOUsuarios extends AbstractDAO {
 
     //Función que paga los beneficios, con o sin anuncio previo.
     //Si el pago es sin anuncio, se llama a esta función con un null en anuncio
-    public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio) {
+    public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio,Integer participacionesPropias) {
         //Para restar a empresa
         PreparedStatement stmImporte = null;
         PreparedStatement stmImporteB = null;
@@ -1419,6 +1419,9 @@ public class DAOUsuarios extends AbstractDAO {
 
         //Statement de eliminación de anuncio, con su consulta
         PreparedStatement stmEliminacion = null;
+
+
+
         String consulta10 = "delete from anunciobeneficios where empresa= ?  and fechapago= ? ";
 
         //Consulta 1 es para actualizar el saldo de la empresa
@@ -1462,6 +1465,18 @@ public class DAOUsuarios extends AbstractDAO {
 
             //Ahora se resta el dinero en la empresa y participaciones de la empresa
             if (anuncio == null) {
+
+                //Comprobación de que tiene el número de participaciones e importe suficiente para pagar
+                Empresa aux= this.obtenerDatosEmpresa(e);
+                if(aux.getSaldo()<importe* (float) num ){
+                    muestraExcepcion("El importe de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
+                    return;
+                }
+                if(participacionesPropias<participaciones*num){
+                    muestraExcepcion("El numero de participacione de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
+                    return;
+                }
+
                 //Dinero
                 float dinero = importe * (float) num;
                 stmImporte = con.prepareStatement(consulta1);
@@ -1476,6 +1491,8 @@ public class DAOUsuarios extends AbstractDAO {
                 stmParticipaciones.setString(2, e.getIdUsuario());
                 stmParticipaciones.setString(3, e.getIdUsuario());
                 stmParticipaciones.executeUpdate();
+
+
             } else {
 
                 try {
@@ -1507,6 +1524,7 @@ public class DAOUsuarios extends AbstractDAO {
                 stmParticipaciones.setString(2, e.getIdUsuario());
                 stmParticipaciones.setString(3, e.getIdUsuario());
                 stmParticipaciones.executeUpdate();
+
             }
 
             //Y ahora se suma a los usuarios que tenian las participaciones, tanto inversores como empresas
@@ -1578,6 +1596,8 @@ public class DAOUsuarios extends AbstractDAO {
                 stmSuma2E.setString(3, e.getIdUsuario());
                 stmSuma2E.executeUpdate();
 
+                muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+
             } else {
                 //Importe
                 stmME = con.prepareStatement(consulta5);
@@ -1599,6 +1619,8 @@ public class DAOUsuarios extends AbstractDAO {
                 stmSuma2E.setString(2, e.getIdUsuario());
                 stmSuma2E.setString(3, e.getIdUsuario());
                 stmSuma2E.executeUpdate();
+
+                muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
             }
 
             //Por último, si hay un anuncio, se elimina
