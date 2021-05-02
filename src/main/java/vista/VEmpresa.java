@@ -375,9 +375,9 @@ public class VEmpresa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        if(fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa")==0){
+        if (fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa") == 0) {
             fa.solicitarBaja(e.getIdUsuario());
-            fa.muestraExcepcion("La solicitud se ha realizado con éxito");
+            fa.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
             fa.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
         }
@@ -416,12 +416,8 @@ public class VEmpresa extends javax.swing.JFrame {
         }
 
         float importe = importeTextBox.getText().isEmpty() ? 0.0f : Float.parseFloat(importeTextBox.getText());
-        int numero= 0; 
-        if(!numeroParticipacionesTextBox.getText().isEmpty()){
-            numero= Integer.parseInt(numeroParticipacionesTextBox.getText()); 
-        }
-        
-        
+        int numero = numParticipacionesAnuncioTextBox.getText().isEmpty() ? 0 : Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+
 
         if (FechaTextBox.getFecha() == null) {
             fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n"
@@ -440,7 +436,6 @@ public class VEmpresa extends javax.swing.JFrame {
         fa.crearAnuncio(importe, this.e, fecha, numero);
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-
     }
 
     public void solicitarBajaAnuncio() {
@@ -489,6 +484,7 @@ public class VEmpresa extends javax.swing.JFrame {
                 return;
             }
         }
+
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         int fila = tablaAnuncios.getSelectedRow();
         if (fila != -1) {
@@ -497,9 +493,9 @@ public class VEmpresa extends javax.swing.JFrame {
         } else {
             fa.pagarBeneficios(importe, numero, this.e, null);
         }
-
+        AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
+        tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Etiqueta FechaLabel;

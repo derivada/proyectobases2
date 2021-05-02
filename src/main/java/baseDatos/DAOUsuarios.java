@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
+
 import vista.FachadaGui;
 import vista.VentanaConfirmacion;
 import vista.componentes.Utils;
@@ -396,7 +397,7 @@ public class DAOUsuarios extends AbstractDAO {
             try {
                 con.setAutoCommit(false);
 
-                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?,?,?,?)";
+                consulta = "insert into usuario(id_usuario, clave, autorizado, solicitadobaja) values (?, crypt(?, gen_salt('bf', 4)), ?, ?)";
                 stmIns = con.prepareStatement(consulta);
                 stmIns.setString(1, e.getIdUsuario());
                 stmIns.setString(2, e.getClave());
@@ -594,7 +595,7 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta);
             stm.setString(1, id_usuario);
             stm.executeUpdate();
-            
+
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -843,10 +844,10 @@ public class DAOUsuarios extends AbstractDAO {
             stm.executeUpdate();
 
             done = true;
-            
-            if(saldo != 0.0f){
+
+            if (saldo != 0.0f) {
                 new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
-                "La baja se ha cancelado correctamente...");
+                        "La baja se ha cancelado correctamente...");
             }
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
@@ -888,15 +889,15 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta2);
             stm.setString(1, idUsuario);
             stm.executeUpdate();
-            
+
             done = true;
-            
-            if(saldo != 0.0f){
+
+            if (saldo != 0.0f) {
                 new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
-                "La baja se ha cancelado correctamente...");
+                        "La baja se ha cancelado correctamente...");
             }
 
-            
+
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {
@@ -1040,7 +1041,7 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmBloquear = null;
         PreparedStatement stmBloquearParticipaciones1 = null;
         PreparedStatement stmBloquearParticipaciones2 = null;
-        
+
         int resultado = 1;
         boolean done = false;
         String consulta1 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,numeroparticipaciones,solicitadobaja) values (?,?,?,?,false)";
@@ -1056,8 +1057,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         String consulta6 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where usuario= ? and empresa= ? ";
-        
-        
+
 
         Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
 
@@ -1116,7 +1116,7 @@ public class DAOUsuarios extends AbstractDAO {
             }
         } //Segundo caso, solo importe
         else if (numeroParticipaciones == 0 && importe >= 0) {
-            if (importe > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
+            if ((importe * participacionesVendidas(e.getIdUsuario())) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
                 resultado = 2;
             } else {
                 con = this.getConexion();
@@ -1130,8 +1130,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar2.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
-                    stmBloquear.setFloat(1, importe*this.participacionesVendidas(e.getIdUsuario()));
-                    stmBloquear.setFloat(2, importe*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(1, importe * this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(2, importe * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquear.setString(3, e.getIdUsuario());
                     stmBloquear.executeUpdate();
 
@@ -1163,9 +1163,9 @@ public class DAOUsuarios extends AbstractDAO {
         } //Tercer caso, con importe y participaciones.
         //Se comprueban tanto que el importe sea suficiente como que las participaciones sean suficientes.
         else {
-            if (importe > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
+            if ((importe * participacionesVendidas(e.getIdUsuario())) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
                 resultado = 2;
-            } else if (fa.getPartPropEmpresa(e) < (numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()))) {
+            } else if (fa.getParticipacionesEmpresa(e, e) < (numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()))) {
                 resultado = 3;
             } else {
                 con = this.getConexion();
@@ -1180,8 +1180,8 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar3.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
-                    stmBloquear.setFloat(1, importe*this.participacionesVendidas(e.getIdUsuario()));
-                    stmBloquear.setFloat(2, importe*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(1, importe * this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquear.setFloat(2, importe * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquear.setString(3, e.getIdUsuario());
                     stmBloquear.executeUpdate();
 
@@ -1251,12 +1251,12 @@ public class DAOUsuarios extends AbstractDAO {
             con.setAutoCommit(false);
             //Se resta de saldobloqueado
             stmResta = con.prepareStatement(consulta1);
-            stmResta.setFloat(1, importe*this.participacionesVendidas(empresa));
+            stmResta.setFloat(1, importe * this.participacionesVendidas(empresa));
             stmResta.setString(2, empresa);
             stmResta.executeUpdate();
             //Se suma a saldo
             stmSuma = con.prepareStatement(consulta2);
-            stmSuma.setFloat(1, importe*this.participacionesVendidas(empresa));
+            stmSuma.setFloat(1, importe * this.participacionesVendidas(empresa));
             stmSuma.setString(2, empresa);
             stmSuma.executeUpdate();
 
@@ -1699,7 +1699,7 @@ public class DAOUsuarios extends AbstractDAO {
         boolean done = false;
         con = this.getConexion();
 
-        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)), where id_usuario=?";
+        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
         String consulta2 = "update inversor set nombre=?, dni=?, direccion=?, telefono=? where id_usuario=?";
 
         try {
@@ -1753,7 +1753,7 @@ public class DAOUsuarios extends AbstractDAO {
         boolean done = false;
         con = this.getConexion();
 
-        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)), where id_usuario=?";
+        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
         String consulta2 = "update empresa set nombrecomercial=?, cif=?, direccion=?, telefono=? where id_usuario=?";
 
         try {
@@ -1855,8 +1855,8 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
     }
-    
-        public float obtenerSaldoInversor(Usuario u) {
+
+    public float obtenerSaldoInversor(Usuario u) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -1888,7 +1888,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     public float obtenerSaldoEmpresa(Usuario u) {
-         PreparedStatement stm = null;
+        PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
         float resultado = 0.0f;
@@ -1917,7 +1917,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
-    
+
     public void modificarSaldoInversor(String idUsuario, float saldo) {
         PreparedStatement stmUpd = null;
         Connection con;
@@ -1942,7 +1942,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     public void modificarSaldoEmpresa(String idUsuario, float saldo) {
-                PreparedStatement stmUpd = null;
+        PreparedStatement stmUpd = null;
         Connection con;
         con = this.getConexion();
         String consultaUpdate = "update empresa set saldo=? where id_usuario=?";
@@ -1973,8 +1973,8 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         String consultaComision = "select sum(numparticipaciones) as num\n" +
-                                "from participacionesinversor\n" +
-                                "where usuario = ?";
+                "from participacionesinversor\n" +
+                "where usuario = ?";
 
         try {
             stm = con.prepareStatement(consultaComision);
@@ -2006,8 +2006,8 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         String consultaComision = "select sum(numparticipaciones) as num\n" +
-                                "from participacionesempresa\n" +
-                                "where usuario = ?";
+                "from participacionesempresa\n" +
+                "where usuario = ?";
 
         try {
             stm = con.prepareStatement(consultaComision);

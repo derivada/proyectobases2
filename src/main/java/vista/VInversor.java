@@ -1,5 +1,6 @@
 package vista;
 
+import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Inversor;
@@ -154,11 +155,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         if(fa.getNumeroParticipaciones(i.getIdUsuario(), "Inversor")==0){
             fa.solicitarBaja(i.getIdUsuario());
-            fa.muestraExcepcion("La solicitud se ha realizado con éxito");
+            fa.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
             fa.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
         }
-        
     }//GEN-LAST:event_bajaBotonActionPerformed
 
 
