@@ -10,7 +10,6 @@ import aplicacion.Usuario;
 import vista.componentes.DialogoInfo;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 
 import vista.FachadaGui;
 import vista.VentanaConfirmacion;
-import vista.componentes.Utils;
 
 public class DAOUsuarios extends AbstractDAO {
 
