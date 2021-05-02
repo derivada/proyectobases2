@@ -411,10 +411,7 @@ public class VEmpresa extends javax.swing.JFrame {
         }
 
         float importe = importeTextBox.getText().isEmpty() ? 0.0f : Float.parseFloat(importeTextBox.getText());
-        int numero= 0; 
-        if(!numeroParticipacionesTextBox.getText().isEmpty()){
-            numero= Integer.parseInt(numeroParticipacionesTextBox.getText()); 
-        }
+        int numero = numParticipacionesAnuncioTextBox.getText().isEmpty() ? 0 : Integer.parseInt( numParticipacionesAnuncioTextBox.getText()); 
         
         
 
@@ -433,8 +430,10 @@ public class VEmpresa extends javax.swing.JFrame {
         Timestamp fecha = FechaTextBox.getFecha();
 
         fa.crearAnuncio(importe, this.e, fecha, numero);
+        this.actualizarDatos();
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
+        
 
     }
 
@@ -492,6 +491,10 @@ public class VEmpresa extends javax.swing.JFrame {
         } else {
             fa.pagarBeneficios(importe, numero, this.e, null);
         }
+        actualizarDatos(); 
+        
+        tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
+        
 
     }
 
@@ -574,6 +577,7 @@ public class VEmpresa extends javax.swing.JFrame {
             return;
 
         fa.bajaParticipaciones(e, cantidad);
+        
 
         this.actualizarDatos();
     }
@@ -583,5 +587,6 @@ public class VEmpresa extends javax.swing.JFrame {
         saldoTextBox.setText(Utils.displayCurrency(e.getSaldo()));
         numeroParticipaciones = fa.getParticipacionesEmpresa(e, e);
         disponibles.setText(String.valueOf(numeroParticipaciones));
+        ventaPanel.actualizarDatos();
     }
 }

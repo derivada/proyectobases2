@@ -211,7 +211,7 @@ public class FachadaBaseDatos {
     }
 
     public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
-        daoUsuarios.pagarBeneficios(importe, participaciones, empresa, a);
+        daoUsuarios.pagarBeneficios(importe, participaciones, empresa, a,daoParticipaciones.getParticipacionesEmpresa(empresa, empresa.getIdUsuario()));
     }
 
     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {

@@ -235,16 +235,14 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         // 2. Crear oferta de venta
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
         fa.obtenerHistorial(u);
-        numeroVenta.setValue(0);
-        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        actualizarDatos(); 
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }//GEN-LAST:event_crearOfertaVenta
 
     private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
         // Actualizar slider
-        numeroVenta.setValue(0);
-        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        actualizarDatos(); 
     }//GEN-LAST:event_empresaVentaActionPerformed
 
     private void numeroVentaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numeroVentaStateChanged
@@ -263,6 +261,10 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
+    public void actualizarDatos(){
+         numeroVenta.setValue(0);
+        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton bajaVentaBoton;
