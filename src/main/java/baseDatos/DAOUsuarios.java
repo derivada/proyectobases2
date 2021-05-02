@@ -1040,11 +1040,9 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmBloquearParticipaciones1 = null;
         PreparedStatement stmBloquearParticipaciones2 = null;
 
-        int resultado = 1;
+        int resultado = 0;
         boolean done = false;
-        String consulta1 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,numeroparticipaciones,solicitadobaja) values (?,?,?,?,false)";
-
-        String consulta2 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,solicitadobaja) values (?,?,?,?,false)";
+        
 
         String consulta3 = "Insert into anunciobeneficios  (empresa,fechapago,fechaanuncio,importeparticipacion,numeroparticipaciones,solicitadobaja) "
                 + "values (?,?,?,?,?,false)";
@@ -1068,11 +1066,12 @@ public class DAOUsuarios extends AbstractDAO {
                 con = this.getConexion();
                 try {
                     con.setAutoCommit(false);
-                    stmAnunciar1 = con.prepareStatement(consulta1);
+                    stmAnunciar1 = con.prepareStatement(consulta3);
                     stmAnunciar1.setString(1, e.getIdUsuario());
                     stmAnunciar1.setTimestamp(2, fechaPago);
                     stmAnunciar1.setTimestamp(3, fechaActual);
-                    stmAnunciar1.setInt(4, numeroParticipaciones);
+                    stmAnunciar1.setInt(4, 0);
+                    stmAnunciar1.setInt(5, numeroParticipaciones);
                     stmAnunciar1.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
@@ -1087,6 +1086,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                    resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
@@ -1120,11 +1120,12 @@ public class DAOUsuarios extends AbstractDAO {
                 con = this.getConexion();
                 try {
                     con.setAutoCommit(false);
-                    stmAnunciar2 = con.prepareStatement(consulta2);
+                    stmAnunciar2 = con.prepareStatement(consulta3);
                     stmAnunciar2.setString(1, e.getIdUsuario());
                     stmAnunciar2.setTimestamp(2, fechaPago);
                     stmAnunciar2.setTimestamp(3, fechaActual);
                     stmAnunciar2.setFloat(4, importe);
+                    stmAnunciar2.setInt(5, 0);
                     stmAnunciar2.executeUpdate();
 
                     stmBloquear = con.prepareStatement(consulta4);
@@ -1135,6 +1136,7 @@ public class DAOUsuarios extends AbstractDAO {
 
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), null, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                    resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
@@ -1195,6 +1197,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                    resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);

@@ -179,17 +179,23 @@ public class GestionUsuarios {
 
     public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         int aux = fbd.crearAnuncio(importe, e, fecha, numeroParticipaciones);
-        if (aux == 1) {
-            fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
+        switch (aux){
+            case 1: 
+                  fbd.getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente",
                     DialogoInfo.NivelDeAdvertencia.INFORMACION);
-        } else if (aux == 2) {
-            fbd.getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                break; 
+            case 2: 
+                 fbd.getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
-
-        } else {
-            fbd.getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
+                break; 
+            case 3: 
+                fbd.getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
+                break; 
+            default: 
+               
         }
+        
     }
 
     public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
