@@ -106,7 +106,7 @@ Create table anuncioBeneficios
   fechaAnuncio timestamp,
   numeroparticipaciones integer, 
   importeParticipacion float,
-  solicitadobaja boolean,
+  solicitadobaja boolean default false,
 
   primary key (fechaPago, empresa),
   
