@@ -1,22 +1,77 @@
 package vista;
 
+import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
 import aplicacion.Inversor;
+import vista.componentes.ColoresGUI;
+import vista.componentes.DialogoInfo;
 import vista.componentes.ImagenesGUI;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class VModificarInversor extends javax.swing.JFrame {
 
     private final FachadaAplicacion fa;
-    private final Inversor i;
+    private Inversor i;
 
     public VModificarInversor(Inversor i, FachadaAplicacion fa) {
         this.fa = fa;
         this.i = i;
         this.setTitle("Panel de modificación de inversor - " + i.getIdUsuario());
         this.setIconImage(ImagenesGUI.getImage("database.png", 128));
-        initComponents();
 
-        this.actualizarCampos();
+        initComponents();
+        this.actualizarDatos();
+        this.setValidators();
+    }
+
+    private void setValidators() {
+        telefonoTextBox.setValidator(s -> {
+            if (s.length() == 0) // admitimos nulos
+            {
+                return true;
+            }
+            try {
+                Integer.parseInt(s);
+                return s.length() == 9; // debe ser un entero de 9 cifras si no es nulo
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+        idTextBox.setValidator(s -> s.length() > 1 && s.length() <= 20); // minimo 2, maximo 20
+        nombreTextBox.setValidator(s -> s.length() > 1 && s.length() <= 60); // minimo 2, maximo 60
+        direccionTextBox.setValidator(s -> s.length() <= 50); // 50 como mucho, adminitimos nulos
+        dniTextBox.setValidator(s -> s.length() == 9); // debe ser 9, no admitimos nulos
+        this.clave.setValidationLevel(true);
+        this.claveConf.setValidationLevel(true);
+
+        // Claves iguales
+        claveConf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                comprobarPassIguales();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                comprobarPassIguales();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                comprobarPassIguales();
+            }
+        });
+    }
+
+    private boolean comprobarPassIguales() {
+        if (this.claveConf.getText().equals(this.clave.getText())) {
+            claveConf.setBackground(ColoresGUI.blanco);
+            return true;
+        }
+        claveConf.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
+        return false;
     }
 
     /**
@@ -44,7 +99,7 @@ public class VModificarInversor extends javax.swing.JFrame {
         dniLabel = new vista.componentes.Etiqueta();
         idLabel = new vista.componentes.Etiqueta();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         claveLabel.setText("Clave:");
 
@@ -232,51 +287,56 @@ public class VModificarInversor extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void modificarInversor() {
-        Inversor inversor = new Inversor(this.idTextBox.getText(), this.nombreTextBox.getText(), this.dniTextBox.getText(), this.direccionTextBox.getText(),
-                this.telefonoTextBox.getText(), 0.0f, false, false);
-        String pass;
-        boolean insertado = false;
+        if (!idTextBox.validateInput() | !direccionTextBox.validateInput() | !dniTextBox.validateInput()
+                | !nombreTextBox.validateInput()) {
+            fa.muestraExcepcion("Alguno de los campos introducidos no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            return;
+        }
+        boolean passMod = false;
+        if (!clave.getText().isEmpty() || !claveConf.getText().isEmpty()) {
+            // Claves no vacías
+            if (!clave.isValidated() | !claveConf.isValidated()) {
+                String log = "";
+                if (!clave.isValidated()) {
+                    log = log + clave.getValidationError();
+                }
+                fa.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return;
+            }
+            if (!comprobarPassIguales()) {
+                fa.muestraExcepcion("Las contraseñas no coinciden!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return;
+            }
+            passMod = true;
+        }
 
-        //comprobamos que los campos que no pueden estar vacios no esten vacios
-        if (this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()) {
-            fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
+        if (!i.getIdUsuario().equals(idTextBox.getText()) && !fa.comprobarID(this.idTextBox.getText())) {
+            fa.muestraExcepcion("El nuevo ID ya está en uso!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
-        if (this.idTextBox.getText().equals(i.getIdUsuario())) {//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
-            if (this.clave.getText().equals(this.claveConf.getText())) {
-                pass = this.clave.getText();
-                insertado = fa.modificarInversor(inversor, pass, i.getIdUsuario());
-            } else {
-                fa.muestraExcepcion("¡Las contraseñas no coinciden!");
-            }
-        } else {
-            if (fa.comprobarID(this.idTextBox.getText())) {
-                if (this.clave.getText().equals(this.claveConf.getText())) {
-                    pass = this.clave.getText();
-                    insertado = fa.modificarInversor(inversor, pass, i.getIdUsuario());
-                } else {
-                    fa.muestraExcepcion("¡Las contraseñas no coinciden!");
-                }
-            } else {
-                fa.muestraExcepcion("ID En Uso");
-            }
-        }
+        Inversor inversor = new Inversor(this.idTextBox.getText(), this.nombreTextBox.getText(), this.dniTextBox.getText(),
+                this.direccionTextBox.getText(), this.telefonoTextBox.getText(),
+                0.0f, false, false);
+
+        String pass = passMod ? this.clave.getText() : null;
+
+        boolean insertado = fa.modificarInversor(inversor, pass, i.getIdUsuario());
 
         if (insertado) {
-            i.setIdUsuario(this.idTextBox.getText());
-            i.setNombre(this.nombreTextBox.getText());
-            i.setDireccion(this.direccionTextBox.getText());
-            i.setTelefono(this.telefonoTextBox.getText());
-            i.setDni(this.dniTextBox.getText());
+            this.i = fa.obtenerDatosInversor(inversor);
+            actualizarDatos();
+            fa.muestraExcepcion("Datos del inversor modificados con éxito!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
-            fa.muestraExcepcion("No se pudo modificar la base de datos.");
+            fa.muestraExcepcion("No se pudo modificar la base de datos.", DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
         }
     }
 
-    private void actualizarCampos() {
+    private void actualizarDatos() {
         this.idTextBox.setText(i.getIdUsuario());
         this.nombreTextBox.setText(i.getNombre());
+        this.clave.setText("");
+        this.claveConf.setText("");
         this.telefonoTextBox.setText(i.getTelefono());
         this.dniTextBox.setText(i.getDni());
         this.direccionTextBox.setText(i.getDireccion());

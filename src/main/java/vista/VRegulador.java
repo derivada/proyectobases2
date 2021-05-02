@@ -82,10 +82,6 @@ public class VRegulador extends javax.swing.JFrame {
         bajaBoton = new vista.componentes.Boton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla2 = new vista.componentes.Tabla();
-        tabs7 = new vista.componentes.Tabs();
-        transferenciaBoton = new vista.componentes.Boton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabla3 = new vista.componentes.Tabla();
         bajaAnuncioTabs = new vista.componentes.Tabs();
         jScrollPane3 = new javax.swing.JScrollPane();
         anunciosTabla = new vista.componentes.Tabla();
@@ -169,34 +165,6 @@ public class VRegulador extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Solicitudes de baja", tabs6);
-
-        transferenciaBoton.setText("Autorizar");
-
-        tabla3.setModel(new ModeloTablaTransacciones());
-        jScrollPane2.setViewportView(tabla3);
-
-        javax.swing.GroupLayout tabs7Layout = new javax.swing.GroupLayout(tabs7);
-        tabs7.setLayout(tabs7Layout);
-        tabs7Layout.setHorizontalGroup(
-            tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-        tabs7Layout.setVerticalGroup(
-            tabs7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabs7Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(transferenciaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Comprobación de transferencia", tabs7);
 
         anunciosTabla.setModel(new ModeloTablaBeneficios());
         jScrollPane3.setViewportView(anunciosTabla);
@@ -402,7 +370,6 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private vista.componentes.BotonVolver botonVolver1;
     private vista.componentes.Etiqueta idTextBox;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -410,13 +377,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private vista.componentes.Etiqueta saldoTextBox;
     private vista.componentes.Tabla tabla1;
     private vista.componentes.Tabla tabla2;
-    private vista.componentes.Tabla tabla3;
     private vista.componentes.Tabs tabs5;
     private vista.componentes.Tabs tabs6;
-    private vista.componentes.Tabs tabs7;
     private vista.componentes.Etiqueta tipoLabel;
     private vista.componentes.Etiqueta tipoTextBox;
-    private vista.componentes.Boton transferenciaBoton;
     private vista.componentes.Etiqueta usuarioLabel;
     // End of variables declaration//GEN-END:variables
 

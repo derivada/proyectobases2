@@ -2,21 +2,77 @@ package vista;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Empresa;
+import vista.componentes.ColoresGUI;
+import vista.componentes.DialogoInfo;
 import vista.componentes.ImagenesGUI;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class VModificarEmpresa extends javax.swing.JFrame {
 
     private final FachadaAplicacion fa;
-    private final Empresa e;
+    private Empresa e;
 
     public VModificarEmpresa(Empresa e, FachadaAplicacion fa) {
         this.fa = fa;
         this.e = e;
         this.setTitle("Panel de modificación de empresa - " + e.getIdUsuario());
         this.setIconImage(ImagenesGUI.getImage("database.png", 128));
-        initComponents();
 
-        this.actualizarCampos();
+        initComponents();
+        this.actualizarDatos();
+        this.setValidators();
+    }
+
+    private void setValidators() {
+        telefonoTextBox.setValidator(s -> {
+            if (s.length() == 0) // admitimos nulos
+            {
+                return true;
+            }
+            try {
+                Integer.parseInt(s);
+                return s.length() == 9; // debe ser un entero de 9 cifras si no es nulo
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+        idTextBox.setValidator(s -> s.length() > 1 && s.length() <= 20); // minimo 2, maximo 20
+        nombreTextBox.setValidator(s -> s.length() > 1 && s.length() <= 60); // minimo 2, maximo 60
+        direccionTextBox.setValidator(s -> s.length() <= 50); // 50 como mucho, adminitimos nulos
+        cifTextBox.setValidator(s -> s.length() == 9); // debe ser 9, no admitimos nulos
+        this.clave.setValidationLevel(true);
+        this.claveConf.setValidationLevel(true);
+        this.clave.admiteVacio(true);
+        this.claveConf.admiteVacio(true);
+
+        // Claves iguales
+        claveConf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                comprobarPassIguales();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                comprobarPassIguales();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                comprobarPassIguales();
+            }
+        });
+    }
+
+    private boolean comprobarPassIguales() {
+        if (this.claveConf.getText().equals(this.clave.getText())) {
+            claveConf.setBackground(ColoresGUI.blanco);
+            return true;
+        }
+        claveConf.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
+        return false;
     }
 
     /**
@@ -42,9 +98,9 @@ public class VModificarEmpresa extends javax.swing.JFrame {
         claveConfLabel = new vista.componentes.Etiqueta();
         nombreTextBox = new vista.componentes.TextBox();
         telefonoLabel = new vista.componentes.Etiqueta();
-        dniTextBox = new vista.componentes.TextBox();
+        cifTextBox = new vista.componentes.TextBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         idTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,9 +159,9 @@ public class VModificarEmpresa extends javax.swing.JFrame {
 
         telefonoLabel.setText("Teléfono:");
 
-        dniTextBox.addActionListener(new java.awt.event.ActionListener() {
+        cifTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dniTextBoxActionPerformed(evt);
+                cifTextBoxActionPerformed(evt);
             }
         });
 
@@ -144,7 +200,7 @@ public class VModificarEmpresa extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(claveConf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(direccionTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dniTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cifTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(64, 64, 64))
         );
@@ -164,7 +220,7 @@ public class VModificarEmpresa extends javax.swing.JFrame {
                             .addComponent(nombreTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dniLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dniTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cifTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -207,11 +263,12 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     private void nombreTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextBoxActionPerformed
     }//GEN-LAST:event_nombreTextBoxActionPerformed
 
-    private void dniTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniTextBoxActionPerformed
-    }//GEN-LAST:event_dniTextBoxActionPerformed
+    private void cifTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cifTextBoxActionPerformed
+    }//GEN-LAST:event_cifTextBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vista.componentes.TextBox cifTextBox;
     private vista.componentes.PasswordField clave;
     private vista.componentes.PasswordField claveConf;
     private vista.componentes.Etiqueta claveConfLabel;
@@ -219,7 +276,6 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     private vista.componentes.Etiqueta direccionLabel;
     private vista.componentes.TextBox direccionTextBox;
     private vista.componentes.Etiqueta dniLabel;
-    private vista.componentes.TextBox dniTextBox;
     private vista.componentes.Etiqueta idLabel;
     private vista.componentes.TextBox idTextBox;
     private vista.componentes.Boton modificarBoton;
@@ -230,55 +286,59 @@ public class VModificarEmpresa extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void modificarEmpresa() {
-        Empresa empresa = new Empresa(this.idTextBox.getText(), this.nombreTextBox.getText(), this.dniTextBox.getText(), 0.0f, 0.0f, this.direccionTextBox.getText(),
-                this.telefonoTextBox.getText(), false, false);
-        String pass;
-        boolean insertado = false;
 
-        //comprobamos que los campos que no pueden estar vacios no esten vacios
-        if (this.idTextBox.getText().isEmpty() || this.clave.getText().isEmpty() || this.claveConf.getText().isEmpty() || this.nombreTextBox.getText().isEmpty() || this.dniTextBox.getText().isEmpty()) {
-            fa.muestraExcepcion("Recuerda que los campos de ID, clave, nombre y DNI/CIF no pueden estar vacíos.");//muestro la excepcion y retorno sin hacer nada mas
+        if (!idTextBox.validateInput() | !direccionTextBox.validateInput() | !cifTextBox.validateInput()
+                | !nombreTextBox.validateInput()) {
+            fa.muestraExcepcion("Alguno de los campos introducidos no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            return;
+        }
+        boolean passMod = false;
+        if (!clave.getText().isEmpty() || !claveConf.getText().isEmpty()) {
+            // Claves no vacías
+            if (!clave.isValidated() | !claveConf.isValidated()) {
+                String log = "";
+                if (!clave.isValidated()) {
+                    log = log + clave.getValidationError();
+                }
+                fa.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return;
+            }
+            if (!comprobarPassIguales()) {
+                fa.muestraExcepcion("Las contraseñas no coinciden!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return;
+            }
+            passMod = true;
+        }
+
+        if (!e.getIdUsuario().equals(idTextBox.getText()) && !fa.comprobarID(this.idTextBox.getText())) {
+            fa.muestraExcepcion("El nuevo ID ya está en uso!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
-        if (this.idTextBox.getText().equals(e.getIdUsuario())) {//si no cambio el ID, fantastico, no hay que comprobar que este libre ni guardarlo
-            if (this.clave.getText().equals(this.claveConf.getText())) {
-                pass = this.clave.getText();
-                insertado = fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
-            } else {
-                fa.muestraExcepcion("¡Las contraseñas no coinciden!");
-            }
-        } else {
-            if (fa.comprobarID(this.idTextBox.getText())) {
-                if (this.clave.getText().equals(this.claveConf.getText())) {
-                    pass = this.clave.getText();
-                    insertado = fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
-                } else {
-                    fa.muestraExcepcion("¡Las contraseñas no coinciden!");
-                }
-            } else {
-                fa.muestraExcepcion("ID En Uso");
-            }
-        }
+        Empresa empresa = new Empresa(this.idTextBox.getText(), this.nombreTextBox.getText(), this.cifTextBox.getText(),
+                0.0f, 0.0f, this.direccionTextBox.getText(),
+                this.telefonoTextBox.getText(), false, false);
+
+        String pass = passMod ? this.clave.getText() : null;
+
+        boolean insertado = fa.modificarEmpresa(empresa, pass, e.getIdUsuario());
 
         if (insertado) {
-            e.setIdUsuario(this.idTextBox.getText());
-            e.setNombre(this.nombreTextBox.getText());
-            e.setDireccion(this.direccionTextBox.getText());
-            e.setTelefono(this.telefonoTextBox.getText());
-            e.setCIF(this.dniTextBox.getText());
+            this.e = fa.obtenerDatosEmpresa(empresa);
+            actualizarDatos();
+            fa.muestraExcepcion("Datos de la empresa modificados con éxito!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
-            fa.muestraExcepcion("No se pudo modificar la base de datos.");
+            fa.muestraExcepcion("No se pudo modificar la base de datos.", DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
         }
     }
 
-    private void actualizarCampos() {
+    private void actualizarDatos() {
         this.idTextBox.setText(e.getIdUsuario());
         this.nombreTextBox.setText(e.getNombre());
         this.telefonoTextBox.setText(e.getTelefono());
-        this.clave.setText(e.getClave());
-        this.claveConf.setText(e.getClave());
-        this.dniTextBox.setText(e.getCIF());
+        this.clave.setText("");
+        this.claveConf.setText("");
+        this.cifTextBox.setText(e.getCIF());
         this.direccionTextBox.setText(e.getDireccion());
     }
 

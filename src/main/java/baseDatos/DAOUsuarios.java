@@ -1076,12 +1076,12 @@ public class DAOUsuarios extends AbstractDAO {
                     stmAnunciar1.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
-                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones1.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones1.executeUpdate();
 
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
-                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
@@ -1114,7 +1114,7 @@ public class DAOUsuarios extends AbstractDAO {
             }
         } //Segundo caso, solo importe
         else if (numeroParticipaciones == 0 && importe >= 0) {
-            if (importe*this.participacionesVendidas(e.getIdUsuario()) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
+            if (importe * this.participacionesVendidas(e.getIdUsuario()) > this.comprobarSaldoEmpresa(e.getIdUsuario())) {
                 resultado = 2;
             } else {
                 con = this.getConexion();
@@ -1184,12 +1184,12 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquear.executeUpdate();
 
                     stmBloquearParticipaciones1 = con.prepareStatement(consulta5);
-                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquearParticipaciones1.setInt(1, numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones1.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones1.executeUpdate();
 
                     stmBloquearParticipaciones2 = con.prepareStatement(consulta6);
-                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones*this.participacionesVendidas(e.getIdUsuario()));
+                    stmBloquearParticipaciones2.setInt(1, numeroParticipaciones * this.participacionesVendidas(e.getIdUsuario()));
                     stmBloquearParticipaciones2.setString(2, e.getIdUsuario());
                     stmBloquearParticipaciones2.setString(3, e.getIdUsuario());
                     stmBloquearParticipaciones2.executeUpdate();
@@ -1397,7 +1397,7 @@ public class DAOUsuarios extends AbstractDAO {
 
     //Función que paga los beneficios, con o sin anuncio previo.
     //Si el pago es sin anuncio, se llama a esta función con un null en anuncio
-    public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio,Integer participacionesPropias) {
+    public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio, Integer participacionesPropias) {
         //Para restar a empresa
         PreparedStatement stmImporte = null;
         PreparedStatement stmImporteB = null;
@@ -1419,7 +1419,6 @@ public class DAOUsuarios extends AbstractDAO {
 
         //Statement de eliminación de anuncio, con su consulta
         PreparedStatement stmEliminacion = null;
-
 
 
         String consulta10 = "delete from anunciobeneficios where empresa= ?  and fechapago= ? ";
@@ -1467,12 +1466,12 @@ public class DAOUsuarios extends AbstractDAO {
             if (anuncio == null) {
 
                 //Comprobación de que tiene el número de participaciones e importe suficiente para pagar
-                Empresa aux= this.obtenerDatosEmpresa(e);
-                if(aux.getSaldo()<importe* (float) num ){
+                Empresa aux = this.obtenerDatosEmpresa(e);
+                if (aux.getSaldo() < importe * (float) num) {
                     muestraExcepcion("El importe de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
                     return;
                 }
-                if(participacionesPropias<participaciones*num){
+                if (participacionesPropias < participaciones * num) {
                     muestraExcepcion("El numero de participacione de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
                     return;
                 }
@@ -1718,17 +1717,23 @@ public class DAOUsuarios extends AbstractDAO {
         Connection con;
         boolean done = false;
         con = this.getConexion();
-
-        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
+        String consultaPass;
+        if (pass == null)
+            consultaPass = "update usuario set id_usuario=? where id_usuario=?";
+        else
+            consultaPass = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
         String consulta2 = "update inversor set nombre=?, dni=?, direccion=?, telefono=? where id_usuario=?";
 
         try {
             con.setAutoCommit(false);
-
-            stmUpd = con.prepareStatement(consulta);
+            stmUpd = con.prepareStatement(consultaPass);
             stmUpd.setString(1, i.getIdUsuario());
-            stmUpd.setString(2, pass);
-            stmUpd.setString(3, idviejo);
+            if (pass == null) {
+                stmUpd.setString(2, idviejo);
+            } else {
+                stmUpd.setString(2, pass);
+                stmUpd.setString(3, idviejo);
+            }
 
             stmUpd.executeUpdate();
 
@@ -1772,17 +1777,27 @@ public class DAOUsuarios extends AbstractDAO {
         Connection con;
         boolean done = false;
         con = this.getConexion();
+        // Si pasas null en pass no cambiar contraseña
+        String consultaPass;
+        if (pass == null)
+            consultaPass = "update usuario set id_usuario=? where id_usuario=?";
+        else
+            consultaPass = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
 
-        String consulta = "update usuario set id_usuario=?, clave=crypt(?, gen_salt('bf', 4)) where id_usuario=?";
         String consulta2 = "update empresa set nombrecomercial=?, cif=?, direccion=?, telefono=? where id_usuario=?";
 
         try {
             con.setAutoCommit(false);
 
-            stmUpd = con.prepareStatement(consulta);
+            stmUpd = con.prepareStatement(consultaPass);
             stmUpd.setString(1, e.getIdUsuario());
-            stmUpd.setString(2, pass);
-            stmUpd.setString(3, idviejo);
+
+            if (pass == null) {
+                stmUpd.setString(2, idviejo);
+            } else {
+                stmUpd.setString(2, pass);
+                stmUpd.setString(3, idviejo);
+            }
 
             stmUpd.executeUpdate();
 

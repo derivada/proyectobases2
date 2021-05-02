@@ -11,6 +11,7 @@ public class PasswordField extends JPasswordField {
     private StringBuilder validationErrorMessage = new StringBuilder();
     private boolean validated;
     private boolean validationLevel = true; // Si es true se comprobarán las reglas, si no solo la longitud mínima/máxima de SQL
+    private boolean admiteVacio = false;
 
     public String getValidationError() {
         return this.validationErrorMessage.toString();
@@ -71,6 +72,10 @@ public class PasswordField extends JPasswordField {
 
     private void weakValidatePassword() {
         validated = true;
+        if (getText().isEmpty() && admiteVacio) {
+            changeValidationColor();
+            return;
+        }
         if (getText().length() < 3 || this.getText().length() > 72) {
             validated = false;
         }
@@ -79,6 +84,10 @@ public class PasswordField extends JPasswordField {
 
     private void validatePassword() {
         validated = true;
+        if (getText().isEmpty() && admiteVacio) {
+            changeValidationColor();
+            return;
+        }
         validationErrorMessage = new StringBuilder();
         String input = this.getText();
 
@@ -120,5 +129,9 @@ public class PasswordField extends JPasswordField {
             this.setBackground(ColoresGUI.blanco);
         else
             this.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
+    }
+
+    public void admiteVacio(boolean admiteVacio) {
+        this.admiteVacio = admiteVacio;
     }
 }
