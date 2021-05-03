@@ -1086,9 +1086,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
-                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
-                             + "las ofertas de venta disponibles. Desea continuar?", "El anuncio se ha creado correctamente",
-                            "La creación del anuncio se ha cancelado correctamente");
+                   
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
@@ -1139,9 +1137,7 @@ public class DAOUsuarios extends AbstractDAO {
 
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), null, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
-                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
-                             + "las ofertas de venta disponibles. Desea continuar?","El anuncio se ha creado correctamente",
-                            "La creación del anuncio se ha cancelado correctamente");
+                   
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
@@ -1203,9 +1199,7 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
-                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
-                             + "las ofertas de venta disponibles. Desea continuar?", "El anuncio se ha creado correctamente",
-                            "La creación del anuncio se ha cancelado correctamente");
+                    
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
@@ -1241,19 +1235,27 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     //Función para dar de baja un anuncio de la base de datos
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe,Integer numparticipaciones) {
         Connection con;
         PreparedStatement stmResta = null;
         PreparedStatement stmSuma = null;
         PreparedStatement stmBaja = null;
+        PreparedStatement stmSumaParticipaciones=null; 
         boolean done = false;
-        //Consulta para quitar el importe del saldo bloqueado de la empresa
-        String consulta1 = "update empresa set saldobloqueado=saldobloqueado- ? where id_usuario= ? ";
+        //Consulta para quitar el importe del saldo bloqueado de la empresa y las participaciones bloqueadas 
+        String consulta1 = "update empresa set saldobloqueado=saldobloqueado- ?"
+                + ",participacionesbloqueadas=participacionesbloqueadas- ?  where id_usuario= ? ";
 
         //Consulta para sumar el importe al salod
         String consulta2 = "update empresa set saldo=saldo+ ? where id_usuario= ? ";
         //Consulta para borrar el anuncio
         String consulta3 = "delete from anunciobeneficios where empresa= ? and fechapago= ? ";
+        
+        //Consulta para sumar las participaciones a la cartera de empredsa 
+        
+        String consulta4= "update participacionesempresa set numparticipaciones=numparticipaciones + ? "
+                + " where usuario = ? and empresa = ?"; 
+        
 
         con = this.getConexion();
 
@@ -1262,13 +1264,22 @@ public class DAOUsuarios extends AbstractDAO {
             //Se resta de saldobloqueado
             stmResta = con.prepareStatement(consulta1);
             stmResta.setFloat(1, importe * this.participacionesVendidas(empresa));
-            stmResta.setString(2, empresa);
+            stmResta.setInt(2, numparticipaciones* this.participacionesVendidas(empresa));
+            stmResta.setString(3, empresa);
             stmResta.executeUpdate();
             //Se suma a saldo
             stmSuma = con.prepareStatement(consulta2);
             stmSuma.setFloat(1, importe * this.participacionesVendidas(empresa));
             stmSuma.setString(2, empresa);
             stmSuma.executeUpdate();
+            
+            //Se suma a las participaciones de la cartera de empresa 
+            
+            stmSumaParticipaciones = con.prepareStatement(consulta4); 
+            stmSumaParticipaciones.setInt(1, numparticipaciones* this.participacionesVendidas(empresa));
+            stmSumaParticipaciones.setString(2, empresa);
+            stmSumaParticipaciones.setString(3, empresa);
+            stmSumaParticipaciones.executeUpdate(); 
 
             //Se elimina el anuncio
             stmBaja = con.prepareStatement(consulta3);
@@ -1296,6 +1307,9 @@ public class DAOUsuarios extends AbstractDAO {
                 }
                 if (stmResta != null) {
                     stmResta.close();
+                }
+                if(stmSumaParticipaciones != null){
+                    stmSumaParticipaciones.close();
                 }
                 con.setAutoCommit(true);
             } catch (SQLException ex) {
