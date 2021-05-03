@@ -571,7 +571,7 @@ public class DAOParticipaciones extends AbstractDAO {
     }
 
     public void comprarParticipaciones(Usuario comprador, String empresa, int cantidad, float precioMax,
-                                       float comision, Usuario regulador) {
+                                       float comision, Usuario regulador, java.util.List<AnuncioBeneficios> anuncios) {
         // Actualizar datos
 
         if (comprador == null || comprador instanceof Regulador) {
