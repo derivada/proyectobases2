@@ -262,8 +262,10 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
     public void actualizarDatos(){
-         numeroVenta.setValue(0);
+        numeroVenta.setValue(0);
         numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
+        tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1086,6 +1086,9 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
+                             + "las ofertas de venta disponibles. Desea continuar?", "El anuncio se ha creado correctamente",
+                            "La creación del anuncio se ha cancelado correctamente");
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
@@ -1136,6 +1139,9 @@ public class DAOUsuarios extends AbstractDAO {
 
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), null, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
+                             + "las ofertas de venta disponibles. Desea continuar?","El anuncio se ha creado correctamente",
+                            "La creación del anuncio se ha cancelado correctamente");
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
@@ -1197,6 +1203,9 @@ public class DAOUsuarios extends AbstractDAO {
                     stmBloquearParticipaciones2.executeUpdate();
                     fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
                             new Timestamp(System.currentTimeMillis()), numeroParticipaciones, importe, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
+                     new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Crear el anuncio eliminará "
+                             + "las ofertas de venta disponibles. Desea continuar?", "El anuncio se ha creado correctamente",
+                            "La creación del anuncio se ha cancelado correctamente");
                     resultado=1; 
                     done = true;
                 } catch (SQLException ex) {
