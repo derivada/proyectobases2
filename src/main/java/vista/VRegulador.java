@@ -36,21 +36,24 @@ public class VRegulador extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent event) {
                 try {
                     ModeloTablaBaja mtp = (ModeloTablaBaja) tabla2.getModel();
-
-                    Usuario u = mtp.obtenerUsuario(tabla2.getSelectedRow());
-
-                    int numeroParticipaciones = 0;
-
-                    if (u instanceof Inversor) {
-                        numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Inversor");
-                    } else {
-                        numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Empresa");
-                    }
-
-                    if (numeroParticipaciones != 0) {
+                    if(tabla2.getSelectedRow() == -1){
                         bajaBoton.setEnabled(false);
-                    } else if(numeroParticipaciones == 0){
-                        bajaBoton.setEnabled(true);
+                    } else {
+                        Usuario u = mtp.obtenerUsuario(tabla2.getSelectedRow());
+
+                        int numeroParticipaciones = 0;
+
+                        if (u instanceof Inversor) {
+                            numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Inversor");
+                        } else {
+                            numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Empresa");
+                        }
+
+                        if (numeroParticipaciones != 0) {
+                            bajaBoton.setEnabled(false);
+                        } else if (numeroParticipaciones == 0) {
+                            bajaBoton.setEnabled(true);
+                        }
                     }
                 }catch(ArrayIndexOutOfBoundsException e){
                     bajaBoton.setEnabled(false);                    
@@ -305,6 +308,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
 
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
         ModeloTablaAlta modelo = (ModeloTablaAlta) tabla1.getModel();
+        if(tabla1.getSelectedRow() == -1){
+            fa.muestraExcepcion("No hay elementos seleccionados");
+            return;
+        }
         Usuario u = modelo.obtenerUsuario(tabla1.getSelectedRow());  
         
         if (u instanceof Inversor) {
@@ -323,6 +330,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
+        if(tabla2.getSelectedRow() == -1){
+            fa.muestraExcepcion("No hay elementos seleccionados");
+            return;
+        }
         Usuario u = modelo.obtenerUsuario(tabla2.getSelectedRow());
         float saldo = 0.0f;
         
@@ -387,6 +398,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     public void darBajaAnuncio() {
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) anunciosTabla.getModel();
         int fila = anunciosTabla.getSelectedRow();
+        if(fila == -1){
+            fa.muestraExcepcion("Ninguna fila seleccionada");
+            return;
+        }
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
         fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion(),aux.getNumeroparticipaciones());
         //Se actualiza la tabla 
