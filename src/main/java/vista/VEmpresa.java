@@ -6,12 +6,8 @@ import aplicacion.FachadaAplicacion;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.format.DateTimeParseException;
 
-import vista.componentes.DialogoInfo;
-import vista.componentes.FuentesGUI;
-import vista.componentes.ImagenesGUI;
-import vista.componentes.Utils;
+import vista.componentes.*;
 import vista.modeloTablas.ModeloTablaBeneficios;
 
 public class VEmpresa extends javax.swing.JFrame {
@@ -45,7 +41,6 @@ public class VEmpresa extends javax.swing.JFrame {
         });
 
         importeTextBox.setValidator(s -> {
-            if (s.isEmpty()) return true;
             try {
                 return Float.parseFloat(s) > 0.0f;
             } catch (NumberFormatException e) {
@@ -56,13 +51,15 @@ public class VEmpresa extends javax.swing.JFrame {
         // Comprueba que la fecha está en el futuroLen
         FechaTextBox.setValidator(timestamp -> timestamp.after(Timestamp.from(Instant.now())));
         numParticipacionesAnuncioTextBox.setValidator(s -> {
-            if (s.isEmpty()) return true;
             try {
                 return Integer.parseInt(s) > 0;
             } catch (NumberFormatException e) {
                 return false;
             }
         });
+
+        importeTextBox.setValidationFailedColor(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.AMARILLO));
+        numParticipacionesAnuncioTextBox.setValidationFailedColor(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.AMARILLO));
     }
 
     /**
@@ -408,29 +405,30 @@ public class VEmpresa extends javax.swing.JFrame {
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
 
+
+    private void abrirHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirHistorialActionPerformed
+        new VHistorial(e);
+    }//GEN-LAST:event_abrirHistorialActionPerformed
+
     private void anunciarBeneficios() {
 
-        if (!importeTextBox.validateInput() | !numParticipacionesAnuncioTextBox.validateInput()) {
-            fa.muestraExcepcion("No se han introducido correctamente los datos!");
-            return;
-        }
-
-        float importe = importeTextBox.getText().isEmpty() ? 0.0f : Float.parseFloat(importeTextBox.getText());
-        int numero = numParticipacionesAnuncioTextBox.getText().isEmpty() ? 0 : Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
-
-
-        if (FechaTextBox.getFecha() == null) {
-            fa.muestraExcepcion("ERROR: La fecha introcida no está en un formato válido!\n"
-                    + "Use el formato YYYY/MM/DD", DialogoInfo.NivelDeAdvertencia.ERROR);
+        if (!importeTextBox.validateInput() & !numParticipacionesAnuncioTextBox.validateInput()) {
+            fa.muestraExcepcion("Por favor, introduzca un número de participaciones y/o un importe por participación\n" +
+                    "a dar por cada participación vendida", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
         if (!FechaTextBox.validateInput()) {
-            fa.muestraExcepcion("ERROR: La fecha no está especificada en el futuro",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
+            if (FechaTextBox.getFecha() == null)
+                fa.muestraExcepcion("La fecha introducida no es válida!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            else
+                fa.muestraExcepcion("La fecha introducida no está especificada en el futuro!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
+        // Puede que importe o numero sea nulo (nunca ambas)
+        float importe = !importeTextBox.validateInput() ? 0.0f : Float.parseFloat(importeTextBox.getText());
+        int numero = !numParticipacionesAnuncioTextBox.validateInput() ? 0 : Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
         Timestamp fecha = FechaTextBox.getFecha();
 
         fa.crearAnuncio(importe, this.e, fecha, numero);
@@ -446,59 +444,43 @@ public class VEmpresa extends javax.swing.JFrame {
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
     }
 
-
-    private void abrirHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirHistorialActionPerformed
-        new VHistorial(e);
-    }//GEN-LAST:event_abrirHistorialActionPerformed
-
     public void Pagar() {
-        Float importe = 0.0f;
-        if (!importeTextBox.getText().isEmpty()) {
-            try {
-                importe = Float.parseFloat(importeTextBox.getText());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El importe no está en un formato decimal válido!\n"
-                        + "Use el formato xxxx.yy", DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-            if (importe <= 0.0) {
-                fa.muestraExcepcion("ERROR: El importe debe ser positivo!",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-        }
-
-        int numero = 0;
-        if (!numParticipacionesAnuncioTextBox.getText().isEmpty()) {
-            try {
-                numero = Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
-            } catch (DateTimeParseException e) {
-                e.printStackTrace();
-                fa.muestraExcepcion("ERROR: El numero de participaciones tiene que ser un entero\n"
-                        + "Use el formato xxx", DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-            if (numero <= 0) {
-                fa.muestraExcepcion("ERROR: El numero de participaciones debe ser positivo",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                return;
-            }
-        }
-
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         int fila = tablaAnuncios.getSelectedRow();
+
         if (fila != -1) {
             AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
-            fa.pagarBeneficios(importe, numero, this.e, aux);
+            fa.pagarBeneficios(aux.getImporteparticipacion(), aux.getNumeroparticipaciones(), this.e, aux);
+            actualizarDatos();
+            tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
         } else {
-            fa.pagarBeneficios(importe, numero, this.e, null);
+            // Pagar sin anuncios!
+            // Pedir confirmación
+
+            if (!importeTextBox.validateInput() & !numParticipacionesAnuncioTextBox.validateInput()) {
+                String msg = "Si desea pagar a sus accionistas sin anuncio previo, por favor\n" +
+                        "seleccione primero un número y/o cantidad de participaciones.\n\n";
+
+                if (tabla.getRowCount() > 0) {
+                    msg = msg + "Para seleccionar un anuncio, haga click sobre su fila en la tabla.";
+                }
+
+                fa.muestraExcepcion(msg, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                return;
+            }
+            // Puede que importe o numero sea nulo (nunca ambas)
+            float importe = !importeTextBox.validateInput() ? 0.0f : Float.parseFloat(importeTextBox.getText());
+            int numero = !numParticipacionesAnuncioTextBox.validateInput() ? 0 : Integer.parseInt(numParticipacionesAnuncioTextBox.getText());
+            String msgConf = "Esta acción recompensará con " + numero + " acciones y " + Utils.displayCurrency(importe) + " a sus accionistas " +
+                    "por acción que tengan, sin anuncio previo. Continuar?";
+            String msgDeneg = "Se ha cancelado el pago sin anuncio...";
+            new VentanaConfirmacion(this, msgConf, null, msgDeneg, new Confirmable() {
+                @Override
+                public void continuar() {
+                    fa.pagarBeneficios(importe, numero, e, null);
+                }
+            });
         }
-        actualizarDatos();
-
-        tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
-
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

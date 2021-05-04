@@ -13,13 +13,34 @@ import vista.componentes.ImagenesGUI;
 
 public class VentanaConfirmacion extends javax.swing.JDialog {
 
-    private String mensajePregunta, mensajeCancelacion, mensajeConfirmacion;
-    private Connection con;
+    private final String mensajePregunta, mensajeCancelacion, mensajeConfirmacion;
+    private final Connection con;
     private boolean aceptar = false;
+    private Confirmable callbackConfirmacion;
 
     public VentanaConfirmacion() {
         // No usar, requerido por Netbeans
         initComponents();
+        con = null;
+        mensajePregunta = null;
+        mensajeCancelacion = null;
+        mensajeConfirmacion = null;
+    }
+
+    public VentanaConfirmacion(JFrame owner, String mensajePregunta, String mensajeConfirmacion, String mensajeCancelacion, Confirmable callbackConfirmacion) {
+        super(owner, true);
+        this.setTitle("Se requiere confirmación...");
+        this.setIconImage(ImagenesGUI.getImage("advertencia.png", 128));
+        initComponents();
+        this.botonAceptar.setBackground(ColoresGUI.getGUIColorClaro(ColoresGUI.Colores.VERDE));
+        this.botonCancelar.setBackground(ColoresGUI.getGUIColorClaro(ColoresGUI.Colores.ROJO));
+        this.mensajePregunta = mensajePregunta;
+        this.mensajeConfirmacion = mensajeConfirmacion;
+        this.mensajeCancelacion = mensajeCancelacion;
+        this.mensajeConfirmacionText.setText(mensajePregunta);
+        this.callbackConfirmacion = callbackConfirmacion;
+        this.con = null;
+        this.setVisible(true);
     }
 
     public VentanaConfirmacion(JFrame owner, Connection con, String mensajePregunta, String mensajeConfirmacion, String mensajeCancelacion) {
@@ -33,6 +54,7 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
         this.mensajeConfirmacion = mensajeConfirmacion;
         this.mensajeCancelacion = mensajeCancelacion;
         this.mensajeConfirmacionText.setText(mensajePregunta);
+        this.callbackConfirmacion = null;
         this.con = con;
         this.setVisible(true);
     }
@@ -82,39 +104,39 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(confirmacionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                        .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(confirmacionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                                                .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(confirmacionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(24, Short.MAX_VALUE)
+                                .addComponent(confirmacionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(botonAceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(botonCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(40, 40, 40))
         );
 
         this.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
-            FuentesGUI.Size.GRANDE));
+                FuentesGUI.Size.GRANDE));
 
-    pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
@@ -130,22 +152,34 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            if (aceptar) {
-                con.commit();
-                FachadaAplicacion.getInstance().muestraExcepcion(mensajeConfirmacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
-            } else {
-                con.rollback();
-                FachadaAplicacion.getInstance().muestraExcepcion(mensajeCancelacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
-            }
-        } catch (SQLException ex) {
-            FachadaAplicacion.getInstance().muestraExcepcion("Error al confirmar la transacción!");
-            ex.printStackTrace();
-        } finally {
+        if (aceptar && callbackConfirmacion != null) {
+            // Llamada a la funcion callback que continuará la ejecución
+            callbackConfirmacion.continuar();
+        }
+        if (aceptar && mensajeConfirmacion != null) {
+            FachadaAplicacion.getInstance().muestraExcepcion(mensajeConfirmacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        }
+        if (!aceptar && mensajeCancelacion != null) {
+            FachadaAplicacion.getInstance().muestraExcepcion(mensajeCancelacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        }
+
+        if (con != null) {
             try {
-                con.setAutoCommit(true);
+                if (aceptar) {
+                    con.commit();
+                } else {
+                    con.rollback();
+                }
             } catch (SQLException ex) {
-                System.out.println("No se pudo cambiar el auto-commit a true en VentanaConfirmacion");
+                FachadaAplicacion.getInstance().muestraExcepcion("Error al confirmar la transacción!",
+                        DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
+                ex.printStackTrace();
+            } finally {
+                try {
+                    con.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    System.out.println("No se pudo cambiar el auto-commit a true en VentanaConfirmacion");
+                }
             }
         }
     }//GEN-LAST:event_formWindowClosing

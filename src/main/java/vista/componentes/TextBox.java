@@ -1,6 +1,7 @@
 package vista.componentes;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.function.Predicate;
 public class TextBox extends JTextField {
 
     private Predicate<String> validator = null;
+    private Color validationFailedColor = ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO);
 
     public TextBox() {
         super();
@@ -38,12 +40,16 @@ public class TextBox extends JTextField {
         this.validator = validator;
     }
 
+    public void setValidationFailedColor(Color validationFailedColor) {
+        this.validationFailedColor = validationFailedColor;
+    }
+
     public boolean validateInput() {
         if (validator == null || validator.test(this.getText())) {
             this.setBackground(ColoresGUI.blanco);
             return true;
         } else {
-            this.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
+            this.setBackground(validationFailedColor);
             return false;
         }
     }
