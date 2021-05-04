@@ -189,14 +189,7 @@ public class FachadaBaseDatos {
     }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
-        java.util.ArrayList<AnuncioBeneficios> lista = new java.util.ArrayList<>(daoUsuarios.obtenerAnuncios(empresa.getIdUsuario()));
-        if (lista.isEmpty()) {
-            daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta);
-        } else {
-            getFachadaAplicacion().muestraExcepcion("No se puede crear una oferta de venta mientras haya anuncios de beneficios ",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-        }
-
+        daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta);
     }
 
     public void bajaOfertaVenta(Usuario usuario, Timestamp fecha) {
@@ -216,24 +209,24 @@ public class FachadaBaseDatos {
     }
 
     public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
-        int aux=daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones); 
-        
-        switch (aux){
-            case 1: 
-                  getFachadaAplicacion().muestraExcepcion("Anuncio crado correctamente ",
-                    DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        int aux = daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
 
-                break; 
-            case 2: 
-                 getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-                break; 
-            case 3: 
+        switch (aux) {
+            case 1:
+                getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente ",
+                        DialogoInfo.NivelDeAdvertencia.INFORMACION);
+
+                break;
+            case 2:
+                getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                break;
+            case 3:
                 getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-                break; 
-            default: 
-               
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                break;
+            default:
+
         }
     }
 
@@ -255,7 +248,7 @@ public class FachadaBaseDatos {
     }
 
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
-        daoUsuarios.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
+        daoUsuarios.bajaAnuncio(empresa, fecha, importe, numparticipaciones);
     }
 
     public java.util.List<EntradaHistorial> obtenerHistorial() {

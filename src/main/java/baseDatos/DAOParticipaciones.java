@@ -203,10 +203,7 @@ public class DAOParticipaciones extends AbstractDAO {
         String consulta = "select numparticipaciones as result "
                 + "from @ "
                 + "where usuario = ? AND empresa = ? ";
-        String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
-                + "from empresa as e inner join anunciobeneficios as a "
-                + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
-                + "group by saldo";
+        String obtenerAnuncios = "select * from anunciobeneficios where empresa = ?";
 
         // Meter la tabla en la que se mirará
         if (u instanceof Inversor) {
@@ -243,8 +240,8 @@ public class DAOParticipaciones extends AbstractDAO {
                         float dineroPropio = ((Empresa) u).getSaldo();
 
                         while (rstAnuncios.next()) {
-                            participacionesADarPorVendida += rstAnuncios.getInt("p");
-                            dineroADarPorVendida += rstAnuncios.getFloat("i");
+                            participacionesADarPorVendida += rstAnuncios.getInt("numeroparticipaciones");
+                            dineroADarPorVendida += rstAnuncios.getFloat("importeparticipacion");
                         }
 
                         /*
