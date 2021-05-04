@@ -1233,6 +1233,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
+    
 
     //Función para dar de baja un anuncio de la base de datos
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe,Integer numparticipaciones) {
@@ -1271,12 +1272,15 @@ public class DAOUsuarios extends AbstractDAO {
         
         String consulta5= "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? "; 
         
-        //Consultas para actualizar datos 
+          //Consultas para actualizar datos 
         
         String consulta6 = "update empresa set saldo = saldo + ?, saldobloqueado = saldobloqueado - ?,"
                 + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? "; 
         
-        String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? "; 
+        String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? ";
+        
+        
+         
        
 
         con = this.getConexion();
@@ -1314,7 +1318,7 @@ public class DAOUsuarios extends AbstractDAO {
             //se pasan a saldo y cartera de participaciones 
             
             java.util.List<AnuncioBeneficios> aux= obtenerAnuncios(empresa); 
-            if(aux.isEmpty()){
+            if(aux.size()==0){
                 stmBloqueado = con.prepareStatement(consulta5); 
                 stmBloqueado.setString(1, empresa);
                 rstBloqueado = stmBloqueado.executeQuery(); 
