@@ -423,7 +423,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
     }
 
-    public void crearOfertaVenta(Usuario u, String e, int numero, float precioVenta) {
+    public void crearOfertaVenta(Usuario u, String e, int numero, float precioVenta,java.util.ArrayList<AnuncioBeneficios> lista) {
         if (u == null || u instanceof Regulador) {
             manejarExcepcion(new Exception("El usuario no puede crear ofertas de venta!"));
             return;
@@ -433,6 +433,13 @@ public class DAOParticipaciones extends AbstractDAO {
         PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null;
         Connection con;
         boolean done = false;
+        
+        int participaciones = 0; 
+        float importe = 0.f; 
+        PreparedStatement stmActualizar1 = null; 
+        PreparedStatement stmActualizar2 = null; 
+        
+        
         con = this.getConexion();
         String consultaOferta = "INSERT INTO public.ofertaventa(\n"
                 + "\tusuario, empresa, fecha, numparticipaciones, precio)\n"
@@ -444,6 +451,12 @@ public class DAOParticipaciones extends AbstractDAO {
 
         String consultaEliminacion = "DELETE FROM public.@\n"
                 + "\tWHERE usuario=? AND empresa=?;";
+        
+        String consultaActualizar1= "update empresa set saldo=saldo- ?, saldobloqueado=saldobloqueado + ? "
+                + ", participacionesbloqueadas=participacionesbloqueadas + ? where id_usuario = ? "; 
+        
+        String consultaActualizar2= "update participacionesempresa set numparticipaciones = numparticipaciones - ? "
+                + "where usuario = ? and empresa = ? "; 
 
         if (u instanceof Inversor) {
             consultaSustracion = consultaSustracion.replace("@", "participacionesInversor");
@@ -481,6 +494,34 @@ public class DAOParticipaciones extends AbstractDAO {
                 stmEliminacion.setString(2, e);
                 stmEliminacion.executeUpdate();
             }
+            
+            
+            //Se actualiza el importe y participaciones bloqueadas de la empresa 
+            if(u instanceof Empresa){
+                
+                for(AnuncioBeneficios aux: lista){
+                    participaciones+=aux.getNumeroparticipaciones(); 
+                    importe+=aux.getImporteparticipacion(); 
+                }
+                
+                stmActualizar1= con.prepareStatement(consultaActualizar1); 
+                stmActualizar1.setFloat(1, importe* numero);
+                stmActualizar1.setFloat(2, importe*numero);
+                stmActualizar1.setInt(3, participaciones * numero);
+                stmActualizar1.setString(4, e);
+                stmActualizar1.executeUpdate(); 
+                
+                stmActualizar2= con.prepareStatement(consultaActualizar2); 
+                stmActualizar2.setInt(1, participaciones* numero);
+                stmActualizar2.setString(2, e);
+                stmActualizar2.setString(3, e);
+                stmActualizar2.executeUpdate(); 
+                
+                
+                
+                
+            }
+            
             String part = numero == 1 ? "1 participación " : (numero + " participaciones ");
             muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "
                     + part + "de " + e + " a " + precioVenta + "$", DialogoInfo.NivelDeAdvertencia.INFORMACION);
@@ -506,6 +547,12 @@ public class DAOParticipaciones extends AbstractDAO {
                 }
                 if (stmEliminacion != null) {
                     stmEliminacion.close();
+                }
+                if(stmActualizar1 != null){
+                    stmActualizar1.close();
+                }
+                if(stmActualizar2 != null){
+                    stmActualizar2.close();
                 }
                 con.setAutoCommit(true);
             } catch (SQLException ex) {

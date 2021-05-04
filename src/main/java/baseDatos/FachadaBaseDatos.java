@@ -190,13 +190,9 @@ public class FachadaBaseDatos {
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
         java.util.ArrayList<AnuncioBeneficios> lista = new java.util.ArrayList<>(daoUsuarios.obtenerAnuncios(empresa.getIdUsuario())); 
-        if(lista.isEmpty()){
-            daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta);
-        }
-        else{
-             getFachadaAplicacion().muestraExcepcion("No se puede crear una oferta de venta mientras haya anuncios de beneficios ",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-        }
+       
+        daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta,lista);
+       
         
     }
     public void bajaOfertaVenta(Usuario usuario,Timestamp fecha){
@@ -220,12 +216,9 @@ public class FachadaBaseDatos {
         
         switch (aux){
             case 1: 
-                  
-                  java.util.ArrayList<OfertaVenta> lista = new java.util.ArrayList<>(daoUsuarios.getOfertasVentaPropias(e.getIdUsuario())); 
-                    for(OfertaVenta oferta: lista){
-                       daoParticipaciones.bajaOfertaVenta(e, oferta.getFecha());
-                    }
-                  
+                  getFachadaAplicacion().muestraExcepcion("Anuncio crado correctamente ",
+                    DialogoInfo.NivelDeAdvertencia.INFORMACION);
+                   
                 break; 
             case 2: 
                  getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
@@ -261,8 +254,8 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerAnunciosRegulador();
     }
 
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
-        daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
+        daoUsuarios.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
     }
     
     public java.util.List<EntradaHistorial> obtenerHistorial() {
