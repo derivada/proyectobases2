@@ -496,31 +496,7 @@ public class DAOParticipaciones extends AbstractDAO {
             }
             
             
-            //Se actualiza el importe y participaciones bloqueadas de la empresa 
-            if(u instanceof Empresa){
-                
-                for(AnuncioBeneficios aux: lista){
-                    participaciones+=aux.getNumeroparticipaciones(); 
-                    importe+=aux.getImporteparticipacion(); 
-                }
-                
-                stmActualizar1= con.prepareStatement(consultaActualizar1); 
-                stmActualizar1.setFloat(1, importe* numero);
-                stmActualizar1.setFloat(2, importe*numero);
-                stmActualizar1.setInt(3, participaciones * numero);
-                stmActualizar1.setString(4, e);
-                stmActualizar1.executeUpdate(); 
-                
-                stmActualizar2= con.prepareStatement(consultaActualizar2); 
-                stmActualizar2.setInt(1, participaciones* numero);
-                stmActualizar2.setString(2, e);
-                stmActualizar2.setString(3, e);
-                stmActualizar2.executeUpdate(); 
-                
-                
-                
-                
-            }
+            
             
             String part = numero == 1 ? "1 participación " : (numero + " participaciones ");
             muestraExcepcion("Se ha creado la oferta de venta:\n\n" + u.getIdUsuario() + " vende "

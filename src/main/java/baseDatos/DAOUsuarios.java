@@ -1241,6 +1241,17 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmSuma = null;
         PreparedStatement stmBaja = null;
         PreparedStatement stmSumaParticipaciones=null; 
+        
+        //Statements para cuando se retiren todos los anuncios de una empresa 
+        PreparedStatement stmBloqueado = null; 
+        ResultSet rstBloqueado; 
+        int participaciones = 0; 
+        float imp = 0.f; 
+        
+        PreparedStatement stmDevolver = null; 
+        PreparedStatement stmDevolver2 = null; 
+        
+        
         boolean done = false;
         //Consulta para quitar el importe del saldo bloqueado de la empresa y las participaciones bloqueadas 
         String consulta1 = "update empresa set saldobloqueado=saldobloqueado- ?"
@@ -1256,6 +1267,17 @@ public class DAOUsuarios extends AbstractDAO {
         String consulta4= "update participacionesempresa set numparticipaciones=numparticipaciones + ? "
                 + " where usuario = ? and empresa = ?"; 
         
+        //Consulta para desbloquear importe y participaciones en caso de que sea necesario 
+        
+        String consulta5= "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? "; 
+        
+        //Consultas para actualizar datos 
+        
+        String consulta6 = "update empresa set saldo = saldo + ?, saldobloqueado = saldobloqueado - ?,"
+                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? "; 
+        
+        String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? "; 
+       
 
         con = this.getConexion();
 
@@ -1286,7 +1308,38 @@ public class DAOUsuarios extends AbstractDAO {
             stmBaja.setString(1, empresa);
             stmBaja.setTimestamp(2, fecha);
             stmBaja.executeUpdate();
-
+            
+            
+            //Si es el último anuncio y queda dinero o participacines bloqueadas, 
+            //se pasan a saldo y cartera de participaciones 
+            
+            java.util.List<AnuncioBeneficios> aux= obtenerAnuncios(empresa); 
+            if(aux.isEmpty()){
+                stmBloqueado = con.prepareStatement(consulta5); 
+                stmBloqueado.setString(1, empresa);
+                rstBloqueado = stmBloqueado.executeQuery(); 
+                while (rstBloqueado.next()){
+                    imp= rstBloqueado.getFloat("saldobloqueado"); 
+                    participaciones = rstBloqueado.getInt("participacionesbloqueadas"); 
+                }
+                
+                stmDevolver = con.prepareStatement(consulta6); 
+                stmDevolver.setFloat(1,imp); 
+                stmDevolver.setFloat(2, imp);
+                stmDevolver.setFloat(3, participaciones);
+                stmDevolver.setString(4, empresa);
+                stmDevolver.executeUpdate(); 
+                
+                
+                stmDevolver2 = con.prepareStatement(consulta7); 
+                stmDevolver2.setInt(1, participaciones);
+                stmDevolver2.setString(2, empresa);
+                stmDevolver2.setString(3, empresa);
+                stmDevolver2.executeLargeUpdate(); 
+                
+            }
+            
+            
             fa.insertarHistorial(new EntradaHistorial(empresa, empresa,
                     new Timestamp(System.currentTimeMillis()), null, null, EntradaHistorial.TipoEntradaHistorial.BENEFICIOS));
             done = true;
@@ -1310,6 +1363,15 @@ public class DAOUsuarios extends AbstractDAO {
                 }
                 if(stmSumaParticipaciones != null){
                     stmSumaParticipaciones.close();
+                }
+                if(stmBloqueado != null){
+                    stmBloqueado.close();
+                }
+                if(stmDevolver != null){
+                    stmDevolver.close();
+                }
+                if(stmDevolver2 != null){
+                    stmDevolver2.close();
                 }
                 con.setAutoCommit(true);
             } catch (SQLException ex) {
@@ -1426,7 +1488,7 @@ public class DAOUsuarios extends AbstractDAO {
     public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio, Integer participacionesPropias) {
         //Para restar a empresa
         PreparedStatement stmImporte = null;
-        PreparedStatement stmImporteB = null;
+        PreparedStatement stmBloqueado = null;
         PreparedStatement stmParticipaciones = null;
         Connection con;
         boolean done = false;
@@ -1452,12 +1514,17 @@ public class DAOUsuarios extends AbstractDAO {
         //Consulta 1 es para actualizar el saldo de la empresa
         String consulta1 = "update empresa set saldo=saldo-? where id_usuario= ? ";
 
-        //Consulta 1 es para actualizar el saldobloquead de la empresa si el pago es con un anuncio
-        String consulta11 = "update empresa set saldobloqueado=saldobloqueado-? where id_usuario= ? ";
+        //Consulta 1 es para actualizar el saldobloqueado y participacionesbloqueadas  de la empresa si el pago es con un anuncio
+        String consulta11 = "update empresa set saldobloqueado=saldobloqueado- ?,"
+                + " participacionesbloqueadas=participacionesbloqueadas - ?  where id_usuario= ? ";
 
         //Consulta9 es para actualizar las participaciones disponibles de la empresa
         String consulta9 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where empresa= ?  and usuario= ? ";
+        
+        
+        
+        
 
         //Consulta 3 es para seleccionar de los inversores que tienen las participaciones de la empresa
         String consulta3 = "select i.id_usuario,pi.numparticipaciones,pi.empresa "
@@ -1523,32 +1590,29 @@ public class DAOUsuarios extends AbstractDAO {
                 try {
                     //Dinero bloqueado
                     float dinero = anuncio.getImporteparticipacion() * (float) num;
-                    stmImporteB = con.prepareStatement(consulta11);
-                    stmImporteB = con.prepareStatement(consulta1);
-                    stmImporteB.setFloat(1, dinero);
-                    stmImporteB.setString(2, e.getIdUsuario());
-                    stmImporteB.executeUpdate();
+                    int p = num * anuncio.getNumeroparticipaciones();
+                    stmBloqueado = con.prepareStatement(consulta11);
+                    stmBloqueado.setFloat(1, dinero);
+                    stmBloqueado.setInt(2, p);
+                    stmBloqueado.setString(3, e.getIdUsuario());
+                    stmBloqueado.executeUpdate();
 
                 } catch (SQLException ex) {
                     manejarExcepcionSQL(ex);
 
                 } finally {
                     try {
-                        if (stmImporteB != null) {
-                            stmImporteB.close();
+                        if (stmBloqueado != null) {
+                            stmBloqueado.close();
                         }
                     } catch (SQLException ex) {
                         System.out.println("Imposible cerrar cursores");
                     }
                 }
 
-                //Participaciones
-                int p = num * anuncio.getNumeroparticipaciones();
-                stmParticipaciones = con.prepareStatement(consulta9);
-                stmParticipaciones.setInt(1, p);
-                stmParticipaciones.setString(2, e.getIdUsuario());
-                stmParticipaciones.setString(3, e.getIdUsuario());
-                stmParticipaciones.executeUpdate();
+            
+                
+                
 
             }
 
