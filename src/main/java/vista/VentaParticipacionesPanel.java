@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import vista.componentes.DialogoInfo;
 import vista.componentes.FuentesGUI;
 
+import javax.swing.*;
+
 public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
     /**
@@ -188,7 +190,11 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
                                 .addComponent(bajaVentaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(34, Short.MAX_VALUE))
         );
+        titulo.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
+                FuentesGUI.Size.GRANDE));
+    }// </editor-fold>//GEN-END:initComponents
 
+    private void actualizarSlider() {
         try {
             numeroVenta.setValue(0);
             int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa
@@ -198,9 +204,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         } catch (Exception ignored) {
 
         }
-        titulo.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
-                FuentesGUI.Size.GRANDE));
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void crearOfertaVenta(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearOfertaVenta
 
@@ -241,6 +245,16 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         actualizarDatos();
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
+
+        // Intentamos actualizar VEmpresa (por si hemos bloqueado saldo)
+        JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
+        if (ventanaPadre instanceof VEmpresa) {
+            VEmpresa ve = (VEmpresa) ventanaPadre;
+            ve.actualizarDatos();
+        } else if (ventanaPadre instanceof VInversor) {
+            VInversor vi = (VInversor) ventanaPadre;
+            vi.actualizarCampos();
+        }
     }//GEN-LAST:event_crearOfertaVenta
 
     private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
@@ -265,11 +279,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
     public void actualizarDatos() {
-        numeroVenta.setValue(0);
-        int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa
-                (new Usuario((String) empresaVenta.getSelectedItem(), false, false)));
-        numeroVenta.setMaximum(numeroComprables);
-        ventaBoton.setEnabled(numeroComprables != 0);
+        actualizarSlider();
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }

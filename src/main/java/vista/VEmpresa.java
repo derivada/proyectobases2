@@ -32,11 +32,11 @@ public class VEmpresa extends javax.swing.JFrame {
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         tabla.setFilas(fa.obtenerAnuncios(this.e.getIdUsuario()));
         setValidators();
+        actualizarDatos();
     }
 
     private void setValidators() {
         numeroParticipacionesTextBox.setValidator(s -> {
-            if (s.isEmpty()) return true;
             try {
                 return Integer.parseInt(s) > 0;
             } catch (NumberFormatException e) {
@@ -549,7 +549,10 @@ public class VEmpresa extends javax.swing.JFrame {
         //cada vez que se añaden, si no que se suman a esa tabla que tiene como PK a esta empresa, y como PKp a esta empresa de nuevo
 
         if (!numeroParticipacionesTextBox.validateInput()) {
-            fa.muestraExcepcion("El número de participaciones no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            if (numeroParticipacionesTextBox.getText().isEmpty())
+                fa.muestraExcepcion("El número de participaciones no se ha introducido!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            else
+                fa.muestraExcepcion("El número de participaciones no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 

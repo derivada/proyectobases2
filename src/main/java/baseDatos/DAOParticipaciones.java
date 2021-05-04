@@ -247,12 +247,12 @@ public class DAOParticipaciones extends AbstractDAO {
                             dineroADarPorVendida += rstAnuncios.getFloat("i");
                         }
 
-                        /* El 1.0f + es porque se venderán esas participaciones, hay que tenerlas en cuenta
-                        * Por ejemplo: Si E tiene 500 part y 1000$ y tiene que pagar 4 part por vendida y 2$ por vendida
-                        * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
-                        * porque vendió 125
-                        */
-
+                        /*
+                         * El 1.0f + es porque se venderán esas participaciones, hay que tenerlas en cuenta
+                         * Por ejemplo: Si E tiene 500 part y 1000$ y tiene que pagar 4 part por vendida y 2$ por vendida
+                         * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
+                         * porque vendió 125
+                         */
                         result = (int) Math.min(participacionesPropias / (1.0f + participacionesADarPorVendida),
                                 dineroPropio / dineroADarPorVendida);
                     }
@@ -428,7 +428,8 @@ public class DAOParticipaciones extends AbstractDAO {
         }
 
         int result = 0;
-        PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null;
+        PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null,
+                stmBloqueo = null, stmBloqueoPartEmpresa = null;
         Connection con;
         boolean done = false;
         con = this.getConexion();
@@ -486,6 +487,51 @@ public class DAOParticipaciones extends AbstractDAO {
             fa.insertarHistorial(new EntradaHistorial(e, u.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
                     numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
 
+            /*
+             * Bloqueamos las participaciones y el dinero necesarios
+             */
+            if (u instanceof Empresa) {
+                PreparedStatement stmAnuncios = null;
+                ResultSet rstAnuncios = null;
+                String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
+                        + "from empresa as e inner join anunciobeneficios as a "
+                        + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
+                        + "group by saldo";
+                stmAnuncios = con.prepareStatement(obtenerAnuncios);
+                stmAnuncios.setString(1, e);
+                rstAnuncios = stmAnuncios.executeQuery();
+
+                if (rstAnuncios.isBeforeFirst()) {
+                    // Calculamos lo que hay que bloquear (ver en getParticipacionesDisponibles)
+                    int participacionesADarPorVendida = 0;
+                    float dineroADarPorVendida = 0.0f;
+
+                    while (rstAnuncios.next()) {
+                        participacionesADarPorVendida += rstAnuncios.getInt("p");
+                        dineroADarPorVendida += rstAnuncios.getFloat("i");
+                    }
+
+
+                    String consultaBloqueo = "update empresa set saldo = saldo - ?, saldobloqueado = saldobloqueado + ?," +
+                            "participacionesbloqueadas = participacionesbloqueadas + ? where id_usuario = ?";
+                    String consultaBloqueoPartEmpresa = "update participacionesempresa set numparticipaciones = numparticipaciones - ? " +
+                            "where usuario = ? and empresa = ?";
+                    stmBloqueo = con.prepareStatement(consultaBloqueo);
+                    stmBloqueoPartEmpresa = con.prepareStatement(consultaBloqueoPartEmpresa);
+
+                    stmBloqueo.setFloat(1, numero * dineroADarPorVendida);
+                    stmBloqueo.setFloat(2, numero * dineroADarPorVendida);
+                    stmBloqueo.setInt(3, numero * participacionesADarPorVendida);
+                    stmBloqueo.setString(4, u.getIdUsuario());
+
+                    stmBloqueoPartEmpresa.setInt(1, numero * participacionesADarPorVendida);
+                    stmBloqueoPartEmpresa.setString(2, u.getIdUsuario());
+                    stmBloqueoPartEmpresa.setString(3, u.getIdUsuario());
+
+                    stmBloqueo.executeUpdate();
+                    stmBloqueoPartEmpresa.executeUpdate();
+                }
+            }
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
@@ -504,6 +550,12 @@ public class DAOParticipaciones extends AbstractDAO {
                 }
                 if (stmEliminacion != null) {
                     stmEliminacion.close();
+                }
+                if (stmBloqueo != null) {
+                    stmBloqueo.close();
+                }
+                if (stmBloqueoPartEmpresa != null) {
+                    stmBloqueoPartEmpresa.close();
                 }
                 con.setAutoCommit(true);
             } catch (SQLException ex) {
