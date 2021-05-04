@@ -275,6 +275,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
             u = fa.obtenerDatosEmpresa(new Usuario(oferta.getVendedor(), false, true));
         fa.bajaOfertaVenta(u, oferta.getFecha());
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
+        
 
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
@@ -282,6 +283,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         actualizarSlider();
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

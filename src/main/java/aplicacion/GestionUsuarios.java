@@ -202,8 +202,8 @@ public class GestionUsuarios {
         return fbd.obtenerAnunciosRegulador();
     }
 
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
-        fbd.bajaAnuncio(empresa, fecha, importe);
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe,Integer numparticipaciones) {
+        fbd.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
     }
 
     public java.util.List<EntradaHistorial> obtenerHistorial() {

@@ -233,8 +233,8 @@ public class FachadaAplicacion {
         return cu.obtenerAnunciosRegulador();
     }
 
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
-        cu.bajaAnuncio(empresa, fecha, importe);
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe,Integer numparticipaciones) {
+        cu.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
     }
 
     public java.util.List<EntradaHistorial> obtenerHistorial() {

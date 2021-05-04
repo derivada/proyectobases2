@@ -388,7 +388,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) anunciosTabla.getModel();
         int fila = anunciosTabla.getSelectedRow();
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
-        fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion());
+        fa.bajaAnuncio(aux.getEmpresa(), aux.getFechaPago(), aux.getImporteparticipacion(),aux.getNumeroparticipaciones());
         //Se actualiza la tabla 
         tabla.setFilas(fa.obtenerAnunciosRegulador());
         if (tabla.getRowCount() > 0) {

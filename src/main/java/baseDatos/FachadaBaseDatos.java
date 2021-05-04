@@ -216,25 +216,24 @@ public class FachadaBaseDatos {
     }
 
     public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
-        int aux = daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
+        int aux=daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones); 
+        
+        switch (aux){
+            case 1: 
+                  getFachadaAplicacion().muestraExcepcion("Anuncio crado correctamente ",
+                    DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
-        switch (aux) {
-            case 1:
-                java.util.ArrayList<OfertaVenta> lista = new java.util.ArrayList<>(daoUsuarios.getOfertasVentaPropias(e.getIdUsuario()));
-                for (OfertaVenta oferta : lista) {
-                    // Eliminar ofertas de venta de acciones propias
-                    daoParticipaciones.bajaOfertaVenta(e, oferta.getFecha());
-                }
-                break;
-            case 2:
-                getFachadaAplicacion().muestraExcepcion("El saldo actual no es suficiente para crear el anuncio",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                break;
-            case 3:
-                getFachadaAplicacion().muestraExcepcion("El numero de participaciones actual no es suficiente para crear el anuncio",
-                        DialogoInfo.NivelDeAdvertencia.ERROR);
-                break;
-            default:
+                break; 
+            case 2: 
+                 getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+                break; 
+            case 3: 
+                getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+                break; 
+            default: 
+               
         }
     }
 
@@ -255,8 +254,8 @@ public class FachadaBaseDatos {
         return daoUsuarios.obtenerAnunciosRegulador();
     }
 
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
-        daoUsuarios.bajaAnuncio(empresa, fecha, importe);
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
+        daoUsuarios.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
     }
 
     public java.util.List<EntradaHistorial> obtenerHistorial() {
