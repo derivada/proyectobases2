@@ -958,7 +958,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmConsulta.setString(1, empresa);
             rstConsulta = stmConsulta.executeQuery();
             while (rstConsulta.next()) {
-                if (rstConsulta.getString("solicitadobaja").isEmpty()) {
+                if (rstConsulta.getString("solicitadobaja") == null) {
                     //AnuncioBeneficios(String empresa, Timestamp fechaPago, Timestamp fechaAnuncio, Float importeparticipacion,boolean solicitadobaja, int numeroParticipaciones)
                     aux = new AnuncioBeneficios(rstConsulta.getString("empresa"),
                             rstConsulta.getTimestamp("fechapago"),
