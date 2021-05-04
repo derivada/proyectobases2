@@ -440,6 +440,10 @@ public class VEmpresa extends javax.swing.JFrame {
     public void solicitarBajaAnuncio() {
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) tablaAnuncios.getModel();
         int fila = tablaAnuncios.getSelectedRow();
+        if(fila == -1){
+            fa.muestraExcepcion("No se ha seleccionado ningún anuncio");
+            return;
+        }
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);
         fa.solicitarBajaAnuncio(aux.getEmpresa(), aux.getFechaPago());
     }

@@ -269,6 +269,10 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     private void bajaVentaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaVentaBotonActionPerformed
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         int fila = tablaVenta.getSelectedRow();
+        if(fila == -1){
+            fa.muestraExcepcion("No hay ninguna fila seleccionada");
+            return;
+        }
         OfertaVenta oferta = tabla.obtenerOfertas(fila);
         Usuario u = fa.obtenerDatosInversor(new Usuario(oferta.getVendedor(), false, true));
         if (u == null)
