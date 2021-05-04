@@ -4,12 +4,12 @@ import aplicacion.*;
 import vista.componentes.DialogoInfo;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import vista.FachadaGui;
 import vista.VentanaConfirmacion;
 import vista.componentes.Utils;
-
-import javax.xml.transform.Result;
 
 public class DAOParticipaciones extends AbstractDAO {
 
@@ -484,51 +484,6 @@ public class DAOParticipaciones extends AbstractDAO {
             fa.insertarHistorial(new EntradaHistorial(e, u.getIdUsuario(), new Timestamp(System.currentTimeMillis()),
                     numero, precioVenta, EntradaHistorial.TipoEntradaHistorial.VENTA));
 
-            /*
-             * Bloqueamos las participaciones y el dinero necesarios
-             */
-            if (u instanceof Empresa) {
-                PreparedStatement stmAnuncios = null;
-                ResultSet rstAnuncios = null;
-                String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
-                        + "from empresa as e inner join anunciobeneficios as a "
-                        + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
-                        + "group by saldo";
-                stmAnuncios = con.prepareStatement(obtenerAnuncios);
-                stmAnuncios.setString(1, e);
-                rstAnuncios = stmAnuncios.executeQuery();
-
-                if (rstAnuncios.isBeforeFirst()) {
-                    // Calculamos lo que hay que bloquear (ver en getParticipacionesDisponibles)
-                    int participacionesADarPorVendida = 0;
-                    float dineroADarPorVendida = 0.0f;
-
-                    while (rstAnuncios.next()) {
-                        participacionesADarPorVendida += rstAnuncios.getInt("p");
-                        dineroADarPorVendida += rstAnuncios.getFloat("i");
-                    }
-
-
-                    String consultaBloqueo = "update empresa set saldo = saldo - ?, saldobloqueado = saldobloqueado + ?," +
-                            "participacionesbloqueadas = participacionesbloqueadas + ? where id_usuario = ?";
-                    String consultaBloqueoPartEmpresa = "update participacionesempresa set numparticipaciones = numparticipaciones - ? " +
-                            "where usuario = ? and empresa = ?";
-                    stmBloqueo = con.prepareStatement(consultaBloqueo);
-                    stmBloqueoPartEmpresa = con.prepareStatement(consultaBloqueoPartEmpresa);
-
-                    stmBloqueo.setFloat(1, numero * dineroADarPorVendida);
-                    stmBloqueo.setFloat(2, numero * dineroADarPorVendida);
-                    stmBloqueo.setInt(3, numero * participacionesADarPorVendida);
-                    stmBloqueo.setString(4, u.getIdUsuario());
-
-                    stmBloqueoPartEmpresa.setInt(1, numero * participacionesADarPorVendida);
-                    stmBloqueoPartEmpresa.setString(2, u.getIdUsuario());
-                    stmBloqueoPartEmpresa.setString(3, u.getIdUsuario());
-
-                    stmBloqueo.executeUpdate();
-                    stmBloqueoPartEmpresa.executeUpdate();
-                }
-            }
             done = true;
         } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
@@ -620,7 +575,6 @@ public class DAOParticipaciones extends AbstractDAO {
     public void comprarParticipaciones(Usuario comprador, String empresa, int cantidad, float precioMax,
                                        float comision, Usuario regulador, java.util.List<AnuncioBeneficios> anuncios) {
         // Actualizar datos
-
         if (comprador == null || comprador instanceof Regulador) {
             manejarExcepcion(new Exception("El usuario no puede comprar participaciones!"));
             return;
@@ -641,6 +595,8 @@ public class DAOParticipaciones extends AbstractDAO {
         ResultSet rst;
         Connection con;
         boolean done = false;
+        // lista de empresas que tienen anuncios y vamos a bloquear
+        HashMap<Empresa, Integer> participacionesBloquear = new HashMap<>();
 
         con = this.getConexion();
 
@@ -687,6 +643,38 @@ public class DAOParticipaciones extends AbstractDAO {
                     dineroAgotado = true;
                 }
 
+                // Si la empresa tiene anuncios puede la empresa bloquear el suficiente saldo??
+                if (anuncios.size() > 0) {
+                    Empresa e = fa.obtenerDatosEmpresa(new Usuario(empresa, false, true));
+
+                    int participacionesADarPorVendida = 0;
+                    float dineroADarPorVendida = 0.0f;
+                    int participacionesPropias = getParticipacionesEmpresa(e, e.getIdUsuario());
+                    float dineroPropio = e.getSaldo();
+
+                    for (AnuncioBeneficios a : anuncios) {
+                        participacionesADarPorVendida += a.getNumeroparticipaciones();
+                        dineroADarPorVendida += a.getImporteparticipacion();
+                    }
+
+                    /*
+                     * El 1.0f + es porque se venderán esas participaciones, hay que tenerlas en cuenta
+                     * Por ejemplo: Si E tiene 500 part y 1000$ y tiene que pagar 4 part por vendida y 2$ por vendida
+                     * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
+                     * porque vendió 125
+                     */
+                    int result = (int) Math.min((float) participacionesPropias / (float) participacionesADarPorVendida,
+                            dineroPropio / dineroADarPorVendida);
+
+                    // Se actualiza el número de participaciones a comprar, a lo mejor no se puede bloquear
+                    // suficiente saldo/part para efectuar el pago de sus anuncios posteriormente
+                    partCompradasIteraccion = Math.min(result, partCompradasIteraccion);
+
+                    // Tenemos que hacer esto después del bucle para evitar problemas con el autocommit
+                    int partActuales = participacionesBloquear.getOrDefault(e, 0);
+                    participacionesBloquear.put(e, partActuales + partCompradasIteraccion);
+                }
+
                 precioAcumulado += (float) partCompradasIteraccion * precioIteracion;
 
                 // Ahora que ya sabemos cuantas vamos a comprar las quitamos de la oferta
@@ -720,6 +708,15 @@ public class DAOParticipaciones extends AbstractDAO {
 
                 // Hay que añadirle el saldo de la comision al regulador en su saldo
                 modificarSaldo(regulador, partCompradasIteraccion * (rst.getFloat("precio") * comision));
+
+
+            }
+
+            for (Map.Entry<Empresa, Integer> entradas : participacionesBloquear.entrySet()) {
+                // Bloqueamos
+                if (entradas.getValue() > 0) {
+                    bloquear(entradas.getKey(), entradas.getValue());
+                }
             }
 
             modificarSaldo(comprador, -precioAcumulado);
@@ -859,4 +856,76 @@ public class DAOParticipaciones extends AbstractDAO {
             }
         }
     }
+
+    private void bloquear(Empresa e, int cantidad) {
+        PreparedStatement stmAnuncios = null, stmBloqueo = null, stmBloqueoPartEmpresa = null;
+        ResultSet rstAnuncios = null, rst = null;
+        Connection con;
+        con = this.getConexion();
+
+        String consultaBloqueo = "update empresa set saldo = saldo - ?, saldobloqueado = saldobloqueado + ?," +
+                "participacionesbloqueadas = participacionesbloqueadas + ? where id_usuario = ?";
+        String consultaBloqueoPartEmpresa = "update participacionesempresa set numparticipaciones = numparticipaciones - ? " +
+                "where usuario = ? and empresa = ?";
+        String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
+                + "from empresa as e inner join anunciobeneficios as a "
+                + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
+                + "group by saldo";
+
+        try {
+            // Obtenemos anuncios
+            stmAnuncios = con.prepareStatement(obtenerAnuncios);
+            stmAnuncios.setString(1, e.getIdUsuario());
+            rstAnuncios = stmAnuncios.executeQuery();
+
+            if (rstAnuncios.isBeforeFirst()) {
+                // Calculamos lo que hay que bloquear por participación
+                int participacionesADarPorVendida = 0;
+                float dineroADarPorVendida = 0.0f;
+
+                while (rstAnuncios.next()) {
+                    participacionesADarPorVendida += rstAnuncios.getInt("p");
+                    dineroADarPorVendida += rstAnuncios.getFloat("i");
+                }
+
+                // Empezamos a bloquear
+                stmBloqueo = con.prepareStatement(consultaBloqueo);
+                stmBloqueoPartEmpresa = con.prepareStatement(consultaBloqueoPartEmpresa);
+
+                stmBloqueo.setFloat(1, cantidad * dineroADarPorVendida);
+                stmBloqueo.setFloat(2, cantidad * dineroADarPorVendida);
+                stmBloqueo.setInt(3, cantidad * participacionesADarPorVendida);
+                stmBloqueo.setString(4, e.getIdUsuario());
+
+                stmBloqueoPartEmpresa.setInt(1, cantidad * participacionesADarPorVendida);
+                stmBloqueoPartEmpresa.setString(2, e.getIdUsuario());
+                stmBloqueoPartEmpresa.setString(3, e.getIdUsuario());
+
+                stmBloqueo.executeUpdate();
+                stmBloqueoPartEmpresa.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            // Cerrar stms y confirmar la transación si no se pidió confirmación manual
+            try {
+                if (stmAnuncios != null) {
+                    stmAnuncios.close();
+                }
+                if (stmBloqueo != null) {
+                    stmBloqueo.close();
+                }
+                if (stmBloqueoPartEmpresa != null) {
+                    stmBloqueoPartEmpresa.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    private void liberar(Empresa e, int cantidad) {
+        bloquear(e, -cantidad);
+    }
+
 }

@@ -14,7 +14,8 @@ public class Empresa extends Usuario {
 
 
 
-    public Empresa(String idUsuario, String nombre, String CIF, float saldo, float saldobloqueado, String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
+    public Empresa(String idUsuario, String nombre, String CIF, float saldo, float saldobloqueado, int participacionesbloqueadas,
+                   String direccion, String telefono, boolean solicitadobaja, boolean autorizado) {
         super(idUsuario, solicitadobaja, autorizado);
         this.nombre = nombre;
         this.CIF = CIF;
@@ -22,9 +23,11 @@ public class Empresa extends Usuario {
         this.telefono = telefono;
         this.saldo=saldo;
         this.saldobloqueado=saldobloqueado;
+        this.participacionesbloqueadas = participacionesbloqueadas;
     }
     
-    public Empresa(String idUsuario, String nombre, String CIF, Float saldo, Float saldobloqueado, String direccion, String telefono, String clave, boolean solicitadobaja, boolean autorizado) {
+    public Empresa(String idUsuario, String nombre, String CIF, Float saldo, Float saldobloqueado,
+                   Integer participacionesbloqueadas, String direccion, String telefono, String clave, boolean solicitadobaja, boolean autorizado) {
         super(idUsuario, clave, solicitadobaja, autorizado);
         this.nombre = nombre;
         this.CIF = CIF;
@@ -32,6 +35,7 @@ public class Empresa extends Usuario {
         this.telefono = telefono;
         this.saldo=saldo;
         this.saldobloqueado=saldobloqueado;
+        this.participacionesbloqueadas = participacionesbloqueadas;
     }
 
     @Override

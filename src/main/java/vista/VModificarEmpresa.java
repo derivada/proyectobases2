@@ -316,7 +316,7 @@ public class VModificarEmpresa extends javax.swing.JFrame {
         }
 
         Empresa empresa = new Empresa(this.idTextBox.getText(), this.nombreTextBox.getText(), this.cifTextBox.getText(),
-                0.0f, 0.0f, this.direccionTextBox.getText(),
+                0.0f, 0.0f, 0, this.direccionTextBox.getText(),
                 this.telefonoTextBox.getText(), false, false);
 
         String pass = passMod ? this.clave.getText() : null;

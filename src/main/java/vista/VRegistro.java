@@ -432,7 +432,7 @@ public class VRegistro extends javax.swing.JFrame {
                 //si en el comboBox de selecion de tipo tiene el index 0, es que es empresa
                 Empresa e;
                 //creo la empresa
-                e = new Empresa(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), 0.0f, 0.0f, this.direccionReg.getText(), this.tlfoReg.getText(), this.claveReg.getText(), false, false);
+                e = new Empresa(this.IDReg.getText(), this.nombreReg.getText(), this.CIFReg.getText(), 0.0f, 0.0f, 0, this.direccionReg.getText(), this.tlfoReg.getText(), this.claveReg.getText(), false, false);
                 empresa = fa.registroEmpresa(e);//hace lo mismo que la de registro de usuarios (el comprobar que el id no esta en uso es paranoia, nunca debe estarlo si llegas aqui)
                 break;
             }
