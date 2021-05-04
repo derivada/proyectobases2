@@ -181,7 +181,7 @@ public class DAOParticipaciones extends AbstractDAO {
      * @param e Empresa a las que están asociadas esas participaciones
      * @return El número de participaciones de u en e
      */
-    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
+    public int getParticipacionesVendibles(Usuario u, Empresa e) {
         if (u == null || u instanceof Regulador) {
             return 0;
         }
@@ -195,9 +195,6 @@ public class DAOParticipaciones extends AbstractDAO {
 
         PreparedStatement stmAnuncios = null;
         ResultSet rstAnuncios;
-        int numero = 0;
-        float importe = 0.f;
-        float saldo = 0.f;
 
         Connection con;
 
@@ -206,7 +203,7 @@ public class DAOParticipaciones extends AbstractDAO {
         String consulta = "select numparticipaciones as result "
                 + "from @ "
                 + "where usuario = ? AND empresa = ? ";
-        String consulta2 = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
+        String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
                 + "from empresa as e inner join anunciobeneficios as a "
                 + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
                 + "group by saldo";
@@ -217,7 +214,6 @@ public class DAOParticipaciones extends AbstractDAO {
         }
         if (u instanceof Empresa) {
             consulta = consulta.replace("@", "participacionesEmpresa");
-
         }
 
         try {
@@ -225,45 +221,47 @@ public class DAOParticipaciones extends AbstractDAO {
             stmCheck.setString(1, u.getIdUsuario());
             stmCheck.setString(2, e.getIdUsuario());
             rst = stmCheck.executeQuery();
+            // El resultado normal, si es empresa o no hay anuncios es simplemente la cantidad de participaciones
+            // de esa empresa
             while (rst.next()) {
                 result = rst.getInt("result");
             }
-            if (u instanceof Empresa) {
+
+            if (u instanceof Empresa && u.getIdUsuario().equals(e.getIdUsuario())) {
                 try {
-                    stmAnuncios = con.prepareStatement(consulta2);
+                    stmAnuncios = con.prepareStatement(obtenerAnuncios);
                     stmAnuncios.setString(1, e.getIdUsuario());
                     rstAnuncios = stmAnuncios.executeQuery();
-                    while (rstAnuncios.next()) {
+                    if (rstAnuncios.isBeforeFirst()) {
+                        /*
+                         * En esta sección, se calcula cuantas participaciones se podrán vender de forma que después
+                         * se pueda afrontar el pago de efectivo y participaciones total para cada uno de los anuncios
+                         */
+                        int participacionesADarPorVendida = 0;
+                        float dineroADarPorVendida = 0.0f;
+                        int participacionesPropias = getParticipacionesEmpresa(u, u.getIdUsuario());
+                        float dineroPropio = ((Empresa) u).getSaldo();
 
-                        numero = rstAnuncios.getInt("p");
-                        importe = rstAnuncios.getFloat("i");
-                        saldo = rstAnuncios.getFloat("s");
-
-                        //Ahora se hace la comprobación de cuantas participaciones se pueden vender como máximo 
-                        //Se parte del máximo, mientras no se pueda, hasta que llegue a un número que si que se pueda 
-                        int newresult = result;
-                        boolean afrontar = false;
-                        while (afrontar == false) {
-                            if (newresult == 0) { //No podría vender ninguna
-                                afrontar = true;
-                            }
-                            if ((newresult + this.participacionesVendidas(e.getIdUsuario())) * numero < result
-                                    && ((newresult + this.participacionesVendidas(e.getIdUsuario())) * importe < saldo)) {
-                                afrontar = true;
-                            } else {
-                                newresult--;
-                            }
-
+                        while (rstAnuncios.next()) {
+                            participacionesADarPorVendida += rstAnuncios.getInt("p");
+                            dineroADarPorVendida += rstAnuncios.getFloat("i");
                         }
-                        return newresult;
-                    }
 
-                } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
+                        /* El 1.0f + es porque se venderán esas participaciones, hay que tenerlas en cuenta
+                        * Por ejemplo: Si E tiene 500 part y 1000$ y tiene que pagar 4 part por vendida y 2$ por vendida
+                        * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
+                        * porque vendió 125
+                        */
+
+                        result = (int) Math.min(participacionesPropias / (1.0f + participacionesADarPorVendida),
+                                dineroPropio / dineroADarPorVendida);
+                    }
+                } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
                     manejarExcepcionSQL(ex);
                 } finally {
                     try {
-                        stmAnuncios.close();
-
+                        if (stmAnuncios != null)
+                            stmAnuncios.close();
                     } catch (SQLException ex) {
                         System.out.println("Imposible cerrar cursores");
                     }

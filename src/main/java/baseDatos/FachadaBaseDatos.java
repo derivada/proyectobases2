@@ -5,11 +5,11 @@ import aplicacion.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
 import vista.componentes.DialogoInfo;
 
 public class FachadaBaseDatos {
@@ -53,9 +53,9 @@ public class FachadaBaseDatos {
             usuario.setProperty("user", configuracion.getProperty("usuario"));
             usuario.setProperty("password", configuracion.getProperty("clave"));
             this.conexion = java.sql.DriverManager.getConnection("jdbc:" + gestor + "://"
-                    + configuracion.getProperty("servidor") + ":"
-                    + configuracion.getProperty("puerto") + "/"
-                    + configuracion.getProperty("baseDatos"),
+                            + configuracion.getProperty("servidor") + ":"
+                            + configuracion.getProperty("puerto") + "/"
+                            + configuracion.getProperty("baseDatos"),
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion, fa);
             daoParticipaciones = new DAOParticipaciones(conexion, fa);
@@ -156,8 +156,8 @@ public class FachadaBaseDatos {
     public java.util.List<OfertaVenta> getOfertasVenta(String Empresa, float precio) {
         return daoUsuarios.getOfertasVenta(Empresa, precio);
     }
-    
-     public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+
+    public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
         return daoUsuarios.getOfertasVentaPropias(usuario);
     }
 
@@ -168,9 +168,9 @@ public class FachadaBaseDatos {
     public int getParticipacionesEmpresa(Usuario u, Empresa e) {
         return daoParticipaciones.getParticipacionesEmpresa(u, e.getIdUsuario());
     }
-    
-    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
-        return daoParticipaciones.getParticipacionesEmpresa2(u, e);
+
+    public int getParticipacionesVendibles(Usuario u, Empresa e) {
+        return daoParticipaciones.getParticipacionesVendibles(u, e);
     }
 
     public int getPartPropEmpresa(Empresa e) {
@@ -178,10 +178,10 @@ public class FachadaBaseDatos {
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
-        
+
         daoParticipaciones.comprarParticipaciones(comprador, empresa.getIdUsuario(), cantidad, precioMax,
                 daoUsuarios.obtenerComision(daoUsuarios.obtenerListaReguladores().get(0).getIdUsuario()),
-                daoUsuarios.obtenerListaReguladores().get(0),daoUsuarios.obtenerAnuncios(empresa.getIdUsuario()));
+                daoUsuarios.obtenerListaReguladores().get(0), daoUsuarios.obtenerAnuncios(empresa.getIdUsuario()));
     }
 
     public void emitirParticipaciones(Empresa e, int emision) {
@@ -189,17 +189,17 @@ public class FachadaBaseDatos {
     }
 
     public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
-        java.util.ArrayList<AnuncioBeneficios> lista = new java.util.ArrayList<>(daoUsuarios.obtenerAnuncios(empresa.getIdUsuario())); 
-        if(lista.isEmpty()){
+        java.util.ArrayList<AnuncioBeneficios> lista = new java.util.ArrayList<>(daoUsuarios.obtenerAnuncios(empresa.getIdUsuario()));
+        if (lista.isEmpty()) {
             daoParticipaciones.crearOfertaVenta(u, empresa.getIdUsuario(), numero, precioVenta);
-        }
-        else{
-             getFachadaAplicacion().muestraExcepcion("No se puede crear una oferta de venta mientras haya anuncios de beneficios ",
+        } else {
+            getFachadaAplicacion().muestraExcepcion("No se puede crear una oferta de venta mientras haya anuncios de beneficios ",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
         }
-        
+
     }
-    public void bajaOfertaVenta(Usuario usuario,Timestamp fecha){
+
+    public void bajaOfertaVenta(Usuario usuario, Timestamp fecha) {
         daoParticipaciones.bajaOfertaVenta(usuario, fecha);
     }
 
@@ -216,36 +216,30 @@ public class FachadaBaseDatos {
     }
 
     public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
-        int aux=daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones); 
-        
-        switch (aux){
-            case 1: 
-                  
-                  java.util.ArrayList<OfertaVenta> lista = new java.util.ArrayList<>(daoUsuarios.getOfertasVentaPropias(e.getIdUsuario())); 
-                    for(OfertaVenta oferta: lista){
-                       daoParticipaciones.bajaOfertaVenta(e, oferta.getFecha());
-                    }
-                  
-                break; 
-            case 2: 
-                 getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-                break; 
-            case 3: 
-                getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
-                    DialogoInfo.NivelDeAdvertencia.ERROR);
-                break; 
-            default: 
-               
+        int aux = daoUsuarios.crearAnuncio(importe, e, fecha, numeroParticipaciones);
+
+        switch (aux) {
+            case 1:
+                java.util.ArrayList<OfertaVenta> lista = new java.util.ArrayList<>(daoUsuarios.getOfertasVentaPropias(e.getIdUsuario()));
+                for (OfertaVenta oferta : lista) {
+                    // Eliminar ofertas de venta de acciones propias
+                    daoParticipaciones.bajaOfertaVenta(e, oferta.getFecha());
+                }
+                break;
+            case 2:
+                getFachadaAplicacion().muestraExcepcion("El saldo actual no es suficiente para crear el anuncio",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                break;
+            case 3:
+                getFachadaAplicacion().muestraExcepcion("El numero de participaciones actual no es suficiente para crear el anuncio",
+                        DialogoInfo.NivelDeAdvertencia.ERROR);
+                break;
+            default:
         }
-        
-        
-        
-         
     }
 
     public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
-        daoUsuarios.pagarBeneficios(importe, participaciones, empresa, a,daoParticipaciones.getParticipacionesEmpresa(empresa, empresa.getIdUsuario()));
+        daoUsuarios.pagarBeneficios(importe, participaciones, empresa, a, daoParticipaciones.getParticipacionesEmpresa(empresa, empresa.getIdUsuario()));
     }
 
     public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {
@@ -264,10 +258,11 @@ public class FachadaBaseDatos {
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe) {
         daoUsuarios.bajaAnuncio(empresa, fecha, importe);
     }
-    
+
     public java.util.List<EntradaHistorial> obtenerHistorial() {
         return daoHistorial.obtenerHistorial();
     }
+
     public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
         return daoHistorial.obtenerHistorial(u);
     }
@@ -289,23 +284,23 @@ public class FachadaBaseDatos {
     }
 
     public FachadaAplicacion getFachadaAplicacion() {
-       return fa;
+        return fa;
     }
-    
+
     public float obtenerComision(String r) {
         return daoUsuarios.obtenerComision(r);
     }
-    
-    public void modificarComision(Regulador r, float comision){
+
+    public void modificarComision(Regulador r, float comision) {
         daoUsuarios.modificarComision(r, comision);
     }
-    
+
     public float obtenerSaldoInversor(Usuario u) {
         return daoUsuarios.obtenerSaldoInversor(u);
     }
 
     public float obtenerSaldoEmpresa(Usuario u) {
-         return daoUsuarios.obtenerSaldoEmpresa(u);
+        return daoUsuarios.obtenerSaldoEmpresa(u);
     }
 
     public void modificarSaldoInversor(String idUsuario, float saldo) {

@@ -143,8 +143,8 @@ public class GestionUsuarios {
         return fbd.getParticipacionesEmpresa(u, e);
     }
 
-    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
-        return fbd.getParticipacionesEmpresa2(u, e);
+    public int getParticipacionesVendibles(Usuario u, Empresa e) {
+        return fbd.getParticipacionesVendibles(u, e);
     }
 
     public int getParticipacionesTotales(Usuario u) {
@@ -179,8 +179,6 @@ public class GestionUsuarios {
 
     public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
         fbd.crearAnuncio(importe, e, fecha, numeroParticipaciones);
-       
-        
     }
 
     public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {

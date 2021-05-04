@@ -5,7 +5,6 @@ import vista.FachadaGui;
 import vista.componentes.DialogoInfo;
 
 import javax.swing.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -138,8 +137,8 @@ public class FachadaAplicacion {
         return cu.getParticipacionesEmpresa(u, e);
     }
     
-    public int getParticipacionesEmpresa2(Usuario u, Empresa e) {
-        return cu.getParticipacionesEmpresa2(u, e);
+    public int getParticipacionesVendibles(Usuario u, Empresa e) {
+        return cu.getParticipacionesVendibles(u, e);
     }
 
     public int getPartPropEmpresa(Empresa e) {

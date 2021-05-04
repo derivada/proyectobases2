@@ -2,12 +2,9 @@ package vista;
 
 import aplicacion.Empresa;
 import aplicacion.FachadaAplicacion;
-import aplicacion.EntradaHistorial;
 import aplicacion.Usuario;
 import aplicacion.OfertaVenta;
 import vista.modeloTablas.ModeloTablaVenta;
-
-import java.sql.Timestamp;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -193,9 +190,11 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         );
 
         try {
-            numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(
-                    u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getItemAt(0),
-                            false, false))));
+            numeroVenta.setValue(0);
+            int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa
+                    (new Usuario((String) empresaVenta.getSelectedItem(), false, false)));
+            numeroVenta.setMaximum(numeroComprables);
+            ventaBoton.setEnabled(numeroComprables != 0);
         } catch (Exception ignored) {
 
         }
@@ -214,18 +213,22 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         float precioVenta = Float.parseFloat(precioVentaTextBox.getText());
 
         if (empresaVenta.getSelectedItem() == null) {
-            fa.muestraExcepcion("Aún no se ha seleccionado ninguna empresa!");
+            fa.muestraExcepcion("Aún no se ha seleccionado ninguna empresa!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
         Empresa empresa = fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false));
         if (empresa == null) {
-            fa.muestraExcepcion("La empresa especificada no existe!");
+            fa.muestraExcepcion("La empresa especificada no existe!", DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
 
         int numero = numeroVenta.getValue();
-        int participacionesDisponibles = fa.getParticipacionesEmpresa2(u, empresa);
+        if (numero <= 0) {
+            fa.muestraExcepcion("El número de participaciones a vender debe ser positivo!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            return;
+        }
+        int participacionesDisponibles = fa.getParticipacionesVendibles(u, empresa);
         if (participacionesDisponibles < numero) {
             fa.muestraExcepcion("El usuario no posee suficientes participaciones!\n" +
                     "Número actual de participaciones de " + empresa.getIdUsuario() + ": " + participacionesDisponibles);
@@ -235,14 +238,14 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         // 2. Crear oferta de venta
         fa.crearOfertaVenta(u, empresa, numero, precioVenta);
         fa.obtenerHistorial(u);
-        actualizarDatos(); 
+        actualizarDatos();
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }//GEN-LAST:event_crearOfertaVenta
 
     private void empresaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empresaVentaActionPerformed
         // Actualizar slider
-        actualizarDatos(); 
+        actualizarDatos();
     }//GEN-LAST:event_empresaVentaActionPerformed
 
     private void numeroVentaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_numeroVentaStateChanged
@@ -261,9 +264,12 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
-    public void actualizarDatos(){
+    public void actualizarDatos() {
         numeroVenta.setValue(0);
-        numeroVenta.setMaximum(fa.getParticipacionesEmpresa2(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false))));
+        int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa
+                (new Usuario((String) empresaVenta.getSelectedItem(), false, false)));
+        numeroVenta.setMaximum(numeroComprables);
+        ventaBoton.setEnabled(numeroComprables != 0);
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
     }

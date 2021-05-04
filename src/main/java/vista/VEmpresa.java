@@ -392,7 +392,7 @@ public class VEmpresa extends javax.swing.JFrame {
     }//GEN-LAST:event_pagarBotonActionPerformed
 
     private void beneficiosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosBotonActionPerformed
-        AnunciarBeneficios();
+        anunciarBeneficios();
     }//GEN-LAST:event_beneficiosBotonActionPerformed
 
     private void bajaParticipacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaParticipacionesBotonActionPerformed
@@ -408,7 +408,7 @@ public class VEmpresa extends javax.swing.JFrame {
         solicitarBajaAnuncio();
     }//GEN-LAST:event_bajaAnunciosbotonActionPerformed
 
-    public void AnunciarBeneficios() {
+    private void anunciarBeneficios() {
 
         if (!importeTextBox.validateInput() | !numParticipacionesAnuncioTextBox.validateInput()) {
             fa.muestraExcepcion("No se han introducido correctamente los datos!");
