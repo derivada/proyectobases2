@@ -742,13 +742,18 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
-
+        float comision;
+        try {
+            comision = fa.obtenerComision(fa.obtenerListaReguladores().get(0).getIdUsuario());
+        } catch (Exception e) {
+            comision = 0.0f;
+        }
         con = this.getConexion();
 
         String consulta = "select * "
                 + "from ofertaVenta "
                 + "where empresa like ? AND "
-                + "precio <= ?"; // cambiado >= por <= (queremos las que cuesten menos o igual que el precio maximo dado
+                + "precio * ? <= ?"; // cambiado >= por <= (queremos las que cuesten menos o igual que el precio maximo dado
 
         //Para obtener la comisión y guardarlo en las ofertas de venta
         //Problema, podría colarse el dato y aparecer en la VEmpresa. 
@@ -756,16 +761,13 @@ public class DAOUsuarios extends AbstractDAO {
             stm = con.prepareStatement(consulta);
             empresa = "%" + empresa + "%";
             stm.setString(1, empresa);
-            stm.setFloat(2, precioMaximoPart);
+            stm.setFloat(2, comision + 1.0f);
+            stm.setFloat(3, precioMaximoPart);
             rst = stm.executeQuery();
-
-            float comision = this.obtenerComision(this.obtenerListaReguladores().get(0).getIdUsuario());
             while (rst.next()) {
                 //OfertaVenta(String usuario, String empresa, Date fecha, Integer numParticipaciones, Double precio)
                 OfertaVenta v = new OfertaVenta(rst.getString("usuario"), rst.getString("empresa"), rst.getTimestamp("fecha"), rst.getInt("numParticipaciones"), rst.getFloat("precio"), comision);
-
                 resultado.add(v);
-
             }
 
         } catch (SQLException ex) {
