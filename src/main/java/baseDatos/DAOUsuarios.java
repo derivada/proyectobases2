@@ -1242,6 +1242,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
+    
 
     //Función para dar de baja un anuncio de la base de datos
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
@@ -1277,16 +1278,19 @@ public class DAOUsuarios extends AbstractDAO {
                 + " where usuario = ? and empresa = ?";
 
         //Consulta para desbloquear importe y participaciones en caso de que sea necesario 
-
-        String consulta5 = "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? ";
-
-        //Consultas para actualizar datos 
-
+        
+        String consulta5= "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? "; 
+        
+          //Consultas para actualizar datos 
+        
         String consulta6 = "update empresa set saldo = saldo + ?, saldobloqueado = saldobloqueado - ?,"
-                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? ";
-
+                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? "; 
+        
         String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? ";
-
+        
+        
+         
+       
 
         con = this.getConexion();
 
