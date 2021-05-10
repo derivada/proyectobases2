@@ -1242,6 +1242,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
+    
 
     //Función para dar de baja un anuncio de la base de datos
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
@@ -1277,16 +1278,19 @@ public class DAOUsuarios extends AbstractDAO {
                 + " where usuario = ? and empresa = ?";
 
         //Consulta para desbloquear importe y participaciones en caso de que sea necesario 
-
-        String consulta5 = "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? ";
-
-        //Consultas para actualizar datos 
-
+        
+        String consulta5= "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? "; 
+        
+          //Consultas para actualizar datos 
+        
         String consulta6 = "update empresa set saldo = saldo + ?, saldobloqueado = saldobloqueado - ?,"
-                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? ";
-
+                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? "; 
+        
         String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? ";
-
+        
+        
+         
+       
 
         con = this.getConexion();
 
@@ -2149,6 +2153,52 @@ public class DAOUsuarios extends AbstractDAO {
             if (rst.next()) {
                 resultado = rst.getInt("num");
             }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    
+     //Función que devuelve el nombre de las empresas que emitieron las participaciones 
+    //que tiene un usuario 
+    
+    public ArrayList<String> getParticipacionesCompradas (Usuario u){
+        
+        PreparedStatement stm = null;
+        Connection con;
+        ResultSet rst;
+        ArrayList<String> resultado = new ArrayList<>();
+
+        con = this.getConexion();
+
+        String consulta = "select empresa "
+                + "from @ "
+                + "where usuario = ?  usuario!=empresa ";
+
+        // Meter la tabla en la que se mirará
+        if (u instanceof Inversor) {
+            consulta = consulta.replace("@", "participacionesInversor");
+        }
+        if (u instanceof Empresa) {
+            consulta = consulta.replace("@", "participacionesEmpresa");
+        }
+
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, u.getIdUsuario());
+            rst=stm.executeQuery(); 
+            while(rst.next()){
+                resultado.add(rst.getString("empresa")); 
+            }
+             
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {

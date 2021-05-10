@@ -701,7 +701,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
                 participacionesCompradas += partCompradasIteraccion;
 
-                darParticipaciones(comprador, participacionesCompradas, empresa);
+                darParticipaciones(comprador, partCompradasIteraccion, empresa);
 
                 // Le damos su dinero al vendedor, el del comprador lo podemos restar al final fuera del bucle
                 modificarSaldo(vendedor, partCompradasIteraccion * (precioIteracion - rst.getFloat("precio") * comision));
