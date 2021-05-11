@@ -754,7 +754,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
             // Añadimos la entrada de compra al historial
             fa.insertarHistorial(new EntradaHistorial(empresa, comprador.getIdUsuario(),
-                    new Timestamp(System.currentTimeMillis()), cantidad, precioMax, EntradaHistorial.TipoEntradaHistorial.COMPRA));
+                    new Timestamp(System.currentTimeMillis()), participacionesCompradas, precioMax, EntradaHistorial.TipoEntradaHistorial.COMPRA));
 
             done = true;
         } catch (SQLException ex) {

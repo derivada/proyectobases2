@@ -49,9 +49,9 @@ public class VRegulador extends javax.swing.JFrame {
                             numeroParticipaciones = fa.getNumeroParticipaciones(u.getIdUsuario(), "Empresa");
                         }
 
-                        if (numeroParticipaciones != 0) {
+                        if (numeroParticipaciones != 0||fa.getNumOfertaVenta(u.getIdUsuario())!=0) {
                             bajaBoton.setEnabled(false);
-                        } else if (numeroParticipaciones == 0) {
+                        } else if (numeroParticipaciones == 0&&fa.getNumOfertaVenta(u.getIdUsuario())==0) {
                             bajaBoton.setEnabled(true);
                         }
                     }

@@ -261,4 +261,8 @@ public class FachadaAplicacion {
     public List<EntradaParticipacion> obtenerDatosParticipaciones(Usuario u){
         return cp.obtenerDatosParticipaciones(u);
     }
+    
+    public int getNumOfertaVenta(String usuario) {
+        return getOfertasVentaPropias(usuario).size();
+    }
 }

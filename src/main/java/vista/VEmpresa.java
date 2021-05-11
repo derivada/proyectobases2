@@ -381,9 +381,11 @@ pack();
 }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        if (fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa") == 0) {
+          if (fa.getNumeroParticipaciones(e.getIdUsuario(), "Empresa") == 0 && fa.getNumOfertaVenta(e.getIdUsuario())==0) {
             fa.solicitarBaja(e.getIdUsuario());
             FachadaGUI.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+        } else if(fa.getNumOfertaVenta(e.getIdUsuario())!=0){
+            FachadaGUI.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene ofertas de venta");
         } else {
             FachadaGUI.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
         }
