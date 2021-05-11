@@ -1242,7 +1242,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
-    
+
 
     //Función para dar de baja un anuncio de la base de datos
     public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
@@ -1278,19 +1278,16 @@ public class DAOUsuarios extends AbstractDAO {
                 + " where usuario = ? and empresa = ?";
 
         //Consulta para desbloquear importe y participaciones en caso de que sea necesario 
-        
-        String consulta5= "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? "; 
-        
-          //Consultas para actualizar datos 
-        
+
+        String consulta5 = "select participacionesbloqueadas, saldobloqueado from empresa where id_usuario = ? ";
+
+        //Consultas para actualizar datos
+
         String consulta6 = "update empresa set saldo = saldo + ?, saldobloqueado = saldobloqueado - ?,"
-                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? "; 
-        
+                + " participacionesbloqueadas=participacionesbloqueadas - ? where id_usuario = ? ";
+
         String consulta7 = "update participacionesempresa set numparticipaciones = numparticipaciones + ? where usuario = ? and empresa = ? ";
-        
-        
-         
-       
+
 
         con = this.getConexion();
 
@@ -1497,14 +1494,14 @@ public class DAOUsuarios extends AbstractDAO {
 
     //Función que paga los beneficios, con o sin anuncio previo.
     //Si el pago es sin anuncio, se llama a esta función con un null en anuncio
-    public void pagarBeneficios(Float importe, Integer participaciones, Empresa e, AnuncioBeneficios anuncio, Integer participacionesPropias) {
+    public void pagarBeneficios(Float importe, Integer participacionesAPagarSinAnuncio, Empresa e, AnuncioBeneficios anuncio, Integer participacionesPropias) {
         //Para restar a empresa
         PreparedStatement stmImporte = null;
         PreparedStatement stmBloqueado = null;
         PreparedStatement stmParticipaciones = null;
         Connection con;
         boolean done = false;
-        int num = 0; //Variable que se va a usar para obtener el número de participaciones en varias consultas
+        int participacionesVendidas = 0; //Variable que se va a usar para obtener el número de participaciones en varias consultas
         //ResultSet y statements para modificar los datos de inversores
         ResultSet rstMI;
         PreparedStatement stmMI = null;
@@ -1521,140 +1518,128 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stmEliminacion = null;
 
 
-        String consulta10 = "delete from anunciobeneficios where empresa= ?  and fechapago= ? ";
+        String borrarAnuncio = "delete from anunciobeneficios where empresa= ?  and fechapago= ? ";
 
-        //Consulta 1 es para actualizar el saldo de la empresa
-        String consulta1 = "update empresa set saldo=saldo-? where id_usuario= ? ";
+        // Consulta para actualizar el saldo de la empresa
+        String actualizarSaldoEmpresa = "update empresa set saldo=saldo-? where id_usuario= ? ";
 
-        //Consulta 1 es para actualizar el saldobloqueado y participacionesbloqueadas  de la empresa si el pago es con un anuncio
-        String consulta11 = "update empresa set saldobloqueado=saldobloqueado- ?,"
-                + " participacionesbloqueadas=participacionesbloqueadas - ?  where id_usuario= ? ";
-
-        //Consulta9 es para actualizar las participaciones disponibles de la empresa
-        String consulta9 = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
+        // Consulta para actualizar las participaciones disponibles de la empresa
+        String actualizarPartEmpresa = "update participacionesempresa set numparticipaciones=numparticipaciones- ?  "
                 + "where empresa= ?  and usuario= ? ";
 
+        // Consulta para actualizar el saldobloqueado y participacionesbloqueadas de la empresa si el pago es con un anuncio
+        String actualizarValoresBloqueados = "update empresa set saldobloqueado=saldobloqueado- ?,"
+                + " participacionesbloqueadas=participacionesbloqueadas - ?  where id_usuario= ? ";
 
-        //Consulta 3 es para seleccionar de los inversores que tienen las participaciones de la empresa
-        String consulta3 = "select i.id_usuario,pi.numparticipaciones,pi.empresa "
+        // Consulta para seleccionar a los inversores que tienen las participaciones de la empresa
+        String seleccionarInvPartEmpresa = "select i.id_usuario,pi.numparticipaciones,pi.empresa "
                 + "from participacionesinversor as pi,inversor as i, empresa as e "
                 + "where pi.usuario=i.id_usuario and pi.empresa= ? "
                 + "group by i.id_usuario,pi.numparticipaciones,pi.empresa";
-        //Consulta 4 para aumentar el saldo de inversor
-        String consulta4 = "update inversor set saldo=saldo+? where id_usuario= ? ";
-        //Consulta 7 para aumentar las participaciones del inversor
-        String consulta7 = "update participacionesinversor set numparticipaciones=numparticipaciones+ ? where empresa= ? ";
-        //Consulta 5, igual que consulta 3, pero para empresas
-        String consulta5 = "select e.id_usuario,pe.numparticipaciones,pe.empresa "
+        //Consulta para aumentar el saldo de inversor
+        String aumentarSaldoInversor = "update inversor set saldo=saldo+? where id_usuario= ? ";
+        //Consulta para aumentar las participaciones del inversor
+        String aumentarPartInversor = "update participacionesinversor set numparticipaciones=numparticipaciones+ ? where empresa= ? ";
+
+        // Consulta para seleccionar a las empresas que tienen las participaciones de la empresa
+        String seleccionarEmpPartEmpresa = "select e.id_usuario,pe.numparticipaciones,pe.empresa "
                 + "from participacionesempresa as pe,empresa as e "
                 + "where pe.usuario=e.id_usuario and pe.empresa= ? and pe.usuario!= ? "
                 + "group by e.id_usuario,pe.numparticipaciones,pe.empresa";
-        //Consulta 6 para aumentar el saldo de la empresa
-        String consulta6 = "update empresa set saldo=saldo+? where id_usuario= ? ";
-        //Consulta 8 para aumentar las participaciones de la empresa
-        String consulta8 = "update participacionesempresa set numparticipaciones=numparticipaciones+ ?  "
+        //Consulta para aumentar el saldo de la empresa
+        String aumentarSaldoEmpresa = "update empresa set saldo=saldo+? where id_usuario= ? ";
+        //Consulta para aumentar las participaciones de la empresa
+        String aumentarPartEmpresa = "update participacionesempresa set numparticipaciones=numparticipaciones+ ?  "
                 + "where empresa= ? and usuario!= ? ";
 
         con = this.getConexion();
 
+        /*
+         * 2 pasos:
+         * 1. Restar participaciones y dinero a la empresa, desbloquear el saldo/part si había anuncio
+         * 2. Dar saldo/part a todos los inversores, empresas que tienen participaciones de la empresa
+         */
+
         try {
             con.setAutoCommit(false);
-            //En todos los casos se va a diferenciar si hay un anuncio o no.
 
+            // PASO 1
             //Se comprueba el número de participaciones que tiene la empresa vendidas
-            num = this.participacionesVendidas(e.getIdUsuario());
+            participacionesVendidas = this.participacionesVendidas(e.getIdUsuario());
 
-            //Ahora se resta el dinero en la empresa y participaciones de la empresa
-            if (anuncio == null) {
+            if (anuncio == null) { // No hay anuncio
 
                 //Comprobación de que tiene el número de participaciones e importe suficiente para pagar
-                Empresa aux = this.obtenerDatosEmpresa(e);
-                if (aux.getSaldo() < importe * (float) num) {
+                e = this.obtenerDatosEmpresa(e);
+                if (e.getSaldo() < importe * (float) participacionesVendidas) {
                     muestraExcepcion("El importe de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
                     return;
                 }
-                if (participacionesPropias < participaciones * num) {
+                if (participacionesPropias < participacionesAPagarSinAnuncio * participacionesVendidas) {
                     muestraExcepcion("El numero de participacione de la empresa no es suficiente para afrontarel pago\n\n", DialogoInfo.NivelDeAdvertencia.ERROR);
                     return;
                 }
 
-                //Dinero
-                float dinero = importe * (float) num;
-                stmImporte = con.prepareStatement(consulta1);
+                //Ahora se resta el dinero en la empresa y participaciones de la empresa
+
+                // Dinero
+                float dinero = importe * (float) participacionesVendidas;
+                stmImporte = con.prepareStatement(actualizarSaldoEmpresa);
                 stmImporte.setFloat(1, dinero);
                 stmImporte.setString(2, e.getIdUsuario());
                 stmImporte.executeUpdate();
 
-                //Participaciones
-                int p = num * participaciones;
-                stmParticipaciones = con.prepareStatement(consulta9);
+                // Participaciones
+                int p = participacionesVendidas * participacionesAPagarSinAnuncio;
+                stmParticipaciones = con.prepareStatement(actualizarPartEmpresa);
                 stmParticipaciones.setInt(1, p);
                 stmParticipaciones.setString(2, e.getIdUsuario());
                 stmParticipaciones.setString(3, e.getIdUsuario());
                 stmParticipaciones.executeUpdate();
-
-
             } else {
-
-                try {
-                    //Dinero bloqueado
-                    float dinero = anuncio.getImporteparticipacion() * (float) num;
-                    int p = num * anuncio.getNumeroparticipaciones();
-                    stmBloqueado = con.prepareStatement(consulta11);
-                    stmBloqueado.setFloat(1, dinero);
-                    stmBloqueado.setInt(2, p);
-                    stmBloqueado.setString(3, e.getIdUsuario());
-                    stmBloqueado.executeUpdate();
-
-                } catch (SQLException ex) {
-                    manejarExcepcionSQL(ex);
-
-                } finally {
-                    try {
-                        if (stmBloqueado != null) {
-                            stmBloqueado.close();
-                        }
-                    } catch (SQLException ex) {
-                        System.out.println("Imposible cerrar cursores");
-                    }
-                }
-
-
+                // Desbloquear dinero y participaciones
+                float dinero = anuncio.getImporteparticipacion() * (float) participacionesVendidas;
+                int p = participacionesVendidas * anuncio.getNumeroparticipaciones();
+                stmBloqueado = con.prepareStatement(actualizarValoresBloqueados);
+                stmBloqueado.setFloat(1, dinero);
+                stmBloqueado.setInt(2, p);
+                stmBloqueado.setString(3, e.getIdUsuario());
+                stmBloqueado.executeUpdate();
             }
 
-            //Y ahora se suma a los usuarios que tenian las participaciones, tanto inversores como empresas
-            //Hay que hacer dos consultas distintas, primero la de inversores
+            // PASO 2
+            // Y ahora se suma a los usuarios que tenian las participaciones, tanto inversores como empresas
+            // Hay que hacer dos consultas distintas, primero la de inversores
             if (anuncio == null) {
-                //Dinero
-                stmMI = con.prepareStatement(consulta3);
-                stmSumaI = con.prepareStatement(consulta4);
+                // Dar dinero
+                stmMI = con.prepareStatement(seleccionarInvPartEmpresa);
+                stmSumaI = con.prepareStatement(aumentarSaldoInversor);
                 stmMI.setString(1, e.getIdUsuario());
                 rstMI = stmMI.executeQuery();
                 float suma = 0;
                 while (rstMI.next()) {
-                    num = rstMI.getInt("numparticipaciones");
-                    suma = importe * num;
+                    participacionesVendidas = rstMI.getInt("numparticipaciones");
+                    suma = importe * participacionesVendidas;
                     stmSumaI.setFloat(1, suma);
                     stmSumaI.setString(2, rstMI.getString("id_usuario"));
                     stmSumaI.executeUpdate();
-
                 }
 
-                //Participaciones
-                stmSuma2I = con.prepareStatement(consulta7);
-                stmSuma2I.setInt(1, participaciones);
+                // Dar participaciones
+                stmSuma2I = con.prepareStatement(aumentarPartInversor);
+                stmSuma2I.setInt(1, participacionesAPagarSinAnuncio);
                 stmSuma2I.setString(2, e.getIdUsuario());
                 stmSuma2I.executeUpdate();
             } else {
-                //Dinero
-                stmMI = con.prepareStatement(consulta3);
-                stmSumaI = con.prepareStatement(consulta4);
+                // Dar dinero
+                stmMI = con.prepareStatement(seleccionarInvPartEmpresa);
+                stmSumaI = con.prepareStatement(aumentarSaldoInversor);
                 stmMI.setString(1, e.getIdUsuario());
                 rstMI = stmMI.executeQuery();
                 float suma = 0;
                 while (rstMI.next()) {
-                    num = rstMI.getInt("numparticipaciones");
-                    suma = anuncio.getImporteparticipacion() * num;
+                    participacionesVendidas = rstMI.getInt("numparticipaciones");
+                    suma = anuncio.getImporteparticipacion() * participacionesVendidas;
                     stmSumaI.setFloat(1, suma);
                     stmSumaI.setString(2, rstMI.getString("id_usuario"));
                     stmSumaI.executeUpdate();
@@ -1662,7 +1647,7 @@ public class DAOUsuarios extends AbstractDAO {
                 }
 
                 //Participaciones
-                stmSuma2I = con.prepareStatement(consulta7);
+                stmSuma2I = con.prepareStatement(aumentarPartInversor);
                 stmSuma2I.setInt(1, anuncio.getNumeroparticipaciones());
                 stmSuma2I.setString(2, e.getIdUsuario());
                 stmSuma2I.executeUpdate();
@@ -1671,48 +1656,47 @@ public class DAOUsuarios extends AbstractDAO {
             //Y ahora la de empresas
             if (anuncio == null) {
                 //Importe
-                stmME = con.prepareStatement(consulta5);
-                stmSumaE = con.prepareStatement(consulta6);
+                stmME = con.prepareStatement(seleccionarEmpPartEmpresa);
+                stmSumaE = con.prepareStatement(aumentarSaldoEmpresa);
                 stmME.setString(1, e.getIdUsuario());
                 stmME.setString(2, e.getIdUsuario());
                 rstME = stmME.executeQuery();
                 float sum = 0;
                 while (rstME.next()) {
-                    num = rstME.getInt("numparticipaciones");
-                    sum = importe * num;
+                    participacionesVendidas = rstME.getInt("numparticipaciones");
+                    sum = importe * participacionesVendidas;
                     stmSumaE.setFloat(1, sum);
                     stmSumaE.setString(2, rstME.getString("id_usuario"));
                     stmSumaE.executeUpdate();
                 }
                 //Participaciones
-                stmSuma2E = con.prepareStatement(consulta8);
-                stmSuma2E.setInt(1, participaciones);
+                stmSuma2E = con.prepareStatement(aumentarPartEmpresa);
+                stmSuma2E.setInt(1, participacionesAPagarSinAnuncio);
                 stmSuma2E.setString(2, e.getIdUsuario());
                 stmSuma2E.setString(3, e.getIdUsuario());
                 stmSuma2E.executeUpdate();
 
                 fa.insertarHistorial(new EntradaHistorial(e.getIdUsuario(), e.getIdUsuario(),
-                        new Timestamp(System.currentTimeMillis()), participaciones * this.participacionesVendidas(e.getIdUsuario()),
+                        new Timestamp(System.currentTimeMillis()), participacionesAPagarSinAnuncio * this.participacionesVendidas(e.getIdUsuario()),
                         importe * this.participacionesVendidas(e.getIdUsuario()), EntradaHistorial.TipoEntradaHistorial.PAGO));
-                muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
             } else {
                 //Importe
-                stmME = con.prepareStatement(consulta5);
-                stmSumaE = con.prepareStatement(consulta6);
+                stmME = con.prepareStatement(seleccionarEmpPartEmpresa);
+                stmSumaE = con.prepareStatement(aumentarSaldoEmpresa);
                 stmME.setString(1, e.getIdUsuario());
                 stmME.setString(2, e.getIdUsuario());
                 rstME = stmME.executeQuery();
                 float sum = 0;
                 while (rstME.next()) {
-                    num = rstME.getInt("numparticipaciones");
-                    sum = anuncio.getImporteparticipacion() * num;
+                    participacionesVendidas = rstME.getInt("numparticipaciones");
+                    sum = anuncio.getImporteparticipacion() * participacionesVendidas;
                     stmSumaE.setFloat(1, sum);
                     stmSumaE.setString(2, rstME.getString("id_usuario"));
                     stmSumaE.executeUpdate();
                 }
                 //Participaciones
-                stmSuma2E = con.prepareStatement(consulta8);
+                stmSuma2E = con.prepareStatement(aumentarPartEmpresa);
                 stmSuma2E.setInt(1, anuncio.getNumeroparticipaciones());
                 stmSuma2E.setString(2, e.getIdUsuario());
                 stmSuma2E.setString(3, e.getIdUsuario());
@@ -1721,13 +1705,12 @@ public class DAOUsuarios extends AbstractDAO {
                         new Timestamp(System.currentTimeMillis()),
                         anuncio.getNumeroparticipaciones() * this.participacionesVendidas(e.getIdUsuario()),
                         anuncio.getImporteparticipacion() * this.participacionesVendidas(e.getIdUsuario()), EntradaHistorial.TipoEntradaHistorial.PAGO));
-                muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
             }
 
             //Por último, si hay un anuncio, se elimina
             if (anuncio != null) {
                 try {
-                    stmEliminacion = con.prepareStatement(consulta10);
+                    stmEliminacion = con.prepareStatement(borrarAnuncio);
                     stmEliminacion.setString(1, e.getIdUsuario());
                     stmEliminacion.setTimestamp(2, anuncio.getFechaPago());
                     stmEliminacion.executeUpdate();
@@ -1745,6 +1728,7 @@ public class DAOUsuarios extends AbstractDAO {
                     }
                 }
             }
+            muestraExcepcion("Pago realizado correctamente\n\n", DialogoInfo.NivelDeAdvertencia.INFORMACION);
             done = true;
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
@@ -2166,9 +2150,9 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return resultado;
     }
-    
-    public ArrayList<String> getParticipacionesCompradas (Usuario usuario){
-        
+
+    public ArrayList<String> getParticipacionesCompradas(Usuario usuario) {
+
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -2191,11 +2175,11 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stm = con.prepareStatement(consulta);
             stm.setString(1, usuario.getIdUsuario());
-            rst=stm.executeQuery(); 
-            while(rst.next()){
-                resultado.add(rst.getString("empresa")); 
+            rst = stm.executeQuery();
+            while (rst.next()) {
+                resultado.add(rst.getString("empresa"));
             }
-             
+
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
         } finally {

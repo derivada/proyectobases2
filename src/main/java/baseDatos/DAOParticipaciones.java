@@ -659,7 +659,7 @@ public class DAOParticipaciones extends AbstractDAO {
 
                 // Comprobamos que la empresa pueda bloquear suficiente saldo en el caso de que quereamos
                 // comprar participaciones de una empresa con anuncios (este es un caso bastante inusual)
-                if (anuncios.size() > 0) {
+                if (anuncios.size() > 0 && rst.getString("usuario").equals(empresa)) {
                     Empresa e = fa.obtenerDatosEmpresa(new Usuario(empresa, false, true));
 
                     int participacionesADarPorVendida = 0;
@@ -672,12 +672,7 @@ public class DAOParticipaciones extends AbstractDAO {
                         dineroADarPorVendida += a.getImporteparticipacion();
                     }
 
-                    /*
-                     * El 1.0f + es porque se venderán esas participaciones, hay que tenerlas en cuenta
-                     * Por ejemplo: Si E tiene 500 part y 1000$ y tiene que pagar 4 part por vendida y 2$ por vendida
-                     * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
-                     * porque vendió 125
-                     */
+
                     int result = (int) Math.min((float) participacionesPropias / (float) participacionesADarPorVendida,
                             dineroPropio / dineroADarPorVendida);
 
