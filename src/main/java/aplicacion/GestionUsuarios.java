@@ -1,8 +1,8 @@
 package aplicacion;
 
-import vista.FachadaGui;
+import vista.FachadaGUI;
 import baseDatos.FachadaBaseDatos;
-import java.sql.Date;
+
 import java.sql.Timestamp;
 import vista.componentes.DialogoInfo;
 
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class GestionUsuarios {
 
-    FachadaGui fgui;
+    FachadaGUI fgui;
     FachadaBaseDatos fbd;
 
-    public GestionUsuarios(FachadaGui fgui, FachadaBaseDatos fbd) {
+    public GestionUsuarios(FachadaGUI fgui, FachadaBaseDatos fbd) {
         this.fgui = fgui;
         this.fbd = fbd;
     }
@@ -25,7 +25,7 @@ public class GestionUsuarios {
         List<String> listaNombresUsuarios = fbd.obtenerListaNombresUsuarios();
 
         if (!listaNombresUsuarios.contains(nombre.replaceAll("\\s+$", ""))) {
-            fbd.getFachadaAplicacion().muestraExcepcion("Error al autentificar usuario", "El usuario no está registrado!",
+            FachadaGUI.muestraExcepcion("Error al autentificar usuario", "El usuario no está registrado!",
                     DialogoInfo.NivelDeAdvertencia.ERROR);
             return null;
         }
@@ -89,17 +89,6 @@ public class GestionUsuarios {
         return fbd.registroEmpresa(e);
     }
 
-    public int getPartPropEmpresa(Empresa e) {
-        return fbd.getPartPropEmpresa(e);
-    }
-
-    public void emitirParticipaciones(Empresa e, int emision) {
-        fbd.emitirParticipaciones(e, emision);
-    }
-
-    public void bajaParticipaciones(Empresa e, int baja) {
-        fbd.bajaParticipaciones(e, baja);
-    }
 
     public ArrayList<Usuario> obtenerUsuarioPorAutorizacion() {
         ArrayList<Usuario> resultado = new ArrayList<>();
@@ -131,44 +120,11 @@ public class GestionUsuarios {
         }
     }
 
-    public java.util.List<OfertaVenta> getOfertasVenta(String empresa, float precio) {
-        return fbd.getOfertasVenta(empresa, precio);
-    }
-
-    public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
-        return fbd.getOfertasVentaPropias(usuario);
-    }
-
-    public int getParticipacionesEmpresa(Usuario u, Empresa e) {
-        return fbd.getParticipacionesEmpresa(u, e);
-    }
-
-    public int getParticipacionesVendibles(Usuario u, Empresa e) {
-        return fbd.getParticipacionesVendibles(u, e);
-    }
-
-    public int getParticipacionesTotales(Usuario u) {
-        return fbd.getParticipacionesTotales(u);
-    }
-
-    public void crearOfertaVenta(Usuario u, Empresa empresa, int numero, float precioVenta) {
-        fbd.crearOfertaVenta(u, empresa, numero, precioVenta);
-
-    }
-
-    public void bajaOfertaVenta(Usuario usuario, Timestamp fecha) {
-        fbd.bajaOfertaVenta(usuario, fecha);
-    }
-
-    public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
-        fbd.comprarParticipaciones(comprador, empresa, cantidad, precioMax);
-    }
-
     public void bajaUsuario(Usuario u, float saldo) {
-        if(u instanceof Inversor){
+        if (u instanceof Inversor) {
             fbd.eliminarInversor(u.getIdUsuario(), saldo);
 
-        } else{
+        } else {
             fbd.eliminarEmpresa(u.getIdUsuario(), saldo);
         }
     }
@@ -177,45 +133,13 @@ public class GestionUsuarios {
         fbd.solicitarBaja(idUsuario);
     }
 
-    public void crearAnuncio(Float importe, Empresa e, Timestamp fecha, Integer numeroParticipaciones) {
-        fbd.crearAnuncio(importe, e, fecha, numeroParticipaciones);
-    }
-
-    public void pagarBeneficios(Float importe, Integer participaciones, Empresa empresa, AnuncioBeneficios a) {
-        fbd.pagarBeneficios(importe, participaciones, empresa, a);
-    }
-
-    public java.util.List<AnuncioBeneficios> obtenerAnuncios(String empresa) {
-        return fbd.obtenerAnuncios(empresa);
-    }
-
-    public void solicitarBajaAnuncio(String empresa, Timestamp fechaPago) {
-        boolean realizado = fbd.solicitarBajaAnuncio(empresa, fechaPago);
-        if (realizado == false) {
-            fbd.getFachadaAplicacion().muestraExcepcion("Error al solicitar la baja del anuncio", DialogoInfo.NivelDeAdvertencia.ERROR);
-        } else {
-            fbd.getFachadaAplicacion().muestraExcepcion("Baja solicitada correctamente", DialogoInfo.NivelDeAdvertencia.INFORMACION);
-        }
-    }
 
     public java.util.List<AnuncioBeneficios> obtenerAnunciosRegulador() {
         return fbd.obtenerAnunciosRegulador();
     }
 
-    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe,Integer numparticipaciones) {
-        fbd.bajaAnuncio(empresa, fecha, importe,numparticipaciones);
-    }
-
-    public java.util.List<EntradaHistorial> obtenerHistorial() {
-        return fbd.obtenerHistorial();
-    }
-
-    public java.util.List<EntradaHistorial> obtenerHistorial(Usuario u) {
-        return fbd.obtenerHistorial(u);
-    }
-
-    public void insertarHistorial(EntradaHistorial h) {
-        fbd.insertarHistorial(h);
+    public void bajaAnuncio(String empresa, Timestamp fecha, Float importe, Integer numparticipaciones) {
+        fbd.bajaAnuncio(empresa, fecha, importe, numparticipaciones);
     }
 
     public boolean comprobarID(String id) {
@@ -239,33 +163,28 @@ public class GestionUsuarios {
     }
 
     public void modificarSaldo(String id, float saldo, String tipo) {
-        if(tipo.equals("Inversor")){
+        if (tipo.equals("Inversor")) {
             fbd.modificarSaldoInversor(id, saldo);
-        } else if(tipo.equals("Empresa")){
+        } else if (tipo.equals("Empresa")) {
             fbd.modificarSaldoEmpresa(id, saldo);
         }
     }
 
     public Float obtenerSaldo(Usuario u, String tipo) {
         float resultado = (float) 0.0;
-        if(tipo.equals("Inversor")){
+        if (tipo.equals("Inversor")) {
             resultado = fbd.obtenerSaldoInversor(u);
-        } else if(tipo.equals("Empresa")) {
+        } else if (tipo.equals("Empresa")) {
             resultado = fbd.obtenerSaldoEmpresa(u);
         }
-        
+
         return resultado;
     }
 
-    public int getNumeroParticipaciones(String idUsuario, String tipo) {
-        int resultado = 0;
-        if(tipo.equals("Inversor")){
-            resultado = fbd.getNumeroParticipacionesInversor(idUsuario);
-        } else if(tipo.equals("Empresa")) {
-            resultado = fbd.getNumeroParticipacionesEmpresa(idUsuario);
-        }
-        
-        return resultado;
+    public void bloquearSaldo(Empresa e, int cantidad) {
+        fbd.bloquearSaldo(e, cantidad);
     }
-    
+    public void liberarSaldo(Empresa e, int cantidad){
+        fbd.liberarSaldo(e, cantidad);
+    }
 }

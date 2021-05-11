@@ -203,7 +203,7 @@ public class ModificarSaldo extends javax.swing.JDialog {
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         if (!nuevoSaldo.validateInput()) {
-            fa.muestraExcepcion("El nuevo saldo introducido no es válido!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("El nuevo saldo introducido no es válido!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
         float nuevoSaldo = this.nuevoSaldo.getText().isEmpty() ? 0 : Float.parseFloat(this.nuevoSaldo.getText());

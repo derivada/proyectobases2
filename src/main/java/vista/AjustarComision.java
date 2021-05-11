@@ -138,14 +138,14 @@ public class AjustarComision extends javax.swing.JDialog {
     private void botonAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAplicarActionPerformed
         if (validarEntradaComision()) {
             FachadaAplicacion.getInstance().modificarComision(regulador, nuevaComision);
-            FachadaAplicacion.getInstance().muestraExcepcion("Se ha configurado la comisión al " + getComisionString(nuevaComision),
+            FachadaGUI.muestraExcepcion("Se ha configurado la comisión al " + getComisionString(nuevaComision),
                     DialogoInfo.NivelDeAdvertencia.INFORMACION);
             nuevaComisionTextBox.setBackground(ColoresGUI.blanco);
             this.dispose();
         } else {
             nuevaComisionTextBox.setBackground(ColoresGUI.getGUIColorExtraClaro(ColoresGUI.Colores.ROJO));
             nuevaComision = -1.0f;
-            FachadaAplicacion.getInstance().muestraExcepcion("La nueva comisión introducida no es válida!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("La nueva comisión introducida no es válida!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
         }
     }//GEN-LAST:event_botonAplicarActionPerformed
 

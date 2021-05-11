@@ -215,19 +215,19 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
 
     private void comprarParticipaciones(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarParticipaciones
         if (cantidad.getValue() == 0) {
-            fa.muestraExcepcion("Por favor, especifique cuántas participaciones desea comprar!",
+            FachadaGUI.muestraExcepcion("Por favor, especifique cuántas participaciones desea comprar!",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
         if (!precioMaximoTextBox.validateInput()) {
-            fa.muestraExcepcion("Por favor, especifique el precio máximo a pagar por participación!",
+            FachadaGUI.muestraExcepcion("Por favor, especifique el precio máximo a pagar por participación!",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
         fa.comprarParticipaciones(comprador, empresa, cantidad.getValue(), getPrecioMaximo());
         actualizarOfertas();
-        JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
+        JFrame ventanaPadre = FachadaGUI.getInstance().getVentanaActiva();
         if (ventanaPadre instanceof VEmpresa) {
             VEmpresa ve = (VEmpresa) ventanaPadre;
             ve.actualizarDatos();
@@ -279,7 +279,7 @@ public class CompraParticipacionesPanel extends javax.swing.JPanel {
         if (seleccionEmpresa.getSelectedItem() == null) {
             return;
         }
-        empresa = fa.obtenerDatosEmpresa(new Usuario((String) seleccionEmpresa.getSelectedItem(), false, false));
+        empresa = fa.obtenerDatosEmpresa(new Usuario((String) seleccionEmpresa.getSelectedItem(), false, true));
 
         try {
             List<OfertaVenta> ofertasDisponibles = fa.getOfertasVenta(empresa.getIdUsuario(), getPrecioMaximo());

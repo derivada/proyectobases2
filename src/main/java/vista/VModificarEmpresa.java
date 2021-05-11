@@ -289,7 +289,7 @@ public class VModificarEmpresa extends javax.swing.JFrame {
 
         if (!idTextBox.validateInput() | !direccionTextBox.validateInput() | !cifTextBox.validateInput()
                 | !nombreTextBox.validateInput()) {
-            fa.muestraExcepcion("Alguno de los campos introducidos no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("Alguno de los campos introducidos no es correcto!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
         boolean passMod = false;
@@ -300,18 +300,18 @@ public class VModificarEmpresa extends javax.swing.JFrame {
                 if (!clave.isValidated()) {
                     log = log + clave.getValidationError();
                 }
-                fa.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                FachadaGUI.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
                 return;
             }
             if (!comprobarPassIguales()) {
-                fa.muestraExcepcion("Las contraseñas no coinciden!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+                FachadaGUI.muestraExcepcion("Las contraseñas no coinciden!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
                 return;
             }
             passMod = true;
         }
 
         if (!e.getIdUsuario().equals(idTextBox.getText()) && !fa.comprobarID(this.idTextBox.getText())) {
-            fa.muestraExcepcion("El nuevo ID ya está en uso!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("El nuevo ID ya está en uso!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
@@ -326,9 +326,9 @@ public class VModificarEmpresa extends javax.swing.JFrame {
         if (insertado) {
             this.e = fa.obtenerDatosEmpresa(empresa);
             actualizarDatos();
-            fa.muestraExcepcion("Datos de la empresa modificados con éxito!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            FachadaGUI.muestraExcepcion("Datos de la empresa modificados con éxito!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
-            fa.muestraExcepcion("No se pudo modificar la base de datos.", DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
+            FachadaGUI.muestraExcepcion("No se pudo modificar la base de datos.", DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
         }
     }
 

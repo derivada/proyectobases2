@@ -18,6 +18,7 @@ public class VInversor extends javax.swing.JFrame {
         this.setTitle("Gestión de inversor - " + i.getIdUsuario());
         this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
+        actualizarCampos();
     }
 
     /**
@@ -33,9 +34,10 @@ public class VInversor extends javax.swing.JFrame {
         bajaBoton = new vista.componentes.Boton();
         tipoLabel = new vista.componentes.Etiqueta();
         usuarioLabel = new vista.componentes.Etiqueta();
-        panelCompra = new javax.swing.JTabbedPane();
+        panelGeneral = new javax.swing.JTabbedPane();
         ventaPanel = new vista.VentaParticipacionesPanel(i, fa);
         compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(i, fa);
+        verParticipacionesPanel = new vista.VerParticipacionesPanel(i, fa);
         modificarBoton = new vista.componentes.Boton();
         bienvenidoLabel = new vista.componentes.Etiqueta();
         botonVolver1 = new vista.componentes.BotonVolver();
@@ -59,8 +61,14 @@ public class VInversor extends javax.swing.JFrame {
 
         usuarioLabel.setText("Usuario:");
 
-        panelCompra.addTab("Venta", ventaPanel);
-        panelCompra.addTab("Compra", compraParticipacionesPanel1);
+        panelGeneral.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                panelGeneralStateChanged(evt);
+            }
+        });
+        panelGeneral.addTab("Venta", ventaPanel);
+        panelGeneral.addTab("Compra", compraParticipacionesPanel1);
+        panelGeneral.addTab("Participaciones", verParticipacionesPanel);
 
         modificarBoton.setText("Modificar Usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +114,7 @@ public class VInversor extends javax.swing.JFrame {
                     .addComponent(tipoTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(149, 149, 149))
         );
         layout.setVerticalGroup(
@@ -136,11 +144,11 @@ public class VInversor extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botonVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(abrirHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(panelCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
 
-        Utils.configurarTabbedPane(panelCompra);
+        Utils.configurarTabbedPane(panelGeneral);
         botonVolver1.configurar(fa, this, false);
         saldoTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
             FuentesGUI.Size.GRANDE));
@@ -155,9 +163,9 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         if(fa.getNumeroParticipaciones(i.getIdUsuario(), "Inversor")==0){
             fa.solicitarBaja(i.getIdUsuario());
-            fa.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            FachadaGUI.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
-            fa.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
+            FachadaGUI.muestraExcepcion("La solicitud se ha cancelado ya que el usuario tiene participaciones");
         }
     }//GEN-LAST:event_bajaBotonActionPerformed
 
@@ -171,6 +179,12 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
         new VHistorial(i);
     }//GEN-LAST:event_abrirHistorialActionPerformed
 
+    private void panelGeneralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelGeneralStateChanged
+        if(panelGeneral.getSelectedIndex()==2){
+            verParticipacionesPanel.actualizarDatos();
+        }
+    }//GEN-LAST:event_panelGeneralStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vista.componentes.Boton abrirHistorial;
@@ -180,13 +194,14 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     private vista.CompraParticipacionesPanel compraParticipacionesPanel1;
     private vista.componentes.Etiqueta idTextBox;
     private vista.componentes.Boton modificarBoton;
-    private javax.swing.JTabbedPane panelCompra;
+    private javax.swing.JTabbedPane panelGeneral;
     private vista.componentes.Etiqueta saldoLabel;
     private vista.componentes.Etiqueta saldoTextBox;
     private vista.componentes.Etiqueta tipoLabel;
     private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.VentaParticipacionesPanel ventaPanel;
+    private vista.VerParticipacionesPanel verParticipacionesPanel;
     // End of variables declaration//GEN-END:variables
 
 

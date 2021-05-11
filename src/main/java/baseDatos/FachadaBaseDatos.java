@@ -7,9 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import vista.FachadaGUI;
 import vista.componentes.DialogoInfo;
 
 public class FachadaBaseDatos {
@@ -65,15 +67,15 @@ public class FachadaBaseDatos {
         } catch (FileNotFoundException f) {
             System.err.println("Archivo de configuración" + nombreArchivo + " no encontrado:");
             System.err.println(f.getMessage());
-            fa.muestraExcepcion(f.getMessage());
+            FachadaGUI.muestraExcepcion(f.getMessage());
         } catch (IOException i) {
             System.err.println("Error al leer el archivo:");
             System.err.println(i.getMessage());
-            fa.muestraExcepcion(i.getMessage());
+            FachadaGUI.muestraExcepcion(i.getMessage());
         } catch (java.sql.SQLException e) {
             System.err.println("Error al conectarse a la base de datos:");
             System.err.println(e.getMessage());
-            fa.muestraExcepcion(e.getMessage());
+            FachadaGUI.muestraExcepcion(e.getMessage());
         }
     }
 
@@ -178,7 +180,6 @@ public class FachadaBaseDatos {
     }
 
     public void comprarParticipaciones(Usuario comprador, Empresa empresa, int cantidad, float precioMax) {
-
         daoParticipaciones.comprarParticipaciones(comprador, empresa.getIdUsuario(), cantidad, precioMax,
                 daoUsuarios.obtenerComision(daoUsuarios.obtenerListaReguladores().get(0).getIdUsuario()),
                 daoUsuarios.obtenerListaReguladores().get(0), daoUsuarios.obtenerAnuncios(empresa.getIdUsuario()));
@@ -213,16 +214,16 @@ public class FachadaBaseDatos {
 
         switch (aux) {
             case 1:
-                getFachadaAplicacion().muestraExcepcion("Anuncio creado correctamente ",
+                FachadaGUI.muestraExcepcion("Anuncio creado correctamente ",
                         DialogoInfo.NivelDeAdvertencia.INFORMACION);
 
                 break;
             case 2:
-                getFachadaAplicacion().muestraExcepcion("El importe que tiene la empresa no es suficiente",
+                FachadaGUI.muestraExcepcion("El importe que tiene la empresa no es suficiente",
                         DialogoInfo.NivelDeAdvertencia.ERROR);
                 break;
             case 3:
-                getFachadaAplicacion().muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
+                FachadaGUI.muestraExcepcion("El numero de participacione que tiene la empresa no es suficiente",
                         DialogoInfo.NivelDeAdvertencia.ERROR);
                 break;
             default:
@@ -309,5 +310,17 @@ public class FachadaBaseDatos {
 
     public int getNumeroParticipacionesEmpresa(String idUsuario) {
         return daoUsuarios.getNumeroParticipacionesEmpresa(idUsuario);
+    }
+
+    public void bloquearSaldo(Empresa e, int cantidad) {
+        daoUsuarios.bloquearSaldo(e, cantidad);
+    }
+
+    public void liberarSaldo(Empresa e, int cantidad) {
+        daoUsuarios.liberarSaldo(e, cantidad);
+    }
+
+    public List<EntradaParticipacion> obtenerDatosParticipaciones(Usuario u){
+        return daoParticipaciones.obtenerDatosParticipaciones(u);
     }
 }

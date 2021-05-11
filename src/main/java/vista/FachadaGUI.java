@@ -5,14 +5,14 @@ import vista.componentes.DialogoInfo;
 
 import javax.swing.*;
 
-public class FachadaGui {
+public class FachadaGUI {
 
     // Singleton
-    private static FachadaGui _instance;
+    private static FachadaGUI _instance;
 
-    public static FachadaGui getInstance() {
+    public static FachadaGUI getInstance() {
         if (_instance == null) {
-            _instance = new FachadaGui();
+            _instance = new FachadaGUI();
         }
         return _instance;
     }
@@ -31,7 +31,7 @@ public class FachadaGui {
         return this.ventanaActiva;
     }
 
-    private FachadaGui() {
+    private FachadaGUI() {
         // Bucle infinito!
         // this.fa = FachadaAplicacion.getInstance();
     }
@@ -45,7 +45,27 @@ public class FachadaGui {
         ventanaActiva = vr;
     }
 
-    public void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel,
+    public static void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel, boolean bloqueaInput) {
+        _muestraExcepcion(padre, titulo, descripcion, nivel, bloqueaInput);
+    }
+
+    public static void muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        _muestraExcepcion(padre, titulo, descripcion, nivel, false);
+    }
+
+    public static void muestraExcepcion(String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        _muestraExcepcion(null, titulo, descripcion, nivel, false);
+    }
+
+    public static void muestraExcepcion(String descripcion, DialogoInfo.NivelDeAdvertencia nivel) {
+        _muestraExcepcion(null, "Mercado de valores", descripcion, nivel, false);
+    }
+
+    public static void muestraExcepcion(String descripcion) {
+        _muestraExcepcion(null, "Mercado de valores", descripcion, DialogoInfo.NivelDeAdvertencia.ERROR, false);
+    }
+
+    private static void _muestraExcepcion(JFrame padre, String titulo, String descripcion, DialogoInfo.NivelDeAdvertencia nivel,
                                  boolean bloqueaInput) {
         new DialogoInfo(padre, titulo, descripcion, nivel, bloqueaInput);
     }

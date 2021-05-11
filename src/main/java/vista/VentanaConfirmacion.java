@@ -157,10 +157,10 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
             callbackConfirmacion.continuar();
         }
         if (aceptar && mensajeConfirmacion != null) {
-            FachadaAplicacion.getInstance().muestraExcepcion(mensajeConfirmacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            FachadaGUI.muestraExcepcion(mensajeConfirmacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
         }
         if (!aceptar && mensajeCancelacion != null) {
-            FachadaAplicacion.getInstance().muestraExcepcion(mensajeCancelacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
+            FachadaGUI.muestraExcepcion(mensajeCancelacion, DialogoInfo.NivelDeAdvertencia.INFORMACION);
         }
 
         if (con != null) {
@@ -171,7 +171,7 @@ public class VentanaConfirmacion extends javax.swing.JDialog {
                     con.rollback();
                 }
             } catch (SQLException ex) {
-                FachadaAplicacion.getInstance().muestraExcepcion("Error al confirmar la transacción!",
+                FachadaGUI.muestraExcepcion("Error al confirmar la transacción!",
                         DialogoInfo.NivelDeAdvertencia.ERROR_BASEDATOS);
                 ex.printStackTrace();
             } finally {

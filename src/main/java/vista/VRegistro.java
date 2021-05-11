@@ -363,7 +363,7 @@ public class VRegistro extends javax.swing.JFrame {
     public void login() {
 
         if (!ingresoUsuario.validateInput() | !ingresoClave.isValidated()) {
-            fa.muestraExcepcion("Alguno de los campos de entrada no es correcto!",
+            FachadaGUI.muestraExcepcion("Alguno de los campos de entrada no es correcto!",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
@@ -414,7 +414,7 @@ public class VRegistro extends javax.swing.JFrame {
             if (!claveReg.isValidated()) {
                 log = log + claveReg.getValidationError();
             }
-            fa.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion(log, DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
@@ -437,22 +437,22 @@ public class VRegistro extends javax.swing.JFrame {
                 break;
             }
             default:
-                fa.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.",
+                FachadaGUI.muestraExcepcion("Debes seleccionar el tipo de registro que quieres: empresa o inversor.",
                         DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);//muestro excepcion
                 break;
         }
 
         if (inversor) {
             borrarCampos(false, true);
-            fa.muestraExcepcion("Se ha enviado la solicitud de registro del inversor "
+            FachadaGUI.muestraExcepcion("Se ha enviado la solicitud de registro del inversor "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else if (empresa) {
             borrarCampos(false, true);
-            fa.muestraExcepcion("Se ha enviado la solicitud de registro de la empresa "
+            FachadaGUI.muestraExcepcion("Se ha enviado la solicitud de registro de la empresa "
                     + nombreReg.getText() + " correctamente!", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else // Solo falla aquí si el ID estaba mal
         {
-            fa.muestraExcepcion("El ID \"" + IDReg.getText() + "\" ya está en uso!");
+            FachadaGUI.muestraExcepcion("El ID \"" + IDReg.getText() + "\" ya está en uso!");
         }
 
     }

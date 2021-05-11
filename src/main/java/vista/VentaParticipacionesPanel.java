@@ -197,8 +197,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     private void actualizarSlider() {
         try {
             numeroVenta.setValue(0);
-            int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa
-                    (new Usuario((String) empresaVenta.getSelectedItem(), false, false)));
+            int numeroComprables = fa.getParticipacionesVendibles(u, fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false)));
             numeroVenta.setMaximum(numeroComprables);
             ventaBoton.setEnabled(numeroComprables != 0);
         } catch (Exception ignored) {
@@ -209,7 +208,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     private void crearOfertaVenta(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearOfertaVenta
 
         if (!precioVentaTextBox.validateInput()) {
-            fa.muestraExcepcion("El precio de venta especificado no es válido",
+            FachadaGUI.muestraExcepcion("El precio de venta especificado no es válido",
                     DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
@@ -217,25 +216,25 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         float precioVenta = Float.parseFloat(precioVentaTextBox.getText());
 
         if (empresaVenta.getSelectedItem() == null) {
-            fa.muestraExcepcion("Aún no se ha seleccionado ninguna empresa!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("Aún no se ha seleccionado ninguna empresa!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
         Empresa empresa = fa.obtenerDatosEmpresa(new Usuario((String) empresaVenta.getSelectedItem(), false, false));
         if (empresa == null) {
-            fa.muestraExcepcion("La empresa especificada no existe!", DialogoInfo.NivelDeAdvertencia.ERROR);
+            FachadaGUI.muestraExcepcion("La empresa especificada no existe!", DialogoInfo.NivelDeAdvertencia.ERROR);
             return;
         }
 
         int numero = numeroVenta.getValue();
         if (numero <= 0) {
-            fa.muestraExcepcion("El número de participaciones a vender debe ser positivo!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
+            FachadaGUI.muestraExcepcion("El número de participaciones a vender debe ser positivo!", DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
         int participacionesDisponibles = fa.getParticipacionesVendibles(u, empresa);
         if (participacionesDisponibles < numero) {
-            fa.muestraExcepcion("El usuario no posee suficientes participaciones!\n" +
-                    "Número actual de participaciones de " + empresa.getIdUsuario() + ": " + participacionesDisponibles);
+            FachadaGUI.muestraExcepcion("El usuario no posee suficientes participaciones!\n"
+                    + "Número actual de participaciones de " + empresa.getIdUsuario() + ": " + participacionesDisponibles);
             return;
         }
 
@@ -247,7 +246,7 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
 
         // Intentamos actualizar VEmpresa (por si hemos bloqueado saldo)
-        JFrame ventanaPadre = FachadaGui.getInstance().getVentanaActiva();
+        JFrame ventanaPadre = FachadaGUI.getInstance().getVentanaActiva();
         if (ventanaPadre instanceof VEmpresa) {
             VEmpresa ve = (VEmpresa) ventanaPadre;
             ve.actualizarDatos();
@@ -269,18 +268,26 @@ public class VentaParticipacionesPanel extends javax.swing.JPanel {
     private void bajaVentaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaVentaBotonActionPerformed
         ModeloTablaVenta tabla = (ModeloTablaVenta) tablaVenta.getModel();
         int fila = tablaVenta.getSelectedRow();
-        if(fila == -1){
-            fa.muestraExcepcion("No hay ninguna fila seleccionada");
+        if (fila == -1) {
+            FachadaGUI.muestraExcepcion("No hay ninguna fila seleccionada");
             return;
         }
         OfertaVenta oferta = tabla.obtenerOfertas(fila);
         Usuario u = fa.obtenerDatosInversor(new Usuario(oferta.getVendedor(), false, true));
-        if (u == null)
+        if (u == null) {
             u = fa.obtenerDatosEmpresa(new Usuario(oferta.getVendedor(), false, true));
+        }
         fa.bajaOfertaVenta(u, oferta.getFecha());
         tabla.setFilas(fa.getOfertasVentaPropias(u.getIdUsuario()));
-        
 
+        JFrame ventanaPadre = FachadaGUI.getInstance().getVentanaActiva();
+        if (ventanaPadre instanceof VEmpresa) {
+            VEmpresa ve = (VEmpresa) ventanaPadre;
+            ve.actualizarDatos();
+        } else if (ventanaPadre instanceof VInversor) {
+            VInversor vi = (VInversor) ventanaPadre;
+            vi.actualizarCampos();
+        }
     }//GEN-LAST:event_bajaVentaBotonActionPerformed
 
     public void actualizarDatos() {

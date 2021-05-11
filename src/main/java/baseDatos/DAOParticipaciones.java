@@ -4,10 +4,12 @@ import aplicacion.*;
 import vista.componentes.DialogoInfo;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import vista.FachadaGui;
+import vista.FachadaGUI;
 import vista.VentanaConfirmacion;
 import vista.componentes.Utils;
 
@@ -163,7 +165,9 @@ public class DAOParticipaciones extends AbstractDAO {
 
         } finally {
             try {
-                stmConsulta.close();
+                if (stmConsulta != null) {
+                    stmConsulta.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
@@ -268,7 +272,9 @@ public class DAOParticipaciones extends AbstractDAO {
             manejarExcepcionSQL(ex);
         } finally {
             try {
-                stmCheck.close();
+                if (stmCheck != null) {
+                    stmCheck.close();
+                }
                 if (stmAnuncios != null) {
                     stmAnuncios.close();
                 }
@@ -425,8 +431,7 @@ public class DAOParticipaciones extends AbstractDAO {
         }
 
         int result = 0;
-        PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null,
-                stmBloqueo = null, stmBloqueoPartEmpresa = null;
+        PreparedStatement stmOferta = null, stmSustracion = null, stmEliminacion = null;
         Connection con;
         boolean done = false;
         con = this.getConexion();
@@ -503,12 +508,6 @@ public class DAOParticipaciones extends AbstractDAO {
                 if (stmEliminacion != null) {
                     stmEliminacion.close();
                 }
-                if (stmBloqueo != null) {
-                    stmBloqueo.close();
-                }
-                if (stmBloqueoPartEmpresa != null) {
-                    stmBloqueoPartEmpresa.close();
-                }
                 con.setAutoCommit(true);
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
@@ -574,9 +573,17 @@ public class DAOParticipaciones extends AbstractDAO {
 
     public void comprarParticipaciones(Usuario comprador, String empresa, int cantidad, float precioMax,
                                        float comision, Usuario regulador, java.util.List<AnuncioBeneficios> anuncios) {
-        // Actualizar datos
-        if (comprador == null || comprador instanceof Regulador) {
-            manejarExcepcion(new Exception("El usuario no puede comprar participaciones!"));
+
+        // Comprobar que el comprador es un usuario válido
+        if (comprador == null || comprador instanceof Regulador || !comprador.isAutorizado()) {
+            FachadaGUI.muestraExcepcion("El usuario no puede comprar participaciones!",
+                    DialogoInfo.NivelDeAdvertencia.ERROR);
+            return;
+        }
+
+        if (comprador.isSolicitadobaja()) {
+            FachadaGUI.muestraExcepcion("El usuario no puede comprar participaciones ya que solicitó su baja!",
+                    DialogoInfo.NivelDeAdvertencia.ADVERTENCIA);
             return;
         }
 
@@ -595,14 +602,16 @@ public class DAOParticipaciones extends AbstractDAO {
         ResultSet rst;
         Connection con;
         boolean done = false;
-        // lista de empresas que tienen anuncios y vamos a bloquear
+
+        // Lista de empresas que tienen anuncios y de las cuales vamos a bloquear saldo si se compran
+        // sus participaciones
         HashMap<Empresa, Integer> participacionesBloquear = new HashMap<>();
 
         con = this.getConexion();
 
-        // Lista ordenada por precio de las mejores ofertas
+        // Lista ordenada por precio de las mejores ofertas que no son del usuario
         String listaMejoresOfertas = "select * from ofertaventa \n"
-                + "where empresa = ? \n"
+                + "where empresa = ? AND usuario != ?\n"
                 + "order by precio asc, fecha asc";
 
         String eliminacionOferta = "delete from ofertaVenta where usuario = ? AND fecha = ?";
@@ -617,33 +626,39 @@ public class DAOParticipaciones extends AbstractDAO {
         }
 
         boolean sePidioConfirmacion = false;
+
         try {
             con.setAutoCommit(false);
             stmParticipaciones = con.prepareStatement(listaMejoresOfertas);
             stmParticipaciones.setString(1, empresa);
+            stmParticipaciones.setString(2, comprador.getIdUsuario());
             rst = stmParticipaciones.executeQuery();
 
-            // Mientras queden suficientes ofertas && no hallamos comprado todas las que necesitamos && quede dinero
+            // La compra se hará iterativamente sobre las mejores ofertas
+            // Seguiremos iterando mientras queden suficientes ofertas,
+            // no hallamos comprado todas las que necesitamos y haya suficiente dinero
             while (rst.next() && participacionesCompradas < cantidad && !dineroAgotado) {
                 // Numero de participaciones disponibles en la oferta actual y precio en la oferta actual
-
                 participacionesIteracion = rst.getInt("numparticipaciones");
                 precioIteracion = rst.getFloat("precio") + (comision * rst.getFloat("precio"));
 
                 // El mínimo de las que hay y las que faltan por comprar
                 int partCompradasIteraccion = Math.min(participacionesIteracion, cantidad - participacionesCompradas);
 
-                // No hay suficiente dinero -> reducimos el número al que podemos comprar
-                if (precioAcumulado + (float) partCompradasIteraccion * precioIteracion > saldoCompra) {
+                // No hay suficiente dinero
+                if (precioAcumulado + partCompradasIteraccion * precioIteracion > saldoCompra) {
                     float saldoRonda = saldoCompra - precioAcumulado;
+
+                    // Reducimos el número de participaciones compradas
                     partCompradasIteraccion = (int) (saldoRonda / precioIteracion);
 
-                    // Hace falta otro booleano para esto por si la última en comprar vale 5 pero solo
-                    // te quedan 3, no basta comprobar precioAcumulado == saldoCompra
+                    // Hace falta otro booleano para esto, por ejemplo, si la última participación a comprar vale 5$
+                    // pero solo quedan  3$, no basta comprobar precioAcumulado == saldoCompra
                     dineroAgotado = true;
                 }
 
-                // Si la empresa tiene anuncios puede la empresa bloquear el suficiente saldo??
+                // Comprobamos que la empresa pueda bloquear suficiente saldo en el caso de que quereamos
+                // comprar participaciones de una empresa con anuncios (este es un caso bastante inusual)
                 if (anuncios.size() > 0) {
                     Empresa e = fa.obtenerDatosEmpresa(new Usuario(empresa, false, true));
 
@@ -670,12 +685,15 @@ public class DAOParticipaciones extends AbstractDAO {
                     // suficiente saldo/part para efectuar el pago de sus anuncios posteriormente
                     partCompradasIteraccion = Math.min(result, partCompradasIteraccion);
 
-                    // Tenemos que hacer esto después del bucle para evitar problemas con el autocommit
+                    // Bloqueamos el salddo después del bucle para evitar problemas con el autocommit
+                    // al poder comprar de diferentes ofertas de venta de la empresa
                     int partActuales = participacionesBloquear.getOrDefault(e, 0);
                     participacionesBloquear.put(e, partActuales + partCompradasIteraccion);
                 }
 
+                // Actualizamos el precio total gastado y el número total de participaciones compradas
                 precioAcumulado += (float) partCompradasIteraccion * precioIteracion;
+                participacionesCompradas += partCompradasIteraccion;
 
                 // Ahora que ya sabemos cuantas vamos a comprar las quitamos de la oferta
                 if (partCompradasIteraccion == participacionesIteracion) {
@@ -693,55 +711,56 @@ public class DAOParticipaciones extends AbstractDAO {
                     stmUpdate.executeUpdate();
                 }
 
+                // Obtenemos los datos del vendedor
                 String nombreVendedor = rst.getString("usuario");
                 Usuario vendedor = fa.obtenerDatosInversor(new Usuario(nombreVendedor, false, true));
                 if (vendedor == null) {
                     vendedor = fa.obtenerDatosEmpresa(new Usuario(nombreVendedor, false, true));
                 }
 
-                participacionesCompradas += partCompradasIteraccion;
-
+                // Añadimos las participaciones a la cartera del comprador
                 darParticipaciones(comprador, partCompradasIteraccion, empresa);
 
-                // Le damos su dinero al vendedor, el del comprador lo podemos restar al final fuera del bucle
+                // Le damos su dinero al vendedor y su comision al regulador,
+                // el pago del comprador lo podemos restar al final fuera del bucle
                 modificarSaldo(vendedor, partCompradasIteraccion * (precioIteracion - rst.getFloat("precio") * comision));
-
-                // Hay que añadirle el saldo de la comision al regulador en su saldo
                 modificarSaldo(regulador, partCompradasIteraccion * (rst.getFloat("precio") * comision));
-
-
             }
 
+            // Bloqueamos el saldo a las empresas con anuncios de las que se han comprado participaciones
             for (Map.Entry<Empresa, Integer> entradas : participacionesBloquear.entrySet()) {
-                // Bloqueamos
                 if (entradas.getValue() > 0) {
-                    bloquear(entradas.getKey(), entradas.getValue());
+                    fa.bloquearSaldo(entradas.getKey(), entradas.getValue());
                 }
             }
 
+            // Cobramos al inversor
             modificarSaldo(comprador, -precioAcumulado);
 
-            // Pedir confirmación si el dinero gastado es grande
+            // Pedir confirmación de compra si el dinero gastado es grande (más del CONFIRMACION_LIMITE %)
             float porcentajeGastado = (precioAcumulado / saldoCompra) * 100;
             if (porcentajeGastado > CONFIRMACION_LIMITE) {
                 if (participacionesCompradas == cantidad) {
                     // Se pudieron comprar todas, pero se gasto mucho dinero
-                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
+                    new VentanaConfirmacion(FachadaGUI.getInstance().getVentanaActiva(), con, "Esta compra le costará "
                             + Utils.displayCurrency(precioAcumulado) + ", el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo \n"
                             + "Desea continuar?", "La compra de las participaciones se ha completado correctamente!",
                             "La compra de las participaciones se ha cancelado correctamente...");
                 } else {
                     // No se pudieron comprar todas, se gastó tod0 el dinero además
-                    new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta compra le costará "
+                    new VentanaConfirmacion(FachadaGUI.getInstance().getVentanaActiva(), con, "Esta compra le costará "
                             + Utils.displayCurrency(precioAcumulado) + ", el " + String.format("%.2f", (porcentajeGastado)) + "% de su saldo y solo se pudieron comprar "
                             + participacionesCompradas + " de las " + cantidad + " pedidas...\n"
                             + "Desea continuar?", "La compra de las participaciones se ha completado correctamente!",
                             "La compra de las participaciones se ha cancelado correctamente...");
                 }
-                sePidioConfirmacion = true; // Hay que cerrar la transación en VentanaConfirmacion no aquí
+                sePidioConfirmacion = true; // Hay que hacer commit de la transación en VentanaConfirmacion no aquí
             }
+
+            // Añadimos la entrada de compra al historial
             fa.insertarHistorial(new EntradaHistorial(empresa, comprador.getIdUsuario(),
                     new Timestamp(System.currentTimeMillis()), cantidad, precioMax, EntradaHistorial.TipoEntradaHistorial.COMPRA));
+
             done = true;
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
@@ -857,75 +876,53 @@ public class DAOParticipaciones extends AbstractDAO {
         }
     }
 
-    private void bloquear(Empresa e, int cantidad) {
-        PreparedStatement stmAnuncios = null, stmBloqueo = null, stmBloqueoPartEmpresa = null;
-        ResultSet rstAnuncios = null, rst = null;
+    public List<EntradaParticipacion> obtenerDatosParticipaciones(Usuario u){
+        List<EntradaParticipacion> result = new ArrayList<>();
+
+        if (u == null || u instanceof Regulador) {
+            return result;
+        }
+
+        PreparedStatement stmCheck = null;
+        ResultSet rst;
         Connection con;
+
         con = this.getConexion();
 
-        String consultaBloqueo = "update empresa set saldo = saldo - ?, saldobloqueado = saldobloqueado + ?," +
-                "participacionesbloqueadas = participacionesbloqueadas + ? where id_usuario = ?";
-        String consultaBloqueoPartEmpresa = "update participacionesempresa set numparticipaciones = numparticipaciones - ? " +
-                "where usuario = ? and empresa = ?";
-        String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
-                + "from empresa as e inner join anunciobeneficios as a "
-                + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
-                + "group by saldo";
+        String consulta = "select * "
+                + "from @ "
+                + "where usuario = ?";
+
+        // Meter la tabla en la que se mirará
+        if (u instanceof Inversor) {
+            consulta = consulta.replace("@", "participacionesInversor");
+        }
+        if (u instanceof Empresa) {
+            consulta = consulta.replace("@", "participacionesEmpresa");
+        }
 
         try {
-            // Obtenemos anuncios
-            stmAnuncios = con.prepareStatement(obtenerAnuncios);
-            stmAnuncios.setString(1, e.getIdUsuario());
-            rstAnuncios = stmAnuncios.executeQuery();
-
-            if (rstAnuncios.isBeforeFirst()) {
-                // Calculamos lo que hay que bloquear por participación
-                int participacionesADarPorVendida = 0;
-                float dineroADarPorVendida = 0.0f;
-
-                while (rstAnuncios.next()) {
-                    participacionesADarPorVendida += rstAnuncios.getInt("p");
-                    dineroADarPorVendida += rstAnuncios.getFloat("i");
-                }
-
-                // Empezamos a bloquear
-                stmBloqueo = con.prepareStatement(consultaBloqueo);
-                stmBloqueoPartEmpresa = con.prepareStatement(consultaBloqueoPartEmpresa);
-
-                stmBloqueo.setFloat(1, cantidad * dineroADarPorVendida);
-                stmBloqueo.setFloat(2, cantidad * dineroADarPorVendida);
-                stmBloqueo.setInt(3, cantidad * participacionesADarPorVendida);
-                stmBloqueo.setString(4, e.getIdUsuario());
-
-                stmBloqueoPartEmpresa.setInt(1, cantidad * participacionesADarPorVendida);
-                stmBloqueoPartEmpresa.setString(2, e.getIdUsuario());
-                stmBloqueoPartEmpresa.setString(3, e.getIdUsuario());
-
-                stmBloqueo.executeUpdate();
-                stmBloqueoPartEmpresa.executeUpdate();
+            stmCheck = con.prepareStatement(consulta);
+            stmCheck.setString(1, u.getIdUsuario());
+            rst = stmCheck.executeQuery();
+            while (rst.next()) {
+                result.add(new EntradaParticipacion(
+                        rst.getString("usuario"),
+                        rst.getString("empresa"),
+                        rst.getInt("numparticipaciones")));
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex) {//hay que cambiar la exception de e a ex, lo hago abajo tambien
             manejarExcepcionSQL(ex);
         } finally {
-            // Cerrar stms y confirmar la transación si no se pidió confirmación manual
             try {
-                if (stmAnuncios != null) {
-                    stmAnuncios.close();
-                }
-                if (stmBloqueo != null) {
-                    stmBloqueo.close();
-                }
-                if (stmBloqueoPartEmpresa != null) {
-                    stmBloqueoPartEmpresa.close();
+                if (stmCheck != null) {
+                    stmCheck.close();
                 }
             } catch (SQLException ex) {
                 System.out.println("Imposible cerrar cursores");
             }
         }
-    }
-
-    private void liberar(Empresa e, int cantidad) {
-        bloquear(e, -cantidad);
+        return result;
     }
 
 }

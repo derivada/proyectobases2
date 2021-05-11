@@ -309,7 +309,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private void altaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaBotonActionPerformed
         ModeloTablaAlta modelo = (ModeloTablaAlta) tabla1.getModel();
         if(tabla1.getSelectedRow() == -1){
-            fa.muestraExcepcion("No hay elementos seleccionados");
+            FachadaGUI.muestraExcepcion("No hay elementos seleccionados");
             return;
         }
         Usuario u = modelo.obtenerUsuario(tabla1.getSelectedRow());  
@@ -331,7 +331,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
         ModeloTablaBaja modelo = (ModeloTablaBaja) tabla2.getModel();
         if(tabla2.getSelectedRow() == -1){
-            fa.muestraExcepcion("No hay elementos seleccionados");
+            FachadaGUI.muestraExcepcion("No hay elementos seleccionados");
             return;
         }
         Usuario u = modelo.obtenerUsuario(tabla2.getSelectedRow());
@@ -399,7 +399,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NORMAL,
         ModeloTablaBeneficios tabla = (ModeloTablaBeneficios) anunciosTabla.getModel();
         int fila = anunciosTabla.getSelectedRow();
         if(fila == -1){
-            fa.muestraExcepcion("Ninguna fila seleccionada");
+            FachadaGUI.muestraExcepcion("Ninguna fila seleccionada");
             return;
         }
         AnuncioBeneficios aux = tabla.obtenerBeneficios(fila);

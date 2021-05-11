@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 
-import vista.FachadaGui;
+import vista.FachadaGUI;
 import vista.VentanaConfirmacion;
 
 public class DAOUsuarios extends AbstractDAO {
@@ -586,7 +586,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     //Funcion para autorizar el registro de un usuario en la aplicacion
-    public void autorizarUsuario(String id_usuario) {
+    public void autorizarUsuario(String idUsuario) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -598,7 +598,7 @@ public class DAOUsuarios extends AbstractDAO {
                 + " where id_usuario = ?";
         try {
             stm = con.prepareStatement(consulta);
-            stm.setString(1, id_usuario);
+            stm.setString(1, idUsuario);
             stm.executeUpdate();
 
         } catch (SQLException ex) {
@@ -614,7 +614,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public void modificarDatosEmpresa(String id_usuario, Empresa e) {
+    public void modificarDatosEmpresa(String idUsuario, Empresa e) {
         PreparedStatement stmEmpresas = null;
         ResultSet rst;
         Connection con;
@@ -644,14 +644,14 @@ public class DAOUsuarios extends AbstractDAO {
             stmEmpresas.setString(4, e.getDireccion());
             stmEmpresas.setString(5, e.getTelefono());
             stmEmpresas.setBoolean(6, e.isAutorizado());
-            stmEmpresas.setString(7, id_usuario);
+            stmEmpresas.setString(7, idUsuario);
 
             stmEmpresas.executeUpdate();
 
             stmEmpresas = con.prepareStatement(consulta2);
             stmEmpresas.setString(1, ((Usuario) e).getIdUsuario());
             stmEmpresas.setString(2, ((Usuario) e).getClave());
-            stmEmpresas.setString(3, id_usuario);
+            stmEmpresas.setString(3, idUsuario);
 
             stmEmpresas.executeUpdate();
 
@@ -676,7 +676,7 @@ public class DAOUsuarios extends AbstractDAO {
 
     }
 
-    public void modificarDatosInversor(String id_usuario, Inversor e) {
+    public void modificarDatosInversor(String idUsuario, Inversor e) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -706,14 +706,14 @@ public class DAOUsuarios extends AbstractDAO {
             stm.setString(4, e.getDireccion());
             stm.setString(5, e.getTelefono());
             stm.setBoolean(6, e.isAutorizado());
-            stm.setString(7, id_usuario);
+            stm.setString(7, idUsuario);
 
             stm.executeUpdate();
 
             stm = con.prepareStatement(consulta2);
             stm.setString(1, e.getIdUsuario());
             stm.setString(2, e.getClave());
-            stm.setString(3, id_usuario);
+            stm.setString(3, idUsuario);
 
             stm.executeUpdate();
 
@@ -786,7 +786,7 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    public java.util.List<OfertaVenta> getOfertasVentaPropias(String usuario) {
+    public java.util.List<OfertaVenta> getOfertasVentaPropias(String idUsuario) {
         java.util.List<OfertaVenta> resultado = new java.util.ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rst;
@@ -800,8 +800,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consulta);
-            usuario = "%" + usuario + "%";
-            stm.setString(1, usuario);
+            idUsuario = "%" + idUsuario + "%";
+            stm.setString(1, idUsuario);
 
             rst = stm.executeQuery();
 
@@ -853,7 +853,7 @@ public class DAOUsuarios extends AbstractDAO {
             done = true;
 
             if (saldo != 0.0f) {
-                new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
+                new VentanaConfirmacion(FachadaGUI.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
                         "La baja se ha cancelado correctamente...");
             }
         } catch (SQLException ex) {
@@ -900,7 +900,7 @@ public class DAOUsuarios extends AbstractDAO {
             done = true;
 
             if (saldo != 0.0f) {
-                new VentanaConfirmacion(FachadaGui.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
+                new VentanaConfirmacion(FachadaGUI.getInstance().getVentanaActiva(), con, "Esta baja supondrá que se pierda el dinero del usuario ¿Está seguro?", "La baja se ha completado correctamente!",
                         "La baja se ha cancelado correctamente...");
             }
 
@@ -1814,7 +1814,7 @@ public class DAOUsuarios extends AbstractDAO {
         return libre;
     }
 
-    public boolean modificarInversor(Inversor i, String pass, String idviejo) {
+    public boolean modificarInversor(Inversor inversor, String pass, String idviejo) {
         PreparedStatement stmUpd = null;
         Connection con;
         boolean done = false;
@@ -1829,7 +1829,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             con.setAutoCommit(false);
             stmUpd = con.prepareStatement(consultaPass);
-            stmUpd.setString(1, i.getIdUsuario());
+            stmUpd.setString(1, inversor.getIdUsuario());
             if (pass == null) {
                 stmUpd.setString(2, idviejo);
             } else {
@@ -1840,11 +1840,11 @@ public class DAOUsuarios extends AbstractDAO {
             stmUpd.executeUpdate();
 
             stmUpd = con.prepareStatement(consulta2);
-            stmUpd.setString(1, i.getNombre());
-            stmUpd.setString(2, i.getDni());
-            stmUpd.setString(3, i.getDireccion());
-            stmUpd.setString(4, i.getTelefono());
-            stmUpd.setString(5, i.getIdUsuario());
+            stmUpd.setString(1, inversor.getNombre());
+            stmUpd.setString(2, inversor.getDni());
+            stmUpd.setString(3, inversor.getDireccion());
+            stmUpd.setString(4, inversor.getTelefono());
+            stmUpd.setString(5, inversor.getIdUsuario());
             stmUpd.executeUpdate();
 
             done = true;
@@ -1874,7 +1874,7 @@ public class DAOUsuarios extends AbstractDAO {
         return done;
     }
 
-    public boolean modificarEmpresa(Empresa e, String pass, String idviejo) {
+    public boolean modificarEmpresa(Empresa empresa, String pass, String idviejo) {
         PreparedStatement stmUpd = null;
         Connection con;
         boolean done = false;
@@ -1892,7 +1892,7 @@ public class DAOUsuarios extends AbstractDAO {
             con.setAutoCommit(false);
 
             stmUpd = con.prepareStatement(consultaPass);
-            stmUpd.setString(1, e.getIdUsuario());
+            stmUpd.setString(1, empresa.getIdUsuario());
 
             if (pass == null) {
                 stmUpd.setString(2, idviejo);
@@ -1904,11 +1904,11 @@ public class DAOUsuarios extends AbstractDAO {
             stmUpd.executeUpdate();
 
             stmUpd = con.prepareStatement(consulta2);
-            stmUpd.setString(1, e.getNombre());
-            stmUpd.setString(2, e.getCIF());
-            stmUpd.setString(3, e.getDireccion());
-            stmUpd.setString(4, e.getTelefono());
-            stmUpd.setString(5, e.getIdUsuario());
+            stmUpd.setString(1, empresa.getNombre());
+            stmUpd.setString(2, empresa.getCIF());
+            stmUpd.setString(3, empresa.getDireccion());
+            stmUpd.setString(4, empresa.getTelefono());
+            stmUpd.setString(5, empresa.getIdUsuario());
 
             stmUpd.executeUpdate();
 
@@ -1939,7 +1939,7 @@ public class DAOUsuarios extends AbstractDAO {
         return done;
     }
 
-    public float obtenerComision(String r) {
+    public float obtenerComision(String regulador) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -1951,7 +1951,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consultaComision);
-            stm.setString(1, r);
+            stm.setString(1, regulador);
             rst = stm.executeQuery();
             while (rst.next()) {
                 resultado = rst.getFloat("comision");
@@ -1970,7 +1970,7 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    public void modificarComision(Regulador r, float comision) {
+    public void modificarComision(Regulador regulador, float comision) {
         PreparedStatement stmUpd = null;
         Connection con;
         con = this.getConexion();
@@ -1978,7 +1978,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmUpd = con.prepareStatement(consultaUpdate);
             stmUpd.setFloat(1, comision);
-            stmUpd.setString(2, r.getIdUsuario());
+            stmUpd.setString(2, regulador.getIdUsuario());
             stmUpd.executeUpdate();
         } catch (SQLException ex) {
             manejarExcepcionSQL(ex);
@@ -1993,7 +1993,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public float obtenerSaldoInversor(Usuario u) {
+    public float obtenerSaldoInversor(Usuario usuario) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -2005,7 +2005,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consulta);
-            stm.setString(1, u.getIdUsuario());
+            stm.setString(1, usuario.getIdUsuario());
             rst = stm.executeQuery();
             if (rst.next()) {
                 resultado = rst.getFloat("saldo");
@@ -2024,7 +2024,7 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    public float obtenerSaldoEmpresa(Usuario u) {
+    public float obtenerSaldoEmpresa(Usuario usuario) {
         PreparedStatement stm = null;
         Connection con;
         ResultSet rst;
@@ -2036,7 +2036,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stm = con.prepareStatement(consulta);
-            stm.setString(1, u.getIdUsuario());
+            stm.setString(1, usuario.getIdUsuario());
             rst = stm.executeQuery();
             if (rst.next()) {
                 resultado = rst.getFloat("saldo");
@@ -2167,10 +2167,7 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
     
-     //Función que devuelve el nombre de las empresas que emitieron las participaciones 
-    //que tiene un usuario 
-    
-    public ArrayList<String> getParticipacionesCompradas (Usuario u){
+    public ArrayList<String> getParticipacionesCompradas (Usuario usuario){
         
         PreparedStatement stm = null;
         Connection con;
@@ -2184,16 +2181,16 @@ public class DAOUsuarios extends AbstractDAO {
                 + "where usuario = ?  usuario!=empresa ";
 
         // Meter la tabla en la que se mirará
-        if (u instanceof Inversor) {
+        if (usuario instanceof Inversor) {
             consulta = consulta.replace("@", "participacionesInversor");
         }
-        if (u instanceof Empresa) {
+        if (usuario instanceof Empresa) {
             consulta = consulta.replace("@", "participacionesEmpresa");
         }
 
         try {
             stm = con.prepareStatement(consulta);
-            stm.setString(1, u.getIdUsuario());
+            stm.setString(1, usuario.getIdUsuario());
             rst=stm.executeQuery(); 
             while(rst.next()){
                 resultado.add(rst.getString("empresa")); 
@@ -2211,5 +2208,76 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
         return resultado;
+    }
+
+    public void bloquearSaldo(Empresa empresa, int cantidad) {
+        PreparedStatement stmAnuncios = null, stmBloqueo = null, stmBloqueoPartEmpresa = null;
+        ResultSet rstAnuncios = null, rst = null;
+        Connection con;
+        con = this.getConexion();
+
+        String consultaBloqueo = "update empresa set saldo = saldo - ?, saldobloqueado = saldobloqueado + ?," +
+                "participacionesbloqueadas = participacionesbloqueadas + ? where id_usuario = ?";
+        String consultaBloqueoPartEmpresa = "update participacionesempresa set numparticipaciones = numparticipaciones - ? " +
+                "where usuario = ? and empresa = ?";
+        String obtenerAnuncios = "select distinct(saldo) as s,sum(numeroparticipaciones) as p,sum(importeparticipacion) as i "
+                + "from empresa as e inner join anunciobeneficios as a "
+                + "	on ( e.id_usuario=a.empresa and e.id_usuario= ? ) "
+                + "group by saldo";
+
+        try {
+            // Obtenemos anuncios
+            stmAnuncios = con.prepareStatement(obtenerAnuncios);
+            stmAnuncios.setString(1, empresa.getIdUsuario());
+            rstAnuncios = stmAnuncios.executeQuery();
+
+            if (rstAnuncios.isBeforeFirst()) {
+                // Calculamos lo que hay que bloquear por participación
+                int participacionesADarPorVendida = 0;
+                float dineroADarPorVendida = 0.0f;
+
+                while (rstAnuncios.next()) {
+                    participacionesADarPorVendida += rstAnuncios.getInt("p");
+                    dineroADarPorVendida += rstAnuncios.getFloat("i");
+                }
+
+                // Empezamos a bloquear
+                stmBloqueo = con.prepareStatement(consultaBloqueo);
+                stmBloqueoPartEmpresa = con.prepareStatement(consultaBloqueoPartEmpresa);
+
+                stmBloqueo.setFloat(1, cantidad * dineroADarPorVendida);
+                stmBloqueo.setFloat(2, cantidad * dineroADarPorVendida);
+                stmBloqueo.setInt(3, cantidad * participacionesADarPorVendida);
+                stmBloqueo.setString(4, empresa.getIdUsuario());
+
+                stmBloqueoPartEmpresa.setInt(1, cantidad * participacionesADarPorVendida);
+                stmBloqueoPartEmpresa.setString(2, empresa.getIdUsuario());
+                stmBloqueoPartEmpresa.setString(3, empresa.getIdUsuario());
+
+                stmBloqueo.executeUpdate();
+                stmBloqueoPartEmpresa.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            manejarExcepcionSQL(ex);
+        } finally {
+            // Cerrar stms y confirmar la transación si no se pidió confirmación manual
+            try {
+                if (stmAnuncios != null) {
+                    stmAnuncios.close();
+                }
+                if (stmBloqueo != null) {
+                    stmBloqueo.close();
+                }
+                if (stmBloqueoPartEmpresa != null) {
+                    stmBloqueoPartEmpresa.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
+
+    public void liberarSaldo(Empresa empresa, int cantidad) {
+        bloquearSaldo(empresa, -cantidad);
     }
 }

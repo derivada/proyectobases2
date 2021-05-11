@@ -42,7 +42,7 @@
                   <Component id="idTextBox" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="64" max="32767" attributes="0"/>
-              <Component id="panelCompra" min="-2" pref="824" max="-2" attributes="0"/>
+              <Component id="panelGeneral" min="-2" pref="824" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -76,7 +76,7 @@
                           <Component id="abrirHistorial" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="panelCompra" min="-2" pref="688" max="-2" attributes="0"/>
+                  <Component id="panelGeneral" min="-2" pref="688" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
           </Group>
@@ -107,9 +107,12 @@
         <Property name="text" type="java.lang.String" value="Usuario:"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JTabbedPane" name="panelCompra">
+    <Container class="javax.swing.JTabbedPane" name="panelGeneral">
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="panelGeneralStateChanged"/>
+      </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Utils.configurarTabbedPane(panelCompra);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Utils.configurarTabbedPane(panelGeneral);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -134,6 +137,18 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Compra">
                 <Property name="tabTitle" type="java.lang.String" value="Compra"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="vista.VerParticipacionesPanel" name="verParticipacionesPanel">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.VerParticipacionesPanel(i, fa)"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Participaciones">
+                <Property name="tabTitle" type="java.lang.String" value="Participaciones"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
