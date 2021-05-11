@@ -101,6 +101,7 @@ public class VEmpresa extends javax.swing.JFrame {
         bajaAnunciosboton = new vista.componentes.Boton();
         FechaTextBox = new vista.componentes.EntradaFecha();
         verParticipacionesPanel = new vista.VerParticipacionesPanel(e, fa);
+        verAnunciosPanel = new vista.VerAnunciosPanel(e, fa);
         modificarBoton = new vista.componentes.Boton();
         botonVolver1 = new vista.componentes.BotonVolver();
         bienvenidoLabel = new vista.componentes.Etiqueta();
@@ -252,7 +253,7 @@ public class VEmpresa extends javax.swing.JFrame {
                                 .addComponent(numParticipacionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(beneficiosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(numParticipacionesAnuncioTextBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(60, Short.MAX_VALUE))))
+                    .addContainerGap(63, Short.MAX_VALUE))))
     );
     tabs9Layout.setVerticalGroup(
         tabs9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,7 +286,8 @@ public class VEmpresa extends javax.swing.JFrame {
     );
 
     panelGeneral.addTab("Anunciar beneficios", tabs9);
-    panelGeneral.addTab("Participaciones", verParticipacionesPanel);
+    panelGeneral.addTab("Tus participaciones", verParticipacionesPanel);
+    panelGeneral.addTab("Ver otros anuncios", verAnunciosPanel);
 
     modificarBoton.setText("Modificar usuario");
     modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -417,9 +419,12 @@ pack();
     }//GEN-LAST:event_participacionesBotonActionPerformed
 
     private void panelGeneralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelGeneralStateChanged
-        if(panelGeneral.getSelectedIndex()==4){
+        if (panelGeneral.getSelectedIndex() == 4) {
             verParticipacionesPanel.actualizarDatos();
+        } else if (panelGeneral.getSelectedIndex() == 5) {
+            verAnunciosPanel.actualizarDatos();
         }
+
     }//GEN-LAST:event_panelGeneralStateChanged
 
     private void anunciarBeneficios() {
@@ -537,6 +542,7 @@ pack();
     private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.VentaParticipacionesPanel ventaPanel;
+    private vista.VerAnunciosPanel verAnunciosPanel;
     private vista.VerParticipacionesPanel verParticipacionesPanel;
     // End of variables declaration//GEN-END:variables
 

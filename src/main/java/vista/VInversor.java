@@ -14,7 +14,7 @@ public class VInversor extends javax.swing.JFrame {
 
     public VInversor(Inversor i, FachadaAplicacion fa) {
         this.i = i;
-        this.fa = fa; 
+        this.fa = fa;
         this.setTitle("Gestión de inversor - " + i.getIdUsuario());
         this.setIconImage(ImagenesGUI.getImage("database.png", 128));
         initComponents();
@@ -38,6 +38,7 @@ public class VInversor extends javax.swing.JFrame {
         ventaPanel = new vista.VentaParticipacionesPanel(i, fa);
         compraParticipacionesPanel1 = new vista.CompraParticipacionesPanel(i, fa);
         verParticipacionesPanel = new vista.VerParticipacionesPanel(i, fa);
+        verAnunciosPanel = new vista.VerAnunciosPanel(i, fa);
         modificarBoton = new vista.componentes.Boton();
         bienvenidoLabel = new vista.componentes.Etiqueta();
         botonVolver1 = new vista.componentes.BotonVolver();
@@ -68,7 +69,8 @@ public class VInversor extends javax.swing.JFrame {
         });
         panelGeneral.addTab("Venta", ventaPanel);
         panelGeneral.addTab("Compra", compraParticipacionesPanel1);
-        panelGeneral.addTab("Participaciones", verParticipacionesPanel);
+        panelGeneral.addTab("Tus participaciones", verParticipacionesPanel);
+        panelGeneral.addTab("Ver anuncios", verAnunciosPanel);
 
         modificarBoton.setText("Modificar Usuario");
         modificarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +163,7 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     }// </editor-fold>//GEN-END:initComponents
 
     private void bajaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaBotonActionPerformed
-        if(fa.getNumeroParticipaciones(i.getIdUsuario(), "Inversor")==0){
+        if (fa.getNumeroParticipaciones(i.getIdUsuario(), "Inversor") == 0) {
             fa.solicitarBaja(i.getIdUsuario());
             FachadaGUI.muestraExcepcion("La solicitud se ha realizado con éxito", DialogoInfo.NivelDeAdvertencia.INFORMACION);
         } else {
@@ -180,8 +182,10 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     }//GEN-LAST:event_abrirHistorialActionPerformed
 
     private void panelGeneralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelGeneralStateChanged
-        if(panelGeneral.getSelectedIndex()==2){
+        if (panelGeneral.getSelectedIndex() == 2) {
             verParticipacionesPanel.actualizarDatos();
+        } else if (panelGeneral.getSelectedIndex() == 3) {
+            verAnunciosPanel.actualizarDatos();
         }
     }//GEN-LAST:event_panelGeneralStateChanged
 
@@ -201,9 +205,9 @@ idTextBox.setFont(FuentesGUI.getFuente(FuentesGUI.Modificador.NEGRITA,
     private vista.componentes.Etiqueta tipoTextBox;
     private vista.componentes.Etiqueta usuarioLabel;
     private vista.VentaParticipacionesPanel ventaPanel;
+    private vista.VerAnunciosPanel verAnunciosPanel;
     private vista.VerParticipacionesPanel verParticipacionesPanel;
     // End of variables declaration//GEN-END:variables
-
 
     public void actualizarCampos() {
         i = fa.obtenerDatosInversor(i);

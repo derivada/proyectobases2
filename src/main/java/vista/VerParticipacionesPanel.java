@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.table.JTableHeader;
 
 import vista.componentes.FuentesGUI;
-import vista.modeloTablas.ModeloTablaHistorial;
 
 import vista.modeloTablas.ModeloTablaParticipaciones;
 

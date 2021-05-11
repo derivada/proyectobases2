@@ -147,8 +147,20 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Participaciones">
-                <Property name="tabTitle" type="java.lang.String" value="Participaciones"/>
+              <JTabbedPaneConstraints tabName="Tus participaciones">
+                <Property name="tabTitle" type="java.lang.String" value="Tus participaciones"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="vista.VerAnunciosPanel" name="verAnunciosPanel">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vista.VerAnunciosPanel(i, fa)"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Ver anuncios">
+                <Property name="tabTitle" type="java.lang.String" value="Ver anuncios"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
