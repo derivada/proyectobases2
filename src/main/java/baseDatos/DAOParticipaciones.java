@@ -197,8 +197,8 @@ public class DAOParticipaciones extends AbstractDAO {
         PreparedStatement stmComprobacion = null;
         ResultSet rstComprobacion;
 
-        PreparedStatement stmAnuncios = null;
-        ResultSet rstAnuncios;
+        PreparedStatement stmAnuncios = null, stmPartOferta = null;
+        ResultSet rstAnuncios, rstPartOferta;
 
         Connection con;
 
@@ -209,6 +209,8 @@ public class DAOParticipaciones extends AbstractDAO {
                 + "where usuario = ? AND empresa = ? ";
         String obtenerAnuncios = "select * from anunciobeneficios where empresa = ?";
 
+        String obtenerPartEnOferta = "select sum(numparticipaciones) as result from ofertaventa where usuario = ? " +
+                "and empresa = ? group by usuario, empresa";
         // Meter la tabla en la que se mirará
         if (u instanceof Inversor) {
             consulta = consulta.replace("@", "participacionesInversor");
@@ -230,6 +232,18 @@ public class DAOParticipaciones extends AbstractDAO {
 
             if (u instanceof Empresa && u.getIdUsuario().equals(e.getIdUsuario())) {
                 try {
+                    int partsEnOferta = 0;
+                    stmPartOferta = con.prepareStatement(obtenerPartEnOferta);
+                    stmPartOferta.setString(1, e.getIdUsuario());
+                    stmPartOferta.setString(2, e.getIdUsuario());
+                    rstPartOferta = stmPartOferta.executeQuery();
+                    while (rstPartOferta.next()) {
+                        partsEnOferta = rstPartOferta.getInt("result");
+                    }
+                    stmCheck = con.prepareStatement(consulta);
+                    stmCheck.setString(1, u.getIdUsuario());
+                    stmCheck.setString(2, e.getIdUsuario());
+                    rst = stmCheck.executeQuery();
                     stmAnuncios = con.prepareStatement(obtenerAnuncios);
                     stmAnuncios.setString(1, e.getIdUsuario());
                     rstAnuncios = stmAnuncios.executeQuery();
@@ -254,8 +268,10 @@ public class DAOParticipaciones extends AbstractDAO {
                          * no podrá vender 125 realmente, porque entonces tendría que bloquear 500 pero no las tendría
                          * porque vendió 125
                          */
-                        result = (int) Math.min(participacionesPropias / (1.0f + participacionesADarPorVendida),
+                        result = (int) Math.min(participacionesPropias / (participacionesADarPorVendida + 1.0f) -
+                                        (float) partsEnOferta,
                                 dineroPropio / dineroADarPorVendida);
+                        result = Math.max(result, 0);
                     }
                 } catch (SQLException ex) { //hay que cambiar la exception de e a ex, lo hago abajo tambien
                     manejarExcepcionSQL(ex);
@@ -871,7 +887,7 @@ public class DAOParticipaciones extends AbstractDAO {
         }
     }
 
-    public List<EntradaParticipacion> obtenerDatosParticipaciones(Usuario u){
+    public List<EntradaParticipacion> obtenerDatosParticipaciones(Usuario u) {
         List<EntradaParticipacion> result = new ArrayList<>();
 
         if (u == null || u instanceof Regulador) {
